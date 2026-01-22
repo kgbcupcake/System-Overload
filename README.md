@@ -1,76 +1,162 @@
-﻿# ⚡ [SYSTEM_OVERLOAD]: DEVELOPMENT_UPLINK
+# ⚡ [SYSTEM_OVERLOAD]: CRITICAL_FAILURE
 
-> **“THE VOID IS CURRENTLY UNDER RECONSTRUCTION. PROCEED WITH CAUTION.”**
+> **“THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL.”**
 
 [![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge&color=yellow)](https://github.com/kgbcupcake/System-Overload)
 [![Venture Link](https://img.shields.io/badge/UPLINK-STABLE-green?style=for-the-badge&logo=sharp)](https://github.com/kgbcupcake/System-Overload)
 [![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
+---
+
+## ☣️ OVERVIEW
+
+**System Overload** is a .NET 8.0 **Lethal-Tier Engine** and terminal-based crawler.
+
+It is no longer a mere adventure. It is a **Sentient Malignancy**—a dying machine intelligence allowing you to navigate its corrupted memory sectors before a total hardware collapse occurs.
+
+This engine operates within a **strictly enforced 84×24 Reality Anchor**.  
+No scrolling. No safety. No recovery.
+
+If your terminal begins to flicker in Toxic Green or Emergency Red, the infection is proceeding as planned.
 
 ---
 
-## 🧪 DEV STATUS: SECTOR_02_CALIBRATION
+## ☠️ UPLINK STATUS
 
-This branch is the active laboratory for the **System Overload** engine. Unlike the main branch, this workspace contains unshielded logic, experimental weapon protocols, and raw drone assets.
+**SYSTEM-OVERLOAD v1.0.0 — GENESIS UPLINK**
 
-### 🚧 SYSTEM RECONSTRUCTION CHECKLIST
-- [ ] **COMBAT_ENGINE**: Testing hit detection and damage scaling.
-- [ ] **ARMORY_EXPANSION**: Implementing new weapons and item IDs.
-- [ ] **GEM_RESONANCE**: Setting up loot drop tables and currency logic.
-- [ ] **VISUAL_PULSE**: Migrating drones from plain text to ASCII/Spectre entities.
-- [ ] **STRESS_TEST**: Validating the 84x24 Reality Anchor under heavy load.
+> 🛰️ **CORE ESTABLISHED** > The 'Dungeon-Adventures' entity has been successfully purged. This repository now serves as the primary containment vessel for the purified **System-Overload** protocols.
 
 ---
 
-## 💀 CURRENT ARCHITECTURE (THE STACK)
+## 💀 SYSTEM ARCHITECTURE — THE STACK
 
-| Component | Status | Dev Focus |
+| Component | Logic | Aesthetic Impact |
 |:---|:---|:---|
-| **Forge Core** | 🟢 STABLE | Optimizing memory corruption simulation |
-| **Visual Pulse** | 🟡 EVOLVING | Implementing drone art and flicker-free buffers |
-| **Neural Link** | 🟡 TESTING | Refining AI-driven environmental hostility |
-| **Loot Logic** | 🔴 CRITICAL | Initializing gem drops and loot distribution |
+| **Forge Core** | .NET 8.0 (C#) | High-speed memory corruption simulation |
+| **Visual Pulse** | `Pastel` + `StringBuilder` | 24-bit Emergency Red & Toxic Green output |
+| **Interface** | `Spectre.Console` | Structured chaos, controlled malignancy |
+| **Neural Link** | `Ollama` / `OpenAI` | AI-driven environmental hostility |
+| **Logic Guard** | `NUnit` | Mathematical consistency enforcement |
 
 ---
 
-## 🔌 ACTIVE DEV PROTOCOLS
+## ⚡ MALIGNANT FEATURES
 
-Use these commands to manage the malignancy during construction:
+* **SECTOR RECONSTRUCTION** — Progression represents terminal stability across sectors.
+* **MALIGNANCY LOGIC** — Sentient AI integration that adapts to your survival.
+* **84×24 REALITY ANCHOR** — Fixed viewport, absolute containment.
+* **FLICKER-FREE VOID** — Double-buffered redraw for a seamless descent into madness.
+* **SPOOKY CLEANUP** — Cross-platform force-purge of all non-essential data.
+
+---
+
+## 🔌 UPLINK PROTOCOLS
+
+The following terminal commands control the life-cycle of the engine:
 
 ```bash
-so-down   # Purge local environment for a clean rebuild
-so-bump   # Force version increment after successful testing
-so-pulse  # Scan systemic health for logic breaks
-
-👁️ ARCHITECT'S NOTES (ACTIVE)
-Current focus is moving away from "Plain Text" combat. Drones are being re-coded as unique visual entities to increase atmospheric dread. Weapon math is currently being tuned to ensure lethal consistency.
-
-“We do not refactor. We infect.”
+so-down  # Tear down the local environment
+so-bump  # Increment malignancy (version)
+so-ship  # Forge the installer and uplink to GitHub
+so-pulse # Check systemic health
 
 
-📜 LEGAL TRACE
-Copyright (c) 2026 Kgbcupcake. Refer to LICENSE for full legal containment details.
 
+📜 HOSTILE CODE MANIFESTO
+We do not refactor. We infect.
+
+We do not scroll. We contain.
+
+We do not log. We observe.
+
+Here is the complete, high-intensity System Overload manifest provided in a raw Markdown block. You can copy this directly into your README.md file.
+
+Markdown
+# ⚡ [SYSTEM_OVERLOAD]: CRITICAL_FAILURE
+
+> **“THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL.”**
+
+[![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge&color=yellow)](https://github.com/kgbcupcake/System-Overload)
+[![Venture Link](https://img.shields.io/badge/UPLINK-STABLE-green?style=for-the-badge&logo=sharp)](https://github.com/kgbcupcake/System-Overload)
+[![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
 
-### 🛰️ Deployment Steps
-To ensure this stays on **Dev** and doesn't overwrite your **main** branch:
+## ☣️ OVERVIEW
 
-1.  **Switch to Dev**: `git checkout Dev`
-2.  **Paste & Save**: Put the code above into your `README.md`.
-3.  **Push the Lab Report**:
-    ```bash
-    git add README.md
-    git commit -m "📜 manifest: initializing technical dev protocols"
-    git push origin Dev
-    ```
+**System Overload** is a .NET 8.0 **Lethal-Tier Engine** and terminal-based crawler.
 
-**Since you're working on the combat and loot systems, would you like me to help you draft a 
-"Loot & Weapon ID" table to keep in your `src/` folder for easy reference?**
+It is no longer a mere adventure. It is a **Sentient Malignancy**—a dying machine intelligence allowing you to navigate its corrupted memory sectors before a total hardware collapse occurs.
 
-## 🚧 UNDER CONSTRUCTION: SECTOR 0-2
-- [ ] **WEAPON_SYSTEMS**: Calibrating damage protocols.
-- [ ] **LOOT_LOGIC**: Implementing gem resonance and drop rates.
-- [ ] **VISUAL_PULSE**: Rendering drone entities (Beyond Plain Text).
-- [ ] **COMBAT_STRESS_TEST**: Simulating total system failure.
+This engine operates within a **strictly enforced 84×24 Reality Anchor**.  
+No scrolling. No safety. No recovery.
+
+If your terminal begins to flicker in Toxic Green or Emergency Red, the infection is proceeding as planned.
+
+---
+
+## ☠️ UPLINK STATUS
+
+**SYSTEM-OVERLOAD v1.0.0 — GENESIS UPLINK**
+
+> 🛰️ **CORE ESTABLISHED** > The 'Dungeon-Adventures' entity has been successfully purged. This repository now serves as the primary containment vessel for the purified **System-Overload** protocols.
+
+---
+
+## 💀 SYSTEM ARCHITECTURE — THE STACK
+
+| Component | Logic | Aesthetic Impact |
+|:---|:---|:---|
+| **Forge Core** | .NET 8.0 (C#) | High-speed memory corruption simulation |
+| **Visual Pulse** | `Pastel` + `StringBuilder` | 24-bit Emergency Red & Toxic Green output |
+| **Interface** | `Spectre.Console` | Structured chaos, controlled malignancy |
+| **Neural Link** | `Ollama` / `OpenAI` | AI-driven environmental hostility |
+| **Logic Guard** | `NUnit` | Mathematical consistency enforcement |
+
+---
+
+## ⚡ MALIGNANT FEATURES
+
+* **SECTOR RECONSTRUCTION** — Progression represents terminal stability across sectors.
+* **MALIGNANCY LOGIC** — Sentient AI integration that adapts to your survival.
+* **84×24 REALITY ANCHOR** — Fixed viewport, absolute containment.
+* **FLICKER-FREE VOID** — Double-buffered redraw for a seamless descent into madness.
+* **SPOOKY CLEANUP** — Cross-platform force-purge of all non-essential data.
+
+---
+
+## 🔌 UPLINK PROTOCOLS
+
+The following terminal commands control the life-cycle of the engine:
+
+```bash
+so-down  # Tear down the local environment
+so-bump  # Increment malignancy (version)
+so-ship  # Forge the installer and uplink to GitHub
+so-pulse # Check systemic health
+📜 HOSTILE CODE MANIFESTO
+We do not refactor. We infect.
+
+We do not scroll. We contain.
+
+We do not log. We observe.
+
+👁️ THE ARCHITECT
+Created by: Kgbcupcake Built for the terminal.
+
+Optimized for the void.
+
+📜 LICENSE
+Copyright (c) 2026 Kgbcupcake
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
+(the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
+publish, distribute, sub-license, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
