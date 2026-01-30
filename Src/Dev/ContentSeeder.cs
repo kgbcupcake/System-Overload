@@ -1,4 +1,5 @@
 using System_Overload.Src.GameData.Components;
+using static System.Console;
 
 namespace System_Overload.Dev
 {
@@ -30,7 +31,7 @@ namespace System_Overload.Dev
 
 	
 			// Log the path so you can see if the ".." logic is reaching your WSL folder
-			Console.WriteLine($"[SEEDER] Searching: {Path.GetFullPath(sourceRoot)}");
+			WriteLine($"[SEEDER] Searching: {Path.GetFullPath(sourceRoot)}");
 
 			if (!Directory.Exists(sourceRoot)) return;
 

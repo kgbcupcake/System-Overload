@@ -1,4 +1,4 @@
-﻿namespace System_Overload.Src.GameData.Entities
+namespace System_Overload.Src.GameData.Entities
 {
 	public class BossTrait
 	{

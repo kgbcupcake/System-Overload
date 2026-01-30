@@ -1,4 +1,4 @@
-﻿using Src.GameData.Components;
+using Src.GameData.Components;
 using System.Collections.Generic;
 using System.Linq;
 using System;

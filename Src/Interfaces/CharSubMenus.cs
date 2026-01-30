@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.GameData.Components;
+using System_Overload.Src.GameData.Components;
 using System_Overload.Src.Utilities.UI;
 using Pastel;
 using static System.Console;

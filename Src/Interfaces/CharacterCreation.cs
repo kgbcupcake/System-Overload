@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.Game.MainInterfaces;
+using System_Overload.Src.Game.MainInterfaces;
 using System_Overload.Src.Utilities.UI;
 using Pastel;
 using static System.Console;
@@ -15,7 +15,7 @@ namespace System_Overload.Src.Game.Interfaces
 			if (GameState.CurrentPlayer == null) GameState.CurrentPlayer = new loadPlayer();
 			var player = GameState.CurrentPlayer;
 
-			int screenWidth = Console.WindowWidth;
+			int screenWidth = WindowWidth;
 			Clear();
 
 			// 1. IDENTITY INPUT

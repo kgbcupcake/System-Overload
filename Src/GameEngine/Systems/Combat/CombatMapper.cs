@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.GameData.Entities;
+using System_Overload.Src.GameData.Entities;
 
 namespace System_Overload.Src.GameEngine.Combat
 {

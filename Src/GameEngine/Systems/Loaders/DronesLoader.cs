@@ -1,7 +1,7 @@
-﻿using System_Overload.Src.GameData.Components;
+using System_Overload.Src.GameData.Components;
 using System_Overload.Src.GameData.Entities;
 using System.Text.Json;
-
+using static System.Console;
 namespace System_Overload.Src.GameData.Loaders
 {
 	public static class DronesLoader
@@ -38,7 +38,7 @@ namespace System_Overload.Src.GameData.Loaders
 				}
 				catch (JsonException ex)
 				{
-					Console.WriteLine($"[DRONE LOAD ERROR] Corruption in {path}: {ex.Message}");
+					WriteLine($"[DRONE LOAD ERROR] Corruption in {path}: {ex.Message}");
 				}
 			}
 

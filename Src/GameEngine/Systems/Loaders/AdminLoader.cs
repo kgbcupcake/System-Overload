@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.GameData.Components;
+using System_Overload.Src.GameData.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;

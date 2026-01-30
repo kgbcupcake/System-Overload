@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace System_Overload.Src.GameEngine.Combat
 {

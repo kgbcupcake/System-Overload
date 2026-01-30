@@ -1,10 +1,7 @@
-﻿using System_Overload.Src.GameData.Components; // For GameState
-using System_Overload.Src.GameData.Entities;   // For SectorData
 using System.Text.Json;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-
+using System_Overload.Src.GameData.Components; // For GameState
+using System_Overload.Src.GameData.Entities;   // For SectorData
+using static System.Console;
 namespace System_Overload.GameEngine.Systems.Loaders
 {
 	public static class SectorLoader
@@ -31,8 +28,8 @@ namespace System_Overload.GameEngine.Systems.Loaders
 			string documentPath = GameState.GetGlobalPath("sectors");
 
 			// DEBUG: This will tell you exactly where the game is looking
-			Console.WriteLine($"[DEBUG] Checking Templates: {templatePath}");
-			Console.WriteLine($"[DEBUG] Checking Documents: {documentPath}");
+			WriteLine($"[DEBUG] Checking Templates: {templatePath}");
+			WriteLine($"[DEBUG] Checking Documents: {documentPath}");
 
 			// Load from BOTH locations
 			LoadFromDirectory(templatePath, allSectors);
@@ -52,7 +49,7 @@ namespace System_Overload.GameEngine.Systems.Loaders
 		{
 			if (!Directory.Exists(folderPath))
 			{
-				Console.WriteLine($"[DEBUG] Path not found: {folderPath}");
+				WriteLine($"[DEBUG] Path not found: {folderPath}");
 				return;
 			}
 
@@ -67,16 +64,16 @@ namespace System_Overload.GameEngine.Systems.Loaders
 					if (data != null)
 					{
 						list.AddRange(data);
-						Console.WriteLine($"[DEBUG] Successfully loaded {data.Count} sectors from {Path.GetFileName(filePath)}");
+						WriteLine($"[DEBUG] Successfully loaded {data.Count} sectors from {Path.GetFileName(filePath)}");
 					}
 				}
 				catch (JsonException ex)
 				{
-					Console.WriteLine($"[DEBUG] Format Error in {Path.GetFileName(filePath)}: {ex.Message}");
+					WriteLine($"[DEBUG] Format Error in {Path.GetFileName(filePath)}: {ex.Message}");
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine($"[DEBUG] Unexpected Error in {Path.GetFileName(filePath)}: {ex.Message}");
+					WriteLine($"[DEBUG] Unexpected Error in {Path.GetFileName(filePath)}: {ex.Message}");
 				}
 			}
 		}

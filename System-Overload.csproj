@@ -39,28 +39,36 @@
 	<ItemGroup>
 		<None Remove="**/*:Zone.Identifier" />
 		<Compile Remove="**/*:Zone.Identifier" />
-
-		<Compile Remove="src\dev\.seeded\**;Src\GameData\Data\**;Src\GameData\gems\**;Src\GameData\items\**;Src\GameData\weapons\**" />
-		<None Remove="src\dev\.seeded\**;Src\GameData\Data\**;Src\GameData\gems\**;Src\GameData\items\**;Src\GameData\weapons\**" />
-		<Compile Remove="Src\Interfaces\DevGui_Main.cs" />
+		<Content Include="assets\**\*.*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="ClickableTransparentOverlay" Version="11.1.0" />
 		<PackageReference Include="ImGui.NET" Version="1.91.6.1" />
-		<PackageReference Include="Microsoft.Extensions.AI" Version="10.1.1" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
-		<PackageReference Include="NUnit" Version="3.13.3" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-		<PackageReference Include="NUnit.Analyzers" Version="3.6.1" />
-		<PackageReference Include="coverlet.collector" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.AI" Version="10.2.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+		<PackageReference Include="NUnit" Version="4.4.0" />
+		<PackageReference Include="NUnit3TestAdapter" Version="6.1.0" />
+		<PackageReference Include="NUnit.Analyzers" Version="4.11.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.collector" Version="6.0.4">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Ollama" Version="1.15.0" />
 		<PackageReference Include="OllamaSharp" Version="5.4.12" />
 		<PackageReference Include="OpenAI" Version="2.8.0" />
 		<PackageReference Include="Pastel" Version="7.0.1" />
-		<PackageReference Include="Spectre.Console" Version="0.54.0" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 		<PackageReference Include="Spectre.Console.Cli" Version="0.53.1" />
+		<PackageReference Include="Spectre.Console.ImageSharp" Version="0.54.0" />
 		<PackageReference Include="Spectre.Console.Json" Version="0.54.0" />
+		<PackageReference Include="Spectre.Console" Version="0.54.0" />
 	</ItemGroup>
 
 	<Target Name="SpookyCleanup" BeforeTargets="Clean">

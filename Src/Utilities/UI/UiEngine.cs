@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.GameData.Components;
+using System_Overload.Src.GameData.Components;
 using Pastel;
 using Src.GameData.Components;
 using System.Text.RegularExpressions;
@@ -224,7 +224,7 @@ namespace System_Overload.Src.Utilities.UI
 		private static void DrawStatLine(string label, int value, int x, int y, bool isSelected, string aCol, string iCol, string bColor)
 		{
 			// 1. Setup
-			Console.CursorVisible = false;
+			CursorVisible = false;
 			SetCursorPosition(x, y);
 
 			// 2. Select the text color based on focus

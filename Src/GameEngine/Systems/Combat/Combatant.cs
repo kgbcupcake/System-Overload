@@ -1,4 +1,4 @@
-﻿using Src.GameData.Components;
+using Src.GameData.Components;
 
 namespace System_Overload.Src.GameEngine.Combat
 {

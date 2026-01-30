@@ -22,7 +22,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 			bool isRunning = true;
 			int selectedIndex = 0;
 			string[] options = { "START NEW GAME", "LOAD SAVE", "CREDITS", "EXIT" };
-			Console.OutputEncoding = System.Text.Encoding.UTF8;
+			OutputEncoding = System.Text.Encoding.UTF8;
 
 			// --- INTEGRATED STANDARDIZED TITLE BAR ---
 			Clear();

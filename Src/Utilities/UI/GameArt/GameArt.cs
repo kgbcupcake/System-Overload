@@ -1,7 +1,6 @@
-﻿using System_Overload.Src.Utilities.UI;
 using Pastel;
-using System;
-
+using System_Overload.Src.Utilities.UI;
+using static System.Console;
 namespace System_Overload.Src.Utilities.GameArt
 {
 	#region// Main Menu Art
@@ -9,15 +8,15 @@ namespace System_Overload.Src.Utilities.GameArt
 	{
 		public static void DrawMainHeader()
 		{
-			string separator = "[" + new string('=', Console.WindowWidth - 4) + "]";
+			string separator = "[" + new string('=', WindowWidth - 4) + "]";
 			string titleText = "S Y S T E M   O V E R L O A D";
 			string subText = "[ RESTORING CORE DATA... ]";
-			Console.ForegroundColor = ConsoleColor.Cyan;
+			ForegroundColor = ConsoleColor.Cyan;
 			UiEngine.DrawCentered(separator, 5);
 			UiEngine.DrawCentered(titleText.Pastel("#00FFFF"), 6);
 			UiEngine.DrawCentered(subText.Pastel("#008B8B"), 8);
 			UiEngine.DrawCentered(separator, 10);
-			Console.ResetColor();
+			ResetColor();
 		}
 	}
 	#endregion
@@ -48,7 +47,44 @@ namespace System_Overload.Src.Utilities.GameArt
 	}
 
 
+
+
+
+
+
 	#endregion
+
+
+
+	public static class Enemies
+	{
+
+		public static void Aliensone()
+		{
+			WriteLine
+		(@"
+
+				    .   .
+					 \/
+					(@@)
+				 g/\_)(_/\e
+				g/\(=--=)/\e
+					//\\
+				   _|  |_ 
+
+
+
+
+		");
+
+		}
+
+
+
+	}
+
+
+
 
 
 }

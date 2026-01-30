@@ -1,9 +1,7 @@
-﻿using System_Overload.Src.GameEngine.Interfaces;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System_Overload.Src.GameData.Components;
-
+using static System.Console;
 namespace System_Overload.Src.GameEngine
 {
 	public static class SaveGame
@@ -71,7 +69,7 @@ namespace System_Overload.Src.GameEngine
 			catch (Exception ex)
 			{
 				// Add a simple console log for debugging
-				Console.WriteLine($"[SAVE ERROR] Failed to save {fileName}: {ex.Message}");
+				WriteLine($"[SAVE ERROR] Failed to save {fileName}: {ex.Message}");
 			}
 		}
 

@@ -1,11 +1,6 @@
-﻿using Pastel;
 using Src.GameData.Components;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
-
+using static System.Console;
 namespace System_Overload.Src.GameEngine.Systems.Loaders
 {
 	// FIX 1: Wrap the method in a static class named UniversalLoader
@@ -49,7 +44,7 @@ namespace System_Overload.Src.GameEngine.Systems.Loaders
 			AllWeapons = UniversalLoader.LoadCollection<WeaponData>("Weapons");
 			AllGems = UniversalLoader.LoadCollection<GemData>("Gems");
 
-			Console.WriteLine($"[SYSTEM] Database Synchronized: {AllItems.Count} Items Loaded.");
+			WriteLine($"[SYSTEM] Database Synchronized: {AllItems.Count} Items Loaded.");
 
 		}
 		public static ItemData? GetItem(string name)
@@ -61,7 +56,7 @@ namespace System_Overload.Src.GameEngine.Systems.Loaders
 			if (match == null)
 			{
 				// This prints to your debug console so you can see the state of the game
-				Console.WriteLine($"[DEBUG] Lookup for '{name}' failed. Registry count: {AllItems.Count}");
+				WriteLine($"[DEBUG] Lookup for '{name}' failed. Registry count: {AllItems.Count}");
 			}
 
 			return match;

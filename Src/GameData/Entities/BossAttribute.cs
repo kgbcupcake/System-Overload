@@ -1,4 +1,4 @@
-﻿namespace System_Overload.Src.GameData
+namespace System_Overload.Src.GameData
 {
 	public class BossAttribute
 	{

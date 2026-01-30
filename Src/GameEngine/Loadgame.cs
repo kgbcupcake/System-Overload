@@ -1,7 +1,7 @@
 using System_Overload.Src.GameData.Components;
 using System.Text.Json;
 using static System_Overload.Src.GameData.Entities.PlayerData;
-
+using static System.Console;
 namespace System_Overload.Src.GameEngine
 {
 	public static class LoadGame
@@ -13,7 +13,7 @@ namespace System_Overload.Src.GameEngine
 		{
 			if (!File.Exists(filePath))
 			{
-				Console.WriteLine($"[LOAD FAIL] File not found: {filePath}");
+				WriteLine($"[LOAD FAIL] File not found: {filePath}");
 				return null;
 			}
 
@@ -25,7 +25,7 @@ namespace System_Overload.Src.GameEngine
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"[LOAD ERROR] Failed to parse JSON: {ex.Message}");
+				WriteLine($"[LOAD ERROR] Failed to parse JSON: {ex.Message}");
 				return null;
 			}
 		}
@@ -78,7 +78,7 @@ namespace System_Overload.Src.GameEngine
 						catch (Exception ex)
 						{
 							// Log individual file errors, but continue processing other files
-							Console.WriteLine($"[LOAD ERROR] Failed to load/parse {filePath}: {ex.Message}"); // Use Console for now
+							WriteLine($"[LOAD ERROR] Failed to load/parse {filePath}: {ex.Message}"); // Use Console for now
 							// DevLog.Write($"[LOAD ERROR] Failed to load/parse {filePath}: {ex.Message}", "ERROR"); // Use DevLog if accessible
 						}
 					}
@@ -102,7 +102,7 @@ namespace System_Overload.Src.GameEngine
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"[CONFIG LOAD ERROR] {fileName}: {ex.Message}");
+				WriteLine($"[CONFIG LOAD ERROR] {fileName}: {ex.Message}");
 				return default;
 			}
 		}

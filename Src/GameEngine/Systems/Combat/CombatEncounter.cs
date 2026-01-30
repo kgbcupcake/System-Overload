@@ -1,8 +1,7 @@
-﻿using System_Overload.Src.GameEngine; // Added for SaveGame
-using System_Overload.Src.Utilities.UI;
 using Pastel;
 using Src.GameData.Components;
-using Src.TownSquare;
+using System_Overload.Src.Utilities.UI;
+using static System.Console;
 using static System_Overload.Src.GameEngine.Combat.DamageCalculator;
 
 namespace System_Overload.Src.GameEngine.Combat
@@ -25,25 +24,25 @@ namespace System_Overload.Src.GameEngine.Combat
 					RefreshCombatUI(player, enemy);
 
 					// 2. Draw the Command Menu Box
-					Console.WriteLine("\n  ┌── INPUT COMMAND ────────────────────┐".Pastel("#FFD700"));
+					WriteLine("\n  ┌── INPUT COMMAND ────────────────────┐".Pastel("#FFD700"));
 					for (int i = 0; i < menuOptions.Length; i++)
 					{
 						if (i == selectedIndex)
 						{
 							// Selection styling
 							string selection = $">> {menuOptions[i]} <<";
-							Console.WriteLine($"  │  {selection.PadRight(34).Pastel("#000000").PastelBg("#FFD700")} │");
+							WriteLine($"  │  {selection.PadRight(34).Pastel("#000000").PastelBg("#FFD700")} │");
 						}
 						else
 						{
 							// Unselected styling
-							Console.WriteLine($"  │     {menuOptions[i].PadRight(31).Pastel("#888888")} │");
+							WriteLine($"  │     {menuOptions[i].PadRight(31).Pastel("#888888")} │");
 						}
 					}
-					Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#FFD700"));
+					WriteLine("  └─────────────────────────────────────┘".Pastel("#FFD700"));
 
 					// 3. Handle Input
-					var key = Console.ReadKey(true).Key;
+					var key = ReadKey(true).Key;
 
 					if (key == ConsoleKey.UpArrow)
 					{
@@ -62,7 +61,7 @@ namespace System_Overload.Src.GameEngine.Combat
 							enemy.Health -= pDmg;
 
 							RefreshCombatUI(player, enemy);
-							Console.WriteLine($"\n  > You hit {enemy.Name} for {pDmg} damage!");
+							WriteLine($"\n  > You hit {enemy.Name} for {pDmg} damage!");
 
 							if (enemy.Health > 0)
 							{
@@ -70,8 +69,8 @@ namespace System_Overload.Src.GameEngine.Combat
 							}
 							else
 							{
-								Console.WriteLine($"\n  > {enemy.Name} has been slain!");
-								Console.ReadKey(true);
+								WriteLine($"\n  > {enemy.Name} has been slain!");
+								ReadKey(true);
 							}
 
 							turnActionTaken = true; // Ends the player's turn
@@ -83,8 +82,8 @@ namespace System_Overload.Src.GameEngine.Combat
 
 							if (usableItems.Count == 0)
 							{
-								Console.WriteLine("\n  [!] THE BUFFER IS EMPTY. NO ITEMS DETECTED.");
-								Console.ReadKey(true);
+								WriteLine("\n  [!] THE BUFFER IS EMPTY. NO ITEMS DETECTED.");
+								ReadKey(true);
 							}
 							else
 							{
@@ -99,15 +98,15 @@ namespace System_Overload.Src.GameEngine.Combat
 
 						else if (selectedIndex == 2) // SPECIAL
 						{
-							Console.WriteLine("\n  Special abilities are currently locked!");
-							Console.ReadKey(true);
+							WriteLine("\n  Special abilities are currently locked!");
+							ReadKey(true);
 						}
 						else if (selectedIndex == 3) // RETREAT
 						{
-							Console.Clear();
+							Clear();
 							UiFunctions.TitleBar();
-							Console.WriteLine("\n  You turned tail and fled!");
-							Console.ReadKey(true);
+							WriteLine("\n  You turned tail and fled!");
+							ReadKey(true);
 							return false;
 						}
 					}
@@ -121,18 +120,18 @@ namespace System_Overload.Src.GameEngine.Combat
 		// Combined UI Refresh to prevent "flicker" or "lag"
 		private static void RefreshCombatUI(Combatant player, Combatant enemy)
 		{
-			Console.Clear();
+			Clear();
 			UiFunctions.TitleBar();
 
 			// 1. ENEMY SECTION
-			Console.WriteLine($"\n  [ HOSTILE SOURCE: {enemy.Name.ToUpper().Pastel("#FF4500")} ]");
+			WriteLine($"\n  [ HOSTILE SOURCE: {enemy.Name.ToUpper().Pastel("#FF4500")} ]");
 			DrawHealthBar(enemy.Health, enemy.MaxHealth, true);
-			Console.WriteLine(new string('·', 50).Pastel("#333333"));
+			WriteLine(new string('·', 50).Pastel("#333333"));
 
 			// 2. PLAYER SECTION
-			Console.WriteLine($"\n  [ USER IDENTITY: {player.Name.ToUpper().Pastel("#00FFFF")} ]");
+			WriteLine($"\n  [ USER IDENTITY: {player.Name.ToUpper().Pastel("#00FFFF")} ]");
 			DrawHealthBar(player.Health, player.MaxHealth, false);
-			Console.WriteLine(new string('═', 50).Pastel("#333333"));
+			WriteLine(new string('═', 50).Pastel("#333333"));
 		}
 
 		private static void DrawHealthBar(int current, int max, bool isEnemy)
@@ -149,7 +148,7 @@ namespace System_Overload.Src.GameEngine.Combat
 			string bar = new string('█', filledSegments).Pastel(color);
 			string empty = new string('░', barWidth - filledSegments).Pastel("#222222");
 
-			Console.WriteLine($"  {bar}{empty} {current}/{max} HP");
+			WriteLine($"  {bar}{empty} {current}/{max} HP");
 		}
 		private static void EnemyTurn(Combatant player, Combatant enemy)
 		{
@@ -160,32 +159,32 @@ namespace System_Overload.Src.GameEngine.Combat
 			RefreshCombatUI(player, enemy);
 
 			// Show the log after the bar has updated
-			Console.WriteLine($"\n  > {enemy.Name} strikes back for {eDmg} damage!");
-			Console.WriteLine("\n  Press any key for the next turn...");
-			Console.ReadKey(true);
+			WriteLine($"\n  > {enemy.Name} strikes back for {eDmg} damage!");
+			WriteLine("\n  Press any key for the next turn...");
+			ReadKey(true);
 		}
 
 		private static void EndCombat(Combatant player, Combatant enemy)
 		{
-			Console.Clear();
+			Clear();
 			UiFunctions.TitleBar();
 
 			if (player.Health <= 0)
 			{
-				Console.WriteLine("\n  " + "--- DEFEAT ---".Pastel("#FF0000"));
-				Console.WriteLine($"  {enemy.Name} has bested you.");
+				WriteLine("\n  " + "--- DEFEAT ---".Pastel("#FF0000"));
+				WriteLine($"  {enemy.Name} has bested you.");
 			}
 			else
 			{
-				Console.WriteLine("\n  " + "--- VICTORY ---".Pastel("#00FF00"));
-				Console.WriteLine($"  The {enemy.Name} has been slain!");
+				WriteLine("\n  " + "--- VICTORY ---".Pastel("#00FF00"));
+				WriteLine($"  The {enemy.Name} has been slain!");
 			}
 
 			// Sync to JSON immediately upon combat end
 			SaveGame.Save();
 
-			Console.WriteLine("\n  Press any key to continue...");
-			Console.ReadKey(true);
+			WriteLine("\n  Press any key to continue...");
+			ReadKey(true);
 		}
 
 
@@ -197,19 +196,19 @@ namespace System_Overload.Src.GameEngine.Combat
 			while (choosing)
 			{
 				RefreshCombatUI(player, enemy);
-				Console.WriteLine("\n  ┌── SELECT CONSUMABLE ────────────────┐".Pastel("#00FFFF"));
+				WriteLine("\n  ┌── SELECT CONSUMABLE ────────────────┐".Pastel("#00FFFF"));
 
 				for (int i = 0; i < items.Count; i++)
 				{
 					if (i == itemIndex)
-						Console.WriteLine($"  │ > {items[i].Name} (+{items[i].Value} HP) ".Pastel("#000000").PastelBg("#00FFFF") + "│");
+						WriteLine($"  │ > {items[i].Name} (+{items[i].Value} HP) ".Pastel("#000000").PastelBg("#00FFFF") + "│");
 					else
-						Console.WriteLine($"  │   {items[i].Name.PadRight(30)} │");
+						WriteLine($"  │   {items[i].Name.PadRight(30)} │");
 				}
-				Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#00FFFF"));
-				Console.WriteLine("  [ESC] Cancel | [ENTER] Use");
+				WriteLine("  └─────────────────────────────────────┘".Pastel("#00FFFF"));
+				WriteLine("  [ESC] Cancel | [ENTER] Use");
 
-				var key = Console.ReadKey(true).Key;
+				var key = ReadKey(true).Key;
 				if (key == ConsoleKey.UpArrow) itemIndex = (itemIndex == 0) ? items.Count - 1 : itemIndex - 1;
 				else if (key == ConsoleKey.DownArrow) itemIndex = (itemIndex == items.Count - 1) ? 0 : itemIndex + 1;
 				else if (key == ConsoleKey.Escape) choosing = false;
@@ -237,16 +236,16 @@ namespace System_Overload.Src.GameEngine.Combat
 					RefreshCombatUI(player, enemy);
 					if (actualHeal < healAmount)
 					{
-						Console.WriteLine($"\n  > System Restored: +{actualHeal} HP.".Pastel("#00FF00"));
-						Console.WriteLine($"  > {healAmount - actualHeal} units of restorative energy wasted (Over-cap).".Pastel("#555555"));
+						WriteLine($"\n  > System Restored: +{actualHeal} HP.".Pastel("#00FF00"));
+						WriteLine($"  > {healAmount - actualHeal} units of restorative energy wasted (Over-cap).".Pastel("#555555"));
 					}
 					else
 					{
-						Console.WriteLine($"\n  > System Restored: +{actualHeal} HP via {selectedItem.Name}.".Pastel("#00FF00"));
+						WriteLine($"\n  > System Restored: +{actualHeal} HP via {selectedItem.Name}.".Pastel("#00FF00"));
 					}
 
-					Console.WriteLine("\n  Press any key...");
-					Console.ReadKey(true);
+					WriteLine("\n  Press any key...");
+					ReadKey(true);
 
 					choosing = false;
 					turnActionTaken = true;
