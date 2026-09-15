@@ -1,5 +1,6 @@
 using System_Overload.Src.Game.Interfaces;
 using System_Overload.Src.GameData.Components;
+using Maries_DataModels;
 using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
 using Pastel;
@@ -173,7 +174,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 		private static void ShowCredits()
 		{
 			Clear();
-			UiEngine.DrawCentered("CREATED BY: YOUR NAME".Pastel("#FFAB00"), 10);
+			UiEngine.DrawCentered("CREATED BY: Kgbcupcake".Pastel("#FFAB00"), 10);
 			UiEngine.DrawCentered("V2 ENGINE POWERED BY C# & IMGUI", 12);
 			UiEngine.DrawCentered("Press any key to return...", 16);
 			ReadKey(true);

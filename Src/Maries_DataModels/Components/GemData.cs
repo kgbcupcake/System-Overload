@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-namespace Src.GameData.Components
+namespace Maries_DataModels
 {
 	// Note: If you want Gems to have a Name, Value, and Weight, 
 	// you should inherit from ItemData like your WeaponData does.

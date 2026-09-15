@@ -2,7 +2,7 @@
 using System_Overload.Src.GameData.Components;
 using Maries_Ui;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
 using Src.TownSquare;
 using static System_Overload.Src.GameEngine.Combat.DamageCalculator;
 

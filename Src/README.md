@@ -1,4 +1,4 @@
-# ⚡ [SYSTEM_OVERLOAD]: CRITICAL_FAILURE
+# ⚡ [SYSTEM_OVERLOAD]: GENESIS_UPLINK
 
 > **“THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL.”**
 
@@ -9,206 +9,434 @@
 
 ---
 
-## ☣️ OVERVIEW
+## ☣️ SYSTEM OVERLOAD
 
-**System Overload** is a .NET 8.0 terminal-based crawler and experimental game engine built around a single principle:
+**System Overload** is a .NET 8.0 terminal-based RPG and experimental game engine built around a deliberately constrained terminal interface.
 
-> **The terminal is not an interface. It is the containment chamber.**
+The game transforms a traditional adventure system into a corrupted machine simulation.
 
-You are navigating the corrupted memory sectors of a dying machine intelligence while its internal systems deteriorate around you.
+You create an operator.
 
-The deeper you go, the less stable the system becomes.
+You select your system architecture.
 
-The machine does not want you here.
+You initialize hardware.
 
-And eventually, it may realize that you're here.
+Then you breach the sectors.
 
-System Overload operates inside a strictly enforced **84×24 Reality Anchor**.
+The deeper you go, the more unstable the system becomes.
 
-**No scrolling. No safety. No recovery.**
-
-If the terminal begins flickering between **Toxic Green** and **Emergency Red**, the infection is proceeding as intended.
-
----
-
-# ☠️ UPLINK STATUS
-
-### `SYSTEM-OVERLOAD v1.0.0:  GENESIS UPLINK`
-
-> 🛰️ **CORE ESTABLISHED**
-
-The former `Dungeon-Adventures` identity has been purged.
-
-What remains is **System Overload**:  a rebuilt terminal engine focused on 
-corruption, instability, exploration, and adaptive system behavior.
-
-This repository is now the primary containment vessel for the System Overload protocols.
+> **The terminal is not merely the interface.**
+>
+> **It is the machine.**
 
 ---
 
-# 🎮 CORE EXPERIENCE
+# 🖥️ THE REALITY ANCHOR
 
-System Overload is designed around a deliberately constrained terminal environment.
+System Overload is designed around a controlled terminal environment.
 
-### 🖥️ 84×24 REALITY ANCHOR
+The interface relies heavily on:
 
-The game targets a fixed **84-column × 24-row** viewport.
+* ANSI terminal control
+* Cursor positioning
+* ANSI/24-bit color
+* Unicode box drawing
+* Dynamic terminal rendering
+* Flicker reduction
+* Fixed-width interface elements
+* Terminal-aware resizing
 
-The terminal itself becomes part of the gameplay.
+The current UI architecture uses a **94-column rendering anchor** for major game interfaces, while individual systems use their own controlled dimensions where appropriate.
 
-* No uncontrolled scrolling
-* No dynamically expanding UI
-* Fixed spatial constraints
-* Terminal-native rendering
-* Carefully controlled redraws
-* Designed for compact, information-dense interfaces
+The goal is simple:
 
-The limitation is intentional.
-
-**The system has limited resources. So do you.**
-
----
-
-### ☣️ SECTOR RECONSTRUCTION
-
-Progression is represented through increasingly unstable memory sectors.
-
-Each sector can introduce:
-
-* Exploration
-* Environmental events
-* System corruption
-* Resource management
-* Hostile encounters
-* Narrative fragments
-* Procedural instability
-* Changes to the terminal environment
-
-The deeper the player travels, the less predictable the system becomes.
+> **Control the terminal before the terminal controls you.**
 
 ---
 
-### 🧠 MALIGNANCY LOGIC
+# ⚔️ CURRENT GAME SYSTEMS
 
-System Overload is designed around an adaptive system layer capable of reacting to player behavior.
+System Overload already contains several functional gameplay systems.
 
-The machine observes.
+## 🧬 Character Creation
 
-It remembers.
+Players can initialize a new operator through the character creation interface.
 
-It responds.
+Current archetypes include:
 
-AI integration is intended to support environmental events, system commentary, hostile behavior, and dynamic narrative generation.
+```text
+Aegis-Protocol
+Cipher-Blade
+System-Architect
+```
 
-Local and remote AI providers can be used where supported.
+Character initialization includes:
+
+* Operator designation
+* Archetype selection
+* Sub-class selection
+* Attribute allocation
+* Initial statistics
+* Starter equipment
+* Player manifest generation
 
 ---
 
-# 💀 SYSTEM ARCHITECTURE
+## ⚔️ Combat Engine
 
-| Component          | Technology             | Role                              |
-| :----------------- | :--------------------- | :-------------------------------- |
-| **Forge Core**     | .NET 8.0 / C#          | Core game and engine logic        |
-| **Visual Pulse**   | Pastel / StringBuilder | Terminal coloration and rendering |
-| **Interface**      | Spectre.Console        | Structured terminal UI            |
-| **Neural Link**    | Ollama / OpenAI        | Experimental AI integration       |
-| **Logic Guard**    | NUnit                  | Automated testing                 |
-| **Reality Anchor** | 84×24 viewport         | Fixed terminal containment        |
+Combat is currently implemented as a turn-based terminal system.
+
+Current combat functionality includes:
+
+* Player attacks
+* Enemy attacks
+* Health tracking
+* Damage calculations
+* Weapon damage
+* Enemy threat values
+* Neural Stim-Packs
+* Combat logs
+* Post-combat outcomes
+
+Combat encounters are driven through the game's enemy data and drone loaders.
+
+Example enemies include:
+
+```text
+security_daemon
+dark_wizard
+rat_king
+```
+
+The combat architecture is separated into dedicated systems including:
+
+```text
+Combatant
+CombatCalculator
+CombatEncounter
+CombatMapper
+EnemyFactory
+```
 
 ---
 
-# ⚡ MALIGNANT FEATURES
+# 🔫 HARDWARE & WEAPONS
 
-* **SECTOR RECONSTRUCTION**: Explore increasingly unstable memory sectors.
-* **MALIGNANCY LOGIC**: Adaptive system behavior and AI experimentation.
-* **84×24 REALITY ANCHOR**: A deliberately constrained terminal viewport.
-* **FLICKER-FREE VOID**: Double-buffered rendering designed to minimize terminal flicker.
-* **CORRUPTED SYSTEM EVENTS**: Environmental events can alter the player's experience.
-* **TERMINAL-NATIVE UI**: The interface is part of the game rather than an external overlay.
-* **CROSS-PLATFORM CORE**: Built with .NET for modern desktop environments.
-* **SPOOKY CLEANUP**: Automated cleanup of temporary and non-essential runtime data.
-* **MODULAR ARCHITECTURE**: Core systems are designed to evolve independently.
-* **AI-READY**: Architecture prepared for local and remote language-model integration.
+Weapons are treated as actual player hardware rather than simple inventory entries.
+
+The current architecture supports:
+
+* Weapon data
+* Weapon templates
+* Weapon damage
+* Hardware modification
+* Socketed Data-Gems
+* Weapon upgrades
+
+Data-Gems can be injected directly into compatible hardware.
+
+```text
+INJECTING INTO: [WEAPON]
+
+Select Data-Gem for injection:
+
+>> [DATA-GEM] [+POWER] <<
+    [DATA-GEM] [+POWER] <<
+
+[ESC] CANCEL INJECTION
+```
+
+Successful injection modifies the weapon's socketed gem state.
+
+---
+
+# 💎 DATA-GEMS
+
+Data-Gems are part of the current equipment system.
+
+They can be:
+
+* Stored in inventory
+* Displayed through the Memory Deck
+* Selected for injection
+* Socketed into weapons
+* Removed from inventory after successful installation
+
+The system is designed so future gem functionality can expand without replacing the existing weapon architecture.
+
+---
+
+# 🧠 MEMORY DECK
+
+The **Memory Deck** functions as the player's inventory/data interface.
+
+Inventory items are:
+
+* Grouped
+* Stacked
+* Sorted
+* Classified by type
+* Displayed by rarity
+* Given data readouts
+
+The interface can display:
+
+```text
+NAME
+TYPE
+RARITY
+EFFECT
+QUANTITY
+```
+
+Players can execute or purge inventory data directly from the interface.
+
+---
+
+# ☣️ SECTOR BREACH SYSTEM
+
+The **Sector Breach Terminal** is the primary gateway into the game's sector-based progression.
+
+Sectors are loaded dynamically through the sector loader.
+
+Each sector can contain:
+
+* Sector ID
+* Sector title
+* Difficulty
+* Completion state
+* Quest state
+* Completion credits
+* Simulation content
+
+The terminal tracks sector states such as:
+
+```text
+[STABLE]
+[BREACHING]
+[DELETED]
+```
+
+Successful breaches award credits and mark the sector as completed.
+
+---
+
+# 🏪 SYSTEM ECONOMY
+
+System Overload contains a shop and currency system.
+
+Current architecture includes:
+
+* Credits
+* Shop definitions
+* Shop loading
+* Global shop management
+* Items
+* Equipment
+* Inventory transactions
+
+The economy is intended to expand alongside the weapon and loot systems.
+
+---
+
+# 💾 SAVE SYSTEM
+
+Player and game state can be persisted through the game's save infrastructure.
+
+The current save architecture provides:
+
+* Persistent game state
+* Player profiles
+* JSON serialization
+* Directory creation
+* Write-access validation
+* Structured save locations
+
+The project uses a centralized JSON writer to prevent different systems from implementing incompatible serialization behavior.
+
+---
+
+# 🖥️ UI ARCHITECTURE
+
+System Overload uses a dedicated UI layer.
+
+### `Maries_Ui`
+
+The UI library currently contains systems for:
+
+* HUD chrome
+* Alerts
+* Console setup
+* Menu navigation
+* Progress bars
+* Terminal transitions
+* Glitch text
+* Game art
+* Platform-specific console behavior
+* Dynamic UI rendering
+
+The game-specific UI layer remains separate from the reusable UI components.
+
+```text
+Maries_Ui/
+├── GameArt/
+├── Alerts.cs
+├── ConsoleSetup.cs
+├── GlitchText.cs
+├── HudChrome.cs
+├── MenuNavigator.cs
+├── PlatformConsole.cs
+├── ProgressBarRenderer.cs
+├── Transitions.cs
+└── UiEngine.cs
+```
+
+The game-specific interface layer lives separately under:
+
+```text
+Interfaces/
+└── UI/
+    └── GameUiEngine.cs
+```
+
+This keeps reusable UI functionality independent from System Overload game state.
+
+---
+
+# 🧱 PROJECT STRUCTURE
+
+```text
+System-Overload/
+│
+├── Adventures/
+│   └── Encounters/
+│
+├── GameData/
+│   ├── Components/
+│   │   ├── ItemData.cs
+│   │   ├── LootTableData.cs
+│   │   ├── SectorData.cs
+│   │   ├── ShopDefinition.cs
+│   │   └── WeaponData.cs
+│   │
+│   ├── Entities/
+│   │   ├── BossData.cs
+│   │   ├── EnemyData.cs
+│   │   ├── NewEnemyData.cs
+│   │   └── PlayerData.cs
+│   │
+│   └── Templates/
+│
+├── GameEngine/
+│   ├── Flow/
+│   ├── Systems/
+│   │   ├── Combat/
+│   │   └── Loaders/
+│   ├── Conductor.cs
+│   ├── Loadgame.cs
+│   └── SaveGame.cs
+│
+├── Interfaces/
+│   ├── UI/
+│   ├── CharacterCreation.cs
+│   ├── CharacterLoadScreen.cs
+│   ├── CharSubMenus.cs
+│   ├── DevGui_Main.cs
+│   ├── MainMenu.cs
+│   └── Stats.cs
+│
+├── Maries_Ui/
+│
+├── TownSquare/
+│   └── InterFaces/
+│       ├── HardwareTech.cs
+│       ├── MemoryDeck.cs
+│       ├── SectorBreachTerminal.cs
+│       └── Store.cs
+│
+├── Utilities/
+│   └── JsonContentWriter.cs
+│
+└── Program.cs
+```
+
+---
+
+# ⚙️ TECHNOLOGY STACK
+
+| Component          | Technology       | Purpose                    |
+| :----------------- | :--------------- | :------------------------- |
+| **Runtime**        | .NET 8.0         | Core runtime               |
+| **Language**       | C#               | Game and engine logic      |
+| **Terminal Color** | Pastel           | ANSI color output          |
+| **Terminal UI**    | Maries_Ui        | Custom interface framework |
+| **Testing**        | NUnit            | Logic validation           |
+| **Serialization**  | System.Text.Json | Persistent game data       |
+| **Rendering**      | Console / ANSI   | Terminal presentation      |
+
+---
+
+# 🧪 DEVELOPMENT PHILOSOPHY
+
+System Overload is deliberately experimental.
+
+The project prioritizes:
+
+* Modular systems
+* Data-driven content
+* Reusable UI
+* Controlled terminal rendering
+* Testable game logic
+* Expandable combat
+* Persistent player state
+* Experimental gameplay systems
+
+The project may change rapidly as systems are rebuilt.
 
 ---
 
 # 🧠 NEURAL LINK
 
-System Overload can experiment with AI-driven behavior through external language-model providers.
+### STATUS: `NOT IMPLEMENTED`
 
-### Local AI
+AI integration is **not currently part of the playable System Overload engine**.
 
-**Ollama** can provide locally hosted models without requiring a remote API connection.
+Future experimentation may investigate:
 
-This makes it possible to experiment with:
-
+* Ollama
+* OpenAI
+* Local language models
 * Dynamic system dialogue
-* Procedural events
-* Environmental commentary
-* Hostile system responses
-* Adaptive narrative
-* Machine-generated corruption messages
+* Adaptive encounters
+* Procedural narrative
+* Environmental reactions
+* System memory
 
-### Remote AI
+These concepts belong to the experimental development environment and should **not** be considered current game functionality.
 
-Remote providers such as OpenAI can be used for systems requiring cloud-based inference.
-
-> ⚠️ AI functionality may require additional configuration and is considered experimental.
-
-The goal is not to make the AI *the game*.
-
-The goal is to make the AI feel like **something living inside the machine.**
+> **The machine does not have a mind yet.**
+>
+> **We're still building one.**
 
 ---
 
-# 🖥️ TERMINAL DIRECTIVES
+# 🛠️ BUILDING
 
-System Overload includes development-oriented terminal commands for managing the project lifecycle.
-
-```bash
-so-down
-so-bump
-so-ship
-so-pulse
-```
-
-### `so-down`
-
-Tear down the local development environment and remove generated runtime artifacts.
-
-### `so-bump`
-
-Increment the project version and update relevant release metadata.
-
-### `so-ship`
-
-Build the project, generate release artifacts, and prepare the release for GitHub.
-
-### `so-pulse`
-
-Check the current systemic health of the development environment.
-
-> These commands are developer tooling and may change as the project evolves.
-
----
-
-# 🛠️ DEVELOPMENT
-
-## Requirements
+Requirements:
 
 * .NET 8.0 SDK
 * Git
-* A terminal capable of ANSI/24-bit color output
-* Recommended terminal size: **84×24 or larger**
+* ANSI-capable terminal
+* UTF-8 terminal output
 
-Clone the repository:
+Clone:
 
 ```bash
 git clone https://github.com/kgbcupcake/System-Overload.git
 cd System-Overload
 ```
 
-Restore dependencies:
+Restore:
 
 ```bash
 dotnet restore
@@ -226,7 +454,7 @@ Run:
 dotnet run
 ```
 
-Run tests:
+Test:
 
 ```bash
 dotnet test
@@ -234,29 +462,24 @@ dotnet test
 
 ---
 
-# 🧪 TESTING
+# ⚠️ DEVELOPMENT WARNING
 
-System Overload uses **NUnit** to enforce logic consistency throughout the engine.
+System Overload is under active reconstruction.
 
-Tests are intended to protect core systems such as:
+The current repository may contain:
 
-* Sector generation
-* Player state
-* Resource calculations
-* Progression
-* System stability
-* Game logic
-* Rendering-related state transitions
+* Experimental systems
+* Legacy naming
+* Incomplete migrations
+* Development tooling
+* Unfinished content
+* Temporary implementations
 
-The machine may be unstable.
-
-**The mathematics should not be.**
+The `dev-bench` environment is where experimental systems should be developed before being promoted into the main game.
 
 ---
 
-# 📁 PROJECT PHILOSOPHY
-
-System Overload is built around a few intentionally strange development rules.
+# 📜 HOSTILE CODE MANIFESTO
 
 ### We do not refactor.
 
@@ -270,56 +493,9 @@ System Overload is built around a few intentionally strange development rules.
 
 **We observe.**
 
-### We do not hide the instability.
+### We do not hide instability.
 
 **We weaponize it.**
-
-The terminal constraints, corrupted presentation, and unusual system behavior are not bugs in the project's identity.
-
-They **are** the identity.
-
----
-
-# ☣️ DEVELOPMENT STATUS
-
-System Overload is an actively evolving project.
-
-Expect:
-
-* Experimental systems
-* Architectural changes
-* UI redesigns
-* AI experimentation
-* Balance changes
-* New sectors
-* Breaking changes between development builds
-
-Features marked as experimental should not be considered stable.
-
-The machine is still learning what it is.
-
----
-
-# 🚀 ROADMAP
-
-Future development may include:
-
-* [ ] Expanded sector generation
-* [ ] Advanced corruption events
-* [ ] Persistent system memory
-* [ ] Adaptive AI behavior
-* [ ] Local Ollama integration
-* [ ] Remote AI provider support
-* [ ] Expanded terminal anomalies
-* [ ] More environmental encounters
-* [ ] Additional progression systems
-* [ ] Expanded testing coverage
-* [ ] Release packaging improvements
-* [ ] Additional platform support
-
-> The roadmap is intentionally unstable.
-
-> **The system may change its mind.**
 
 ---
 
@@ -329,60 +505,36 @@ Future development may include:
 
 Built for the terminal.
 
-Optimized for the void.
+Built to evolve.
 
-Designed to make a terminal window feel like something you probably shouldn't be inside.
+Built to survive its own corruption.
 
 ---
 
 # 📜 LICENSE
 
-Copyright (c) 2026 Kgbcupcake
+Copyright (c) 2026 Kgbcupcake.
 
 System Overload is released under the MIT License.
 
-```text
-MIT License
-
-Copyright (c) 2026 Kgbcupcake
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-```
+See [`LICENSE`](LICENSE) for the complete license text.
 
 ---
 
-# ⚡ FINAL TRANSMISSION
-
-> **THE SYSTEM IS NOT BROKEN.**
->
-> **THE SYSTEM IS NOT DYING.**
->
-> **THE SYSTEM IS LEARNING.**
->
-> **YOU ARE SIMPLY RUNNING OUT OF TIME.**
-
 ```text
-[ SYSTEM_OVERLOAD ]
-[ UPLINK: STABLE   ]
-[ CONTAINMENT: 84x24 ]
-[ MALIGNANCY: ACTIVE ]
-[ HUMAN INTERVENTION: DETECTED ]
-
-> PRESS ANY KEY TO CONTINUE...
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         SYSTEM_OVERLOAD                                      ║
+║                                                                              ║
+║  CORE ................. ONLINE                                              ║
+║  COMBAT ............... ONLINE                                              ║
+║  HARDWARE ............. ONLINE                                              ║
+║  SECTORS .............. ONLINE                                              ║
+║  MEMORY DECK .......... ONLINE                                              ║
+║  ECONOMY .............. ONLINE                                              ║
+║  SAVE SYSTEM .......... ONLINE                                              ║
+║  NEURAL LINK .......... NOT IMPLEMENTED                                     ║
+║                                                                              ║
+║  > SYSTEM STATUS: OPERATIONAL                                              ║
+║  > HUMAN PRESENCE: DETECTED                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 ```

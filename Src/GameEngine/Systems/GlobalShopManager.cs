@@ -1,5 +1,5 @@
-using System_Overload.Src.GameEngine.Systems.Loaders;
-using Src.GameData.Components;
+using Maries_Loaders;
+using Maries_DataModels;
 
 namespace Src.GameEngine.Systems
 {

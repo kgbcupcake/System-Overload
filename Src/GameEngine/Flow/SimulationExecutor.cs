@@ -1,9 +1,8 @@
-﻿using System_Overload.Src.GameData;
+using Maries_DataModels;
 using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameData.Entities;
 using System_Overload.Src.GameEngine.Combat;
 using Maries_Ui;
-using System_Overload.Src.GameEngine.Systems.Loaders; // Make sure this namespace is included
+using Maries_Loaders; // Make sure this namespace is included
 using static System.Console;
 using Pastel;
 

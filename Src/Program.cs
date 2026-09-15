@@ -1,7 +1,8 @@
 using System_Overload.Dev;
 using System_Overload.Src.GameData.Components;
+using Maries_DataModels;
 using System_Overload.Src.GameEngine.Interfaces;
-using System_Overload.Src.GameEngine.Systems.Loaders;
+using Maries_Loaders;
 using Maries_Ui;
 using System.Text;
 
@@ -11,6 +12,10 @@ Console.OutputEncoding = Encoding.UTF8;
 
 // Ensure game directories are set up
 GameState.EnsureDirectories();
+
+// Point the content-loading layer at the shared content root before any loader is used.
+LoaderConfig.ContentRoot = GameState.MasterPath;
+LoaderConfig.DevMode = GameState.IsDevMode;
 
 // Run the content seeder at the very start of the application.
 ContentSeeder.SeedInitialContent();

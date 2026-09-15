@@ -1,9 +1,8 @@
-﻿using Src.GameData.Components;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace System_Overload.Src.GameData.Entities
+namespace Maries_DataModels
 {
 	public class PlayerData
 	{

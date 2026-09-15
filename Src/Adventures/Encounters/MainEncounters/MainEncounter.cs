@@ -1,11 +1,10 @@
 using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameData.Entities;
-using System_Overload.Src.GameEngine.Systems.Loaders;
+using Maries_DataModels;
+using Maries_Loaders;
 using System_Overload.Src.GameEngine.Combat;
 using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
-using Src.GameData.Components;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using static Maries_DataModels.PlayerData;
 using static System.Console;
 
 namespace Src.Adventures.Encounters.MainEncounters

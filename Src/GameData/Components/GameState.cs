@@ -1,10 +1,10 @@
-using System_Overload.Src.GameEngine.Systems.Loaders;
-using System_Overload.Src.GameData.Entities;
+using Maries_Loaders;
+using Maries_DataModels;
 using System_Overload.Src.GameEngine;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using static Maries_DataModels.PlayerData;
 
 namespace System_Overload.Src.GameData.Components
 {

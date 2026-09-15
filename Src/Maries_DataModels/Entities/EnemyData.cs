@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Src.GameData.Components; // To access EffectType and GlobalAura
 
-namespace System_Overload.Src.GameData.Entities
+namespace Maries_DataModels
 {
 	public class EnemyData
 	{

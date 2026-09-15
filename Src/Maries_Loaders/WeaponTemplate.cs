@@ -1,13 +1,10 @@
-﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameEngine.Systems.Loaders;
-using System_Overload.Utilities;
-using Src.GameData.Components;
+﻿using Maries_DataModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Src.GameEngine.Systems
+namespace Maries_Loaders
 {
 public class WeaponTemplate
 {
@@ -32,7 +29,7 @@ public class WeaponTemplate
 		var list = LoadWeaponTemplates();
 		list.Add(weapon);
 
-		string path = Path.Combine(GameState.GetGlobalPath("weapon_templates"), "master_weapons.json");
+		string path = Path.Combine(LoaderConfig.GetGlobalPath("weapon_templates"), "master_weapons.json");
 		JsonContentWriter.WriteJson(path, list, overwrite: true);
 
 		ClearCache();

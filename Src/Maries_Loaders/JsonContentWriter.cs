@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace System_Overload.Utilities
+namespace Maries_Loaders
 {
 	/// <summary>
 	/// Provides a single, static, generic utility to serialize objects to JSON files.

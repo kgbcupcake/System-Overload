@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Src.GameData.Components
+namespace Maries_DataModels
 {
     public class AttachmentData
     {

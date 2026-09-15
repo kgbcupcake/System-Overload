@@ -1,4 +1,4 @@
-﻿namespace System_Overload.Src.GameData.Entities
+namespace Maries_DataModels
 {
 	public class BossTrait
 	{

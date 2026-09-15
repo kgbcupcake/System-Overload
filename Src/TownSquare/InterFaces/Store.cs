@@ -1,10 +1,10 @@
 ﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameEngine.Systems.Loaders; // FIX: Import the new Registry
+using Maries_Loaders; // FIX: Import the new Registry
 using Maries_Ui;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
 using System.Text.Json;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using static Maries_DataModels.PlayerData;
 using static System.Console;
 
 namespace Src.TownSquare.InterFaces

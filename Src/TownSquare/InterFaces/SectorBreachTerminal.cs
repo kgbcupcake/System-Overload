@@ -1,6 +1,6 @@
-using System_Overload.Src.GameEngine.Systems.Loaders;
+using Maries_Loaders;
 using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameData.Entities;
+using Maries_DataModels;
 using System_Overload.Src.GameEngine;
 using System_Overload.Src.GameEngine.Flow;
 using System_Overload.Src.GameEngine.Systems;

@@ -3,7 +3,7 @@ using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
 using Src.TownSquare;
 using System.Text.Json;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using static Maries_DataModels.PlayerData;
 using static System.Console;
 using System.Text.RegularExpressions;
 

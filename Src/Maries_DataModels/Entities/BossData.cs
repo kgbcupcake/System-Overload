@@ -1,9 +1,7 @@
-using System_Overload.Src.GameData.Components;
-using Src.GameData.Components;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace System_Overload.Src.GameData.Entities
+namespace Maries_DataModels
 {
     public enum TraitType { None, Fire, Ice, Poison, Electric, Ethereal, Armored, Enraged }
 

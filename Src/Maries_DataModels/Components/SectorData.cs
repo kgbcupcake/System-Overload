@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace System_Overload.Src.GameData.Entities
+namespace Maries_DataModels
 {
 	public class SectorData
 	{

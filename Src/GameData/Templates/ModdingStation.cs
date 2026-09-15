@@ -1,6 +1,5 @@
-﻿using System_Overload.Src.GameData.Components;
-using Src.GameData.Components;
-using Src.GameEngine.Systems;
+using Maries_DataModels;
+using Maries_Loaders;
 
 namespace System_Overload.Src.GameEngine.Systems
 {

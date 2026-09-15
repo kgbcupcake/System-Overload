@@ -1,7 +1,7 @@
 ﻿using System_Overload.Src.GameData.Components;
 using Maries_Ui;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
 using static System.Console;
 
 namespace Src.TownSquare.InterFaces

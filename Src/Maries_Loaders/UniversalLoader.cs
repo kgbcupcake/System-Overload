@@ -1,6 +1,4 @@
-﻿using Pastel;
-using Src.GameData.Components;
-using System_Overload.Src.GameData.Components;
+﻿using Maries_DataModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace System_Overload.Src.GameEngine.Systems.Loaders
+namespace Maries_Loaders
 {
 	// FIX 1: Wrap the method in a static class named UniversalLoader
 	public static class UniversalLoader
@@ -23,8 +21,8 @@ namespace System_Overload.Src.GameEngine.Systems.Loaders
 		{
 			List<T> masterList = new List<T>();
 
-			// GameState.MasterPath is the single source of truth for all loadable content
-			string path = GameState.GetGlobalPath(folderName);
+			// LoaderConfig.ContentRoot is the single source of truth for all loadable content
+			string path = LoaderConfig.GetGlobalPath(folderName);
 
 			if (!Directory.Exists(path)) return masterList;
 
@@ -72,7 +70,7 @@ namespace System_Overload.Src.GameEngine.Systems.Loaders
 			var match = AllItems.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
 			// 2. DEBUG: If it fails, tell us why (dev-mode only)
-			if (match == null && GameState.IsDevMode)
+			if (match == null && LoaderConfig.DevMode)
 			{
 				Console.WriteLine($"[DEBUG] Lookup for '{name}' failed. Registry count: {AllItems.Count}");
 			}

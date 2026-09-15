@@ -8,148 +8,107 @@
 
 ---
 
-## 🧪 DEV STATUS: `SECTOR_02_CALIBRATION`
+# 🧪 DEV STATUS: `SECTOR_02_CALIBRATION`
 
-**`dev-bench`** is the active development laboratory for **System Overload**.
+`dev-bench` is the experimental development environment for **System Overload**.
 
-This branch is where unstable systems are constructed, tested, broken, rebuilt, and occasionally allowed to escape containment.
+This is where new systems are designed, tested, stressed, broken, and rebuilt before they become part of the stable game.
 
-Unlike the stable release branch, `dev-bench` may contain:
+Nothing here is guaranteed to work.
 
-* Experimental gameplay systems
-* Unfinished combat logic
-* Prototype weapons
-* Raw loot systems
-* Unfinished visual entities
-* Rendering experiments
-* Performance stress tests
-* Future AI infrastructure
-* Architectural prototypes
-* Systems that are absolutely not ready for production
+That is the point.
 
-> ⚠️ **EXPECT BREAKAGE.**
+> ⚠️ **THIS IS THE LABORATORY.**
 >
-> This branch exists specifically so the main build doesn't have to.
+> **EXPECT UNSTABLE SYSTEMS.**
 
 ---
 
-# 🚧 SYSTEM RECONSTRUCTION
+# 🚧 CURRENT RECONSTRUCTION
 
-Current development is focused on expanding the game's core gameplay loop beyond its original terminal-combat foundation.
+## ⚔️ COMBAT ENGINE
 
-### ACTIVE DEVELOPMENT
+Current combat already exists in the main engine.
 
-* [ ] **COMBAT_ENGINE** — Testing hit detection, damage calculations, and combat state.
-* [ ] **ARMORY_EXPANSION** — Implementing additional weapons and item identifiers.
-* [ ] **GEM_RESONANCE** — Building loot tables, gem drops, and currency logic.
-* [ ] **VISUAL_PULSE** — Converting plain-text drones into dedicated visual entities.
-* [ ] **STRESS_TEST** — Validating the 84×24 Reality Anchor under heavy system load.
+`dev-bench` is being used to push it further.
 
----
+Development targets include:
 
-# 💀 CURRENT ARCHITECTURE
+* [ ] Expanded hit detection
+* [ ] Damage scaling
+* [ ] Critical damage
+* [ ] Weapon-specific behavior
+* [ ] Enemy-specific behavior
+* [ ] Combat state expansion
+* [ ] Better combat feedback
+* [ ] Stress testing
 
-| Component          | Status            | Development Focus                        |
-| :----------------- | :---------------- | :--------------------------------------- |
-| **Forge Core**     | 🟢 STABLE         | Core game and engine logic               |
-| **Combat Engine**  | 🟡 DEVELOPING     | Damage, hit detection, and combat states |
-| **Armory**         | 🟡 DEVELOPING     | Weapons, items, and identifiers          |
-| **Loot Logic**     | 🔴 CRITICAL       | Gem drops, currency, and distribution    |
-| **Visual Pulse**   | 🟡 EVOLVING       | Drone entities and terminal rendering    |
-| **Reality Anchor** | 🟡 TESTING        | 84×24 viewport stability                 |
-| **Neural Link**    | ⚪ NOT IMPLEMENTED | Future AI infrastructure                 |
+Current combat is already capable of player attacks, enemy counter-attacks, health tracking, Stim-Pack healing, weapon damage calculation, and combat logging.
+
+The laboratory exists to evolve those systems rather than replace them.
 
 ---
 
-# 🧠 NEURAL LINK — FUTURE SYSTEM
+# 🔫 ARMORY EXPANSION
 
-The **Neural Link does not currently exist in the playable game.**
+The weapon system already supports hardware and socketed Data-Gems.
 
-It is an experimental system being investigated for future versions of System Overload.
+The next stage is expanding the armory.
 
-Potential technologies include:
+### Planned development
 
-* **Ollama** — Local language-model inference
-* **OpenAI** — Remote language-model inference
+* [ ] Additional weapon types
+* [ ] New weapon identifiers
+* [ ] Weapon rarity
+* [ ] Expanded damage profiles
+* [ ] Weapon-specific effects
+* [ ] Hardware modification
+* [ ] Additional socket mechanics
+* [ ] Weapon balancing
 
-Potential applications include:
-
-* Dynamic system dialogue
-* Adaptive environmental events
-* Procedural narrative
-* Hostile system responses
-* AI-controlled entities
-* Persistent machine memory
-* Player-behavior reactions
-* Dynamic corruption events
-
-The objective is not to bolt an AI chatbot onto the game.
-
-The objective is to make the **System itself feel alive.**
-
-> **STATUS: CONCEPT / EXPERIMENTAL**
->
-> No AI provider is currently required to play System Overload.
+The goal is to make hardware feel like actual machine equipment rather than simple RPG inventory entries.
 
 ---
 
-# 🤖 AI DEVELOPMENT PHILOSOPHY
+# 💎 GEM RESONANCE
 
-The Neural Link will remain isolated from the core gameplay systems during early development.
+Data-Gems already exist as socketable weapon components.
 
-The intended architecture is:
+The next stage is expanding their role into a larger loot and progression system.
+
+### Development targets
+
+* [ ] Gem drop tables
+* [ ] Gem rarity
+* [ ] Gem distribution
+* [ ] Currency relationships
+* [ ] Enemy-specific drops
+* [ ] Sector-specific drops
+* [ ] Reward scaling
+* [ ] Loot balancing
+
+Current injection flow:
 
 ```text
-                    ┌─────────────────────┐
-                    │   SYSTEM OVERLOAD   │
-                    │      GAME CORE      │
-                    └──────────┬──────────┘
-                               │
-                         EVENT / STATE
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │    NEURAL LINK      │
-                    │   AI ABSTRACTION    │
-                    └──────────┬──────────┘
-                               │
-                    ┌──────────┴──────────┐
-                    │                     │
-                    ▼                     ▼
-              ┌───────────┐        ┌───────────┐
-              │  Ollama   │        │  OpenAI   │
-              │   LOCAL   │        │  REMOTE   │
-              └───────────┘        └───────────┘
+WEAPON
+   │
+   ▼
+DATA-GEM SELECTION
+   │
+   ▼
+SOCKET INJECTION
+   │
+   ▼
+WEAPON POWER MODIFIED
 ```
 
-The game should remain playable without the Neural Link.
-
-**The AI enhances the machine. It does not become the machine.**
+Future systems may allow gems to influence more than raw weapon power.
 
 ---
 
-# 🛠️ DEVELOPMENT LAB
+# 👁️ VISUAL PULSE
 
-`dev-bench` is intentionally less stable than the primary branch.
-
-Changes may include:
-
-* API changes
-* File structure changes
-* Gameplay rewrites
-* Experimental dependencies
-* Temporary debugging systems
-* Performance regressions
-* Broken saves
-* Incomplete features
-
-Nothing in this branch should be considered final until it has survived testing and been promoted to the appropriate release branch.
-
----
-
-# 🖥️ VISUAL PULSE
-
-One of the current goals is moving combat entities beyond plain terminal text.
+One of the major goals of `dev-bench` is moving combat presentation beyond simple text representations.
 
 ### CURRENT
 
@@ -162,97 +121,163 @@ STATUS: HOSTILE
 
 ### TARGET
 
-Dedicated ASCII/Spectre-based entities with:
-
-* Unique silhouettes
-* State-dependent rendering
-* Damage states
-* Terminal animation
-* Corruption effects
-* Environmental interaction
-
-The objective is simple:
-
-> **The enemy should look like something that belongs inside the machine.**
-
----
-
-# ⚔️ COMBAT ENGINE
-
-Combat is currently undergoing calibration.
-
-Development areas include:
-
-* Hit detection
-* Damage scaling
-* Weapon statistics
-* Enemy statistics
-* Combat states
-* Critical interactions
-* Lethality consistency
-
-Weapon mathematics must remain deterministic and testable.
-
-The system can be chaotic.
-
-**The math cannot be.**
-
----
-
-# 💎 GEM RESONANCE
-
-The loot system is currently under construction.
-
-Planned systems include:
-
-* Gem drops
-* Drop probabilities
-* Currency values
-* Loot tables
-* Enemy-specific drops
-* Rarity
-* Reward scaling
-
-Current status:
-
 ```text
-[ LOOT SYSTEM ]
-
-GEM_RESONANCE ...... INITIALIZING
-DROP_TABLES ........ OFFLINE
-CURRENCY_LOGIC ..... INCOMPLETE
-RARITY_ENGINE ...... PENDING
-
-STATUS: CRITICAL
+        ┌─────────────────────┐
+        │      DRONE ENTITY   │
+        │                     │
+        │      [ HOSTILE ]    │
+        │                     │
+        │    SYSTEM TARGET    │
+        └─────────────────────┘
 ```
 
----
+The exact visual system is still being developed.
 
-# ☣️ REALITY ANCHOR
+Potential improvements include:
 
-System Overload continues to target an **84×24 terminal viewport**.
+* [ ] Dedicated drone ASCII art
+* [ ] Drone-specific silhouettes
+* [ ] Damage states
+* [ ] Combat animation
+* [ ] Terminal corruption effects
+* [ ] Entity-specific rendering
+* [ ] Spectre.Console integration where appropriate
+* [ ] Reduced redraw artifacts
 
-`dev-bench` is used to stress-test this constraint as additional gameplay systems are introduced.
+The goal:
 
-Testing includes:
-
-* Large combat states
-* Multiple entities
-* Dense UI
-* Rapid redraws
-* Terminal resizing
-* High-frequency updates
-* Long-running sessions
-
-The viewport is not merely a technical limitation.
-
-**It is part of the game's identity.**
+> **Enemies should look like they belong inside the machine.**
 
 ---
 
-# 🧪 TESTING PROTOCOL
+# ☣️ REALITY ANCHOR STRESS TEST
 
-Experimental systems should be tested before promotion.
+System Overload relies heavily on controlled terminal rendering.
+
+The current UI architecture uses a **94-column rendering anchor** for major interfaces.
+
+`dev-bench` is responsible for testing what happens when the system is pushed beyond normal conditions.
+
+### Stress targets
+
+* [ ] Large menus
+* [ ] Multiple entities
+* [ ] Rapid redraws
+* [ ] Dense combat interfaces
+* [ ] Terminal resizing
+* [ ] Long-running sessions
+* [ ] Large sector lists
+* [ ] Heavy UI updates
+* [ ] State transition stability
+
+The terminal is part of the game.
+
+Therefore:
+
+**The terminal must survive the game.**
+
+---
+
+# 🧠 NEURAL LINK
+
+## STATUS: `NOT IMPLEMENTED`
+
+The Neural Link is a **future experimental system**.
+
+It is intentionally listed here because `dev-bench` is where the architecture for it can be explored without pretending that it already exists in the playable game.
+
+Potential providers:
+
+```text
+┌─────────────────────────────┐
+│       NEURAL LINK           │
+├─────────────────────────────┤
+│                             │
+│  LOCAL                      │
+│  └── Ollama                 │
+│                             │
+│  REMOTE                     │
+│  └── OpenAI                 │
+│                             │
+└─────────────────────────────┘
+```
+
+Potential applications:
+
+* [ ] Dynamic system dialogue
+* [ ] Adaptive environmental events
+* [ ] Procedural narrative
+* [ ] Hostile system responses
+* [ ] Dynamic encounter generation
+* [ ] Player-behavior reactions
+* [ ] Persistent system memory
+* [ ] AI-controlled entities
+
+### Architecture Goal
+
+The AI should **not** become a requirement for the game to function.
+
+Instead:
+
+```text
+GAME CORE
+    │
+    ├── Combat
+    ├── Sectors
+    ├── Inventory
+    ├── Hardware
+    └── Economy
+             │
+             ▼
+       NEURAL LINK
+             │
+       ┌─────┴─────┐
+       ▼           ▼
+    Ollama       OpenAI
+```
+
+The core game remains deterministic.
+
+The Neural Link becomes an optional intelligence layer.
+
+> **The AI should feel like something living inside the machine.**
+>
+> **Not something bolted onto it.**
+
+---
+
+# 🧱 ARCHITECTURAL EXPERIMENTS
+
+`dev-bench` may contain prototypes that have not yet earned a place in the main engine.
+
+Experimental work may include:
+
+* New game systems
+* New data structures
+* UI prototypes
+* Rendering experiments
+* AI abstractions
+* Combat revisions
+* Loot systems
+* Performance experiments
+* Developer tools
+
+A system should only move toward the stable branch after it survives testing.
+
+---
+
+# 🧪 DEVELOPMENT CHECKLIST
+
+```text
+[ ] BUILD
+[ ] TEST
+[ ] STRESS
+[ ] BREAK
+[ ] REPAIR
+[ ] REPEAT
+```
+
+Standard development commands:
 
 ```bash
 dotnet build
@@ -260,66 +285,75 @@ dotnet test
 dotnet run
 ```
 
-Stress testing should specifically monitor:
-
-```text
-CPU
-MEMORY
-FRAME / REDRAW RATE
-TERMINAL STABILITY
-STATE CONSISTENCY
-84×24 CONTAINMENT
-```
-
 ---
 
-# 📡 BRANCH STATUS
+# 📡 SYSTEM STATUS
 
 ```text
-┌─────────────────────────────────────────────┐
-│ SYSTEM OVERLOAD :: DEV-BENCH                │
-├─────────────────────────────────────────────┤
-│ CORE ................. STABLE               │
-│ COMBAT ................ DEVELOPING          │
-│ ARMORY ................ DEVELOPING          │
-│ LOOT .................. CRITICAL            │
-│ VISUALS ............... EVOLVING            │
-│ REALITY ANCHOR ........ TESTING             │
-│ NEURAL LINK ........... NOT IMPLEMENTED     │
-└─────────────────────────────────────────────┘
+╔══════════════════════════════════════════════════════════════╗
+║                  SYSTEM_OVERLOAD :: DEV-BENCH               ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  CORE ENGINE .............. STABLE                           ║
+║  COMBAT ................... DEVELOPING                       ║
+║  ARMORY ................... DEVELOPING                       ║
+║  GEM RESONANCE ............ DEVELOPING                       ║
+║  VISUAL PULSE ............. EVOLVING                         ║
+║  REALITY ANCHOR ........... TESTING                          ║
+║  NEURAL LINK .............. NOT IMPLEMENTED                  ║
+║                                                              ║
+║  CONTAINMENT .............. ACTIVE                            ║
+║  DEVELOPMENT .............. UNSTABLE                         ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
 # 👁️ ARCHITECT'S NOTES
 
-Current development is moving **System Overload** away from purely plain-text combat and toward a more visual terminal experience.
+The current direction of System Overload is not to throw away the existing engine.
 
-Drones are being reconstructed as dedicated entities.
+It is to **push it further**.
 
-Weapons are being calibrated.
+Combat already exists.
 
-Loot systems are being built.
+Weapons already exist.
 
-The 84×24 Reality Anchor is being stress-tested.
+Data-Gems already exist.
 
-The Neural Link remains a **future experiment**, not a current game feature.
+Sectors already exist.
 
-The laboratory exists so these systems can evolve without destabilizing the main build.
+The Memory Deck already exists.
 
-> **“We do not refactor. We infect.”**
+The development bench exists to turn those systems into something deeper.
+
+The next stage is visual identity, expanded combat, better loot, stronger hardware progression, and eventually an experimental intelligence layer.
+
+> **We do not refactor.**
+>
+> **We infect.**
 
 ---
 
-# 🚨 IMPORTANT
+# 🚨 DEVELOPMENT WARNING
 
-`dev-bench` is **not the stable release branch**.
+This branch may contain:
 
-If you're looking for the current playable version, use the appropriate release branch or tagged release.
+* Broken features
+* Experimental APIs
+* Temporary systems
+* Debugging code
+* Unbalanced mechanics
+* Incomplete content
+* Performance regressions
+* Architectural experiments
 
-If you're here to see what is currently being constructed:
+**Do not treat `dev-bench` as stable.**
 
-**Welcome to the laboratory.**
+If something catches fire:
+
+> **That means the test worked.**
 
 ---
 
@@ -331,7 +365,7 @@ Built for the terminal.
 
 Optimized for the void.
 
-Currently rebuilding the machine one subsystem at a time.
+Currently rebuilding the machine.
 
 ---
 
@@ -339,21 +373,21 @@ Currently rebuilding the machine one subsystem at a time.
 
 Copyright (c) 2026 Kgbcupcake.
 
-Refer to [`LICENSE`](LICENSE) for full legal containment details.
+Refer to [`LICENSE`](../LICENSE) for full legal containment details.
 
 ---
 
 ```text
-[ SYSTEM_OVERLOAD ]
 [ DEVELOPMENT_UPLINK ]
 
 SECTOR_02 ........ CALIBRATING
-COMBAT ........... UNSTABLE
-LOOT ............. INITIALIZING
+COMBAT ........... EVOLVING
+ARMORY ........... EXPANDING
+GEMS ............. RESONATING
 VISUALS .......... RECONSTRUCTING
 NEURAL LINK ...... DORMANT
 
 > THE MACHINE IS NOT READY.
 
-> NEITHER ARE YOU.
+> THAT IS WHY YOU ARE HERE.
 ```

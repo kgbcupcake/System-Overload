@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
-namespace Src.GameData.Components
+namespace Maries_DataModels
 {
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public enum ItemRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic, Ethereal, Armored, Enraged }

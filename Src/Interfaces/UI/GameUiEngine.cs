@@ -1,7 +1,7 @@
 using System_Overload.Src.GameData.Components;
 using Pastel;
-using Src.GameData.Components;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using Maries_DataModels;
+using static Maries_DataModels.PlayerData;
 using static System.Console;
 using Maries_Ui;
 

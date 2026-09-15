@@ -1,8 +1,6 @@
-﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameData.Entities;
+using Maries_DataModels;
 using Maries_Ui;
 using Pastel;
-using Src.GameData.Components;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Console;

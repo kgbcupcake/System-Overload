@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Src.GameData.Components
+namespace Maries_DataModels
 {
 	public class WeaponData : ItemData
 	{

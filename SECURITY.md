@@ -1,33 +1,44 @@
-﻿# 🛡️ SECURITY_POLICY: CONTAINMENT_PROTOCOLS
+﻿# Security Policy
 
-> **“THE ARCHITECT OBSERVES ALL. BREACHES WILL BE ANALYZED.”**
+## Reporting a Vulnerability
+
+If you discover a security vulnerability in System Overload, please do not
+disclose the details publicly through GitHub Issues.
+
+Instead, report the issue privately through GitHub's vulnerability reporting
+feature, if enabled, or contact the project maintainer directly.
+
+When reporting a vulnerability, please include:
+
+- A description of the issue
+- Steps to reproduce it
+- The affected version
+- Any relevant logs, screenshots, or stack traces
+- The potential impact of the vulnerability
+
+Please allow time for the issue to be investigated and addressed before
+public disclosure.
+
+## Supported Versions
+
+Security fixes are provided for the current actively developed version of
+System Overload.
+
+| Version | Supported |
+| :--- | :--- |
+| Current development/release version | ✅ |
+| Older versions | ❌ |
+
+## Scope
+
+This policy applies to security vulnerabilities affecting the System
+Overload repository, its build process, dependencies, or other software
+components where a security issue could affect users.
+
+Gameplay bugs, balancing issues, crashes, and general feature requests
+should be reported through the project's normal issue tracker instead.
 
 ---
 
-## ☣️ REPORTING A SYSTEM COLLAPSE
-
-As the sole architect of the **System Overload** engine, I monitor all systemic instabilities. If you find a vulnerability that could bypass the **Reality Anchor** or corrupt the **Forge Core**, do not post it publicly in the Issues tab.
-
-**Follow these steps to report a breach:**
-1. **Open a Private Disclosure**: Use GitHub's "Report a vulnerability" feature if available, or contact me directly.
-2. **Detail the Malignancy**: Provide the exact steps that caused the system to evolve beyond its parameters.
-3. **Wait for Patching**: I will investigate and neutralize the threat in the next **Uplink Update**.
-
----
-
-## ⚡ SUPPORTED PROTOCOLS
-
-I only provide containment updates for the current **Genesis** version.
-
-| Version | Status | Notes |
-| :--- | :--- | :--- |
-| **v1.0.0** | ✅ ACTIVE | Current System Overload Uplink |
-| < v1.0.0 | ❌ PURGED | All Dungeon-Adventures code is unsupported |
-
----
-
-## 📜 DISCLAIMER
-
-This is a **Lethal-Tier Engine**. By executing this code, you accept all risks associated with terminal flickering, memory corruption simulations, and sentient AI hostility.
-
-**STAY ANCHORED.**
+**System Overload**  
+*Stay anchored.*

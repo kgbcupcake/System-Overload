@@ -1,6 +1,6 @@
 using System_Overload.Src.GameData.Components;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace System_Overload.Src.GameData
+namespace Maries_DataModels
 {
 	public class BossAttribute
 	{

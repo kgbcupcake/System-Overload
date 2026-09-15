@@ -1,6 +1,6 @@
-using System_Overload.Src.GameData.Entities;   // For SectorData
+using Maries_DataModels;   // For SectorData
 
-namespace System_Overload.Src.GameEngine.Systems.Loaders
+namespace Maries_Loaders
 {
 	public static class SectorLoader
 	{

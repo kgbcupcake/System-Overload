@@ -4,8 +4,8 @@ using Maries_Ui;
 using Pastel;
 using static System.Console;
 using System_Overload.Src.GameData.Components;
-using static System_Overload.Src.GameData.Entities.PlayerData;
-using Src.GameData.Components;
+using static Maries_DataModels.PlayerData;
+using Maries_DataModels;
 
 namespace System_Overload.Src.Game.Interfaces
 {

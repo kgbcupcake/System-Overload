@@ -1,6 +1,6 @@
-﻿using System_Overload.Src.GameData.Entities;
+﻿using Maries_DataModels;
 using System_Overload.Src.GameEngine.Combat;
-using System_Overload.Src.GameEngine.Systems.Loaders; // Added to access DronesLoader
+using Maries_Loaders; // Added to access DronesLoader
 
 public static class EnemyFactory
 {
