@@ -1,5 +1,6 @@
 ﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
 using Src.TownSquare;
 using System.Text.Json;
 using static System_Overload.Src.GameData.Entities.PlayerData;
@@ -71,17 +72,14 @@ namespace System_Overload.Src.GameEngine.Interfaces
 				switch (key)
 				{
 					case ConsoleKey.UpArrow:
-						selectedIndex = selectedIndex == 0 ? displayNames.Count - 1 : selectedIndex - 1;
-						break;
-
 					case ConsoleKey.DownArrow:
-						selectedIndex = selectedIndex == displayNames.Count - 1 ? 0 : selectedIndex + 1;
+						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, displayNames.Count);
 						break;
 
 					case ConsoleKey.Enter:
 						GameState.CurrentPlayer = preview;
-						UiFunctions.LoadSaveProgress();
-						UiFunctions.ShowSaveLoadedIcon(preview.PlayerName);
+						Transitions.LoadSaveProgress();
+						Transitions.ShowSaveLoadedIcon(preview.PlayerName, preview.Health, preview.HitPoints, preview.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 						Thread.Sleep(800);
 						TheForgottenZone.MainTownSquare();
 						return true;
@@ -110,7 +108,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 
 			Clear();
 
-			UiEngine.DrawDynamicFrame(
+			GameUiEngine.DrawDynamicFrame(
 				cleanTitle,
 				safeLines,
 				"ARROWS to move | ENTER to select | ESC to cancel",

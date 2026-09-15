@@ -1,5 +1,6 @@
 ﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
 using Pastel;
 using static System.Console;
 using System.Collections.Generic;
@@ -54,7 +55,7 @@ namespace System_Overload.Src.Game.MainInterfaces
 				}
 
 				// Draw the UI frame using the standard Width (94) for consistency
-				UiEngine.DrawDynamicFrame($"SPEC-EVOLUTION: {player.PlayerName.ToUpper()}",
+				GameUiEngine.DrawDynamicFrame($"SPEC-EVOLUTION: {player.PlayerName.ToUpper()}",
 					evolutionOptions,
 					"[UP/DOWN] to browse | [ENTER] to confirm specialization",
 					boxWidth: 94,
@@ -67,8 +68,7 @@ namespace System_Overload.Src.Game.MainInterfaces
 				UiEngine.DrawCentered(descriptions[selected].Pastel("#DCDCDC"), contentBaseY + 2);
 
 				var key = ReadKey(true).Key;
-				if (key == ConsoleKey.UpArrow) selected = (selected == 0) ? subClasses.Length - 1 : selected - 1;
-				else if (key == ConsoleKey.DownArrow) selected = (selected == subClasses.Length - 1) ? 0 : selected + 1;
+				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selected = MenuNavigator.HandleVerticalNav(key, selected, subClasses.Length);
 				else if (key == ConsoleKey.Enter)
 				{
 					player.PlayerClass = subClasses[selected];

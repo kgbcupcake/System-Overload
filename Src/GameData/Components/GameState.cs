@@ -1,4 +1,4 @@
-using System_Overload.GameEngine.Systems.Loaders;
+using System_Overload.Src.GameEngine.Systems.Loaders;
 using System_Overload.Src.GameData.Entities;
 using System_Overload.Src.GameEngine;
 using System.IO;
@@ -26,6 +26,8 @@ namespace System_Overload.Src.GameData.Components
 			"settings",
 			"attachments",
 			"modules",
+			"shops",
+			"weapon_templates",
 
 		};
 

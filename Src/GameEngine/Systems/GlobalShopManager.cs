@@ -1,4 +1,4 @@
-using System_Overload.Src.GameEngine;
+using System_Overload.Src.GameEngine.Systems.Loaders;
 using Src.GameData.Components;
 
 namespace Src.GameEngine.Systems
@@ -9,7 +9,7 @@ namespace Src.GameEngine.Systems
 
         public static void LoadAllFromMaster()
         {
-            Items = LoadGame.LoadAllFromFolder<ItemData>("shop_stock");
+            Items = UniversalLoader.LoadCollection<ItemData>("shop_stock");
         }
     }
 }

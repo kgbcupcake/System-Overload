@@ -1,21 +1,13 @@
-﻿using System_Overload.Src.GameData.Components;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.IO;
+using System_Overload.Src.GameData.Components;
 
-namespace System_Overload.GameEngine.Systems.Loaders
+namespace System_Overload.Src.GameEngine.Systems.Loaders
 {
-	public class AdminLoader
+	public static class AdminLoader
 	{
 		private static List<AdminData>? _cachedAdmins;
-		private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
-		{
-			PropertyNameCaseInsensitive = true,
-			Converters = { new JsonStringEnumConverter() }
-		};
 
 		/// <summary>
-		/// Loads all Root-Admin entities from the local 'admins' directory.
+		/// Loads all Root-Admin entities from the shared content root.
 		/// These entities serve as the final guardians of simulated sectors.
 		/// </summary>
 		public static List<AdminData> LoadAll()
@@ -23,31 +15,7 @@ namespace System_Overload.GameEngine.Systems.Loaders
 			if (_cachedAdmins != null)
 				return _cachedAdmins;
 
-			// Points to Documents/System_Overload/Data/admins
-			var folderPath = GameState.GetGlobalPath("admins");
-			Directory.CreateDirectory(folderPath);
-
-			var admins = new List<AdminData>();
-			var jsonFiles = Directory.GetFiles(folderPath, "*.json");
-
-			foreach (var filePath in jsonFiles)
-			{
-				try
-				{
-					var jsonContent = File.ReadAllText(filePath);
-					var admin = JsonSerializer.Deserialize<AdminData>(jsonContent, _jsonOptions);
-
-					if (admin != null)
-						admins.Add(admin);
-				}
-				catch (JsonException ex)
-				{
-					// Log error or handle corrupted admin profiles
-					continue;
-				}
-			}
-
-			_cachedAdmins = admins;
+			_cachedAdmins = UniversalLoader.LoadCollection<AdminData>("admins");
 			return _cachedAdmins;
 		}
 
@@ -55,6 +23,8 @@ namespace System_Overload.GameEngine.Systems.Loaders
 		{
 			return LoadAll().FirstOrDefault(a => a.AdminID == adminId);
 		}
+
+		public static void ClearCache() => _cachedAdmins = null;
 	}
 
 	// The Data Structure matching your new admin.json template

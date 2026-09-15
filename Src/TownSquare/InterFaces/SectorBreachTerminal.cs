@@ -1,9 +1,11 @@
-using System_Overload.GameEngine.Systems.Loaders;
+using System_Overload.Src.GameEngine.Systems.Loaders;
+using System_Overload.Src.GameData.Components;
 using System_Overload.Src.GameData.Entities;
 using System_Overload.Src.GameEngine;
 using System_Overload.Src.GameEngine.Flow;
 using System_Overload.Src.GameEngine.Systems;
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
 using Pastel;
 using static System.Console;
 
@@ -27,8 +29,8 @@ namespace Src.TownSquare.InterFaces
 			while (inMenu)
 			{
 				CursorVisible = false;
-				UiFunctions.TitleBar();
-				UiFunctions.DisplayFooter();
+				HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+				HudChrome.DisplayFooter(GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 
 				// Build total list including EXIT
 				var allItems = sectors.Select(s => FormatSectorLine(s)).ToList();
@@ -37,7 +39,7 @@ namespace Src.TownSquare.InterFaces
 				// Calculate visible window
 				var visibleLines = allItems.Skip(scrollOffset).Take(maxVisibleItems).ToList();
 
-				UiEngine.DrawDynamicFrame(
+				GameUiEngine.DrawDynamicFrame(
 					title: $"SECTOR BREACH TERMINAL ({sectors.Count} NODES DETECTED)",
 					lines: visibleLines,
 					hint: "Select a Sector to begin Breach Protocol | [ESC] Back",
@@ -48,19 +50,9 @@ namespace Src.TownSquare.InterFaces
 
 				var key = ReadKey(true).Key;
 
-				if (key == ConsoleKey.UpArrow)
+				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
 				{
-					selectedIndex--;
-					if (selectedIndex < 0) selectedIndex = allItems.Count - 1;
-					if (selectedIndex < scrollOffset) scrollOffset = selectedIndex;
-					if (selectedIndex == allItems.Count - 1) scrollOffset = Math.Max(0, allItems.Count - maxVisibleItems);
-				}
-				else if (key == ConsoleKey.DownArrow)
-				{
-					selectedIndex++;
-					if (selectedIndex >= allItems.Count) selectedIndex = 0;
-					if (selectedIndex >= scrollOffset + maxVisibleItems) scrollOffset = selectedIndex - maxVisibleItems + 1;
-					if (selectedIndex == 0) scrollOffset = 0;
+					(selectedIndex, scrollOffset) = MenuNavigator.HandleVerticalNavScroll(key, selectedIndex, allItems.Count, scrollOffset, maxVisibleItems);
 				}
 				else if (key == ConsoleKey.Enter)
 				{
@@ -102,7 +94,7 @@ namespace Src.TownSquare.InterFaces
 
 			if (log.IsQuestCompleted(sector.Id))
 			{
-				UiFunctions.QuickAlert("This sector has already been purged.");
+				Alerts.QuickAlert("This sector has already been purged.");
 				return;
 			}
 
@@ -110,7 +102,7 @@ namespace Src.TownSquare.InterFaces
 			if (!log.IsQuestAccepted(sector.Id))
 			{
 				log.AcceptQuest(sector.Id);
-				UiFunctions.QuickAlert($"Breach Initialized: {sector.Title}");
+				Alerts.QuickAlert($"Breach Initialized: {sector.Title}");
 			}
 
 			// 1. Run the Sector directly (No AdventureSelector needed!)
@@ -123,12 +115,12 @@ namespace Src.TownSquare.InterFaces
 				log.CompleteQuest(sector.Id);
 				// Rewarding credits based on the new JSON property
 				player.Coins += sector.CompletionCredits;
-				UiFunctions.QuickAlert($"BREACH SUCCESSFUL: {sector.Title}".Pastel("#00FF00"));
+				Alerts.QuickAlert($"BREACH SUCCESSFUL: {sector.Title}".Pastel("#00FF00"));
 				WriteLine($"System rewards distributed: {sector.CompletionCredits} Credits.".Pastel("#FFD700"));
 			}
 			else
 			{
-				UiFunctions.QuickAlert($"BREACH FAILED: Connection Terminated!".Pastel("#FF0000"));
+				Alerts.QuickAlert($"BREACH FAILED: Connection Terminated!".Pastel("#FF0000"));
 			}
 
 			SaveGame.Save();

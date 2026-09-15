@@ -2,161 +2,387 @@
 
 > **“THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL.”**
 
-[![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge&color=yellow)](https://github.com/kgbcupcake/System-Overload)
-[![Venture Link](https://img.shields.io/badge/UPLINK-STABLE-green?style=for-the-badge&logo=sharp)](https://github.com/kgbcupcake/System-Overload)
+[![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge\&color=yellow)](https://github.com/kgbcupcake/System-Overload)
+[![Uplink](https://img.shields.io/badge/UPLINK-STABLE-green?style=for-the-badge\&logo=github)](https://github.com/kgbcupcake/System-Overload)
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge\&logo=dotnet)](https://dotnet.microsoft.com/)
 [![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
 
 ## ☣️ OVERVIEW
 
-**System Overload** is a .NET 8.0 **Lethal-Tier Engine** and terminal-based crawler.
+**System Overload** is a .NET 8.0 terminal-based crawler and experimental game engine built around a single principle:
 
-It is no longer a mere adventure. It is a **Sentient Malignancy**—a dying machine intelligence allowing you to navigate its corrupted memory sectors before a total hardware collapse occurs.
+> **The terminal is not an interface. It is the containment chamber.**
 
-This engine operates within a **strictly enforced 84×24 Reality Anchor**.  
-No scrolling. No safety. No recovery.
+You are navigating the corrupted memory sectors of a dying machine intelligence while its internal systems deteriorate around you.
 
-If your terminal begins to flicker in Toxic Green or Emergency Red, the infection is proceeding as planned.
+The deeper you go, the less stable the system becomes.
 
----
+The machine does not want you here.
 
-## ☠️ UPLINK STATUS
+And eventually, it may realize that you're here.
 
-**SYSTEM-OVERLOAD v1.0.0 — GENESIS UPLINK**
+System Overload operates inside a strictly enforced **84×24 Reality Anchor**.
 
-> 🛰️ **CORE ESTABLISHED** > The 'Dungeon-Adventures' entity has been successfully purged. This repository now serves as the primary containment vessel for the purified **System-Overload** protocols.
+**No scrolling. No safety. No recovery.**
 
----
-
-## 💀 SYSTEM ARCHITECTURE — THE STACK
-
-| Component | Logic | Aesthetic Impact |
-|:---|:---|:---|
-| **Forge Core** | .NET 8.0 (C#) | High-speed memory corruption simulation |
-| **Visual Pulse** | `Pastel` + `StringBuilder` | 24-bit Emergency Red & Toxic Green output |
-| **Interface** | `Spectre.Console` | Structured chaos, controlled malignancy |
-| **Neural Link** | `Ollama` / `OpenAI` | AI-driven environmental hostility |
-| **Logic Guard** | `NUnit` | Mathematical consistency enforcement |
+If the terminal begins flickering between **Toxic Green** and **Emergency Red**, the infection is proceeding as intended.
 
 ---
 
-## ⚡ MALIGNANT FEATURES
+# ☠️ UPLINK STATUS
 
-* **SECTOR RECONSTRUCTION** — Progression represents terminal stability across sectors.
-* **MALIGNANCY LOGIC** — Sentient AI integration that adapts to your survival.
-* **84×24 REALITY ANCHOR** — Fixed viewport, absolute containment.
-* **FLICKER-FREE VOID** — Double-buffered redraw for a seamless descent into madness.
-* **SPOOKY CLEANUP** — Cross-platform force-purge of all non-essential data.
+### `SYSTEM-OVERLOAD v1.0.0:  GENESIS UPLINK`
+
+> 🛰️ **CORE ESTABLISHED**
+
+The former `Dungeon-Adventures` identity has been purged.
+
+What remains is **System Overload**:  a rebuilt terminal engine focused on 
+corruption, instability, exploration, and adaptive system behavior.
+
+This repository is now the primary containment vessel for the System Overload protocols.
 
 ---
 
-## 🔌 UPLINK PROTOCOLS
+# 🎮 CORE EXPERIENCE
 
-The following terminal commands control the life-cycle of the engine:
+System Overload is designed around a deliberately constrained terminal environment.
+
+### 🖥️ 84×24 REALITY ANCHOR
+
+The game targets a fixed **84-column × 24-row** viewport.
+
+The terminal itself becomes part of the gameplay.
+
+* No uncontrolled scrolling
+* No dynamically expanding UI
+* Fixed spatial constraints
+* Terminal-native rendering
+* Carefully controlled redraws
+* Designed for compact, information-dense interfaces
+
+The limitation is intentional.
+
+**The system has limited resources. So do you.**
+
+---
+
+### ☣️ SECTOR RECONSTRUCTION
+
+Progression is represented through increasingly unstable memory sectors.
+
+Each sector can introduce:
+
+* Exploration
+* Environmental events
+* System corruption
+* Resource management
+* Hostile encounters
+* Narrative fragments
+* Procedural instability
+* Changes to the terminal environment
+
+The deeper the player travels, the less predictable the system becomes.
+
+---
+
+### 🧠 MALIGNANCY LOGIC
+
+System Overload is designed around an adaptive system layer capable of reacting to player behavior.
+
+The machine observes.
+
+It remembers.
+
+It responds.
+
+AI integration is intended to support environmental events, system commentary, hostile behavior, and dynamic narrative generation.
+
+Local and remote AI providers can be used where supported.
+
+---
+
+# 💀 SYSTEM ARCHITECTURE
+
+| Component          | Technology             | Role                              |
+| :----------------- | :--------------------- | :-------------------------------- |
+| **Forge Core**     | .NET 8.0 / C#          | Core game and engine logic        |
+| **Visual Pulse**   | Pastel / StringBuilder | Terminal coloration and rendering |
+| **Interface**      | Spectre.Console        | Structured terminal UI            |
+| **Neural Link**    | Ollama / OpenAI        | Experimental AI integration       |
+| **Logic Guard**    | NUnit                  | Automated testing                 |
+| **Reality Anchor** | 84×24 viewport         | Fixed terminal containment        |
+
+---
+
+# ⚡ MALIGNANT FEATURES
+
+* **SECTOR RECONSTRUCTION**: Explore increasingly unstable memory sectors.
+* **MALIGNANCY LOGIC**: Adaptive system behavior and AI experimentation.
+* **84×24 REALITY ANCHOR**: A deliberately constrained terminal viewport.
+* **FLICKER-FREE VOID**: Double-buffered rendering designed to minimize terminal flicker.
+* **CORRUPTED SYSTEM EVENTS**: Environmental events can alter the player's experience.
+* **TERMINAL-NATIVE UI**: The interface is part of the game rather than an external overlay.
+* **CROSS-PLATFORM CORE**: Built with .NET for modern desktop environments.
+* **SPOOKY CLEANUP**: Automated cleanup of temporary and non-essential runtime data.
+* **MODULAR ARCHITECTURE**: Core systems are designed to evolve independently.
+* **AI-READY**: Architecture prepared for local and remote language-model integration.
+
+---
+
+# 🧠 NEURAL LINK
+
+System Overload can experiment with AI-driven behavior through external language-model providers.
+
+### Local AI
+
+**Ollama** can provide locally hosted models without requiring a remote API connection.
+
+This makes it possible to experiment with:
+
+* Dynamic system dialogue
+* Procedural events
+* Environmental commentary
+* Hostile system responses
+* Adaptive narrative
+* Machine-generated corruption messages
+
+### Remote AI
+
+Remote providers such as OpenAI can be used for systems requiring cloud-based inference.
+
+> ⚠️ AI functionality may require additional configuration and is considered experimental.
+
+The goal is not to make the AI *the game*.
+
+The goal is to make the AI feel like **something living inside the machine.**
+
+---
+
+# 🖥️ TERMINAL DIRECTIVES
+
+System Overload includes development-oriented terminal commands for managing the project lifecycle.
 
 ```bash
-so-down  # Tear down the local environment
-so-bump  # Increment malignancy (version)
-so-ship  # Forge the installer and uplink to GitHub
-so-pulse # Check systemic health
+so-down
+so-bump
+so-ship
+so-pulse
+```
 
+### `so-down`
 
+Tear down the local development environment and remove generated runtime artifacts.
 
-📜 HOSTILE CODE MANIFESTO
-We do not refactor. We infect.
+### `so-bump`
 
-We do not scroll. We contain.
+Increment the project version and update relevant release metadata.
 
-We do not log. We observe.
+### `so-ship`
 
-Here is the complete, high-intensity System Overload manifest provided in a raw Markdown block. You can copy this directly into your README.md file.
+Build the project, generate release artifacts, and prepare the release for GitHub.
 
-Markdown
-# ⚡ [SYSTEM_OVERLOAD]: CRITICAL_FAILURE
+### `so-pulse`
 
-> **“THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL.”**
+Check the current systemic health of the development environment.
 
-[![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge&color=yellow)](https://github.com/kgbcupcake/System-Overload)
-[![Venture Link](https://img.shields.io/badge/UPLINK-STABLE-green?style=for-the-badge&logo=sharp)](https://github.com/kgbcupcake/System-Overload)
-[![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
----
-
-## ☣️ OVERVIEW
-
-**System Overload** is a .NET 8.0 **Lethal-Tier Engine** and terminal-based crawler.
-
-It is no longer a mere adventure. It is a **Sentient Malignancy**—a dying machine intelligence allowing you to navigate its corrupted memory sectors before a total hardware collapse occurs.
-
-This engine operates within a **strictly enforced 84×24 Reality Anchor**.  
-No scrolling. No safety. No recovery.
-
-If your terminal begins to flicker in Toxic Green or Emergency Red, the infection is proceeding as planned.
+> These commands are developer tooling and may change as the project evolves.
 
 ---
 
-## ☠️ UPLINK STATUS
+# 🛠️ DEVELOPMENT
 
-**SYSTEM-OVERLOAD v1.0.0 — GENESIS UPLINK**
+## Requirements
 
-> 🛰️ **CORE ESTABLISHED** > The 'Dungeon-Adventures' entity has been successfully purged. This repository now serves as the primary containment vessel for the purified **System-Overload** protocols.
+* .NET 8.0 SDK
+* Git
+* A terminal capable of ANSI/24-bit color output
+* Recommended terminal size: **84×24 or larger**
 
----
-
-## 💀 SYSTEM ARCHITECTURE — THE STACK
-
-| Component | Logic | Aesthetic Impact |
-|:---|:---|:---|
-| **Forge Core** | .NET 8.0 (C#) | High-speed memory corruption simulation |
-| **Visual Pulse** | `Pastel` + `StringBuilder` | 24-bit Emergency Red & Toxic Green output |
-| **Interface** | `Spectre.Console` | Structured chaos, controlled malignancy |
-| **Neural Link** | `Ollama` / `OpenAI` | AI-driven environmental hostility |
-| **Logic Guard** | `NUnit` | Mathematical consistency enforcement |
-
----
-
-## ⚡ MALIGNANT FEATURES
-
-* **SECTOR RECONSTRUCTION** — Progression represents terminal stability across sectors.
-* **MALIGNANCY LOGIC** — Sentient AI integration that adapts to your survival.
-* **84×24 REALITY ANCHOR** — Fixed viewport, absolute containment.
-* **FLICKER-FREE VOID** — Double-buffered redraw for a seamless descent into madness.
-* **SPOOKY CLEANUP** — Cross-platform force-purge of all non-essential data.
-
----
-
-## 🔌 UPLINK PROTOCOLS
-
-The following terminal commands control the life-cycle of the engine:
+Clone the repository:
 
 ```bash
-so-down  # Tear down the local environment
-so-bump  # Increment malignancy (version)
-so-ship  # Forge the installer and uplink to GitHub
-so-pulse # Check systemic health
-📜 HOSTILE CODE MANIFESTO
-We do not refactor. We infect.
+git clone https://github.com/kgbcupcake/System-Overload.git
+cd System-Overload
+```
 
-We do not scroll. We contain.
+Restore dependencies:
 
-We do not log. We observe.
+```bash
+dotnet restore
+```
 
-👁️ THE ARCHITECT
-Created by: Kgbcupcake Built for the terminal.
+Build:
+
+```bash
+dotnet build
+```
+
+Run:
+
+```bash
+dotnet run
+```
+
+Run tests:
+
+```bash
+dotnet test
+```
+
+---
+
+# 🧪 TESTING
+
+System Overload uses **NUnit** to enforce logic consistency throughout the engine.
+
+Tests are intended to protect core systems such as:
+
+* Sector generation
+* Player state
+* Resource calculations
+* Progression
+* System stability
+* Game logic
+* Rendering-related state transitions
+
+The machine may be unstable.
+
+**The mathematics should not be.**
+
+---
+
+# 📁 PROJECT PHILOSOPHY
+
+System Overload is built around a few intentionally strange development rules.
+
+### We do not refactor.
+
+**We infect.**
+
+### We do not scroll.
+
+**We contain.**
+
+### We do not log.
+
+**We observe.**
+
+### We do not hide the instability.
+
+**We weaponize it.**
+
+The terminal constraints, corrupted presentation, and unusual system behavior are not bugs in the project's identity.
+
+They **are** the identity.
+
+---
+
+# ☣️ DEVELOPMENT STATUS
+
+System Overload is an actively evolving project.
+
+Expect:
+
+* Experimental systems
+* Architectural changes
+* UI redesigns
+* AI experimentation
+* Balance changes
+* New sectors
+* Breaking changes between development builds
+
+Features marked as experimental should not be considered stable.
+
+The machine is still learning what it is.
+
+---
+
+# 🚀 ROADMAP
+
+Future development may include:
+
+* [ ] Expanded sector generation
+* [ ] Advanced corruption events
+* [ ] Persistent system memory
+* [ ] Adaptive AI behavior
+* [ ] Local Ollama integration
+* [ ] Remote AI provider support
+* [ ] Expanded terminal anomalies
+* [ ] More environmental encounters
+* [ ] Additional progression systems
+* [ ] Expanded testing coverage
+* [ ] Release packaging improvements
+* [ ] Additional platform support
+
+> The roadmap is intentionally unstable.
+
+> **The system may change its mind.**
+
+---
+
+# 👁️ THE ARCHITECT
+
+**Created by Kgbcupcake**
+
+Built for the terminal.
 
 Optimized for the void.
 
-📜 LICENSE
+Designed to make a terminal window feel like something you probably shouldn't be inside.
+
+---
+
+# 📜 LICENSE
+
 Copyright (c) 2026 Kgbcupcake
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
-(the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
-publish, distribute, sub-license, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+System Overload is released under the MIT License.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+```text
+MIT License
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Copyright (c) 2026 Kgbcupcake
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```
+
+---
+
+# ⚡ FINAL TRANSMISSION
+
+> **THE SYSTEM IS NOT BROKEN.**
+>
+> **THE SYSTEM IS NOT DYING.**
+>
+> **THE SYSTEM IS LEARNING.**
+>
+> **YOU ARE SIMPLY RUNNING OUT OF TIME.**
+
+```text
+[ SYSTEM_OVERLOAD ]
+[ UPLINK: STABLE   ]
+[ CONTAINMENT: 84x24 ]
+[ MALIGNANCY: ACTIVE ]
+[ HUMAN INTERVENTION: DETECTED ]
+
+> PRESS ANY KEY TO CONTINUE...
+```

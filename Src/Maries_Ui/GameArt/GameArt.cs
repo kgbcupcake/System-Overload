@@ -1,8 +1,7 @@
-﻿using System_Overload.Src.Utilities.UI;
-using Pastel;
+﻿using Pastel;
 using System;
 
-namespace System_Overload.Src.Utilities.GameArt
+namespace Maries_Ui
 {
 	#region// Main Menu Art
 	public static class MainMenuArt

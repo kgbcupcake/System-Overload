@@ -11,15 +11,15 @@ namespace System_Overload.Utilities
 	{
 		public static bool EnableContentGeneration { get; set; } = false;
 
-		public static void WriteJson<T>(string filePath, T data)
+		public static void WriteJson<T>(string filePath, T data, bool overwrite = false, JsonSerializerOptions? options = null)
 		{
-			if (!EnableContentGeneration)
+			if (!EnableContentGeneration && !overwrite)
 				return;
 
-			if (File.Exists(filePath))
+			if (File.Exists(filePath) && !overwrite)
 				return;
 
-			var options = new JsonSerializerOptions { WriteIndented = true };
+			options ??= new JsonSerializerOptions { WriteIndented = true };
 			string jsonString = JsonSerializer.Serialize(data, options);
 			File.WriteAllText(filePath, jsonString);
 		}

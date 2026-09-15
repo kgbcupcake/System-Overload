@@ -1,8 +1,6 @@
-﻿using System_Overload.Src.GameData.Components;
 using System_Overload.Src.GameData.Entities;
-using System.Text.Json;
 
-namespace System_Overload.Src.GameData.Loaders
+namespace System_Overload.Src.GameEngine.Systems.Loaders
 {
 	public static class DronesLoader
 	{
@@ -13,35 +11,7 @@ namespace System_Overload.Src.GameData.Loaders
 		{
 			if (_cache != null) return _cache;
 
-			_cache = new List<NewEnemyData>();
-			string dronesDir = GameState.GetGlobalPath("drones");
-
-			if (!Directory.Exists(dronesDir)) return _cache;
-
-			// Change: Get every .json file in the drones directory
-			string[] filePaths = Directory.GetFiles(dronesDir, "*.json");
-
-			foreach (string path in filePaths)
-			{
-				try
-				{
-					string json = File.ReadAllText(path);
-					var dronesFromFile = JsonSerializer.Deserialize<List<NewEnemyData>>(json, new JsonSerializerOptions
-					{
-						PropertyNameCaseInsensitive = true
-					});
-
-					if (dronesFromFile != null)
-					{
-						_cache.AddRange(dronesFromFile);
-					}
-				}
-				catch (JsonException ex)
-				{
-					Console.WriteLine($"[DRONE LOAD ERROR] Corruption in {path}: {ex.Message}");
-				}
-			}
-
+			_cache = UniversalLoader.LoadCollection<NewEnemyData>("drones");
 			return _cache;
 		}
 
@@ -56,5 +26,7 @@ namespace System_Overload.Src.GameData.Loaders
 		{
 			return LoadAll().FirstOrDefault(e => e.Id == id);
 		}
+
+		public static void ClearCache() => _cache = null;
 	}
 }

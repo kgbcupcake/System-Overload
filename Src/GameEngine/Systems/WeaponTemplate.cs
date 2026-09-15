@@ -1,11 +1,11 @@
 ﻿using System_Overload.Src.GameData.Components;
+using System_Overload.Src.GameEngine.Systems.Loaders;
+using System_Overload.Utilities;
 using Src.GameData.Components;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Src.GameEngine.Systems
 {
@@ -17,23 +17,27 @@ public class WeaponTemplate
 	public string Description { get; set; } = "No Description";
 	public ItemRarity Rarity { get; set; } = ItemRarity.Common;
 
+	private static List<WeaponTemplate>? _cache;
+
 	public static List<WeaponTemplate> LoadWeaponTemplates()
 	{
-		string path = Path.Combine(GameState.MasterPath, "Saves", "weapons", "master_weapons.json");
-		if (!File.Exists(path)) return new List<WeaponTemplate>();
-		try
-		{
-			return JsonSerializer.Deserialize<List<WeaponTemplate>>(File.ReadAllText(path)) ?? new List<WeaponTemplate>();
-		}
-		catch { return new List<WeaponTemplate>(); }
+		if (_cache != null) return _cache;
+
+		_cache = UniversalLoader.LoadCollection<WeaponTemplate>("weapon_templates");
+		return _cache;
 	}
 
 	public static void SaveToMaster(WeaponTemplate weapon)
 	{
-		string path = Path.Combine(GameState.MasterPath, "Saves", "weapons", "master_weapons.json");
 		var list = LoadWeaponTemplates();
 		list.Add(weapon);
-		File.WriteAllText(path, JsonSerializer.Serialize(list, new JsonSerializerOptions { WriteIndented = true }));
+
+		string path = Path.Combine(GameState.GetGlobalPath("weapon_templates"), "master_weapons.json");
+		JsonContentWriter.WriteJson(path, list, overwrite: true);
+
+		ClearCache();
 	}
+
+	public static void ClearCache() => _cache = null;
 }
 }

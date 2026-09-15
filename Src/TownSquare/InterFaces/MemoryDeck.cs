@@ -1,6 +1,6 @@
 ﻿using System_Overload.Src.GameData.Components;
 using System_Overload.Src.GameData.Entities;
-using System_Overload.Src.Utilities.UI;
+using Maries_Ui;
 using Pastel;
 using Src.GameData.Components;
 using System.Collections.Generic;
@@ -91,11 +91,8 @@ namespace Src.TownSquare.InterFaces
 				switch (key)
 				{
 					case ConsoleKey.UpArrow:
-						selectedIndex = (selectedIndex == 0) ? options.Count - 1 : selectedIndex - 1;
-						break;
-
 					case ConsoleKey.DownArrow:
-						selectedIndex = (selectedIndex == options.Count - 1) ? 0 : selectedIndex + 1;
+						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, options.Count);
 						break;
 
 					case ConsoleKey.Enter:

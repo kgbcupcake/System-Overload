@@ -1,5 +1,6 @@
 ﻿using System_Overload.Src.GameEngine; // Added for SaveGame
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.GameData.Components;
+using Maries_Ui;
 using Pastel;
 using Src.GameData.Components;
 using Src.TownSquare;
@@ -9,6 +10,11 @@ namespace System_Overload.Src.GameEngine.Combat
 {
 	public static class CombatEncounter
 	{
+		private static void DrawTitleBar()
+		{
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+		}
+
 		public static bool Start(Combatant player, Combatant enemy)
 		{
 			int selectedIndex = 0;
@@ -45,14 +51,9 @@ namespace System_Overload.Src.GameEngine.Combat
 					// 3. Handle Input
 					var key = Console.ReadKey(true).Key;
 
-					if (key == ConsoleKey.UpArrow)
+					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
 					{
-						selectedIndex = (selectedIndex == 0) ? menuOptions.Length - 1 : selectedIndex - 1;
-						// No 'turnActionTaken = true' here, so it just loops and redraws the menu
-					}
-					else if (key == ConsoleKey.DownArrow)
-					{
-						selectedIndex = (selectedIndex == menuOptions.Length - 1) ? 0 : selectedIndex + 1;
+						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, menuOptions.Length);
 					}
 					else if (key == ConsoleKey.Enter)
 					{
@@ -105,7 +106,7 @@ namespace System_Overload.Src.GameEngine.Combat
 						else if (selectedIndex == 3) // RETREAT
 						{
 							Console.Clear();
-							UiFunctions.TitleBar();
+							DrawTitleBar();
 							Console.WriteLine("\n  You turned tail and fled!");
 							Console.ReadKey(true);
 							return false;
@@ -122,7 +123,7 @@ namespace System_Overload.Src.GameEngine.Combat
 		private static void RefreshCombatUI(Combatant player, Combatant enemy)
 		{
 			Console.Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 
 			// 1. ENEMY SECTION
 			Console.WriteLine($"\n  [ HOSTILE SOURCE: {enemy.Name.ToUpper().Pastel("#FF4500")} ]");
@@ -168,7 +169,7 @@ namespace System_Overload.Src.GameEngine.Combat
 		private static void EndCombat(Combatant player, Combatant enemy)
 		{
 			Console.Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 
 			if (player.Health <= 0)
 			{
@@ -210,8 +211,7 @@ namespace System_Overload.Src.GameEngine.Combat
 				Console.WriteLine("  [ESC] Cancel | [ENTER] Use");
 
 				var key = Console.ReadKey(true).Key;
-				if (key == ConsoleKey.UpArrow) itemIndex = (itemIndex == 0) ? items.Count - 1 : itemIndex - 1;
-				else if (key == ConsoleKey.DownArrow) itemIndex = (itemIndex == items.Count - 1) ? 0 : itemIndex + 1;
+				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) itemIndex = MenuNavigator.HandleVerticalNav(key, itemIndex, items.Count);
 				else if (key == ConsoleKey.Escape) choosing = false;
 				else if (key == ConsoleKey.Enter)
 				{
