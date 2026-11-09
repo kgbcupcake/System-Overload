@@ -2,16 +2,39 @@
   "AdminID": "admin_sentinel_v1",
   "SystemName": "ROOT//SENTINEL",
   "AccessLevel": "ROOT_ADMIN",
-  "Stats": { "Integrity": 300, "ProcessingPower": 32, "CorruptionRate": 1.25 },
+  "Level": 10,
+  "XpReward": 400,
+  "CoinReward": 250,
+  "Stats": {
+    "Integrity": 225,
+    "ProcessingPower": 19,
+    "Firewall": 11,
+    "CorruptionRate": 1.25
+  },
   "CombatLogic": {
     "PrimaryAttack": "Permission Revoke",
     "SecondaryAttack": "Recursive Purge",
-    "SpecialAbility": "Kernel Panic"
+    "SpecialAbility": "Kernel Panic",
+    "SpecialEvery": 3
   },
-  "Visuals": { "HexColor": "#B3001B", "GlitchIntensity": 0.7, "AsciiArtRef": "sentinel" },
+  "Visuals": {
+    "HexColor": "#B3001B",
+    "GlitchIntensity": 0.7,
+    "AsciiArtRef": "sentinel"
+  },
   "DropTable": [
-    { "ItemID": "Root Shard", "Chance": 0.35 },
-    { "ItemID": "Overclocked Coolant", "Chance": 0.6 }
+    {
+      "ItemID": "Root Shard",
+      "Chance": 0.35
+    },
+    {
+      "ItemID": "Null Pointer",
+      "Chance": 0.15
+    },
+    {
+      "ItemID": "Overclocked Coolant",
+      "Chance": 0.6
+    }
   ],
   "Dialogue": {
     "OnBreach": "Unauthorized user detected. Initiating deletion.",

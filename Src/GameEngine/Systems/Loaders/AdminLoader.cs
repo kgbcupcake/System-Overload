@@ -73,6 +73,9 @@ namespace System_Overload.GameEngine.Systems.Loaders
 		public string AdminID { get; set; } = "";
 		public string SystemName { get; set; } = "";
 		public string AccessLevel { get; set; } = "ROOT_ADMIN";
+		public int Level { get; set; } = 10;
+		public int XpReward { get; set; } = 300;
+		public int CoinReward { get; set; } = 200;
 
 		public AdminStats Stats { get; set; } = new();
 		public AdminCombat CombatLogic { get; set; } = new();
@@ -86,7 +89,8 @@ namespace System_Overload.GameEngine.Systems.Loaders
 	{
 		public int Integrity { get; set; } // HP
 		public int ProcessingPower { get; set; } // Attack Power
-		public double CorruptionRate { get; set; } // Speed/Difficulty Multiplier
+		public int Firewall { get; set; } = 10; // Defense
+		public double CorruptionRate { get; set; } // Damage multiplier once below half Integrity (enraged)
 	}
 
 	public class AdminCombat
@@ -94,6 +98,8 @@ namespace System_Overload.GameEngine.Systems.Loaders
 		public string PrimaryAttack { get; set; } = "";
 		public string SecondaryAttack { get; set; } = "";
 		public string SpecialAbility { get; set; } = "";
+		/// <summary>Uses SpecialAbility (1.5x damage, can't miss) every this many turns. 0 = never.</summary>
+		public int SpecialEvery { get; set; } = 3;
 	}
 
 	public class AdminVisuals
@@ -106,7 +112,7 @@ namespace System_Overload.GameEngine.Systems.Loaders
 	public class AdminDrop
 	{
 		public string ItemID { get; set; } = "";
-		public double Chance { get; set; }
+		public double Chance { get; set; } // 0-1, e.g. 0.35 = 35%
 	}
 
 	public class AdminDialogue

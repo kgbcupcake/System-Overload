@@ -121,8 +121,7 @@ namespace Src.TownSquare.InterFaces
 			if (isVictory && player.Health > 0)
 			{
 				log.CompleteQuest(sector.Id);
-				// Rewarding credits based on the new JSON property
-				player.Coins += sector.CompletionCredits;
+				// Completion credits and XP are already paid by SimulationExecutor.Run.
 				UiFunctions.QuickAlert($"BREACH SUCCESSFUL: {sector.Title}".Pastel("#00FF00"));
 				WriteLine($"System rewards distributed: {sector.CompletionCredits} Credits.".Pastel("#FFD700"));
 			}

@@ -1,0 +1,44 @@
+{
+  "AdminID": "admin_kernel_reaper",
+  "SystemName": "KERNEL//REAPER",
+  "AccessLevel": "KERNEL_ADMIN",
+  "Level": 7,
+  "XpReward": 260,
+  "CoinReward": 160,
+  "Stats": {
+    "Integrity": 200,
+    "ProcessingPower": 18,
+    "Firewall": 10,
+    "CorruptionRate": 1.35
+  },
+  "CombatLogic": {
+    "PrimaryAttack": "SIGKILL",
+    "SecondaryAttack": "Zombie Process",
+    "SpecialAbility": "OOM Killer",
+    "SpecialEvery": 3
+  },
+  "Visuals": {
+    "HexColor": "#8A2BE2",
+    "GlitchIntensity": 0.6,
+    "AsciiArtRef": "kernel_reaper"
+  },
+  "DropTable": [
+    {
+      "ItemID": "Thermal Lance",
+      "Chance": 0.3
+    },
+    {
+      "ItemID": "Arc Capacitor",
+      "Chance": 0.4
+    },
+    {
+      "ItemID": "Overclocked Coolant",
+      "Chance": 0.6
+    }
+  ],
+  "Dialogue": {
+    "OnBreach": "Every process ends. I decide when.",
+    "OnDamage": "Your priority is... rising? Impossible.",
+    "OnDeletion": "kill -9... self..."
+  }
+}

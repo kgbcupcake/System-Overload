@@ -42,7 +42,7 @@ namespace System_Overload.Src.GameEngine.Flow
 					var enemyCombatant = EnemyFactory.CreateEnemy(stage.EnemyId);
 
 					// CombatEncounter.Start returns false if the player dies OR runs
-					bool playerWon = CombatEncounter.Start(playerCombatant, enemyCombatant);
+					bool playerWon = CombatEncounter.Start(playerCombatant, enemyCombatant, player);
 
 					// Sync health back to the player object immediately
 					player.Health = playerCombatant.Health;

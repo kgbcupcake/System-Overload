@@ -1,18 +1,31 @@
-﻿using System_Overload.Src.GameEngine; // Added for SaveGame
+﻿﻿using System_Overload.Src.GameEngine; // Added for SaveGame
+using System_Overload.Src.GameData.Entities;
+using System_Overload.Src.GameEngine.Systems.Loaders;
 using System_Overload.Src.Utilities.UI;
 using Pastel;
 using Src.GameData.Components;
-using Src.TownSquare;
 using static System_Overload.Src.GameEngine.Combat.DamageCalculator;
 
 namespace System_Overload.Src.GameEngine.Combat
 {
 	public static class CombatEncounter
 	{
-		public static bool Start(Combatant player, Combatant enemy)
+		private static readonly Random _rng = new();
+
+		/// <summary>
+		/// Runs one fight. Returns true if the player won.
+		/// </summary>
+		/// <param name="owner">
+		/// The player profile behind <paramref name="player"/>. When given, XP, coins and
+		/// drops are awarded to it and its health is synced before saving.
+		/// </param>
+		public static bool Start(Combatant player, Combatant enemy, PlayerData.loadPlayer? owner = null)
 		{
 			int selectedIndex = 0;
 			string[] menuOptions = { "ATTACK", "INVENTORY", "SPECIAL", "RETREAT" };
+
+			if (enemy.IsBoss)
+				ShowBossIntro(player, enemy);
 
 			while (player.Health > 0 && enemy.Health > 0)
 			{
@@ -48,7 +61,6 @@ namespace System_Overload.Src.GameEngine.Combat
 					if (key == ConsoleKey.UpArrow)
 					{
 						selectedIndex = (selectedIndex == 0) ? menuOptions.Length - 1 : selectedIndex - 1;
-						// No 'turnActionTaken = true' here, so it just loops and redraws the menu
 					}
 					else if (key == ConsoleKey.DownArrow)
 					{
@@ -58,45 +70,25 @@ namespace System_Overload.Src.GameEngine.Combat
 					{
 						if (selectedIndex == 0) // ATTACK
 						{
-							int pDmg = CalculateDamage(player, enemy);
-							enemy.Health -= pDmg;
-
-							RefreshCombatUI(player, enemy);
-							Console.WriteLine($"\n  > You hit {enemy.Name} for {pDmg} damage!");
-
-							if (enemy.Health > 0)
-							{
-								EnemyTurn(player, enemy);
-							}
-							else
-							{
-								Console.WriteLine($"\n  > {enemy.Name} has been slain!");
-								Console.ReadKey(true);
-							}
-
-							turnActionTaken = true; // Ends the player's turn
+							PlayerAttack(player, enemy);
+							turnActionTaken = true;
 						}
 						else if (selectedIndex == 1) // INVENTORY
 						{
-							// FIX: Grab the whole list instead of filtering by EffectType
-							var usableItems = player.Inventory.ToList();
+							var usableItems = player.Inventory
+								.Where(i => i.Type.Equals("Consumable", StringComparison.OrdinalIgnoreCase) && i.Amount > 0)
+								.ToList();
 
 							if (usableItems.Count == 0)
 							{
-								Console.WriteLine("\n  [!] THE BUFFER IS EMPTY. NO ITEMS DETECTED.");
+								Console.WriteLine("\n  [!] NO CONSUMABLES IN BUFFER.");
 								Console.ReadKey(true);
 							}
 							else
 							{
 								UseItemInCombat(player, enemy, usableItems, ref turnActionTaken);
-
-								if (turnActionTaken && enemy.Health > 0)
-								{
-									EnemyTurn(player, enemy);
-								}
 							}
 						}
-
 						else if (selectedIndex == 2) // SPECIAL
 						{
 							Console.WriteLine("\n  Special abilities are currently locked!");
@@ -104,18 +96,144 @@ namespace System_Overload.Src.GameEngine.Combat
 						}
 						else if (selectedIndex == 3) // RETREAT
 						{
+							if (enemy.IsBoss)
+							{
+								Console.WriteLine("\n  " + "[ROOT LOCK] Exit ports sealed. There is no retreat from an admin.".Pastel("#FF0000"));
+								Console.ReadKey(true);
+								continue;
+							}
+
 							Console.Clear();
 							UiFunctions.TitleBar();
 							Console.WriteLine("\n  You turned tail and fled!");
 							Console.ReadKey(true);
+							if (owner != null)
+								owner.Health = player.Health;
 							return false;
 						}
 					}
 				}
+
+				// The enemy answers every action that used up the player's turn.
+				if (enemy.Health > 0 && player.Health > 0)
+					EnemyTurn(player, enemy);
 			}
 
-			EndCombat(player, enemy);
+			EndCombat(player, enemy, owner);
 			return player.Health > 0;
+		}
+
+		// ---------------------------------------------------------------- turns
+
+		private static void PlayerAttack(Combatant player, Combatant enemy)
+		{
+			var result = Roll(player, enemy);
+			if (result.Hit)
+				enemy.Health = Math.Max(0, enemy.Health - result.Damage);
+
+			RefreshCombatUI(player, enemy);
+			if (!result.Hit)
+				Console.WriteLine($"\n  > Your attack misses {enemy.Name}.".Pastel("#888888"));
+			else if (result.Critical)
+				Console.WriteLine($"\n  > CRITICAL! You {player.AttackVerb} {result.Damage} damage to {enemy.Name}!".Pastel("#FFD700"));
+			else
+				Console.WriteLine($"\n  > You {player.AttackVerb} {result.Damage} damage to {enemy.Name}.");
+
+			if (enemy.Health <= 0)
+				Console.WriteLine($"\n  > {enemy.Name} has been deleted!".Pastel("#00FF00"));
+			else
+				CheckEnrage(enemy);
+
+			Console.WriteLine("\n  Press any key...");
+			Console.ReadKey(true);
+		}
+
+		/// <summary>A boss below half health enrages once: it speaks and hits harder.</summary>
+		private static void CheckEnrage(Combatant enemy)
+		{
+			var boss = enemy.Boss;
+			if (boss == null || boss.Enraged || enemy.Health > enemy.MaxHealth / 2)
+				return;
+
+			boss.Enraged = true;
+			if (!string.IsNullOrWhiteSpace(boss.OnDamage))
+				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnDamage}\"".Pastel(boss.HexColor));
+			if (boss.EnrageMultiplier > 1.0)
+				Console.WriteLine($"  [!] {enemy.Name.ToUpper()} IS ENRAGED. Damage x{boss.EnrageMultiplier:0.##}".Pastel("#FF0000"));
+		}
+
+		private static void EnemyTurn(Combatant player, Combatant enemy)
+		{
+			if (enemy.SkipTurns > 0)
+			{
+				enemy.SkipTurns--;
+				RefreshCombatUI(player, enemy);
+				Console.WriteLine($"\n  > {enemy.Name} is stalled and loses its turn.".Pastel("#00FFFF"));
+				Console.WriteLine("\n  Press any key for the next turn...");
+				Console.ReadKey(true);
+				return;
+			}
+
+			string message;
+			var boss = enemy.Boss;
+			if (boss != null)
+			{
+				boss.TurnCount++;
+				double multiplier = boss.Enraged ? boss.EnrageMultiplier : 1.0;
+				bool special = boss.SpecialEvery > 0 && boss.TurnCount % boss.SpecialEvery == 0
+					&& !string.IsNullOrWhiteSpace(boss.SpecialAbility);
+
+				if (special)
+				{
+					var result = Roll(enemy, player, multiplier * 1.5, alwaysHit: true);
+					player.Health = Math.Max(0, player.Health - result.Damage);
+					message = $"\n  >> {enemy.Name} executes {boss.SpecialAbility.ToUpper()} for {result.Damage} damage!".Pastel("#FF0000");
+				}
+				else
+				{
+					string attack = boss.AttackNames.Count > 0 ? boss.AttackNames[_rng.Next(boss.AttackNames.Count)] : "an attack";
+					var result = Roll(enemy, player, multiplier);
+					if (result.Hit)
+						player.Health = Math.Max(0, player.Health - result.Damage);
+					message = !result.Hit
+						? $"\n  > {enemy.Name} uses {attack}... and misses."
+						: $"\n  > {enemy.Name} uses {attack} for {result.Damage} damage{(result.Critical ? " (CRITICAL)" : "")}!".Pastel(boss.HexColor);
+				}
+			}
+			else
+			{
+				var result = Roll(enemy, player);
+				if (result.Hit)
+					player.Health = Math.Max(0, player.Health - result.Damage);
+				message = !result.Hit
+					? $"\n  > {enemy.Name} {enemy.AttackVerb} and misses."
+					: result.Critical
+						? $"\n  > CRITICAL! {enemy.Name} {enemy.AttackVerb} for {result.Damage} damage!".Pastel("#FF4500")
+						: $"\n  > {enemy.Name} {enemy.AttackVerb} for {result.Damage} damage!";
+			}
+
+			RefreshCombatUI(player, enemy);
+			Console.WriteLine(message);
+			Console.WriteLine("\n  Press any key for the next turn...");
+			Console.ReadKey(true);
+		}
+
+		// ---------------------------------------------------------------- screens
+
+		private static void ShowBossIntro(Combatant player, Combatant enemy)
+		{
+			var boss = enemy.Boss!;
+			Console.Clear();
+			UiFunctions.TitleBar();
+			Console.WriteLine();
+			Console.WriteLine("  ╔══════════════════════════════════════════════╗".Pastel(boss.HexColor));
+			Console.WriteLine($"  ║  {"!! ROOT-ADMIN PROCESS DETECTED !!".PadRight(44)}║".Pastel(boss.HexColor));
+			Console.WriteLine("  ╚══════════════════════════════════════════════╝".Pastel(boss.HexColor));
+			Console.WriteLine($"\n  {enemy.Name.ToUpper()}  //  LVL {enemy.Level}  //  INTEGRITY {enemy.MaxHealth}".Pastel(boss.HexColor));
+			if (!string.IsNullOrWhiteSpace(boss.OnBreach))
+				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnBreach}\"");
+			Console.WriteLine("\n  Press any key to engage...");
+			Console.ReadKey(true);
 		}
 
 		// Combined UI Refresh to prevent "flicker" or "lag"
@@ -125,13 +243,17 @@ namespace System_Overload.Src.GameEngine.Combat
 			UiFunctions.TitleBar();
 
 			// 1. ENEMY SECTION
-			Console.WriteLine($"\n  [ HOSTILE SOURCE: {enemy.Name.ToUpper().Pastel("#FF4500")} ]");
+			string enemyColor = enemy.Boss?.HexColor ?? "#FF4500";
+			string tag = enemy.IsBoss ? (enemy.Boss!.Enraged ? "ROOT-ADMIN // ENRAGED" : "ROOT-ADMIN") : "HOSTILE SOURCE";
+			Console.WriteLine($"\n  [ {tag}: {enemy.Name.ToUpper().Pastel(enemyColor)} ]  LVL {enemy.Level}");
 			DrawHealthBar(enemy.Health, enemy.MaxHealth, true);
 			Console.WriteLine(new string('·', 50).Pastel("#333333"));
 
 			// 2. PLAYER SECTION
-			Console.WriteLine($"\n  [ USER IDENTITY: {player.Name.ToUpper().Pastel("#00FFFF")} ]");
+			Console.WriteLine($"\n  [ USER IDENTITY: {player.Name.ToUpper().Pastel("#00FFFF")} ]  LVL {player.Level}");
 			DrawHealthBar(player.Health, player.MaxHealth, false);
+			string defense = player.BonusDefense > 0 ? $"{player.Defense}+{player.BonusDefense}" : $"{player.Defense}";
+			Console.WriteLine($"  DMG {player.MinDamage}-{player.MaxDamage}  DEF {defense}  CRIT {player.CritChance}%  HIT {HitChance(player, enemy)}%".Pastel("#888888"));
 			Console.WriteLine(new string('═', 50).Pastel("#333333"));
 		}
 
@@ -151,21 +273,8 @@ namespace System_Overload.Src.GameEngine.Combat
 
 			Console.WriteLine($"  {bar}{empty} {current}/{max} HP");
 		}
-		private static void EnemyTurn(Combatant player, Combatant enemy)
-		{
-			int eDmg = CalculateDamage(enemy, player);
-			player.Health -= eDmg;
 
-			// Refresh UI immediately after the player takes damage
-			RefreshCombatUI(player, enemy);
-
-			// Show the log after the bar has updated
-			Console.WriteLine($"\n  > {enemy.Name} strikes back for {eDmg} damage!");
-			Console.WriteLine("\n  Press any key for the next turn...");
-			Console.ReadKey(true);
-		}
-
-		private static void EndCombat(Combatant player, Combatant enemy)
+		private static void EndCombat(Combatant player, Combatant enemy, PlayerData.loadPlayer? owner)
 		{
 			Console.Clear();
 			UiFunctions.TitleBar();
@@ -178,8 +287,16 @@ namespace System_Overload.Src.GameEngine.Combat
 			else
 			{
 				Console.WriteLine("\n  " + "--- VICTORY ---".Pastel("#00FF00"));
-				Console.WriteLine($"  The {enemy.Name} has been slain!");
+				if (enemy.Boss is { } boss && !string.IsNullOrWhiteSpace(boss.OnDeletion))
+					Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnDeletion}\"".Pastel(boss.HexColor));
+				Console.WriteLine($"\n  {enemy.Name} has been deleted.");
+
+				if (owner != null)
+					GrantRewards(owner, enemy);
 			}
+
+			if (owner != null)
+				owner.Health = player.Health;
 
 			// Sync to JSON immediately upon combat end
 			SaveGame.Save();
@@ -188,6 +305,51 @@ namespace System_Overload.Src.GameEngine.Combat
 			Console.ReadKey(true);
 		}
 
+		private static void GrantRewards(PlayerData.loadPlayer owner, Combatant enemy)
+		{
+			int levelBefore = owner.Level;
+			if (enemy.XpReward > 0)
+				owner.AddXP(enemy.XpReward);
+			if (enemy.CoinReward > 0)
+				owner.AddGold(enemy.CoinReward);
+
+			Console.WriteLine($"  Credits harvested: +{enemy.CoinReward}   Memory fragments: +{enemy.XpReward} XP".Pastel("#FFD700"));
+			if (owner.Level > levelBefore)
+				Console.WriteLine($"  >> NEURAL CAPACITY EXPANDED: LEVEL {owner.Level}".Pastel("#00FF00"));
+
+			foreach (var (itemName, chance) in enemy.Drops)
+			{
+				if (_rng.NextDouble() >= chance)
+					continue;
+
+				var item = ItemRegistry.CreateCopy(itemName);
+				if (item == null)
+				{
+					Console.WriteLine($"  [?] Corrupted drop: '{itemName}' isn't in the item database.".Pastel("#555555"));
+					continue;
+				}
+
+				AddToInventory(owner, item);
+				Console.WriteLine($"  [+] Recovered: {item.Name} [{item.Rarity}]".Pastel("#00FFFF"));
+			}
+		}
+
+		/// <summary>Stacks non-weapon items with an existing stack of the same name.</summary>
+		private static void AddToInventory(PlayerData.loadPlayer owner, ItemData item)
+		{
+			if (item is not WeaponData)
+			{
+				var stack = owner.Inventory.FirstOrDefault(i => i is not WeaponData && i.Name == item.Name);
+				if (stack != null)
+				{
+					stack.Amount += item.Amount;
+					return;
+				}
+			}
+			owner.Inventory.Add(item);
+		}
+
+		// ---------------------------------------------------------------- items
 
 		private static void UseItemInCombat(Combatant player, Combatant enemy, List<ItemData> items, ref bool turnActionTaken)
 		{
@@ -201,10 +363,11 @@ namespace System_Overload.Src.GameEngine.Combat
 
 				for (int i = 0; i < items.Count; i++)
 				{
+					string line = $"{items[i].Name} x{items[i].Amount} - {DescribeEffect(items[i])}";
 					if (i == itemIndex)
-						Console.WriteLine($"  │ > {items[i].Name} (+{items[i].Value} HP) ".Pastel("#000000").PastelBg("#00FFFF") + "│");
+						Console.WriteLine($"  │ > {line}".Pastel("#000000").PastelBg("#00FFFF"));
 					else
-						Console.WriteLine($"  │   {items[i].Name.PadRight(30)} │");
+						Console.WriteLine($"  │   {line}");
 				}
 				Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#00FFFF"));
 				Console.WriteLine("  [ESC] Cancel | [ENTER] Use");
@@ -215,36 +378,16 @@ namespace System_Overload.Src.GameEngine.Combat
 				else if (key == ConsoleKey.Escape) choosing = false;
 				else if (key == ConsoleKey.Enter)
 				{
-					// --- FIX: Logic moved inside the Enter block ---
 					var selectedItem = items[itemIndex];
-					int healAmount = selectedItem.Value;
+					string feedback = ApplyItem(player, enemy, selectedItem);
 
-					// Calculate actual healing vs waste
-					int spaceAvailable = player.MaxHealth - player.Health;
-					int actualHeal = Math.Min(spaceAvailable, healAmount);
-
-					// 1. APPLY HEAL
-					player.Health += actualHeal;
-
-					// 2. CONSUME ITEM (Subtract from amount and remove if empty)
+					// Consume one from the stack and remove it when empty.
 					selectedItem.Amount--;
 					if (selectedItem.Amount <= 0)
-					{
 						player.Inventory.Remove(selectedItem);
-					}
 
-					// 3. LOG FEEDBACK
 					RefreshCombatUI(player, enemy);
-					if (actualHeal < healAmount)
-					{
-						Console.WriteLine($"\n  > System Restored: +{actualHeal} HP.".Pastel("#00FF00"));
-						Console.WriteLine($"  > {healAmount - actualHeal} units of restorative energy wasted (Over-cap).".Pastel("#555555"));
-					}
-					else
-					{
-						Console.WriteLine($"\n  > System Restored: +{actualHeal} HP via {selectedItem.Name}.".Pastel("#00FF00"));
-					}
-
+					Console.WriteLine(feedback);
 					Console.WriteLine("\n  Press any key...");
 					Console.ReadKey(true);
 
@@ -254,6 +397,37 @@ namespace System_Overload.Src.GameEngine.Combat
 			}
 		}
 
+		private static string DescribeEffect(ItemData item) => item.Effect switch
+		{
+			EffectType.Restorative => $"restore {item.Value} HP",
+			EffectType.Defense => "+5 DEF this fight",
+			EffectType.Speed => "enemy loses its next turn",
+			_ => "no combat effect",
+		};
 
+		/// <summary>Applies a consumable and returns the log line to show.</summary>
+		private static string ApplyItem(Combatant player, Combatant enemy, ItemData item)
+		{
+			switch (item.Effect)
+			{
+				case EffectType.Restorative:
+				{
+					int actualHeal = Math.Min(player.MaxHealth - player.Health, item.Value);
+					player.Health += actualHeal;
+					string line = $"\n  > System Restored: +{actualHeal} HP via {item.Name}.".Pastel("#00FF00");
+					if (actualHeal < item.Value)
+						line += $"\n  > {item.Value - actualHeal} units of restorative energy wasted (Over-cap).".Pastel("#555555");
+					return line;
+				}
+				case EffectType.Defense:
+					player.BonusDefense += 5;
+					return $"\n  > {item.Name} applied: +5 DEF until the fight ends.".Pastel("#00FFFF");
+				case EffectType.Speed:
+					enemy.SkipTurns++;
+					return $"\n  > {item.Name} overclocks you: {enemy.Name} loses its next turn.".Pastel("#00FFFF");
+				default:
+					return $"\n  > {item.Name} hums uselessly. It has no effect in combat.".Pastel("#555555");
+			}
+		}
 	}
 }

@@ -63,6 +63,36 @@ namespace System_Overload.Src.GameEngine.Systems.Loaders
 			Console.WriteLine($"[SYSTEM] Database Synchronized: {AllItems.Count} Items Loaded.");
 
 		}
+		/// <summary>
+		/// Finds an item, weapon or gem by name and returns a fresh copy of it, or null.
+		/// Used for loot drops, which can name anything in the registry.
+		/// </summary>
+		public static ItemData? CreateCopy(string name)
+		{
+			if (AllItems.Count == 0 && AllWeapons.Count == 0 && AllGems.Count == 0)
+				Initialize();
+
+			ItemData? template =
+				(ItemData?)AllWeapons.FirstOrDefault(w => w.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+				?? AllGems.FirstOrDefault(g => g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+				?? AllItems.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+			if (template == null)
+				return null;
+
+			// Round-trip through JSON so the copy keeps its real type (weapon, gem) and all fields.
+			var type = template.GetType();
+			var copy = (ItemData?)JsonSerializer.Deserialize(JsonSerializer.Serialize(template, type, _copyOptions), type, _copyOptions);
+			if (copy != null)
+				copy.Amount = 1;
+			return copy;
+		}
+
+		private static readonly JsonSerializerOptions _copyOptions = new()
+		{
+			Converters = { new JsonStringEnumConverter() }
+		};
+
 		public static ItemData? GetItem(string name)
 		{
 			// 1. Try to find the item (Case-Insensitive)
