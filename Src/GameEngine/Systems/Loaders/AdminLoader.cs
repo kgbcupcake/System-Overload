@@ -35,10 +35,19 @@ namespace System_Overload.GameEngine.Systems.Loaders
 				try
 				{
 					var jsonContent = File.ReadAllText(filePath);
-					var admin = JsonSerializer.Deserialize<AdminData>(jsonContent, _jsonOptions);
-
-					if (admin != null)
-						admins.Add(admin);
+					// A file may hold one admin object or a list of them (MariesGui writes lists).
+					if (jsonContent.TrimStart().StartsWith('['))
+					{
+						var list = JsonSerializer.Deserialize<List<AdminData>>(jsonContent, _jsonOptions);
+						if (list != null)
+							admins.AddRange(list.Where(a => !string.IsNullOrWhiteSpace(a.AdminID)));
+					}
+					else
+					{
+						var admin = JsonSerializer.Deserialize<AdminData>(jsonContent, _jsonOptions);
+						if (admin != null && !string.IsNullOrWhiteSpace(admin.AdminID))
+							admins.Add(admin);
+					}
 				}
 				catch (JsonException ex)
 				{
@@ -58,6 +67,7 @@ namespace System_Overload.GameEngine.Systems.Loaders
 	}
 
 	// The Data Structure matching your new admin.json template
+	[MariesGui.Contracts.MariesGuiContent("admins")]
 	public class AdminData
 	{
 		public string AdminID { get; set; } = "";

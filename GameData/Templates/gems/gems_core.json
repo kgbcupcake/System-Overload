@@ -1,0 +1,6 @@
+[
+  { "Name": "Ember Shard",    "Value": 90,  "Weight": 0.1, "Type": "Gem", "Rarity": "Uncommon", "Effect": "Fire",      "Attributes": ["Fire"],              "Power": 4 },
+  { "Name": "Frost Byte",     "Value": 90,  "Weight": 0.1, "Type": "Gem", "Rarity": "Uncommon", "Effect": "Ice",       "Attributes": ["Ice"],               "Power": 4 },
+  { "Name": "Arc Capacitor",  "Value": 140, "Weight": 0.1, "Type": "Gem", "Rarity": "Rare",     "Effect": "Electric",  "Attributes": ["Electric", "Speed"], "Power": 6 },
+  { "Name": "Leech Crystal",  "Value": 260, "Weight": 0.1, "Type": "Gem", "Rarity": "Epic",     "Effect": "LifeLeech", "Attributes": ["LifeLeech"],         "Power": 9 }
+]

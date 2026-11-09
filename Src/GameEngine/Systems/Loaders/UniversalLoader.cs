@@ -5,19 +5,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System_Overload.Src.GameData.Components;
 
 namespace System_Overload.Src.GameEngine.Systems.Loaders
 {
 	// FIX 1: Wrap the method in a static class named UniversalLoader
 	public static class UniversalLoader
 	{
+		private static readonly JsonSerializerOptions _jsonOptions = new()
+		{
+			PropertyNameCaseInsensitive = true,
+			Converters = { new JsonStringEnumConverter() }
+		};
+
 		public static List<T> LoadCollection<T>(string folderName)
 		{
 			List<T> masterList = new List<T>();
 
-			// This looks in the build folder (bin/Debug/net8.0/Data/...)
-			// This works on WSL, Windows, and for anyone who clones your repo!
-			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", folderName);
+			// Live content lives in Documents/SystemOverload/Corrupted Data/<folder>, seeded from
+			// GameData/Templates on first run and editable with MariesGui.
+			string path = GameState.GetGlobalPath(folderName);
 
 			if (!Directory.Exists(path)) return masterList;
 
@@ -26,10 +34,13 @@ namespace System_Overload.Src.GameEngine.Systems.Loaders
 				try
 				{
 					string json = File.ReadAllText(file);
-					var items = JsonSerializer.Deserialize<List<T>>(json) ?? new List<T>();
+					var items = JsonSerializer.Deserialize<List<T>>(json, _jsonOptions) ?? new List<T>();
 					masterList.AddRange(items);
 				}
-				catch { /* Handle error */ }
+				catch (Exception ex)
+				{
+					Console.WriteLine($"[LOAD ERROR] {Path.GetFileName(file)} in {folderName}: {ex.Message}");
+				}
 			}
 			return masterList;
 		}

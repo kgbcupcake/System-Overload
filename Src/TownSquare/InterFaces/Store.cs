@@ -31,7 +31,7 @@ namespace Src.TownSquare.InterFaces
 			if (ItemRegistry.AllItems.Count == 0)
 			{
 				Console.WriteLine("[CRITICAL ERROR] ItemRegistry is STILL EMPTY after Initialize!");
-				Console.WriteLine("Check Path: " + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Items"));
+				Console.WriteLine("Check Path: " + GameState.GetGlobalPath("items"));
 			}
 
 
@@ -45,13 +45,16 @@ namespace Src.TownSquare.InterFaces
 				p.LastRestockTime = DateTime.Now;
 			}
 
-			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Shops", shopFile);
+			string path = Path.Combine(GameState.GetGlobalPath("shops"), shopFile);
 			List<ItemData> storeInventory = new List<ItemData>();
 
 			if (File.Exists(path))
 			{
 				string json = File.ReadAllText(path);
-				var shopData = JsonSerializer.Deserialize<ShopDefinition>(json) ?? new ShopDefinition();
+				// MariesGui saves shops as a one-element list, so accept either shape.
+				var shopData = (json.TrimStart().StartsWith('[')
+					? JsonSerializer.Deserialize<List<ShopDefinition>>(json)?.FirstOrDefault()
+					: JsonSerializer.Deserialize<ShopDefinition>(json)) ?? new ShopDefinition();
 				foreach (var name in shopData.InventoryRefs)
 				{
 					var template = ItemRegistry.GetItem(name);

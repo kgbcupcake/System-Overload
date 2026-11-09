@@ -2,6 +2,7 @@ using System.Linq;
 
 namespace Src.GameData.Components
 {
+	[MariesGui.Contracts.MariesGuiContent("weapons")]
 	public class WeaponData : ItemData
 	{
 

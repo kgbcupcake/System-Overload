@@ -2,9 +2,10 @@ using System.Text.Json.Serialization;
 
 namespace System_Overload.Src.GameData.Entities
 {
+    [MariesGui.Contracts.MariesGuiContent("drones")]
     public class NewEnemyData
     {
-        [JsonIgnore]
+        [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
 
         [JsonPropertyName("name")]

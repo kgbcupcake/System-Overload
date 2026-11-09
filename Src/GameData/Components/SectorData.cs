@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace System_Overload.Src.GameData.Entities
 {
+	[MariesGui.Contracts.MariesGuiContent("sectors")]
 	public class SectorData
 	{
 		public string Id { get; set; } = "";

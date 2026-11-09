@@ -1,0 +1,7 @@
+[
+  { "Name": "Kinetic Breacher", "Damage": 18, "MinDamage": 14, "MaxDamage": 22, "MagSize": 10, "AmmoType": "12ga",      "CritChance": 5,  "Value": 250, "Weight": 12,  "Type": "Heavy",   "Rarity": "Common",   "Effect": "Defense",  "Durability": 100, "LevelReq": 0, "NumSockets": 2 },
+  { "Name": "Static Shiv",      "Damage": 11, "MinDamage": 8,  "MaxDamage": 14, "MagSize": 0,  "AmmoType": "None",      "CritChance": 15, "Value": 120, "Weight": 1.5, "Type": "Melee",   "Rarity": "Common",   "Effect": "Electric", "Durability": 80,  "LevelReq": 0, "NumSockets": 1 },
+  { "Name": "Packet Repeater",  "Damage": 14, "MinDamage": 10, "MaxDamage": 18, "MagSize": 30, "AmmoType": "9mm",       "CritChance": 8,  "Value": 320, "Weight": 4,   "Type": "Firearm", "Rarity": "Uncommon", "Effect": "None",     "Durability": 100, "LevelReq": 2, "NumSockets": 1 },
+  { "Name": "Thermal Lance",    "Damage": 26, "MinDamage": 20, "MaxDamage": 32, "MagSize": 4,  "AmmoType": "Plasma",    "CritChance": 6,  "Value": 650, "Weight": 9,   "Type": "Exotic",  "Rarity": "Rare",     "Effect": "Fire",     "Durability": 100, "LevelReq": 4, "NumSockets": 2 },
+  { "Name": "Null Pointer",     "Damage": 34, "MinDamage": 1,  "MaxDamage": 60, "MagSize": 1,  "AmmoType": "Void Cell", "CritChance": 25, "Value": 1200,"Weight": 3,   "Type": "Exotic",  "Rarity": "Epic",     "Effect": "LifeLeech","Durability": 100, "LevelReq": 7, "NumSockets": 3 }
+]

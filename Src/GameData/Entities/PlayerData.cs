@@ -7,6 +7,7 @@ namespace System_Overload.Src.GameData.Entities
 {
 	public class PlayerData
 	{
+		[MariesGui.Contracts.MariesGuiContent("profiles")]
 		public class loadPlayer
 		{
 			private Random rand = new Random();
@@ -36,11 +37,13 @@ namespace System_Overload.Src.GameData.Entities
 
 
 
+			// Clamped on read, not on write: JSON sets Health before HitPoints and the stat points
+			// are loaded, so clamping in the setter cut a saved 200 HP down to the default max.
 			private int _health = 100;
 			public int Health
 			{
-				get => _health;
-				set => _health = Math.Clamp(value, 0, (int)GetTotalMaxHealth());
+				get => Math.Clamp(_health, 0, (int)GetTotalMaxHealth());
+				set => _health = Math.Max(0, value);
 			}
 			public int HitPoints { get; set; } = 100;
 

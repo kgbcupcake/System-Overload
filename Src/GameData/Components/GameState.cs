@@ -26,6 +26,7 @@ namespace System_Overload.Src.GameData.Components
 			"settings",
 			"attachments",
 			"modules",
+			"shops",
 
 		};
 

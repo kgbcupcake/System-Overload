@@ -1,0 +1,58 @@
+[
+  {
+    "Id": "sector_00_cache",
+    "Title": "SECTOR 00 // COLD CACHE",
+    "Description": "An abandoned memory cache. Low security. Something is still chewing on the data.",
+    "Difficulty": "STABLE",
+    "CompletionCredits": 60,
+    "CompletionExp": 50,
+    "Tags": ["tutorial", "cache"],
+    "Stages": [
+      { "StoryText": "You slip through a stale pointer into the cold cache. Dead bytes crunch underfoot.", "EnemyId": "", "HexColor": "#39FF14" },
+      { "StoryText": "A Packet Mite detaches from the wall, mandibles clicking in binary.", "EnemyId": "packet_mite", "HexColor": "#39FF14" },
+      { "StoryText": "An alarm you didn't know existed starts screaming. A Security Daemon boots up.", "EnemyId": "security_daemon", "HexColor": "#B3001B" }
+    ]
+  },
+  {
+    "Id": "sector_01_firewall",
+    "Title": "SECTOR 01 // THE BURNING WALL",
+    "Description": "The perimeter firewall. Hot, loud, and very aware of you.",
+    "Difficulty": "UNSTABLE",
+    "CompletionCredits": 140,
+    "CompletionExp": 120,
+    "Tags": ["firewall"],
+    "Stages": [
+      { "StoryText": "Heat bleeds through the bus. The wall ahead is made of rejected packets, still smouldering.", "EnemyId": "", "HexColor": "#FF5F1F" },
+      { "StoryText": "A Firewall Sentry rotates toward you. Its rule table has exactly one entry: DENY.", "EnemyId": "firewall_sentry", "HexColor": "#FF5F1F" },
+      { "StoryText": "Something four-legged and empty sniffs out your process ID.", "EnemyId": "null_hound", "HexColor": "#B3001B" },
+      { "StoryText": "The wall collapses into a nest. The Rat King has been leaking memory here for years.", "EnemyId": "rat_king", "HexColor": "#B3001B" }
+    ]
+  },
+  {
+    "Id": "sector_02_kernel",
+    "Title": "SECTOR 02 // KERNEL CRYPT",
+    "Description": "Deep kernel space. Processes come here to die and are not allowed to.",
+    "Difficulty": "CRITICAL",
+    "CompletionCredits": 300,
+    "CompletionExp": 280,
+    "Tags": ["kernel", "boss"],
+    "Stages": [
+      { "StoryText": "Ring 0. The air tastes like ozone and old stack traces.", "EnemyId": "", "HexColor": "#39FF14" },
+      { "StoryText": "The process table spawns copies of itself faster than you can count.", "EnemyId": "fork_bomb", "HexColor": "#B3001B" },
+      { "StoryText": "Zombie processes rise from the scheduler. Their master speaks: 'You dare interrupt my research?'", "EnemyId": "dark_wizard", "HexColor": "#8A2BE2" }
+    ]
+  },
+  {
+    "Id": "sector_03_root",
+    "Title": "SECTOR 03 // ROOT ACCESS",
+    "Description": "The administrator's chamber. Nothing has ever left it with write permissions.",
+    "Difficulty": "LETHAL",
+    "CompletionCredits": 500,
+    "CompletionExp": 500,
+    "Tags": ["admin", "boss", "endgame"],
+    "Stages": [
+      { "StoryText": "PERMISSION DENIED. PERMISSION DENIED. PERMISSION GRANTED?", "EnemyId": "", "HexColor": "#B3001B" },
+      { "StoryText": "ROOT//SENTINEL unfolds from the login prompt. 'Unauthorized user detected. Initiating deletion.'", "EnemyId": "root_sentinel", "HexColor": "#B3001B" }
+    ]
+  }
+]

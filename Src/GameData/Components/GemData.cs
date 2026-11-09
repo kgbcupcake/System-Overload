@@ -4,6 +4,7 @@ namespace Src.GameData.Components
 {
 	// Note: If you want Gems to have a Name, Value, and Weight, 
 	// you should inherit from ItemData like your WeaponData does.
+	[MariesGui.Contracts.MariesGuiContent("gems")]
 	public class GemData : ItemData
 	{
 		public List<EffectType> Attributes { get; set; } = new();

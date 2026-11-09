@@ -13,6 +13,7 @@ namespace Src.GameData.Components
 	[JsonDerivedType(typeof(ItemData), typeDiscriminator: "base")]
 	[JsonDerivedType(typeof(WeaponData), typeDiscriminator: "weapon")]
 	[JsonDerivedType(typeof(GemData), typeDiscriminator: "gem")]
+	[MariesGui.Contracts.MariesGuiContent("items")]
 	public class ItemData
 	{
 		public string Name { get; set; } = "Default Item";

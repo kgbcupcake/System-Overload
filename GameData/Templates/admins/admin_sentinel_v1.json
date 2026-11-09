@@ -1,0 +1,21 @@
+{
+  "AdminID": "admin_sentinel_v1",
+  "SystemName": "ROOT//SENTINEL",
+  "AccessLevel": "ROOT_ADMIN",
+  "Stats": { "Integrity": 300, "ProcessingPower": 32, "CorruptionRate": 1.25 },
+  "CombatLogic": {
+    "PrimaryAttack": "Permission Revoke",
+    "SecondaryAttack": "Recursive Purge",
+    "SpecialAbility": "Kernel Panic"
+  },
+  "Visuals": { "HexColor": "#B3001B", "GlitchIntensity": 0.7, "AsciiArtRef": "sentinel" },
+  "DropTable": [
+    { "ItemID": "Root Shard", "Chance": 0.35 },
+    { "ItemID": "Overclocked Coolant", "Chance": 0.6 }
+  ],
+  "Dialogue": {
+    "OnBreach": "Unauthorized user detected. Initiating deletion.",
+    "OnDamage": "Integrity... fluctuating. Rerouting.",
+    "OnDeletion": "sudo rm -rf /me"
+  }
+}

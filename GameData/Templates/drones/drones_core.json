@@ -1,0 +1,10 @@
+[
+  { "id": "packet_mite",      "name": "Packet Mite",        "maxHealth": 30,  "attackPower": 6,  "defense": 1,  "level": 1, "rewards": { "xp": 10,  "coins": 5 } },
+  { "id": "security_daemon",  "name": "Security Daemon",    "maxHealth": 50,  "attackPower": 12, "defense": 5,  "level": 2, "rewards": { "xp": 25,  "coins": 15 } },
+  { "id": "firewall_sentry",  "name": "Firewall Sentry",    "maxHealth": 80,  "attackPower": 10, "defense": 12, "level": 3, "rewards": { "xp": 40,  "coins": 25 } },
+  { "id": "null_hound",       "name": "Null Hound",         "maxHealth": 65,  "attackPower": 18, "defense": 4,  "level": 4, "rewards": { "xp": 55,  "coins": 30 } },
+  { "id": "fork_bomb",        "name": "Fork Bomb Swarm",    "maxHealth": 45,  "attackPower": 24, "defense": 0,  "level": 5, "rewards": { "xp": 70,  "coins": 35 } },
+  { "id": "rat_king",         "name": "Memory-Leak Rat King","maxHealth": 160, "attackPower": 20, "defense": 8,  "level": 6, "rewards": { "xp": 150, "coins": 90 } },
+  { "id": "dark_wizard",      "name": "Kernel Necromancer", "maxHealth": 220, "attackPower": 28, "defense": 10, "level": 8, "rewards": { "xp": 250, "coins": 150 } },
+  { "id": "root_sentinel",    "name": "ROOT//SENTINEL",     "maxHealth": 300, "attackPower": 32, "defense": 15, "level": 10, "rewards": { "xp": 400, "coins": 250 } }
+]
