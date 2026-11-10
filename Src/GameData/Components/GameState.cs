@@ -29,6 +29,7 @@ namespace DungeonAdventures.Src.GameData.Components
 			"shops",
 			"weapon_templates",
 			"story",
+			"quests",
 
 		};
 

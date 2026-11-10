@@ -17,6 +17,18 @@ namespace Maries_DataModels
 			public int Level { get; set; } = 1;
 			public int InventorySize { get; set; } = 20;
 
+			// --- THE ONE WHO VANISHED (set in "A Life Before") ---
+			// Empty means "not chosen yet"; story text then falls back to the default name in the
+			// story data, so old saves still read correctly.
+			public string LovedOneName { get; set; } = "";
+			public string LovedOneRelation { get; set; } = "";
+
+			// --- STORY PROGRESS ---
+			/// <summary>Story flags the hero has earned, such as "prologue_complete".</summary>
+			public List<string> StoryFlags { get; set; } = new List<string>();
+			/// <summary>Every quest the hero has started, with how far along it is.</summary>
+			public List<QuestProgress> Quests { get; set; } = new List<QuestProgress>();
+
 			// --- ATTRIBUTE POINTS (spent at character creation) ---
 			public int VitalityPoints { get; set; } = 0;   // Vitality: spent on Max HP
 			public int StrengthPoints { get; set; } = 0;  // Strength: spent on Attack Power

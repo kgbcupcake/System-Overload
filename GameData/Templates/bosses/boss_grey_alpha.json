@@ -1,0 +1,40 @@
+{
+  "Id": "boss_grey_alpha",
+  "Name": "THE GREY ALPHA",
+  "Rank": "PACK_LEADER",
+  "Level": 2,
+  "XpReward": 40,
+  "CoinReward": 20,
+  "Stats": {
+    "Health": 75,
+    "Attack": 10,
+    "Defense": 3,
+    "EnrageMultiplier": 1.2
+  },
+  "Moves": {
+    "PrimaryAttack": "Savage Bite",
+    "SecondaryAttack": "Raking Claws",
+    "SpecialAbility": "Howl of the Pack",
+    "SpecialEvery": 3
+  },
+  "Visuals": {
+    "HexColor": "#8A8F98",
+    "AuraIntensity": 0.2,
+    "ArtRef": "grey_alpha"
+  },
+  "DropTable": [
+    {
+      "ItemID": "Traveller's Journal",
+      "Chance": 1.0
+    },
+    {
+      "ItemID": "Healing Potion",
+      "Chance": 0.5
+    }
+  ],
+  "Dialogue": {
+    "OnEncounter": "",
+    "OnDamage": "",
+    "OnDeath": ""
+  }
+}

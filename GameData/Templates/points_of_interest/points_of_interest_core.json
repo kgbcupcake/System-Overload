@@ -1,0 +1,5 @@
+[
+  {"Id": "loved_belongings", "Name": "{loved}'s belongings", "Location": "home", "StoryKey": "poi.loved_belongings", "GivesItem": "Loved Keepsake", "RequiresFlag": ""},
+  {"Id": "strange_markings", "Name": "Markings on the old tree", "Location": "last_known_location", "StoryKey": "poi.strange_markings", "GivesItem": "", "RequiresFlag": ""},
+  {"Id": "vanishing_footprints", "Name": "Tracks in the mud", "Location": "last_known_location", "StoryKey": "poi.vanishing_footprints", "GivesItem": "", "RequiresFlag": ""}
+]

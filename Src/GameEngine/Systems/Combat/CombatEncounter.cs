@@ -5,6 +5,7 @@ using Maries_Loaders;
 using Pastel;
 using Maries_DataModels;
 using DungeonAdventures.Src.Village;
+using DungeonAdventures.Src.GameEngine.Systems;
 using static DungeonAdventures.Src.GameEngine.Combat.DamageCalculator;
 
 namespace DungeonAdventures.Src.GameEngine.Combat
@@ -304,7 +305,10 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 				Console.WriteLine("\n  " + Story.Pick("combat.victory", ("enemy", enemy.Name)));
 
 				if (owner != null)
+				{
 					GrantRewards(owner, enemy);
+					QuestSystem.Notify(owner, "defeat_enemy", enemy.Name);
+				}
 			}
 
 			if (owner != null)
@@ -346,20 +350,8 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 			}
 		}
 
-		/// <summary>Stacks non-weapon items with an existing stack of the same name.</summary>
-		private static void AddToInventory(PlayerData.loadPlayer owner, ItemData item)
-		{
-			if (item is not WeaponData)
-			{
-				var stack = owner.Inventory.FirstOrDefault(i => i is not WeaponData && i.Name == item.Name);
-				if (stack != null)
-				{
-					stack.Amount += item.Amount;
-					return;
-				}
-			}
-			owner.Inventory.Add(item);
-		}
+		private static void AddToInventory(PlayerData.loadPlayer owner, ItemData item) =>
+			PlayerInventory.Give(owner, item);
 
 		// ---------------------------------------------------------------- items
 

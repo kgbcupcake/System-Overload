@@ -10,6 +10,7 @@ namespace Maries_DataModels
 	public class ShopDefinition
 	{
 		public string StoreName { get; set; } = "";
+		[MariesGui.Contracts.MariesGuiRef("Name", "items", "weapons", "armor", "gems")]
 		public List<string> InventoryRefs { get; set; } = new List<string>();
 	}
 }

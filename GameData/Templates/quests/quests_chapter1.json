@@ -1,0 +1,91 @@
+[
+  {
+    "Id": "main_vanishing_place_left_behind",
+    "Name": "A Place Left Behind",
+    "Type": "main",
+    "Chapter": 1,
+    "Description": "Find out what happened to {loved}.",
+    "Prerequisites": ["relationship_established"],
+    "Stages": [
+      {
+        "Id": "wake_up",
+        "Description": "Search the house for any sign of {loved}",
+        "StoryKey": "ch1.wake_up",
+        "Objectives": [
+          { "Type": "examine", "Target": "loved_belongings", "Description": "Examine {loved}'s belongings" },
+          { "Type": "collect_item", "Target": "loved_keepsake", "Description": "Find something that belonged to her" }
+        ]
+      },
+      {
+        "Id": "ask_around",
+        "Description": "Ask around Ashford",
+        "StoryKey": "ch1.ask_around",
+        "Objectives": [
+          { "Type": "talk_to", "Target": "edrin", "Description": "Speak with Edrin, the village elder", "StoryKey": "ch1.talk.edrin_ask" },
+          { "Type": "talk_to", "Target": "mara", "Description": "Speak with Mara at the tavern", "StoryKey": "ch1.talk.mara_ask" },
+          { "Type": "talk_to", "Target": "tomas", "Description": "Speak with Tomas, the village guard", "StoryKey": "ch1.talk.tomas_ask" }
+        ]
+      },
+      {
+        "Id": "last_place",
+        "Description": "Visit the place {loved} was last seen",
+        "StoryKey": "ch1.last_place",
+        "Objectives": [
+          { "Type": "discover_location", "Target": "last_known_location", "Description": "Follow the wooded path east of Ashford" },
+          { "Type": "examine", "Target": "strange_markings", "Description": "Examine the markings on the old tree" },
+          { "Type": "examine", "Target": "vanishing_footprints", "Description": "Look for tracks", "Required": false }
+        ]
+      },
+      {
+        "Id": "return_home",
+        "Description": "Return to Ashford",
+        "StoryKey": "ch1.trail_end",
+        "Objectives": [
+          { "Type": "discover_location", "Target": "ashford", "Description": "Head back to the village" }
+        ]
+      }
+    ],
+    "Rewards": { "Experience": 50, "Gold": 0, "Items": [] },
+    "CompletionFlags": ["starting_village", "last_known_location", "second_disappearance"]
+  },
+  {
+    "Id": "main_vanishing_northern_trail",
+    "Name": "The Northern Trail",
+    "Type": "main",
+    "Chapter": 1,
+    "Description": "Another villager has vanished. Edrin knows of a traveller who was asking the same questions.",
+    "Prerequisites": ["second_disappearance"],
+    "Stages": [
+      {
+        "Id": "hear_the_news",
+        "Description": "Speak with Edrin about the new disappearance",
+        "StoryKey": "ch1.second_disappearance",
+        "Objectives": [
+          { "Type": "talk_to", "Target": "edrin", "Description": "Speak with Edrin", "StoryKey": "ch1.talk.edrin_news" }
+        ]
+      },
+      {
+        "Id": "travel_to_camp",
+        "Description": "Investigate the abandoned camp on the northern trail",
+        "StoryKey": "ch1.northern_trail",
+        "Objectives": [
+          { "Type": "discover_location", "Target": "northern_trail", "Description": "Travel the northern trail" },
+          { "Type": "defeat_enemy", "Target": "forest_wolf", "Count": 3, "Description": "Survive the wolves on the trail" },
+          { "Type": "discover_location", "Target": "northern_camp", "Description": "Find the abandoned camp" },
+          { "Type": "collect_item", "Target": "travellers_journal", "Description": "Search the camp" }
+        ]
+      },
+      {
+        "Id": "report_back",
+        "Description": "Bring the traveller's journal to Edrin",
+        "StoryKey": "ch1.journal",
+        "Objectives": [
+          { "Type": "talk_to", "Target": "edrin", "Description": "Show Edrin the journal", "StoryKey": "ch1.talk.edrin_journal" }
+        ]
+      }
+    ],
+    "Rewards": { "Experience": 100, "Gold": 25, "Items": [] },
+    "CompletionStoryKey": "ch1.beyond_home",
+    "CompletionFlags": ["northern_trail", "first_major_clue", "open_world_unlocked"]
+  }
+]

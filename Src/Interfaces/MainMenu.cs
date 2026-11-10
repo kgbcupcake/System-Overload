@@ -6,6 +6,7 @@ using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
 using DungeonAdventures.Src.Village;
+using DungeonAdventures.Src.GameEngine.Systems;
 using System.Runtime.InteropServices;
 using static System.Console;
 
@@ -134,11 +135,20 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			{
 				case "START NEW GAME":
 					Clear();
-					Prologue.Show();
+					StoryPages.Play("prologue");
 					CharacterCreation.Start();
 					if (GameState.CurrentPlayer != null)
 					{
+						var hero = GameState.CurrentPlayer;
+						LifeBefore.Start();
+
+						// The opening flags start Chapter 1's first quest (see the "quests" data).
+						QuestSystem.SetFlag(hero, "prologue_complete");
+						QuestSystem.SetFlag(hero, "character_created");
+						QuestSystem.SetFlag(hero, "relationship_established");
+
 						GameState.Sync(); // Ensure character is written to profiles immediately
+						QuestScreens.ShowNotices();
 						DrawTitleBar();
 						VillageSquare.MainTownSquare();
 					}

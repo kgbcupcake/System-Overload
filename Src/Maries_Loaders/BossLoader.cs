@@ -74,6 +74,7 @@ namespace Maries_Loaders
 
 	public class BossDrop
 	{
+		[MariesGui.Contracts.MariesGuiRef("Name", "items", "weapons", "armor", "gems")]
 		public string ItemID { get; set; } = "";
 		public double Chance { get; set; } // 0-1, e.g. 0.35 = 35%
 	}
