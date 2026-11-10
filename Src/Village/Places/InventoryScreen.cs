@@ -222,9 +222,10 @@ namespace DungeonAdventures.Src.Village.Places
 			DrawBox(ListX, ListWidth, listLines,
 				moreAbove: scroll > 0, moreBelow: scroll + VisibleRows < entries.Count);
 
-			// Details
+			// Details, with the item's icon (if it has one) in the top-right corner
+			var icon = entries.Count > 0 ? PixelIcon.ForItem(entries[selected].Item.Name) : null;
 			var detail = entries.Count > 0
-				? DetailLines(player, entries[selected], IsEquipped(entries[selected].Item, equipped))
+				? DetailLines(player, entries[selected], IsEquipped(entries[selected].Item, equipped), icon)
 				: new List<string>();
 			DrawBox(DetailX, DetailWidth, detail);
 
@@ -282,21 +283,29 @@ namespace DungeonAdventures.Src.Village.Places
 			return "  " + tag.Pastel(Good) + name.Pastel(RarityColor(e.Item.Rarity)) + gap + qty.Pastel(Dim);
 		}
 
-		private static List<string> DetailLines(PlayerData.loadPlayer player, Entry e, bool equipped)
+		private static List<string> DetailLines(PlayerData.loadPlayer player, Entry e, bool equipped, string[]? icon)
 		{
 			var item = e.Item;
-			int inner = DetailWidth - 4;
-			var lines = new List<string>
-			{
-				Fit(item.Name.ToUpper(), inner).Pastel(RarityColor(item.Rarity)),
-				$"{item.Rarity} {TypeLabel(item)}".Pastel(Muted),
-			};
+			int full = DetailWidth - 4;
+			// Lines beside the icon are kept narrow so they never run into it.
+			const int IconGap = 2;
+			int iconRows = icon?.Length ?? 0;
+			int narrow = icon != null ? full - PixelIcon.Width(icon) - IconGap : full;
+			var lines = new List<string>();
+			int Width() => lines.Count < iconRows ? narrow : full;
+
+			lines.Add(Fit(item.Name.ToUpper(), Width()).Pastel(RarityColor(item.Rarity)));
+			lines.Add(Fit($"{item.Rarity} {TypeLabel(item)}", Width()).Pastel(Muted));
 
 			string descKey = "item." + Slug(item.Name);
 			if (Story.Has(descKey))
 			{
-				lines.Add("");
-				lines.AddRange(Wrap(Story.Line(descKey), inner).Select(l => l.Pastel("#C8B08A")));
+				// The narrow column beside an icon wraps to more lines, so skip this spacer to keep
+				// the stats at the bottom (Value, Weight) inside the panel.
+				if (icon == null) lines.Add("");
+				var words = new Queue<string>(Story.Line(descKey).Split(' ', StringSplitOptions.RemoveEmptyEntries));
+				while (words.Count > 0)
+					lines.Add(TakeLine(words, Width()).Pastel("#C8B08A"));
 			}
 			lines.Add("");
 
@@ -309,7 +318,7 @@ namespace DungeonAdventures.Src.Village.Places
 					lines.Add(Stat("Crit chance", $"{w.CritChance}%", Amber));
 					if (w.Effect != EffectType.None)
 						lines.Add(Stat(IsElement(w.Effect) ? "Element" : "Effect", w.Effect.ToString(), "#87CEEB"));
-					AddSocketLines(lines, w, inner);
+					AddSocketLines(lines, w, Width);
 					lines.Add(Stat("Status", equipped ? "EQUIPPED" : "In pack", equipped ? Good : Muted));
 					break;
 
@@ -318,7 +327,7 @@ namespace DungeonAdventures.Src.Village.Places
 					lines.Add(Stat("Defense", $"+{a.Defense}", "#87CEEB"));
 					if (a.BonusHealth != 0) lines.Add(Stat("Max HP", $"+{a.BonusHealth}", Good));
 					if (a.LevelReq > 0) lines.Add(Stat("Level req", a.LevelReq.ToString(), a.LevelReq > player.Level ? Bad : "#DCDCDC"));
-					AddSocketLines(lines, a, inner);
+					AddSocketLines(lines, a, Width);
 					lines.Add(Stat("Status", equipped ? "WORN" : "In pack", equipped ? Good : Muted));
 					break;
 
@@ -327,7 +336,7 @@ namespace DungeonAdventures.Src.Village.Places
 					if (g.Attributes.Count > 0) lines.Add(Stat("Element", string.Join(", ", g.Attributes), "#87CEEB"));
 					lines.Add("When set in:".Pastel(Dim));
 					foreach (var host in EquipmentRules.Current.SocketHosts)
-						lines.Add(Fit($"  {host.Label}: {EquipmentRules.Describe(EquipmentRules.Current.GemBonuses(g, host.Id))}", inner).Pastel(Good));
+						lines.Add(Fit($"  {host.Label}: {EquipmentRules.Describe(EquipmentRules.Current.GemBonuses(g, host.Id))}", Width()).Pastel(Good));
 					lines.Add("Only counts in equipped gear.".Pastel(Muted));
 					break;
 
@@ -341,11 +350,53 @@ namespace DungeonAdventures.Src.Village.Places
 			lines.Add(Stat("Weight", $"{item.Weight:0.#}", "#DCDCDC"));
 			lines.Add(Stat("Value", $"{item.Value} gold", Gold));
 
+			// Place the icon to the right of the first rows. A few stat lines can still be a little
+			// too long for the narrow column, so cut those rather than letting them hit the icon.
+			for (int r = 0; r < iconRows; r++)
+			{
+				// Where the icon has no pixels (its transparent margin) the line can use the full width.
+				if (r < lines.Count && UiEngine.StripAnsi(icon![r]).Trim().Length == 0) continue;
+				string text = r < lines.Count ? ClipVisible(lines[r], narrow) : "";
+				string row = Pad(text, narrow) + new string(' ', IconGap) + icon![r];
+				if (r < lines.Count) lines[r] = row; else lines.Add(row);
+			}
+
 			return lines.Take(VisibleRows).ToList();
 		}
 
+		/// <summary>Takes as many whole words as fit in one line of the given width.</summary>
+		private static string TakeLine(Queue<string> words, int width)
+		{
+			var line = new StringBuilder(words.Dequeue());
+			while (words.Count > 0 && line.Length + 1 + words.Peek().Length <= width)
+				line.Append(' ').Append(words.Dequeue());
+			return Fit(line.ToString(), width); // a single word longer than the line
+		}
+
+		/// <summary>Cuts a coloured string to a visible width, ending in "…", keeping its colour codes intact.</summary>
+		private static string ClipVisible(string text, int width)
+		{
+			if (UiEngine.StripAnsi(text).Length <= width) return text;
+			var sb = new StringBuilder();
+			int visible = 0;
+			for (int i = 0; i < text.Length && visible < width - 1; i++)
+			{
+				if (text[i] == '\x1b')
+				{
+					int end = text.IndexOf('m', i);
+					if (end < 0) break;
+					sb.Append(text, i, end - i + 1);
+					i = end;
+					continue;
+				}
+				sb.Append(text[i]);
+				visible++;
+			}
+			return sb.Append('…').Append("\x1b[0m").ToString();
+		}
+
 		/// <summary>Socket count and each set gem with what it gives in this item.</summary>
-		private static void AddSocketLines(List<string> lines, ItemData item, int inner)
+		private static void AddSocketLines(List<string> lines, ItemData item, Func<int> width)
 		{
 			var rules = EquipmentRules.Current;
 			int sockets = rules.SocketsOn(item);
@@ -354,7 +405,7 @@ namespace DungeonAdventures.Src.Village.Places
 			string hostId = rules.HostFor(item)!.Id;
 			lines.Add(Stat("Sockets", $"{item.SocketedGems.Count}/{sockets}", "#BC8FDF"));
 			foreach (var gem in item.SocketedGems.Take(sockets))
-				lines.Add(Fit($"  ◆ {gem.Name}: {EquipmentRules.Describe(rules.GemBonuses(gem, hostId))}", inner).Pastel("#BC8FDF"));
+				lines.Add(Fit($"  ◆ {gem.Name}: {EquipmentRules.Describe(rules.GemBonuses(gem, hostId))}", width()).Pastel("#BC8FDF"));
 		}
 
 		private static string Stat(string label, string value, string color) =>
@@ -523,22 +574,6 @@ namespace DungeonAdventures.Src.Village.Places
 		{
 			if (width <= 0) return "";
 			return text.Length <= width ? text : text[..Math.Max(0, width - 3)] + "...";
-		}
-
-		private static IEnumerable<string> Wrap(string text, int width)
-		{
-			var line = new StringBuilder();
-			foreach (var word in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-			{
-				if (line.Length > 0 && line.Length + 1 + word.Length > width)
-				{
-					yield return line.ToString();
-					line.Clear();
-				}
-				if (line.Length > 0) line.Append(' ');
-				line.Append(word);
-			}
-			if (line.Length > 0) yield return line.ToString();
 		}
 
 		/// <summary>"Rogue's Dagger" -> "rogues_dagger", the key used for item descriptions.</summary>

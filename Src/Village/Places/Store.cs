@@ -143,7 +143,16 @@ namespace DungeonAdventures.Src.Village.Places
 				MouseInput.ClearZones();
 				foreach (var (line, clickKey, index) in clicks)
 					MouseInput.AddKeyZone(startY + line, startX, 44, clickKey, index);
+				int boxTop = startY;
 				foreach (var line in menuLines) { SetCursorPosition(startX, startY++); WriteLine(line); }
+
+				// Icon of what's on offer (the potion) or of the item picked to sell, right of the box.
+				string? shownItem = buyMode ? "Healing Potion"
+					: sellableGroups.Count > 0 ? sellableGroups[Math.Clamp(sellIndex, 0, sellableGroups.Count - 1)].Name
+					: null;
+				var icon = shownItem != null ? PixelIcon.ForItem(shownItem) : null;
+				if (icon != null)
+					for (int r = 0; r < icon.Length; r++) { SetCursorPosition(startX + 46, boxTop + 1 + r); Write(icon[r]); }
 
 				var key = MouseInput.ReadMenuKey(ref sellIndex, sellableGroups.Count);
 				if (key == ConsoleKey.Tab) { buyMode = !buyMode; statusMessage = "MODE TOGGLED".Pastel("#FFD700"); }

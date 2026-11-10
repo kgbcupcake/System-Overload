@@ -327,3 +327,8 @@ UnitTest1.cs
 # ============================================================
 # END OF FILE
 # ============================================================
+# ------------------------------------------------------------
+# ITEM ICONS (Clockwork Raven Studios pack, not redistributable)
+# The game runs without them; see assets/icons/README.md
+# ------------------------------------------------------------
+assets/icons/*.png

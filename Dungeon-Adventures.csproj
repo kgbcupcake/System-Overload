@@ -31,6 +31,11 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 
+		<!-- Item icons (16x16 PNG, named after the item). Licensed art, kept out of git: see assets/icons/README.md -->
+		<None Include="assets\icons\*.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+
 		<Content Include="GameData\Templates\monsters\*.json;GameData\Templates\floors\*.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
