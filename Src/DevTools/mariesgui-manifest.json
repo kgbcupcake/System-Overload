@@ -1,10 +1,10 @@
 {
-  // Load this file in MariesGui's "Load Profile" window to edit System-Overload content.
+  // Load this file in MariesGui's "Load Profile" window to edit Dungeon Adventures content.
   "profileName": "Dungeon Adventures",
 
   // The game's compiled DLL, relative to this manifest. Build the game first (dotnet build).
   "assemblies": [
-    "../../bin/Debug/net10.0/System-Overload.dll",
+    "../../bin/Debug/net10.0/Dungeon-Adventures.dll",
     "../../bin/Debug/net10.0/Maries_DataModels.dll",
     "../../bin/Debug/net10.0/Maries_Loaders.dll"
   ],

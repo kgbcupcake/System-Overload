@@ -1,33 +1,33 @@
 using Maries_DataModels;
-using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameEngine.Combat;
+using DungeonAdventures.Src.GameData.Components;
+using DungeonAdventures.Src.GameEngine.Combat;
 using Maries_Ui;
 using Maries_Loaders; // Make sure this namespace is included
 using static System.Console;
 using Pastel;
 
-namespace System_Overload.Src.GameEngine.Flow
+namespace DungeonAdventures.Src.GameEngine.Flow
 {
-	public static class SimulationExecutor
+	public static class FloorRunner
 	{
 		private static void DrawTitleBar()
 		{
-			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 		}
 
-		// Changed parameter from AdventureData to SectorData
-		public static bool Run(SectorData sector, PlayerData.loadPlayer player)
+		// Runs one dungeon floor stage by stage
+		public static bool Run(FloorData floor, PlayerData.loadPlayer player)
 		{
 			Clear();
 			DrawTitleBar();
 
-			WriteLine(Story.Line("dungeon.enter", ("title", sector.Title)).Pastel("#FFAB00"));
-			WriteLine(sector.Description);
-			WriteLine($"DANGER: {sector.Difficulty}".Pastel("#FFD700"));
+			WriteLine(Story.Line("dungeon.enter", ("title", floor.Title)).Pastel("#FFAB00"));
+			WriteLine(floor.Description);
+			WriteLine($"DANGER: {floor.Difficulty}".Pastel("#FFD700"));
 			ReadKey(true);
 
 			// 1. Walk through each stage of the floor
-			foreach (var stage in sector.Stages ?? Enumerable.Empty<SectorStage>())
+			foreach (var stage in floor.Stages ?? Enumerable.Empty<FloorStage>())
 			{
 				Clear();
 				DrawTitleBar();
@@ -59,19 +59,19 @@ namespace System_Overload.Src.GameEngine.Flow
 				}
 			}
 
-			// 2. SUCCESS REWARDS (Using the new SectorData property names)
-			player.AddXP(sector.CompletionExp);
-			player.AddGold(sector.CompletionCredits); // Map credits to your gold function for now
+			// 2. SUCCESS REWARDS (Using the new FloorData property names)
+			player.AddXP(floor.CompletionExp);
+			player.AddGold(floor.CompletionGold); 
 
 			Clear();
 			DrawTitleBar();
 			WriteLine("=====================================".Pastel("#FFD700"));
-			string done = string.IsNullOrWhiteSpace(sector.CompletionText)
-				? Story.Line("dungeon.complete", ("title", sector.Title))
-				: sector.CompletionText;
+			string done = string.IsNullOrWhiteSpace(floor.CompletionText)
+				? Story.Line("dungeon.complete", ("title", floor.Title))
+				: floor.CompletionText;
 			WriteLine($"  {done}");
 			WriteLine("=====================================".Pastel("#FFD700"));
-			WriteLine($"REWARD: {sector.CompletionCredits} gold and {sector.CompletionExp} XP");
+			WriteLine($"REWARD: {floor.CompletionGold} gold and {floor.CompletionExp} XP");
 			ReadKey(true);
 
 			return true;

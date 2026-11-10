@@ -1,19 +1,19 @@
-using System_Overload.Src.GameEngine; // Added for SaveGame
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.GameEngine; // Added for SaveGame
+using DungeonAdventures.Src.GameData.Components;
 using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
 using Maries_DataModels;
-using Src.TownSquare;
-using static System_Overload.Src.GameEngine.Combat.DamageCalculator;
+using DungeonAdventures.Src.Village;
+using static DungeonAdventures.Src.GameEngine.Combat.DamageCalculator;
 
-namespace System_Overload.Src.GameEngine.Combat
+namespace DungeonAdventures.Src.GameEngine.Combat
 {
 	public static class CombatEncounter
 	{
 		private static void DrawTitleBar()
 		{
-			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 		}
 
 		private static readonly Random _rng = new();
@@ -232,8 +232,8 @@ namespace System_Overload.Src.GameEngine.Combat
 			Console.WriteLine($"  ║  {Story.Line("combat.boss_banner").PadRight(44)}║".Pastel(boss.HexColor));
 			Console.WriteLine("  ╚══════════════════════════════════════════════╝".Pastel(boss.HexColor));
 			Console.WriteLine($"\n  {enemy.Name.ToUpper()}  //  LVL {enemy.Level}  //  HP {enemy.MaxHealth}".Pastel(boss.HexColor));
-			if (!string.IsNullOrWhiteSpace(boss.OnBreach))
-				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnBreach}\"");
+			if (!string.IsNullOrWhiteSpace(boss.OnEncounter))
+				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnEncounter}\"");
 			Console.WriteLine("\n  Press any key to engage...");
 			Console.ReadKey(true);
 		}
@@ -289,8 +289,8 @@ namespace System_Overload.Src.GameEngine.Combat
 			else
 			{
 				Console.WriteLine("\n  " + "--- VICTORY ---".Pastel("#00FF00"));
-				if (enemy.Boss is { } boss && !string.IsNullOrWhiteSpace(boss.OnDeletion))
-					Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnDeletion}\"".Pastel(boss.HexColor));
+				if (enemy.Boss is { } boss && !string.IsNullOrWhiteSpace(boss.OnDeath))
+					Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnDeath}\"".Pastel(boss.HexColor));
 				Console.WriteLine("\n  " + Story.Pick("combat.victory", ("enemy", enemy.Name)));
 
 				if (owner != null)

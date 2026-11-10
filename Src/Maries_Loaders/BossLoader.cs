@@ -2,61 +2,61 @@ using Maries_DataModels;
 
 namespace Maries_Loaders
 {
-	public static class AdminLoader
+	public static class BossLoader
 	{
-		private static List<AdminData>? _cachedAdmins;
+		private static List<BossDefinition>? _cachedBosses;
 
 		/// <summary>
-		/// Loads all Root-Admin entities from the shared content root.
-		/// These entities serve as the final guardians of simulated sectors.
+		/// Loads every boss from the shared content root.
+		/// Each dungeon floor ends with one of them.
 		/// </summary>
-		public static List<AdminData> LoadAll()
+		public static List<BossDefinition> LoadAll()
 		{
-			if (_cachedAdmins != null)
-				return _cachedAdmins;
+			if (_cachedBosses != null)
+				return _cachedBosses;
 
-			_cachedAdmins = UniversalLoader.LoadCollection<AdminData>("admins")
-				.Where(a => !string.IsNullOrWhiteSpace(a.AdminID))
+			_cachedBosses = UniversalLoader.LoadCollection<BossDefinition>("bosses")
+				.Where(a => !string.IsNullOrWhiteSpace(a.Id))
 				.ToList();
-			return _cachedAdmins;
+			return _cachedBosses;
 		}
 
-		public static AdminData? GetAdminById(string adminId)
+		public static BossDefinition? GetBossById(string bossId)
 		{
-			return LoadAll().FirstOrDefault(a => a.AdminID == adminId);
+			return LoadAll().FirstOrDefault(a => a.Id == bossId);
 		}
 
-		public static void ClearCache() => _cachedAdmins = null;
+		public static void ClearCache() => _cachedBosses = null;
 	}
 
-	// The Data Structure matching your new admin.json template
-	[MariesGui.Contracts.MariesGuiContent("admins")]
-	public class AdminData
+	// Matches the boss JSON files in the bosses folder
+	[MariesGui.Contracts.MariesGuiContent("bosses")]
+	public class BossDefinition
 	{
-		public string AdminID { get; set; } = "";
-		public string SystemName { get; set; } = "";
-		public string AccessLevel { get; set; } = "ROOT_ADMIN";
+		public string Id { get; set; } = "";
+		public string Name { get; set; } = "";
+		public string Rank { get; set; } = "DUNGEON_LORD";
 		public int Level { get; set; } = 10;
 		public int XpReward { get; set; } = 300;
 		public int CoinReward { get; set; } = 200;
 
-		public AdminStats Stats { get; set; } = new();
-		public AdminCombat CombatLogic { get; set; } = new();
-		public AdminVisuals Visuals { get; set; } = new();
+		public BossStats Stats { get; set; } = new();
+		public BossMoves Moves { get; set; } = new();
+		public BossVisuals Visuals { get; set; } = new();
 
-		public List<AdminDrop> DropTable { get; set; } = new();
-		public AdminDialogue Dialogue { get; set; } = new();
+		public List<BossDrop> DropTable { get; set; } = new();
+		public BossDialogue Dialogue { get; set; } = new();
 	}
 
-	public class AdminStats
+	public class BossStats
 	{
-		public int Integrity { get; set; } // HP
-		public int ProcessingPower { get; set; } // Attack Power
-		public int Firewall { get; set; } = 10; // Defense
-		public double CorruptionRate { get; set; } // Damage multiplier once below half Integrity (enraged)
+		public int Health { get; set; } // Max HP
+		public int Attack { get; set; } // Attack Power
+		public int Defense { get; set; } = 10; // Defense
+		public double EnrageMultiplier { get; set; } // Damage multiplier once below half Health (enraged)
 	}
 
-	public class AdminCombat
+	public class BossMoves
 	{
 		public string PrimaryAttack { get; set; } = "";
 		public string SecondaryAttack { get; set; } = "";
@@ -65,23 +65,23 @@ namespace Maries_Loaders
 		public int SpecialEvery { get; set; } = 3;
 	}
 
-	public class AdminVisuals
+	public class BossVisuals
 	{
 		public string HexColor { get; set; } = "#FF0000";
-		public double GlitchIntensity { get; set; } = 0.5;
-		public string AsciiArtRef { get; set; } = "";
+		public double AuraIntensity { get; set; } = 0.5;
+		public string ArtRef { get; set; } = "";
 	}
 
-	public class AdminDrop
+	public class BossDrop
 	{
 		public string ItemID { get; set; } = "";
 		public double Chance { get; set; } // 0-1, e.g. 0.35 = 35%
 	}
 
-	public class AdminDialogue
+	public class BossDialogue
 	{
-		public string OnBreach { get; set; } = "";
+		public string OnEncounter { get; set; } = "";
 		public string OnDamage { get; set; } = "";
-		public string OnDeletion { get; set; } = "";
+		public string OnDeath { get; set; } = "";
 	}
 }

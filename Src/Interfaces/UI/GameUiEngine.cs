@@ -1,14 +1,14 @@
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.GameData.Components;
 using Pastel;
 using Maries_DataModels;
 using static Maries_DataModels.PlayerData;
 using static System.Console;
 using Maries_Ui;
 
-namespace System_Overload.Src.Interfaces.UI
+namespace DungeonAdventures.Src.Interfaces.UI
 {
 	// Game-specific UI rendering that depends on GameState/PlayerData/WeaponData.
-	// Kept out of Maries_Ui so that library stays free of System_Overload coupling.
+	// Kept out of Maries_Ui so that library stays free of DungeonAdventures coupling.
 	public static class GameUiEngine
 	{
 		public static void DrawDynamicFrame(string title, List<string> lines, string hint = "", int boxWidth = 66, int startY = 11, int selectedIndex = -1, int previewHp = -1, int previewCoins = -1)
@@ -95,28 +95,28 @@ namespace System_Overload.Src.Interfaces.UI
 
 			// Hero stats
 			DrawStatLine("Health", player.Health, x, y + 1, false, "#00FF00", "#FFFFFF", bColor);
-			DrawHardwareLine("Weapon", weaponName, x, y + 2, "#FFD700", bColor);
+			DrawTextLine("Weapon", weaponName, x, y + 2, "#FFD700", bColor);
 			DrawStatLine("Damage", (int)totalDmg, x, y + 3, false, "#FF4500", "#FFFFFF", bColor);
 			DrawStatLine("Defense", (int)player.GetTotalDefense(), x, y + 4, false, "#00FFFF", "#FFFFFF", bColor);
-			DrawHardwareLine("Gem Sockets", $"{socketsUsed}/{totalSockets}", x, y + 5, "#BC1DBC", bColor);
+			DrawTextLine("Gem Sockets", $"{socketsUsed}/{totalSockets}", x, y + 5, "#BC1DBC", bColor);
 			DrawStatLine("Danger Rank", player.DifficultyRating, x, y + 6, false, "#FF0000", "#FFFFFF", bColor);
-			DrawHardwareLine("Pack Space", $"{player.Inventory.Count}/{player.InventorySize}", x, y + 7, "#DCDCDC", bColor);
-			DrawHardwareLine("Status", "READY", x, y + 8, "#00FF00", bColor);
+			DrawTextLine("Pack Space", $"{player.Inventory.Count}/{player.InventorySize}", x, y + 7, "#DCDCDC", bColor);
+			DrawTextLine("Status", "READY", x, y + 8, "#00FF00", bColor);
 
 			SetCursorPosition(x, y + 9);
 			WriteLine(mid.Pastel(bColor));
 
 			// Health line
 			SetCursorPosition(x, y + 10);
-			string integrityText = $" HP: {player.Health}/{player.GetTotalMaxHealth()}";
-			WriteLine($"║{integrityText.PadRight(40)}║".Pastel(bColor));
+			string healthText = $" HP: {player.Health}/{player.GetTotalMaxHealth()}";
+			WriteLine($"║{healthText.PadRight(40)}║".Pastel(bColor));
 
 			SetCursorPosition(x, y + 11);
 			WriteLine(bottom.Pastel(bColor));
 		}
 
 		// Helper for strings like "Weapon: Iron Warhammer"
-		private static void DrawHardwareLine(string label, string value, int x, int y, string valColor, string bColor)
+		private static void DrawTextLine(string label, string value, int x, int y, string valColor, string bColor)
 		{
 			SetCursorPosition(x, y);
 			string content = $" {label}: {value}";

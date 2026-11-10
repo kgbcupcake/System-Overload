@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.GameData.Components;
+﻿using DungeonAdventures.Src.GameData.Components;
 using Maries_Loaders; // FIX: Import the new Registry
 using Maries_Ui;
 using Pastel;
@@ -7,7 +7,7 @@ using System.Text.Json;
 using static Maries_DataModels.PlayerData;
 using static System.Console;
 
-namespace Src.TownSquare.InterFaces
+namespace DungeonAdventures.Src.Village.Places
 {
 	public class Store
 	{
@@ -30,7 +30,7 @@ namespace Src.TownSquare.InterFaces
 			TimeSpan elapsed = DateTime.Now - p.LastRestockTime;
 			if (elapsed.TotalMinutes >= 30)
 			{
-				p.StoreStimStock = 5;
+				p.StorePotionStock = 5;
 				p.LastRestockTime = DateTime.Now;
 			}
 
@@ -60,9 +60,9 @@ namespace Src.TownSquare.InterFaces
 			while (shopping)
 			{
 				Clear();
-				HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+				HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 
-				int stimPrice = 20 + (10 * p.StorePriceModifier);
+				int potionPrice = 20 + (10 * p.StorePriceModifier);
 				int diffPrice = 300 + (100 * p.DifficultyRating);
 
 				var sellableGroups = p.Inventory
@@ -80,7 +80,7 @@ namespace Src.TownSquare.InterFaces
 
 				if (buyMode)
 				{
-					menuLines.Add(BuildLine($"(P)otion [Qty: {p.StoreStimStock}]", p.StoreStimStock > 0 ? stimPrice : -1, torchGold, dungeonPurple));
+					menuLines.Add(BuildLine($"(P)otion [Qty: {p.StorePotionStock}]", p.StorePotionStock > 0 ? potionPrice : -1, torchGold, dungeonPurple));
 					menuLines.Add(BuildLine("(D)ark Pact (harder foes)", diffPrice, torchGold, dungeonPurple));
 				}
 				else
@@ -149,14 +149,14 @@ namespace Src.TownSquare.InterFaces
 				}
 				else if (buyMode)
 				{
-					if (key == ConsoleKey.P && p.StoreStimStock > 0)
+					if (key == ConsoleKey.P && p.StorePotionStock > 0)
 					{
 						// CALLING IT HERE: Pass the EXACT name the Registry/JSON expects
-						statusMessage = TryBuyReturnStatus("Healing Potion", stimPrice, p);
+						statusMessage = TryBuyReturnStatus("Healing Potion", potionPrice, p);
 
 						if (statusMessage.Contains("SUCCESS"))
 						{
-							p.StoreStimStock--;
+							p.StorePotionStock--;
 							p.StorePriceModifier++;
 							GameState.Sync();
 						}

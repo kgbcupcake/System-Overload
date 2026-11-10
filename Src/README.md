@@ -1,540 +1,247 @@
-# ⚡ [SYSTEM_OVERLOAD]: GENESIS_UPLINK
+# ⚔️ Dungeon Adventures – Reborn: Source Guide
 
-> **“THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL.”**
-
-[![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge\&color=yellow)](https://github.com/kgbcupcake/System-Overload)
-[![Uplink](https://img.shields.io/badge/UPLINK-STABLE-green?style=for-the-badge\&logo=github)](https://github.com/kgbcupcake/System-Overload)
-[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge\&logo=dotnet)](https://dotnet.microsoft.com/)
-[![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](https://opensource.org/licenses/MIT)
+A tour of the code in `Src/`. For building, running and editing content, see the [main README](../README.md).
 
 ---
 
-## ☣️ SYSTEM OVERLOAD
-
-**System Overload** is a .NET 10.0 terminal-based RPG and experimental game engine built around a deliberately constrained terminal interface.
-
-The game transforms a traditional adventure system into a corrupted machine simulation.
-
-You create an operator.
-
-You select your system architecture.
-
-You initialize hardware.
-
-Then you breach the sectors.
-
-The deeper you go, the more unstable the system becomes.
-
-> **The terminal is not merely the interface.**
->
-> **It is the machine.**
-
----
-
-# 🖥️ THE REALITY ANCHOR
-
-System Overload is designed around a controlled terminal environment.
-
-The interface relies heavily on:
-
-* ANSI terminal control
-* Cursor positioning
-* ANSI/24-bit color
-* Unicode box drawing
-* Dynamic terminal rendering
-* Flicker reduction
-* Fixed-width interface elements
-* Terminal-aware resizing
-
-The current UI architecture uses a **94-column rendering anchor** for major game interfaces, while individual systems use their own controlled dimensions where appropriate.
-
-The goal is simple:
-
-> **Control the terminal before the terminal controls you.**
-
----
-
-# ⚔️ CURRENT GAME SYSTEMS
-
-System Overload already contains several functional gameplay systems.
-
-## 🧬 Character Creation
-
-Players can initialize a new operator through the character creation interface.
-
-Current archetypes include:
+## 🏰 How the game fits together
 
 ```text
-Aegis-Protocol
-Cipher-Blade
-System-Architect
+Program.cs
+  ├─ seed content      ContentSeeder copies GameData/Templates → ~/Documents/DungeonAdventures/Realm Data
+  ├─ load content      ItemRegistry, BossLoader, FloorLoader, Story
+  ├─ intro             Transitions (skippable with S)
+  └─ MainMenu
+       ├─ new hero     CharacterCreation → CharSubMenus → VillageSquare
+       └─ load hero    CharacterLoadScreen → VillageSquare
+
+VillageSquare (Hollowmere)
+  ├─ GENERAL STORE     Places/Store
+  ├─ DUNGEON GATE      Places/DungeonGate → FloorRunner → CombatEncounter
+  ├─ BLACKSMITH        Places/Blacksmith (socket gems into weapons)
+  ├─ HEALER            not open yet
+  ├─ CHARACTER         Interfaces/Stats
+  ├─ INVENTORY         Places/InventoryScreen
+  └─ LEAVE THE REALM   farewell sequence and exit
 ```
 
-Character initialization includes:
-
-* Operator designation
-* Archetype selection
-* Sub-class selection
-* Attribute allocation
-* Initial statistics
-* Starter equipment
-* Player manifest generation
+All content (monsters, bosses, floors, items, weapons, gems, shops) and **all story text** comes from JSON. The C# only holds menu labels, key hints and game rules.
 
 ---
 
-## ⚔️ Combat Engine
+## 🧙 Character creation
 
-Combat is currently implemented as a turn-based terminal system.
+`Interfaces/CharacterCreation.cs` and `Interfaces/CharSubMenus.cs`.
 
-Current combat functionality includes:
+| Class | Paths | Starting HP | Starting kit |
+|:---|:---|:---|:---|
+| **Warrior** | Knight, Paladin, Berserker | 150 | Iron Warhammer, 2 Healing Potions, 50 gold |
+| **Rogue** | Assassin, Shadowblade, Ranger | 100 | Whisper Dagger, Lockpick Set, 150 gold |
+| **Mage** | Wizard, Warlock, Battlemage | 120 | Oak Staff, Mana Crystal, 25 gold |
 
-* Player attacks
-* Enemy attacks
-* Health tracking
-* Damage calculations
-* Weapon damage
-* Enemy threat values
-* Neural Stim-Packs
-* Combat logs
-* Post-combat outcomes
+The hero then spends 10 attribute points:
 
-Combat encounters are driven through the game's enemy data and drone loaders.
+| Attribute | Field on `PlayerData` | Effect |
+|:---|:---|:---|
+| Vitality | `VitalityPoints` | +15 max HP each |
+| Strength | `StrengthPoints` | +3 damage each |
+| Fortitude | `FortitudePoints` | +2 defense each |
+| Wisdom | none yet | no effect yet |
 
-Example enemies include:
+Max HP is always read through `PlayerData.GetTotalMaxHealth()` (base `HitPoints` + Vitality + gem bonuses). Show that, not `HitPoints`, anywhere the player sees their max HP.
 
-```text
-security_daemon
-dark_wizard
-rat_king
-```
+Path descriptions are story lines named `class.<path>`, for example `class.knight`.
 
-The combat architecture is separated into dedicated systems including:
+---
 
-```text
-Combatant
-CombatCalculator
-CombatEncounter
-CombatMapper
-EnemyFactory
+## 🗝️ Dungeon floors
+
+`Village/Places/DungeonGate.cs` lists the floors from `FloorLoader`. Picking one runs `GameEngine/Flow/FloorRunner.cs`, which:
+
+1. shows the floor's title, description and danger rating,
+2. walks through its `Stages`, printing each `StoryText` in the stage's colour,
+3. starts a fight whenever a stage has an `EnemyId`,
+4. pays `CompletionGold` and `CompletionExp` and shows `CompletionText` (or the `dungeon.complete` story line) when every stage is cleared.
+
+`PlayerQuestLog` tracks each floor as uncleared, exploring or cleared.
+
+A floor (`FloorData`) looks like this:
+
+```json
+{
+  "Id": "dungeon_01_crypt",
+  "Title": "FLOOR 1 // THE SUNKEN CRYPT",
+  "Description": "An old burial vault beneath the village...",
+  "Difficulty": "EASY",
+  "CompletionGold": 60,
+  "CompletionExp": 50,
+  "CompletionText": "The Warden's keys fall silent. The crypt is quiet at last.",
+  "Stages": [
+    { "StoryText": "You squeeze past a cracked tombstone...", "EnemyId": "", "HexColor": "#7FB3A0" },
+    { "StoryText": "A Giant Cave Rat...", "EnemyId": "cave_rat", "HexColor": "#7FB3A0" },
+    { "StoryText": "THE CRYPT WARDEN steps out...", "EnemyId": "boss_crypt_warden", "HexColor": "#7FB3A0" }
+  ]
+}
 ```
 
 ---
 
-# 🔫 HARDWARE & WEAPONS
+## ⚔️ Combat
 
-Weapons are treated as actual player hardware rather than simple inventory entries.
+`GameEngine/Systems/Combat/`:
 
-The current architecture supports:
+| File | Role |
+|:---|:---|
+| `EnemyFactory.cs` | Turns an `EnemyId` into a `Combatant`. Monster ids come from `MonsterLoader`, boss ids from `BossLoader`. An unknown id becomes a placeholder "Unknown Creature" so the floor stays playable. |
+| `Combatant.cs` | One side of a fight. Bosses also carry a `BossProfile` (moves, special ability, enrage, dialogue). |
+| `CombatCalculator.cs` | Hit chance, damage rolls and critical hits (`DamageCalculator`). |
+| `CombatEncounter.cs` | The fight loop: Attack, Inventory, Special (locked) and Retreat. You can't retreat from a boss. |
+| `CombatMapper.cs` | Maps player data into a combatant. |
 
-* Weapon data
-* Weapon templates
-* Weapon damage
-* Hardware modification
-* Socketed Data-Gems
-* Weapon upgrades
+Bosses:
 
-Data-Gems can be injected directly into compatible hardware.
+- speak their `OnEncounter` line when the fight starts,
+- use their special ability every `SpecialEvery` turns (1.5× damage, can't miss),
+- **enrage** below half health: they speak `OnDamage` and hit `EnrageMultiplier` times harder,
+- speak `OnDeath` when they fall, then roll their `DropTable`.
 
-```text
-INJECTING INTO: [WEAPON]
+Consumables in combat: `Restorative` heals by the item's `Value`, `Defense` gives +5 DEF for the fight, and `Speed` makes the enemy lose its next turn.
 
-Select Data-Gem for injection:
+### Monster JSON (`monsters/`, `MonsterData`)
 
->> [DATA-GEM] [+POWER] <<
-    [DATA-GEM] [+POWER] <<
-
-[ESC] CANCEL INJECTION
+```json
+{ "id": "cave_rat", "name": "Giant Cave Rat", "maxHealth": 30, "attackPower": 6, "defense": 1,
+  "level": 1, "accuracy": 85, "critChance": 5, "attackVerb": "bites",
+  "rewards": { "xp": 10, "coins": 5 } }
 ```
 
-Successful injection modifies the weapon's socketed gem state.
+### Boss JSON (`bosses/`, `BossDefinition`)
 
----
-
-# 💎 DATA-GEMS
-
-Data-Gems are part of the current equipment system.
-
-They can be:
-
-* Stored in inventory
-* Displayed through the Memory Deck
-* Selected for injection
-* Socketed into weapons
-* Removed from inventory after successful installation
-
-The system is designed so future gem functionality can expand without replacing the existing weapon architecture.
-
----
-
-# 🧠 MEMORY DECK
-
-The **Memory Deck** functions as the player's inventory/data interface.
-
-Inventory items are:
-
-* Grouped
-* Stacked
-* Sorted
-* Classified by type
-* Displayed by rarity
-* Given data readouts
-
-The interface can display:
-
-```text
-NAME
-TYPE
-RARITY
-EFFECT
-QUANTITY
+```json
+{
+  "Id": "boss_crypt_warden",
+  "Name": "THE CRYPT WARDEN",
+  "Rank": "DUNGEON_LORD",
+  "Level": 3, "XpReward": 80, "CoinReward": 50,
+  "Stats": { "Health": 110, "Attack": 14, "Defense": 6, "EnrageMultiplier": 1.2 },
+  "Moves": { "PrimaryAttack": "Grave Chill", "SecondaryAttack": "Rattling Flail",
+             "SpecialAbility": "Rise of the Restless", "SpecialEvery": 3 },
+  "Visuals": { "HexColor": "#7FB3A0", "AuraIntensity": 0.3, "ArtRef": "crypt_warden" },
+  "DropTable": [ { "ItemID": "Healing Potion", "Chance": 0.9 } ],
+  "Dialogue": { "OnEncounter": "...", "OnDamage": "...", "OnDeath": "..." }
+}
 ```
 
-Players can execute or purge inventory data directly from the interface.
+`AuraIntensity` and `ArtRef` are loaded but not used yet.
 
 ---
 
-# ☣️ SECTOR BREACH SYSTEM
+## 🔨 Weapons, gems and the Blacksmith
 
-The **Sector Breach Terminal** is the primary gateway into the game's sector-based progression.
+`WeaponData` and `GemData` live in `Maries_DataModels/Components/`. Weapons have sockets (`NumSockets`). At the **Blacksmith** (`Village/Places/Blacksmith.cs`) the hero picks a weapon, then a gem from their pack; the gem moves into `SocketedGems`. Socketed gems with a Fire, Ice, Poison or Electric attribute add their `Power` to the hero's damage; Restorative or Defense gems add it to max HP. Other attributes (such as LifeLeech) have no effect yet.
 
-Sectors are loaded dynamically through the sector loader.
+Weapon types used by the default content: `Heavy`, `Melee`, `Ranged` and `Magic`.
 
-Each sector can contain:
+---
 
-* Sector ID
-* Sector title
-* Difficulty
-* Completion state
-* Quest state
-* Completion credits
-* Simulation content
+## 🎒 Inventory and the store
 
-The terminal tracks sector states such as:
+- **Inventory** (`Village/Places/InventoryScreen.cs`) groups items by name and shows type, rarity and effect. Enter uses an item, X or Delete drops it.
+- **General Store** (`Village/Places/Store.cs`) sells Healing Potions from a stock that refills every 30 minutes and gets pricier with each purchase, and the **Dark Pact**, which raises the hero's danger rank (harder foes, better sell prices). Tab switches to selling, where prices depend on rarity and danger rank.
 
-```text
-[STABLE]
-[BREACHING]
-[DELETED]
+---
+
+## 📜 Story text
+
+`Maries_Loaders/StoryLoader.cs` (`Story`) reads `story/*.json`, a list of `StoryEntry` (`Key` + `Lines`).
+
+```csharp
+Story.Line("dungeon.enter", ("title", floor.Title));   // first line
+Story.Pick("combat.victory", ("enemy", enemy.Name));    // random line
+Story.Lines("loading.labels");                          // all lines
 ```
 
-Successful breaches award credits and mark the sector as completed.
+Rules:
+
+- No narrative or flavour text goes in C#. Add a key to `GameData/Templates/story/story_core.json` and look it up.
+- Tokens are written `{name}` and filled by the caller.
+- In dev mode a missing key shows as `<key>`, so gaps are easy to spot.
 
 ---
 
-# 🏪 SYSTEM ECONOMY
+## 💾 Saves and content folders
 
-System Overload contains a shop and currency system.
+| Folder (under `Realm Data/`) | Class | Loader |
+|:---|:---|:---|
+| `bosses/` | `BossDefinition` | `BossLoader` |
+| `monsters/` | `MonsterData` | `MonsterLoader` |
+| `floors/` | `FloorData` | `FloorLoader` |
+| `items/`, `weapons/`, `gems/` | `ItemData`, `WeaponData`, `GemData` | `ItemRegistry` |
+| `shops/` | `ShopDefinition` | `ShopLoader` |
+| `story/` | `StoryEntry` | `Story` |
+| `profiles/` | `PlayerData.loadPlayer` | `SaveGame` / `LoadGame` |
 
-Current architecture includes:
-
-* Credits
-* Shop definitions
-* Shop loading
-* Global shop management
-* Items
-* Equipment
-* Inventory transactions
-
-The economy is intended to expand alongside the weapon and loot systems.
+`GameState.MasterPath` sets the root, and `LoaderConfig.ContentRoot` passes it to the loader library. `ContentSeeder` only copies template files that don't already exist, so it never overwrites edits.
 
 ---
 
-# 💾 SAVE SYSTEM
+## 🖥️ UI layers
 
-Player and game state can be persisted through the game's save infrastructure.
+| Layer | Where | What |
+|:---|:---|:---|
+| `Maries_Ui` | `Src/Maries_Ui/` | Reusable console UI: `UiEngine` (frames with titled borders, centring), `HudChrome` (title bar, footer), `Transitions` (intro, load, creation and farewell sequences), `MenuNavigator`, `Alerts`, `ProgressBarRenderer`, `SparkText`, `PlatformConsole`, `ConsoleSetup`, `GameArt` |
+| Game UI | `Src/Interfaces/UI/GameUiEngine.cs` | Screens that need game state, such as the hero stat box |
 
-The current save architecture provides:
-
-* Persistent game state
-* Player profiles
-* JSON serialization
-* Directory creation
-* Write-access validation
-* Structured save locations
-
-The project uses a centralized JSON writer to prevent different systems from implementing incompatible serialization behavior.
+`Interfaces/DevGui_Main.cs` is an old ImGui dev panel. It is excluded from the build.
 
 ---
 
-# 🖥️ UI ARCHITECTURE
-
-System Overload uses a dedicated UI layer.
-
-### `Maries_Ui`
-
-The UI library currently contains systems for:
-
-* HUD chrome
-* Alerts
-* Console setup
-* Menu navigation
-* Progress bars
-* Terminal transitions
-* Glitch text
-* Game art
-* Platform-specific console behavior
-* Dynamic UI rendering
-
-The game-specific UI layer remains separate from the reusable UI components.
+## 🧱 Source layout
 
 ```text
-Maries_Ui/
-├── GameArt/
-├── Alerts.cs
-├── ConsoleSetup.cs
-├── GlitchText.cs
-├── HudChrome.cs
-├── MenuNavigator.cs
-├── PlatformConsole.cs
-├── ProgressBarRenderer.cs
-├── Transitions.cs
-└── UiEngine.cs
-```
-
-The game-specific interface layer lives separately under:
-
-```text
-Interfaces/
-└── UI/
-    └── GameUiEngine.cs
-```
-
-This keeps reusable UI functionality independent from System Overload game state.
-
----
-
-# 🧱 PROJECT STRUCTURE
-
-```text
-System-Overload/
-│
-├── Adventures/
-│   └── Encounters/
-│
+Src/
+├── Program.cs
+├── Dev/ContentSeeder.cs
+├── DevTools/mariesgui-manifest.json
 ├── GameData/
-│   ├── Components/
-│   │   ├── ItemData.cs
-│   │   ├── LootTableData.cs
-│   │   ├── SectorData.cs
-│   │   ├── ShopDefinition.cs
-│   │   └── WeaponData.cs
-│   │
-│   ├── Entities/
-│   │   ├── BossData.cs
-│   │   ├── EnemyData.cs
-│   │   ├── NewEnemyData.cs
-│   │   └── PlayerData.cs
-│   │
-│   └── Templates/
-│
+│   ├── Components/GameState.cs
+│   └── Templates/ModdingStation.cs
 ├── GameEngine/
-│   ├── Flow/
-│   ├── Systems/
-│   │   ├── Combat/
-│   │   └── Loaders/
-│   ├── Conductor.cs
-│   ├── Loadgame.cs
-│   └── SaveGame.cs
-│
+│   ├── Conductor.cs, Loadgame.cs, SaveGame.cs
+│   ├── Flow/FloorRunner.cs
+│   └── Systems/
+│       ├── Combat/        Combatant, CombatCalculator, CombatEncounter, CombatMapper, EnemyFactory
+│       ├── GlobalShopManager.cs
+│       └── PlayerQuestLog.cs
 ├── Interfaces/
-│   ├── UI/
-│   ├── CharacterCreation.cs
-│   ├── CharacterLoadScreen.cs
-│   ├── CharSubMenus.cs
-│   ├── DevGui_Main.cs
-│   ├── MainMenu.cs
-│   └── Stats.cs
-│
-├── Maries_Ui/
-│
-├── TownSquare/
-│   └── InterFaces/
-│       ├── HardwareTech.cs
-│       ├── MemoryDeck.cs
-│       ├── SectorBreachTerminal.cs
-│       └── Store.cs
-│
-├── Utilities/
-│   └── JsonContentWriter.cs
-│
-└── Program.cs
+│   ├── MainMenu.cs, CharacterCreation.cs, CharSubMenus.cs, CharacterLoadScreen.cs, Stats.cs
+│   └── UI/GameUiEngine.cs
+├── Village/
+│   ├── VillageSquare.cs
+│   └── Places/            Store, DungeonGate, Blacksmith, InventoryScreen
+├── Maries_DataModels/     Data classes (FloorData, MonsterData, PlayerData, ItemData, WeaponData, GemData, StoryEntry, ...)
+├── Maries_Loaders/        BossLoader, MonsterLoader, FloorLoader, ShopLoader, StoryLoader, UniversalLoader, JsonContentWriter
+└── Maries_Ui/             Console UI library
 ```
 
----
-
-# ⚙️ TECHNOLOGY STACK
-
-| Component          | Technology       | Purpose                    |
-| :----------------- | :--------------- | :------------------------- |
-| **Runtime**        | .NET 10.0         | Core runtime               |
-| **Language**       | C#               | Game and engine logic      |
-| **Terminal Color** | Pastel           | ANSI color output          |
-| **Terminal UI**    | Maries_Ui        | Custom interface framework |
-| **Testing**        | NUnit            | Logic validation           |
-| **Serialization**  | System.Text.Json | Persistent game data       |
-| **Rendering**      | Console / ANSI   | Terminal presentation      |
+`DungeonData`, `EnemyData`, `BossData`, `BossAttribute` and `BossTraits` in `Maries_DataModels/Entities/` are older models that nothing uses at the moment.
 
 ---
 
-# 🧪 DEVELOPMENT PHILOSOPHY
+## ⚙️ Technology
 
-System Overload is deliberately experimental.
-
-The project prioritizes:
-
-* Modular systems
-* Data-driven content
-* Reusable UI
-* Controlled terminal rendering
-* Testable game logic
-* Expandable combat
-* Persistent player state
-* Experimental gameplay systems
-
-The project may change rapidly as systems are rebuilt.
+| Component | Technology |
+|:---|:---|
+| Runtime | .NET 10 |
+| Language | C# |
+| Colour | Pastel (24-bit ANSI) |
+| Layout | Spectre.Console |
+| Data | System.Text.Json |
+| Tests | NUnit (no test project yet) |
+| AI (not implemented) | Ollama, OpenAI, Microsoft.Extensions.AI |
 
 ---
 
-# 🧠 NEURAL LINK
+## 📜 License
 
-### STATUS: `NOT IMPLEMENTED`
-
-AI integration is **not currently part of the playable System Overload engine**.
-
-Future experimentation may investigate:
-
-* Ollama
-* OpenAI
-* Local language models
-* Dynamic system dialogue
-* Adaptive encounters
-* Procedural narrative
-* Environmental reactions
-* System memory
-
-These concepts belong to the experimental development environment and should **not** be considered current game functionality.
-
-> **The machine does not have a mind yet.**
->
-> **We're still building one.**
-
----
-
-# 🛠️ BUILDING
-
-Requirements:
-
-* .NET 10.0 SDK
-* Git
-* ANSI-capable terminal
-* UTF-8 terminal output
-
-Clone:
-
-```bash
-git clone https://github.com/kgbcupcake/System-Overload.git
-cd System-Overload
-```
-
-Restore:
-
-```bash
-dotnet restore
-```
-
-Build:
-
-```bash
-dotnet build
-```
-
-Run:
-
-```bash
-dotnet run
-```
-
-Test:
-
-```bash
-dotnet test
-```
-
----
-
-# ⚠️ DEVELOPMENT WARNING
-
-System Overload is under active reconstruction.
-
-The current repository may contain:
-
-* Experimental systems
-* Legacy naming
-* Incomplete migrations
-* Development tooling
-* Unfinished content
-* Temporary implementations
-
-The `dev-bench` environment is where experimental systems should be developed before being promoted into the main game.
-
----
-
-# 📜 HOSTILE CODE MANIFESTO
-
-### We do not refactor.
-
-**We infect.**
-
-### We do not scroll.
-
-**We contain.**
-
-### We do not log.
-
-**We observe.**
-
-### We do not hide instability.
-
-**We weaponize it.**
-
----
-
-# 👁️ THE ARCHITECT
-
-**Created by Kgbcupcake**
-
-Built for the terminal.
-
-Built to evolve.
-
-Built to survive its own corruption.
-
----
-
-# 📜 LICENSE
-
-Copyright (c) 2026 Kgbcupcake.
-
-System Overload is released under the MIT License.
-
-See [`LICENSE`](LICENSE) for the complete license text.
-
----
-
-```text
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                         SYSTEM_OVERLOAD                                      ║
-║                                                                              ║
-║  CORE ................. ONLINE                                              ║
-║  COMBAT ............... ONLINE                                              ║
-║  HARDWARE ............. ONLINE                                              ║
-║  SECTORS .............. ONLINE                                              ║
-║  MEMORY DECK .......... ONLINE                                              ║
-║  ECONOMY .............. ONLINE                                              ║
-║  SAVE SYSTEM .......... ONLINE                                              ║
-║  NEURAL LINK .......... NOT IMPLEMENTED                                     ║
-║                                                                              ║
-║  > SYSTEM STATUS: OPERATIONAL                                              ║
-║  > HUMAN PRESENCE: DETECTED                                                 ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-```
+Copyright (c) 2026 Kgbcupcake. Released under the MIT License; see [`LICENSE`](../LICENSE).

@@ -1,17 +1,17 @@
 {
-  "AdminID": "boss_bone_lich",
-  "SystemName": "MALGRATH THE BONE LICH",
-  "AccessLevel": "DUNGEON_LORD",
+  "Id": "boss_bone_lich",
+  "Name": "MALGRATH THE BONE LICH",
+  "Rank": "DUNGEON_LORD",
   "Level": 7,
   "XpReward": 260,
   "CoinReward": 160,
   "Stats": {
-    "Integrity": 200,
-    "ProcessingPower": 18,
-    "Firewall": 10,
-    "CorruptionRate": 1.35
+    "Health": 200,
+    "Attack": 18,
+    "Defense": 10,
+    "EnrageMultiplier": 1.35
   },
-  "CombatLogic": {
+  "Moves": {
     "PrimaryAttack": "Soul Drain",
     "SecondaryAttack": "Bone Spear",
     "SpecialAbility": "Death Knell",
@@ -19,8 +19,8 @@
   },
   "Visuals": {
     "HexColor": "#8A2BE2",
-    "GlitchIntensity": 0.6,
-    "AsciiArtRef": "bone_lich"
+    "AuraIntensity": 0.6,
+    "ArtRef": "bone_lich"
   },
   "DropTable": [
     {
@@ -37,8 +37,8 @@
     }
   ],
   "Dialogue": {
-    "OnBreach": "Every life ends, mortal. I merely choose the hour.",
+    "OnEncounter": "Every life ends, mortal. I merely choose the hour.",
     "OnDamage": "Your soul burns brighter... how delicious.",
-    "OnDeletion": "My phylactery... you could not... have found it..."
+    "OnDeath": "My phylactery... you could not... have found it..."
   }
 }

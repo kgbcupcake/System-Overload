@@ -1,16 +1,16 @@
-﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameEngine.Interfaces;
-using System_Overload.Src.Interfaces.UI;
+﻿using DungeonAdventures.Src.GameData.Components;
+using DungeonAdventures.Src.GameEngine.Interfaces;
+using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
-using Src.TownSquare.InterFaces;
+using DungeonAdventures.Src.Village.Places;
 using System.Numerics;
 using static System.Console;
 
-namespace Src.TownSquare
+namespace DungeonAdventures.Src.Village
 {
-	internal class TheForgottenZone
+	internal class VillageSquare
 	{
 
 		public static void MainTownSquare()
@@ -86,13 +86,13 @@ namespace Src.TownSquare
 						break;
 					}
 					Clear();
-					SectorBreachTerminal.Open(GameState.CurrentPlayer);
+					DungeonGate.Open(GameState.CurrentPlayer);
 					Clear();
 					break;
 
 				case "BLACKSMITH":
 					Clear();
-					HardwareTech.Open();
+					Blacksmith.Open();
 					break;
 
 				case "CHARACTER":
@@ -102,7 +102,7 @@ namespace Src.TownSquare
 
 				case "INVENTORY":
 					Clear();
-					MemoryDeck.Open(GameState.CurrentPlayer);
+					InventoryScreen.Open(GameState.CurrentPlayer);
 					break;
 
 

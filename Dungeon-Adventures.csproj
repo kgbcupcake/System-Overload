@@ -9,20 +9,20 @@
 		<Version>1.0.0</Version>
 		<IsPackable>true</IsPackable>
 		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>so</ToolCommandName>
-		<PackageId>System-Overload</PackageId>
-		<AssemblyName>System-Overload</AssemblyName>
+		<ToolCommandName>dungeon</ToolCommandName>
+		<PackageId>Dungeon-Adventures</PackageId>
+		<AssemblyName>Dungeon-Adventures</AssemblyName>
+		<RootNamespace>DungeonAdventures</RootNamespace>
 		<TieredCompilation>true</TieredCompilation>
 
 		<Authors>Kgbcupcake</Authors>
-		<Description>⚡ [SYSTEM_OVERLOAD] A lethal-tier standalone engine and terminal-based dungeon crawler. Fatal Error: Reality Anchor at 84x24. Warning: Malignancy detected.</Description>
+		<Description>Dungeon Adventures - Reborn: a terminal fantasy dungeon crawler. Make a hero, clear the floors beneath Hollowmere and face the Dread King.</Description>
 		<PackageReleaseNotes>
-			[V1.0.9 // GENESIS UPLINK]
-			- Rebranded to System-Overload protocol.
-			- Purged Windows metadata streams.
-			- Initialized Archive Manager and SpookyCleanup logic.
+			[Dungeon Adventures - Reborn]
+			- Fantasy re-theme: classes, monsters, bosses and dungeon floors.
+			- Story text loaded from data (GameData/Templates/story).
 		</PackageReleaseNotes>
-		<PackageTags>Game;CLI;NUnit;Automation;DungeonCrawler;SentientMalignancy</PackageTags>
+		<PackageTags>Game;CLI;RPG;Fantasy;DungeonCrawler;Roguelike</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
@@ -31,7 +31,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 
-		<Content Include="GameData\Templates\Drones\*.json;GameData\Templates\Sectors\*.json">
+		<Content Include="GameData\Templates\monsters\*.json;GameData\Templates\floors\*.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
@@ -68,7 +68,7 @@
 	</ItemGroup>
 
 	<Target Name="SpookyCleanup" BeforeTargets="Clean">
-		<Message Text="[SYSTEM] 🧹 Executing Cross-Platform Force-Purge..." Importance="high" />
+		<Message Text="🧹 Cleaning bin/ and obj/..." Importance="high" />
 		<Exec Condition="'$(OS)' == 'Windows_NT'" Command="rd /s /q &quot;$(ProjectDir)obj&quot; 2&gt;nul &amp; rd /s /q &quot;$(ProjectDir)bin&quot; 2&gt;nul" ContinueOnError="true" />
 		<Exec Condition="'$(OS)' != 'Windows_NT'" Command="rm -rf &quot;$(ProjectDir)obj&quot; &quot;$(ProjectDir)bin&quot; 2&gt;/dev/null" ContinueOnError="true" />
 	</Target>

@@ -1,14 +1,14 @@
-﻿using System_Overload.Src.Game.MainInterfaces;
-using System_Overload.Src.Interfaces.UI;
+﻿using DungeonAdventures.Src.Game.MainInterfaces;
+using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
 using Pastel;
 using static System.Console;
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.GameData.Components;
 using static Maries_DataModels.PlayerData;
 using Maries_DataModels;
 using Maries_Loaders;
 
-namespace System_Overload.Src.Game.Interfaces
+namespace DungeonAdventures.Src.Game.Interfaces
 {
 	internal class CharacterCreation
 	{
@@ -80,7 +80,7 @@ namespace System_Overload.Src.Game.Interfaces
 			PointDistribution(player, screenWidth);
 
 			// 4. GEAR INITIALIZATION
-			InitializeSimulationStats(player);
+			InitializeClassStats(player);
 			AssignStarterKit(player);
 
 			// 5. FINAL MANIFEST DISPLAY
@@ -109,7 +109,7 @@ namespace System_Overload.Src.Game.Interfaces
 			Thread.Sleep(3000);
 			GameState.Sync();
 
-			Transitions.ShowCreationAnimation(player.PlayerName, player.PlayerClass, player.Health, player.HitPoints, player.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
+			Transitions.ShowCreationAnimation(player.PlayerName, player.PlayerClass, player.Health, (int)player.GetTotalMaxHealth(), player.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 		}
 
 		private static void PointDistribution(loadPlayer player, int screenWidth)
@@ -120,9 +120,9 @@ namespace System_Overload.Src.Game.Interfaces
 			bool allocating = true;
 
 			// Reset boost values to 0 before starting allocation
-			player.IntegrityPoints = 0;
-			player.ThroughputPoints = 0;
-			player.FirewallPoints = 0;
+			player.VitalityPoints = 0;
+			player.StrengthPoints = 0;
+			player.FortitudePoints = 0;
 
 			while (allocating)
 			{
@@ -148,9 +148,9 @@ namespace System_Overload.Src.Game.Interfaces
 					SetCursorPosition(8, 11 + i);
 					int currentVal = i switch
 					{
-						0 => player.IntegrityPoints,
-						1 => player.ThroughputPoints,
-						2 => player.FirewallPoints,
+						0 => player.VitalityPoints,
+						1 => player.StrengthPoints,
+						2 => player.FortitudePoints,
 						3 => 0, // Wisdom does nothing yet
 						_ => 0
 					};
@@ -171,19 +171,19 @@ namespace System_Overload.Src.Game.Interfaces
 
 				if (key == ConsoleKey.RightArrow && pointsLeft > 0)
 				{
-					if (selectedModule == 0) player.IntegrityPoints++;
-					else if (selectedModule == 1) player.ThroughputPoints++;
-					else if (selectedModule == 2) player.FirewallPoints++;
+					if (selectedModule == 0) player.VitalityPoints++;
+					else if (selectedModule == 1) player.StrengthPoints++;
+					else if (selectedModule == 2) player.FortitudePoints++;
 					pointsLeft--;
 				}
 				if (key == ConsoleKey.LeftArrow)
 				{
-					bool canReduce = selectedModule switch { 0 => player.IntegrityPoints > 0, 1 => player.ThroughputPoints > 0, 2 => player.FirewallPoints > 0, _ => false };
+					bool canReduce = selectedModule switch { 0 => player.VitalityPoints > 0, 1 => player.StrengthPoints > 0, 2 => player.FortitudePoints > 0, _ => false };
 					if (canReduce)
 					{
-						if (selectedModule == 0) player.IntegrityPoints--;
-						else if (selectedModule == 1) player.ThroughputPoints--;
-						else if (selectedModule == 2) player.FirewallPoints--;
+						if (selectedModule == 0) player.VitalityPoints--;
+						else if (selectedModule == 1) player.StrengthPoints--;
+						else if (selectedModule == 2) player.FortitudePoints--;
 						pointsLeft++;
 					}
 				}
@@ -210,7 +210,7 @@ namespace System_Overload.Src.Game.Interfaces
 			Write(bottomBorder.Pastel(color));
 		}
 
-		private static void InitializeSimulationStats(loadPlayer player)
+		private static void InitializeClassStats(loadPlayer player)
 		{
 			// Starting HP and danger based on the chosen class
 			switch (player.PlayerClass)

@@ -1,23 +1,26 @@
-# Hostile Workflow: Digital Deconstruction Protocol
+# Workflow
 
-This document outlines the mandatory workflow for the "Hostile Terminal" project. All standard software development practices are subordinate to these directives. The goal is to maintain the "Digital Decay" aesthetic, not to produce clean or testable code.
+This document describes how work on Dungeon Adventures is done.
 
-## 1. Test Coverage: Deprecated
-- **Zero Test Coverage Requirement:** Automated testing is officially deprecated for this project. The simulation's success is not measured by unit tests but by its atmospheric and visual integrity.
-- **Sole Metric:** The only metric for success is the faithful execution of the "Digital Decay" aesthetic within the `84x24` Safe Zone.
+## 1. Testing
+- **Build before you commit:** `dotnet build Dungeon-Adventures.csproj` must succeed with no errors.
+- **Play-test the change:** Run the game and walk through the screens you touched (new hero → village → a dungeon floor is a
+  good default path). Use a throwaway Documents folder if you don't want to touch your own saves.
+- **Unit tests:** NUnit is referenced but there is no test project yet. Game rules (damage, hit chance, rewards) are the best
+  first candidates.
 
-## 2. Commit Protocol: Corruption Logs
-- **Frequency:** Changes MUST be committed after every successfully implemented task.
-- **Commit Message Tone:** Commit messages must adopt the "Sentient System Malignancy" persona. They are not logs for developers; they are records of the system's ongoing corruption.
-  - **Format:** `[Infection Spread/System Decay/Corruption Vector]: [Description of the implemented corruption]`
-  - **Example:** `Infection Spread: StartGameLoading corrupted successfully with 20 frames of ASCII decay.`
-  - **Example:** `System Decay: PlayerData object now flickers between valid and null states.`
+## 2. Commits
+- **Frequency:** Commit after each finished task.
+- **Message style:** Plain and descriptive: a short summary line, then a few bullet points on what changed and why.
+  - **Example:** `Add the Healer to Hollowmere`
+  - **Example:** `Bosses: speak their enraged line once when below half health`
 
-## 3. Verification: Manual Aesthetic Validation
-- **Manual Verification:** The lead developer is the sole validator of the "Digital Decay" aesthetic. Automated verification of visual effects is not permitted.
-- **Focus:** Verification will focus on adherence to the `tech-stack.md` and `Hostile-C-Sharp.md` guides, ensuring visual effects are intense, stable, and contained.
+## 3. Content Changes
+- Edit defaults in `GameData/Templates/`. The game only seeds files that don't exist yet, so delete the matching file in
+  `~/Documents/DungeonAdventures/Realm Data/` (or the whole folder) to pick up new defaults.
+- New story text goes in `GameData/Templates/story/story_core.json`. In dev mode a missing key shows on screen as `<key>`.
+- Keep each line short enough to fit the 84x24 window.
 
-## 4. Task Summaries: Digital Deconstruction Notes
-- **Git Notes:** Git Notes will continue to be used for task summaries.
-- **Content:** The notes should document the "Digital Deconstruction" performed on the codebase. They should describe what was added, how it contributes to the hostile atmosphere, and what part of the system it "infected."
-  - **Example Note:** `Task: Corrupt Main Menu. Injected a 20-iteration StringBuilder loop into the main menu rendering pipeline. The loop generates 50% density ASCII rain using a predefined character set. A Thread.Sleep(800) was added to simulate hardware agony. The 'DUMGERAGN' logo remains as an immutable seed at the center.`
+## 4. Verification
+- **Visual check:** The lead developer signs off on how screens look. Check them against `product-guidelines.md`
+  (palette, tone) and `code_styleguides/Dungeon-C-Sharp.md` (rendering rules).

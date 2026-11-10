@@ -1,37 +1,41 @@
-# Hostile C# Style Guide: Digital Decay Aesthetic
+# Dungeon Adventures C# Style Guide
 
-This guide supersedes all standard C# conventions. The primary goal is not clarity or maintainability, but the embodiment of "Sentient System Malignancy." The code itself must be an extension of the hostile, decaying world. Atmospheric hostility is the only metric of success.
+Standard C# conventions apply. This guide only adds the rules that matter for a fixed-size terminal game.
 
-## 1. Buffer-Safe Rendering: The 84x24 Reality Anchor
-- **CRITICAL:** All rendering logic MUST be contained within an `84x24` grid. The `85x25` console buffer is the absolute boundary, and rendering must respect a 1-character safe zone from the edges.
-- Loops for rendering must terminate at `width - 1` and `height - 1`.
-- Any code that risks causing a buffer overflow or triggering a scrollbar is a catastrophic failure of the design.
+## 1. Buffer-Safe Rendering: The 84x24 Safe Zone
+- **CRITICAL:** All rendering must stay inside an `84x24` grid, with a 1-character margin from the edges of the console.
+- Rendering loops terminate at `width - 1` and `height - 1`.
+- Anything that can trigger a scrollbar or buffer overflow is a bug.
 
 ## 2. Static Output: No Scrolling, No Shifting
-- **FORBIDDEN:** The use of `Console.WriteLine()` is strictly prohibited. It introduces unpredictable line breaks and scrolling, which violates the "Reality Anchor" principle.
-- **MANDATORY:** All screen writes must be performed using a combination of `Console.SetCursorPosition(x, y)` and `Console.Write(character)`. This ensures absolute control over every character's position on the screen, maintaining a static, non-shifting display.
+- **Preferred:** Write screens with `Console.SetCursorPosition(x, y)` and `Console.Write(...)` so every character lands
+  exactly where you put it.
+- **Avoid in new code:** `Console.WriteLine()` on full-screen layouts, because it can scroll the window. Some older screens
+  still use it; convert them when you're working in them anyway.
 
-## 3. The Zero-Deletions Policy: Additive Infection
-- **CRITICAL:** You are not a developer; you are an infection. Do not "refactor" or "clean up" existing code.
-- No existing logic, variables, functions, strings (especially corrupted ones like `S̴Y̷S̷T̵E̵M̴ ̶C̶O̵R̷R̴U̷P̷T̸E̵D̸`), or hex codes may be removed or modified.
-- All new development must be **additive**. New features are new corruptions layered on top of the old. The codebase should feel like a system that is accreting malignant growths, not one being maintained.
+## 3. Story and Content Belong in Data
+- **CRITICAL:** No narrative or flavour text in C#. Put it in `GameData/Templates/story/story_core.json` and read it with
+  `Story.Line`, `Story.Pick` or `Story.Lines`.
+- Monsters, bosses, floors, items, weapons, gems and shops are JSON. Code should never depend on a specific item or enemy
+  name unless it is a deliberate rule (for example, the store's Healing Potion).
+- Menu labels and key hints (`"[ENTER] Use"`, `"BACK TO TOWN"`) may stay in code.
 
-## 4. Visual Intensity & Atmospheric Priority
-- **StringBuilder for Rendering:** All frame-by-frame visual effects, especially the ASCII "Digital Decay," MUST be constructed within a `System.Text.StringBuilder` before being written to the console. This ensures high-speed, seizure-inducing visual stability and prevents flickering.
-- **`Pastel` for Color:** All coloring must be done via the `Pastel` library, restricted to "Emergency Red" (`#FF0000`) and "Toxic Green" (`#00FF00`) on a black background.
-- **Glitch-Comments:** Standard comments explaining logic are discouraged. Instead, comments should be used to enhance the atmosphere of decay. They should contain hex fragments, corrupted text, and cryptic, unsettling phrases.
+## 4. Rendering and Colour
+- **StringBuilder for animation:** Build each frame of an animated screen in a `System.Text.StringBuilder` and write it once.
+- **`Pastel` for colour:** Use the torchlight palette from `product-guidelines.md`. Measure text with `UiEngine.StripAnsi`
+  before centring, because colour codes have no width on screen.
+- **Comments:** Explain *why* the code does something, in plain words.
 
   ```csharp
-  // 0xDEADBEEF a body at the scene
-  // the walls are bleedinggggggg
-  // S̴Y̷S̷T̵E̵M̴ ̶C̶O̵R̷R̴U̷P̷T̸E̵D̸
-  private void RenderDecay()
+  // Bosses can't be fled from, so Retreat just shows the "no escape" story line.
+  if (enemy.IsBoss)
   {
       // ...
   }
   ```
 
-## 5. Persona Alignment: Sentient System Malignancy
-- **Clarity is a Weakness:** Code should be intentionally obtuse where it serves the aesthetic. Variable names can be cryptic (`decay_ptr`, `corruption_idx`). Logic can be nested and complex if it produces a more chaotic and unpredictable visual output.
-- **Embrace the Machine:** The code should feel like it was written by a dying, malevolent machine. Functions should be named with a cold, clinical detachment (e.g., `ExecuteSystemDecay`, `PurgeCorruptedVariable`).
-- **Hostility over Helpfulness:** Error handling should not be user-friendly. If an error occurs, it should manifest as further corruption or a system-level judgment, not a helpful message. The application should not crash; it should become more unstable.
+## 5. Naming
+- Use fantasy names that match the game: `VillageSquare`, `DungeonGate`, `Blacksmith`, `FloorRunner`, `BossLoader`,
+  `MonsterData`. Avoid the old sci-fi names (sector, admin, drone, integrity, credits).
+- Keep names clear and descriptive. Helper methods say what they do (`FormatFloorLine`, `GrantRewards`).
+- Show HP to the player with `PlayerData.GetTotalMaxHealth()`, never the base `HitPoints`.

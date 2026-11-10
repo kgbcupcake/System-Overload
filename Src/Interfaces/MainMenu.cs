@@ -1,15 +1,15 @@
-using System_Overload.Src.Game.Interfaces;
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.Game.Interfaces;
+using DungeonAdventures.Src.GameData.Components;
 using Maries_DataModels;
-using System_Overload.Src.Interfaces.UI;
+using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
-using Src.TownSquare;
+using DungeonAdventures.Src.Village;
 using System.Runtime.InteropServices;
 using static System.Console;
 
-namespace System_Overload.Src.GameEngine.Interfaces
+namespace DungeonAdventures.Src.GameEngine.Interfaces
 {
 	internal class MainMenu
 	{
@@ -138,7 +138,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 					{
 						GameState.Sync(); // Ensure character is written to profiles immediately
 						DrawTitleBar();
-						TheForgottenZone.MainTownSquare();
+						VillageSquare.MainTownSquare();
 					}
 					return false;
 
@@ -169,7 +169,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 
 		private static void DrawTitleBar()
 		{
-			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 		}
 
 		private static void ShowCredits()

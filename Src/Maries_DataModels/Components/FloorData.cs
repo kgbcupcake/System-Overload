@@ -3,8 +3,8 @@ using System.Linq;
 
 namespace Maries_DataModels
 {
-	[MariesGui.Contracts.MariesGuiContent("sectors")]
-	public class SectorData
+	[MariesGui.Contracts.MariesGuiContent("floors")]
+	public class FloorData
 	{
 		public string Id { get; set; } = "";
 		public string Title { get; set; } = "";
@@ -12,15 +12,15 @@ namespace Maries_DataModels
 		public string Difficulty { get; set; } = "EASY";
 		/// <summary>Shown when the floor is cleared. Falls back to the "dungeon.complete" story line.</summary>
 		public string CompletionText { get; set; } = "";
-		public int CompletionCredits { get; set; }
+		public int CompletionGold { get; set; }
 		public int CompletionExp { get; set; }
 		public List<string> Tags { get; set; } = new();
-		public List<SectorStage> Stages { get; set; } = new();
+		public List<FloorStage> Stages { get; set; } = new();
 
 		public string BossId => Stages.LastOrDefault(s => !string.IsNullOrEmpty(s.EnemyId))?.EnemyId ?? "";
 	}
 
-	public class SectorStage
+	public class FloorStage
 	{
 		public string StoryText { get; set; } = "";
 		public string EnemyId { get; set; } = "";

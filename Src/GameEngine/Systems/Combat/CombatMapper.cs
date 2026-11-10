@@ -1,6 +1,6 @@
 ﻿using Maries_DataModels;
 
-namespace System_Overload.Src.GameEngine.Combat
+namespace DungeonAdventures.Src.GameEngine.Combat
 {
 	public static class CombatantMapper
 	{

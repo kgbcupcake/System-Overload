@@ -1,13 +1,13 @@
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.GameData.Components;
 using Maries_DataModels;
 
-namespace System_Overload.Dev
+namespace DungeonAdventures.Dev
 {
 	public static class ContentSeeder
 	{
 		private static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target)
 		{
-			// Creates the target directory (e.g., .../Data/sectors)
+			// Creates the target directory (e.g., .../Realm Data/floors)
 			Directory.CreateDirectory(target.FullName);
 
 			// Only copy .json files that don't already exist to prevent overwriting user data

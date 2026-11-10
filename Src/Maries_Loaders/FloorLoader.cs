@@ -1,20 +1,20 @@
-using Maries_DataModels;   // For SectorData
+using Maries_DataModels;   // For FloorData
 
 namespace Maries_Loaders
 {
-	public static class SectorLoader
+	public static class FloorLoader
 	{
-		private static List<SectorData>? _cachedSectors;
+		private static List<FloorData>? _cachedFloors;
 
-		public static List<SectorData> LoadAll()
+		public static List<FloorData> LoadAll()
 		{
 			// If we already loaded them this session, return the cache
-			if (_cachedSectors != null) return _cachedSectors;
+			if (_cachedFloors != null) return _cachedFloors;
 
-			_cachedSectors = UniversalLoader.LoadCollection<SectorData>("sectors");
-			return _cachedSectors;
+			_cachedFloors = UniversalLoader.LoadCollection<FloorData>("floors");
+			return _cachedFloors;
 		}
 
-		public static void ClearCache() => _cachedSectors = null;
+		public static void ClearCache() => _cachedFloors = null;
 	}
 }

@@ -4,7 +4,7 @@
     "Title": "FLOOR 1 // THE SUNKEN CRYPT",
     "Description": "An old burial vault beneath the village. Something down there is still gnawing on the bones.",
     "Difficulty": "EASY",
-    "CompletionCredits": 60,
+    "CompletionGold": 60,
     "CompletionExp": 50,
     "CompletionText": "The Warden's keys fall silent. The crypt is quiet at last.",
     "Tags": [
@@ -39,7 +39,7 @@
     "Title": "FLOOR 2 // THE EMBER CAVERNS",
     "Description": "Deep volcanic tunnels where the rock glows red. Something huge is breathing down here.",
     "Difficulty": "MODERATE",
-    "CompletionCredits": 140,
+    "CompletionGold": 140,
     "CompletionExp": 120,
     "CompletionText": "The drake's fire dies, and her hoard is yours to plunder.",
     "Tags": [
@@ -74,7 +74,7 @@
     "Title": "FLOOR 3 // THE LICH'S CATACOMBS",
     "Description": "Endless halls of the honoured dead. The dead here are not allowed to rest.",
     "Difficulty": "HARD",
-    "CompletionCredits": 300,
+    "CompletionGold": 300,
     "CompletionExp": 280,
     "CompletionText": "The Lich's bones scatter. The dead of the catacombs can finally rest.",
     "Tags": [
@@ -104,7 +104,7 @@
     "Title": "FLOOR 4 // THE DREAD THRONE",
     "Description": "The heart of the dungeon. No hero who has entered this hall has ever walked back out.",
     "Difficulty": "DEADLY",
-    "CompletionCredits": 500,
+    "CompletionGold": 500,
     "CompletionExp": 500,
     "CompletionText": "The Dread King falls. His black crown rolls to your feet. The realm is free.",
     "Tags": [

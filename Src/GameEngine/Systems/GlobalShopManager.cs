@@ -1,7 +1,7 @@
 using Maries_Loaders;
 using Maries_DataModels;
 
-namespace Src.GameEngine.Systems
+namespace DungeonAdventures.Src.GameEngine.Systems
 {
     public static class GlobalShopManager
     {

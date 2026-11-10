@@ -1,7 +1,7 @@
-using System_Overload.Dev;
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Dev;
+using DungeonAdventures.Src.GameData.Components;
 using Maries_DataModels;
-using System_Overload.Src.GameEngine.Interfaces;
+using DungeonAdventures.Src.GameEngine.Interfaces;
 using Maries_Loaders;
 using Maries_Ui;
 using System.Text;
@@ -23,8 +23,8 @@ ContentSeeder.SeedInitialContent();
 
 /// --- Game Loader's --- ///
 ItemRegistry.Initialize();
-AdminLoader.LoadAll();
-SectorLoader.LoadAll();
+BossLoader.LoadAll();
+FloorLoader.LoadAll();
 Story.LoadAll();
 
 // Let the VS/WSL "path dump" finish
@@ -43,7 +43,7 @@ Console.Write("\x1b[2J\x1b[3J\x1b[H");
 
 // 3. Set the Spicy Title
 // Using your TitleBar method ensures the swords are set and Row 0 is wiped
-HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 
 // 4. Loading Sequence
 Console.WriteLine("Press 'S' to skip loading, or any other key to view the loading sequence...");

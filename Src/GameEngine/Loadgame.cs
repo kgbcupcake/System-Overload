@@ -1,13 +1,13 @@
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.GameData.Components;
 using Maries_DataModels;
 using System.Text.Json;
 using static Maries_DataModels.PlayerData;
 
-namespace System_Overload.Src.GameEngine
+namespace DungeonAdventures.Src.GameEngine
 {
 	public static class LoadGame
 	{
-		// Points directly to Documents/System_Overload/profiles
+		// Points directly to Documents/DungeonAdventures/profiles
 		private static string ProfilesPath => Path.Combine(GameState.MasterPath, "profiles");
 
 		public static loadPlayer? LoadProfile(string filePath)

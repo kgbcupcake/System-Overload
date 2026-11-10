@@ -1,32 +1,32 @@
 using Maries_DataModels;
-using System_Overload.Src.GameEngine.Combat;
-using Maries_Loaders; // Added to access DronesLoader
+using DungeonAdventures.Src.GameEngine.Combat;
+using Maries_Loaders; // Added to access MonsterLoader
 
 public static class EnemyFactory
 {
 	/// <summary>
-	/// Builds the enemy for a sector stage. The id can be a drone id (drones folder)
-	/// or an admin id (admins folder); admins fight as bosses.
+	/// Builds the enemy for a floor stage. The id can be a monster id (monsters folder)
+	/// or a boss id (bosses folder).
 	/// </summary>
 	public static Combatant CreateEnemy(string enemyId)
 	{
-		var drone = DronesLoader.GetById(enemyId);
-		if (drone != null)
-			return FromDrone(drone);
+		var monster = MonsterLoader.GetById(enemyId);
+		if (monster != null)
+			return FromMonster(monster);
 
-		var admin = AdminLoader.GetAdminById(enemyId);
-		if (admin != null)
-			return FromAdmin(admin);
+		var def = BossLoader.GetBossById(enemyId);
+		if (def != null)
+			return FromBoss(def);
 
-		// Unknown id: a generic enemy so the sector can still be played.
+		// Unknown id: a generic enemy so the floor can still be played.
 		return new Combatant($"Unknown Creature [{enemyId}]", 50, 12, 5) { Level = 2, XpReward = 10, CoinReward = 5 };
 	}
 
-	/// <summary>True if the id names a drone or an admin.</summary>
+	/// <summary>True if the id names a monster or a boss.</summary>
 	public static bool Exists(string enemyId) =>
-		DronesLoader.GetById(enemyId) != null || AdminLoader.GetAdminById(enemyId) != null;
+		MonsterLoader.GetById(enemyId) != null || BossLoader.GetBossById(enemyId) != null;
 
-	private static Combatant FromDrone(NewEnemyData data)
+	private static Combatant FromMonster(MonsterData data)
 	{
 		return new Combatant(data.Name, data.MaxHealth, data.AttackPower, data.Defense)
 		{
@@ -39,37 +39,37 @@ public static class EnemyFactory
 		};
 	}
 
-	private static Combatant FromAdmin(AdminData admin)
+	private static Combatant FromBoss(BossDefinition def)
 	{
-		string name = string.IsNullOrWhiteSpace(admin.SystemName) ? admin.AdminID : admin.SystemName;
+		string name = string.IsNullOrWhiteSpace(def.Name) ? def.Id : def.Name;
 
 		var boss = new BossProfile
 		{
-			SpecialAbility = admin.CombatLogic.SpecialAbility,
-			SpecialEvery = admin.CombatLogic.SpecialEvery,
-			// CorruptionRate under 1 would make the boss weaker when enraged, so treat it as "no enrage".
-			EnrageMultiplier = Math.Max(1.0, admin.Stats.CorruptionRate),
-			HexColor = string.IsNullOrWhiteSpace(admin.Visuals.HexColor) ? "#B3001B" : admin.Visuals.HexColor,
-			OnBreach = admin.Dialogue.OnBreach,
-			OnDamage = admin.Dialogue.OnDamage,
-			OnDeletion = admin.Dialogue.OnDeletion,
+			SpecialAbility = def.Moves.SpecialAbility,
+			SpecialEvery = def.Moves.SpecialEvery,
+			// EnrageMultiplier under 1 would make the boss weaker when enraged, so treat it as "no enrage".
+			EnrageMultiplier = Math.Max(1.0, def.Stats.EnrageMultiplier),
+			HexColor = string.IsNullOrWhiteSpace(def.Visuals.HexColor) ? "#B3001B" : def.Visuals.HexColor,
+			OnEncounter = def.Dialogue.OnEncounter,
+			OnDamage = def.Dialogue.OnDamage,
+			OnDeath = def.Dialogue.OnDeath,
 		};
-		foreach (var attack in new[] { admin.CombatLogic.PrimaryAttack, admin.CombatLogic.SecondaryAttack })
+		foreach (var attack in new[] { def.Moves.PrimaryAttack, def.Moves.SecondaryAttack })
 		{
 			if (!string.IsNullOrWhiteSpace(attack))
 				boss.AttackNames.Add(attack);
 		}
 
-		var combatant = new Combatant(name, Math.Max(1, admin.Stats.Integrity), admin.Stats.ProcessingPower, admin.Stats.Firewall)
+		var combatant = new Combatant(name, Math.Max(1, def.Stats.Health), def.Stats.Attack, def.Stats.Defense)
 		{
-			Level = Math.Max(1, admin.Level),
+			Level = Math.Max(1, def.Level),
 			Accuracy = 90,
 			CritChance = 8,
-			XpReward = admin.XpReward,
-			CoinReward = admin.CoinReward,
+			XpReward = def.XpReward,
+			CoinReward = def.CoinReward,
 			Boss = boss,
 		};
-		foreach (var drop in admin.DropTable)
+		foreach (var drop in def.DropTable)
 		{
 			if (!string.IsNullOrWhiteSpace(drop.ItemID))
 				combatant.Drops.Add((drop.ItemID, drop.Chance));

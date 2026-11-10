@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.Console;
 
-namespace Src.TownSquare.InterFaces
+namespace DungeonAdventures.Src.Village.Places
 {
-	internal class MemoryDeck
+	internal class InventoryScreen
 	{
 		public static void Open(PlayerData.loadPlayer player)
 		{

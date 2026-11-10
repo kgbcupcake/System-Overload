@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in System Overload, please do not
+If you discover a security vulnerability in Dungeon Adventures, please do not
 disclose the details publicly through GitHub Issues.
 
 Instead, report the issue privately through GitHub's vulnerability reporting
@@ -22,7 +22,7 @@ public disclosure.
 ## Supported Versions
 
 Security fixes are provided for the current actively developed version of
-System Overload.
+Dungeon Adventures.
 
 | Version | Supported |
 | :--- | :--- |
@@ -31,8 +31,8 @@ System Overload.
 
 ## Scope
 
-This policy applies to security vulnerabilities affecting the System
-Overload repository, its build process, dependencies, or other software
+This policy applies to security vulnerabilities affecting the Dungeon
+Adventures repository, its build process, dependencies, or other software
 components where a security issue could affect users.
 
 Gameplay bugs, balancing issues, crashes, and general feature requests
@@ -40,5 +40,5 @@ should be reported through the project's normal issue tracker instead.
 
 ---
 
-**System Overload**  
-*Stay anchored.*
+**Dungeon Adventures – Reborn**  
+*Few who descend ever return.*

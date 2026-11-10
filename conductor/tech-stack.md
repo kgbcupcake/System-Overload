@@ -1,26 +1,31 @@
-# "Hostile Terminal" Tech Stack
+# Dungeon Adventures Tech Stack
 
 ## Core Technologies
 - **Programming Language:** C#
 - **Framework:** .NET 10.0 (LTS)
+- **Projects:** `Dungeon-Adventures.csproj` (the game) plus three class libraries: `Maries_Ui`, `Maries_DataModels` and
+  `Maries_Loaders`.
 
 ## Key Libraries & APIs
-- **`Pastel`:** Utilized for 24-bit console coloring, specifically for "Emergency Red" (`#FF0000`) and "Toxic Green" (`#00FF00`).
-- **`System.Text.StringBuilder`:** Critical for high-performance, flicker-free rendering of dense ASCII corruption effects.
-- **`System.Threading`:** Used to simulate hardware struggle and system hangs, specifically with `Thread.Sleep(800)`.
-- **`System.Console`:** Employed for precise cursor control (`SetCursorPosition`) and writing (`Write`) to maintain a static 85x25 viewport.
+- **`Pastel`:** 24-bit console colour for the torchlight palette (see `product-guidelines.md`).
+- **`Spectre.Console`:** Panels, tables and structured layout.
+- **`System.Text.Json`:** All content, story text and save files.
+- **`System.Text.StringBuilder`:** Pre-rendering full frames for animated screens (loading, embers) without flicker.
+- **`System.Console`:** Precise cursor control (`SetCursorPosition`) and writing (`Write`) inside a fixed viewport.
 
 ## Technical Constraints & Global Rules
-1.  **Strictly Text-Based:** The application is a pure console application. No GUI libraries (e.g., ImGui, ClickableTransparentOverlay) are to be used. Existing references to these are considered deprecated. No new dependencies should be added.
-2.  **Zero-Deletions Policy:** Existing logic, variables, functions, and strings must not be removed or modified. Development is purely additive, focusing on "infecting" the codebase rather than refactoring or cleaning it.
-3.  **Cross-Platform Safe Zone:** To ensure compatibility across Windows and Linux without buffer-scrolling issues, all rendering and logic must be contained within a `84x24` safe zone. Loops must iterate up to `width - 1` and `height - 1`.
-4.  **Buffer Stability:** `Console.WriteLine()` is strictly forbidden. All output must be managed with `Console.SetCursorPosition()` and `Console.Write()` to prevent any scrolling or shifting of the display.
+1.  **Strictly Text-Based:** The game is a pure console application. No GUI libraries (ImGui, overlays, etc.).
+    `Interfaces/DevGui_Main.cs` is an old ImGui panel and stays excluded from the build.
+2.  **Data, Not Code:** Content and story text are JSON under `GameData/Templates/`, read through the loaders in
+    `Maries_Loaders`. New content types get a data class tagged `[MariesGuiContent("<folder>")]`, a loader and a folder in
+    `GameState.DataFolders`.
+3.  **Cross-Platform Safe Zone:** To work on Windows and Linux without buffer scrolling, all rendering stays inside an
+    `84x24` safe zone. Loops iterate up to `width - 1` and `height - 1`.
+4.  **Buffer Stability:** New screens should position output with `Console.SetCursorPosition()` and `Console.Write()` rather
+    than `Console.WriteLine()`, so nothing scrolls or shifts. (Some older screens, such as combat, still use `WriteLine`.)
 
-## Architectural Mandates
-- **Atmospheric Hostility:** The UI is an antagonist, characterized by 'Forbidden' Unicode corruption and 50% density ASCII rain.
-- **The Reality Anchor:** The `85x25` grid is a hard-coded, immutable containment fence.
-- **StringBuilder Implementation:** All visual frames must be pre-rendered in a `StringBuilder` before being written to the console to ensure visual stability.
-- **Hardware Agony:** A corruption phase must loop 20 times, with a mandatory `Thread.Sleep(800)` on each iteration to simulate a struggling terminal.
-- **Perfect Centering:** All centered text must be calculated using the hard-coded 85-width offset.
-- **The Immutable Seed:** All existing icons (💀, ⸸, ☣, ☢) and the 'DUMGERAGN' logo must remain the focal points of every screen. Corruption effects must swirl around these elements but never overwrite them, ensuring the 'Cursed Artifact' identity remains recognizable through the decay.
-- **The Total Frame Reset:** To prevent "Ghosting," every iteration of the `StringBuilder` must begin by filling the `84x24` buffer with the "Immutable Seed" (Logo/Icons) and then layering the ASCII decay on top. `Console.Clear()` is forbidden to avoid white-flash flickering; instead, the entire buffer must be overwritten frame-by-frame.
+## Architectural Guidelines
+- **StringBuilder Frames:** Animated screens build each frame in a `StringBuilder` and write it in one go.
+- **Centering:** Centre text with `UiEngine.DrawCentered` and `UiEngine.StripAnsi`, so colour codes don't throw off the maths.
+- **Max HP:** Always show `PlayerData.GetTotalMaxHealth()` to the player, not the base `HitPoints`.
+- **Story Lookups:** Use `Story.Line`, `Story.Pick` and `Story.Lines` from `Maries_Loaders`; never hardcode narrative text.

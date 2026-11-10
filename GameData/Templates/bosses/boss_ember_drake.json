@@ -1,26 +1,26 @@
 {
-  "AdminID": "boss_ember_drake",
-  "SystemName": "VEXARA THE EMBER DRAKE",
-  "AccessLevel": "DUNGEON_LORD",
+  "Id": "boss_ember_drake",
+  "Name": "VEXARA THE EMBER DRAKE",
+  "Rank": "DUNGEON_LORD",
   "Level": 5,
   "XpReward": 160,
   "CoinReward": 100,
-  "Stats": { "Integrity": 170, "ProcessingPower": 18, "Firewall": 12, "CorruptionRate": 1.3 },
-  "CombatLogic": {
+  "Stats": { "Health": 170, "Attack": 18, "Defense": 12, "EnrageMultiplier": 1.3 },
+  "Moves": {
     "PrimaryAttack": "Searing Claw",
     "SecondaryAttack": "Tail Lash",
     "SpecialAbility": "Dragonfire",
     "SpecialEvery": 3
   },
-  "Visuals": { "HexColor": "#FF5F1F", "GlitchIntensity": 0.5, "AsciiArtRef": "ember_drake" },
+  "Visuals": { "HexColor": "#FF5F1F", "AuraIntensity": 0.5, "ArtRef": "ember_drake" },
   "DropTable": [
     { "ItemID": "Ironskin Tonic", "Chance": 0.7 },
     { "ItemID": "Hunter's Longbow", "Chance": 0.35 },
     { "ItemID": "Ember Shard", "Chance": 0.4 }
   ],
   "Dialogue": {
-    "OnBreach": "A thief in my hoard? I will melt the gold from your teeth.",
+    "OnEncounter": "A thief in my hoard? I will melt the gold from your teeth.",
     "OnDamage": "You dare scar my scales? BURN!",
-    "OnDeletion": "My hoard... my... fire..."
+    "OnDeath": "My hoard... my... fire..."
   }
 }

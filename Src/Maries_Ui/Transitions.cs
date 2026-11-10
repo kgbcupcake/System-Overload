@@ -233,8 +233,8 @@ namespace Maries_Ui
 				// --- THE UI OVERLAY ---
 				// 1. TOP BANNER
 				string topContent = Story.Line("loading.top_banner");
-				string glitchRed = rnd.Next(0, 10) > 8 ? "#4A0000" : "#FF0000";
-				UiEngine.DrawCentered(topContent.Pastel(glitchRed), centerY - 5);
+				string bannerRed = rnd.Next(0, 10) > 8 ? "#4A0000" : "#FF0000";
+				UiEngine.DrawCentered(topContent.Pastel(bannerRed), centerY - 5);
 
 				// 2. DYNAMIC LABEL
 				if (i % 15 == 0 && scaryLabels.Count > 0) labelIndex = rnd.Next(scaryLabels.Count);
@@ -399,7 +399,7 @@ namespace Maries_Ui
 				Thread.Sleep(p > 80 ? rnd.Next(150, 400) : rnd.Next(30, 100));
 			}
 
-			// 4. The Glitching Skull (Art Folder Integration)
+			// 4. The flickering skull (Art Folder Integration)
 			for (int flicker = 0; flicker < 10; flicker++)
 			{
 				Clear();

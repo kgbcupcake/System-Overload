@@ -1,17 +1,17 @@
 {
-  "AdminID": "boss_dread_king",
-  "SystemName": "THE DREAD KING",
-  "AccessLevel": "THRONE_LORD",
+  "Id": "boss_dread_king",
+  "Name": "THE DREAD KING",
+  "Rank": "THRONE_LORD",
   "Level": 10,
   "XpReward": 400,
   "CoinReward": 250,
   "Stats": {
-    "Integrity": 225,
-    "ProcessingPower": 19,
-    "Firewall": 11,
-    "CorruptionRate": 1.25
+    "Health": 225,
+    "Attack": 19,
+    "Defense": 11,
+    "EnrageMultiplier": 1.25
   },
-  "CombatLogic": {
+  "Moves": {
     "PrimaryAttack": "Kingsblade",
     "SecondaryAttack": "Crushing Decree",
     "SpecialAbility": "Crown of Ruin",
@@ -19,8 +19,8 @@
   },
   "Visuals": {
     "HexColor": "#B3001B",
-    "GlitchIntensity": 0.7,
-    "AsciiArtRef": "dread_king"
+    "AuraIntensity": 0.7,
+    "ArtRef": "dread_king"
   },
   "DropTable": [
     {
@@ -37,8 +37,8 @@
     }
   ],
   "Dialogue": {
-    "OnBreach": "Kneel. Every soul in this realm is mine to command.",
+    "OnEncounter": "Kneel. Every soul in this realm is mine to command.",
     "OnDamage": "Impossible... no blade can wound a king!",
-    "OnDeletion": "The crown... it was never... mine..."
+    "OnDeath": "The crown... it was never... mine..."
   }
 }

@@ -17,15 +17,15 @@ namespace Maries_DataModels
 			public int Level { get; set; } = 1;
 			public int InventorySize { get; set; } = 20;
 
-			// --- NEURAL ALLOCATION STATS (The missing pieces) ---
-			public int IntegrityPoints { get; set; } = 0;   // Vitality: spent on Max HP
-			public int ThroughputPoints { get; set; } = 0;  // Strength: spent on Attack Power
-			public int FirewallPoints { get; set; } = 0;    // Fortitude: spent on Defense
+			// --- ATTRIBUTE POINTS (spent at character creation) ---
+			public int VitalityPoints { get; set; } = 0;   // Vitality: spent on Max HP
+			public int StrengthPoints { get; set; } = 0;  // Strength: spent on Attack Power
+			public int FortitudePoints { get; set; } = 0;    // Fortitude: spent on Defense
 
 
 
 			// --- Store --- ///
-			public int StoreStimStock { get; set; } = 5;
+			public int StorePotionStock { get; set; } = 5;
 			public int StorePriceModifier { get; set; } = 0; // Tracks how many you've ever bought
 			public DateTime LastRestockTime { get; set; } = DateTime.Now;
 
@@ -72,8 +72,8 @@ namespace Maries_DataModels
 
 			public float GetTotalDamage()
 			{
-				// Base Damage (10) + Throughput Points (3 per point)
-				float baseDmg = 10 + (ThroughputPoints * 3);
+				// Base Damage (10) + Strength Points (3 per point)
+				float baseDmg = 10 + (StrengthPoints * 3);
 
 				float gemBonus = Inventory
 					.SelectMany(item => item.SocketedGems)
@@ -90,8 +90,8 @@ namespace Maries_DataModels
 
 			public float GetTotalMaxHealth()
 			{
-				// Base Health + Integrity Points (15 per point)
-				float baseMax = HitPoints + (IntegrityPoints * 15);
+				// Base Health + Vitality Points (15 per point)
+				float baseMax = HitPoints + (VitalityPoints * 15);
 
 				float gemBonus = Inventory
 					.SelectMany(i => i.SocketedGems)
@@ -104,8 +104,8 @@ namespace Maries_DataModels
 
 			public float GetTotalDefense()
 			{
-				// Base Defense (10) + Firewall Points (2 per point)
-				float baseDefense = 10.0f + (FirewallPoints * 2);
+				// Base Defense (10) + Fortitude Points (2 per point)
+				float baseDefense = 10.0f + (FortitudePoints * 2);
 
 				float gemDefense = Inventory
 					.SelectMany(i => i.SocketedGems)

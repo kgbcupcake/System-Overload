@@ -1,5 +1,5 @@
 # ============================================================
-# SYSTEM OVERLOAD
+# DUNGEON ADVENTURES
 # .gitignore
 # ============================================================
 
@@ -168,7 +168,7 @@ local.props
 
 
 # ------------------------------------------------------------
-# SYSTEM OVERLOAD LOCAL DATA
+# DUNGEON ADVENTURES LOCAL DATA
 # ------------------------------------------------------------
 
 # Local game saves
@@ -303,7 +303,7 @@ version_temp/
 
 
 # ------------------------------------------------------------
-# SYSTEM OVERLOAD CONTENT RULES (kept from Dev)
+# DUNGEON ADVENTURES CONTENT RULES (kept from Dev)
 # ------------------------------------------------------------
 
 # Ignore stray JSON, but keep the shipped game content

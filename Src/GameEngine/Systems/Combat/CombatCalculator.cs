@@ -1,6 +1,6 @@
 ﻿﻿using System;
 
-namespace System_Overload.Src.GameEngine.Combat
+namespace DungeonAdventures.Src.GameEngine.Combat
 {
 	/// <summary>Outcome of one attack.</summary>
 	public readonly record struct AttackResult(bool Hit, bool Critical, int Damage);

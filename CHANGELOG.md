@@ -1,6 +1,39 @@
-﻿# 📑 NEURAL MEMORY LOGS: [SYSTEM-OVERLOAD]
+﻿# 📜 Chronicle of Changes: Dungeon Adventures – Reborn
 
-> **"THE OLD ENTITY HAS BEEN PURGED. VERSION 1.0.0 IS THE ONLY REALITY."**
+> **"Few who descend ever return."**
+
+Newest entries first. Older entries are kept exactly as they were written, old names and all.
+
+---
+
+## ⚔️ [Unreleased] - REBORN
+**Status:** `IN DEVELOPMENT` | **Date:** 2026-11-09
+
+The game returns to its fantasy roots as **Dungeon Adventures – Reborn**.
+
+### Added
+- **Heroes:** Warrior, Rogue and Mage classes, each with three paths; attribute points for Vitality, Strength and Fortitude.
+- **Hollowmere:** the village hub with the General Store, Dungeon Gate, Blacksmith, Inventory and Character sheet.
+- **Dungeon floors:** The Sunken Crypt, The Ember Caverns, The Lich's Catacombs and The Dread Throne, each ending in a boss
+  (The Crypt Warden, Vexara the Ember Drake, Malgrath the Bone Lich, The Dread King).
+- **Bestiary and loot:** fantasy monsters, potions, tonics, weapons and gems.
+- **Story text in data:** every narrative line now lives in `GameData/Templates/story/story_core.json`, looked up by key
+  with `{tokens}` and random variations. Floors can set their own `CompletionText`.
+- **Frame titles:** menu boxes now show their title in the top border.
+
+### Changed
+- **Renamed everything:** project and solution (`Dungeon-Adventures`), namespaces (`DungeonAdventures.*`), the tool
+  command (`dungeon`), classes (`VillageSquare`, `DungeonGate`, `Blacksmith`, `InventoryScreen`, `FloorRunner`,
+  `BossLoader`, `MonsterLoader`, `FloorLoader`, ...), content folders (`bosses`, `monsters`, `floors`) and JSON fields.
+- **Live data** moved to `~/Documents/DungeonAdventures/Realm Data`.
+- **Palette:** torch gold, ember and blood red replace neon cyan and green.
+
+### Fixed
+- **Max HP:** Vitality points were counted twice, and the HUD showed base HP instead of max HP.
+- **Missing classes:** some subclasses fell through to default HP; all nine paths now have their class stats.
+
+### Removed
+- `MainEncounter.cs`, an unused encounter full of hardcoded text.
 
 ---
 
@@ -24,11 +57,10 @@ This is the definitive stabilization of the System-Overload entity. The old 'Dun
 ---
 
 ## 🛠️ LOGGING PROTOCOL
-1. **Version Lock:** Version remains `1.0.0` for the duration of the Genesis phase.
-2. **Zero-Deletion:** Do not remove old logs. History must remain as a testament to the machine's decay.
-3. **Categorization:**
-    - `INFECTED LOGIC`: New systems added to the stack.
-    - `CORRUPTIONS`: Suppressed errors or stability patches.
+1. **Newest first:** Add new entries at the top, under `[Unreleased]` until a version is tagged.
+2. **No deletions:** Do not remove or rewrite old entries; they record the project's history.
+3. **Categories:** `Added`, `Changed`, `Fixed`, `Removed`. (The v1.0.0 entry uses its original names: `INFECTED LOGIC` for
+   added systems and `CORRUPTIONS` for fixes.)
 
 ---
-**[END OF LOG: GENESIS_V1]**
+**[END OF CHRONICLE]**

@@ -1,25 +1,25 @@
 {
-  "AdminID": "boss_crypt_warden",
-  "SystemName": "THE CRYPT WARDEN",
-  "AccessLevel": "DUNGEON_LORD",
+  "Id": "boss_crypt_warden",
+  "Name": "THE CRYPT WARDEN",
+  "Rank": "DUNGEON_LORD",
   "Level": 3,
   "XpReward": 80,
   "CoinReward": 50,
-  "Stats": { "Integrity": 110, "ProcessingPower": 14, "Firewall": 6, "CorruptionRate": 1.2 },
-  "CombatLogic": {
+  "Stats": { "Health": 110, "Attack": 14, "Defense": 6, "EnrageMultiplier": 1.2 },
+  "Moves": {
     "PrimaryAttack": "Grave Chill",
     "SecondaryAttack": "Rattling Flail",
     "SpecialAbility": "Rise of the Restless",
     "SpecialEvery": 3
   },
-  "Visuals": { "HexColor": "#7FB3A0", "GlitchIntensity": 0.3, "AsciiArtRef": "crypt_warden" },
+  "Visuals": { "HexColor": "#7FB3A0", "AuraIntensity": 0.3, "ArtRef": "crypt_warden" },
   "DropTable": [
     { "ItemID": "Healing Potion", "Chance": 0.9 },
     { "ItemID": "Rogue's Dagger", "Chance": 0.3 }
   ],
   "Dialogue": {
-    "OnBreach": "These halls were sealed before your grandfather's grandfather drew breath. Leave.",
+    "OnEncounter": "These halls were sealed before your grandfather's grandfather drew breath. Leave.",
     "OnDamage": "You disturb the dead... then join them!",
-    "OnDeletion": "...at last... the keys... rest..."
+    "OnDeath": "...at last... the keys... rest..."
   }
 }

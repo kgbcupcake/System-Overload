@@ -1,12 +1,12 @@
 using Maries_Loaders;
 using Maries_DataModels;
-using System_Overload.Src.GameEngine;
+using DungeonAdventures.Src.GameEngine;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using static Maries_DataModels.PlayerData;
 
-namespace System_Overload.Src.GameData.Components
+namespace DungeonAdventures.Src.GameData.Components
 {
 	public class GameState
 	{
@@ -20,9 +20,9 @@ namespace System_Overload.Src.GameData.Components
 			"items",
 			"weapons",
 			"gems",
-			"admins",
-			"sectors",
-			"drones",
+			"bosses",
+			"floors",
+			"monsters",
 			"settings",
 			"attachments",
 			"modules",
@@ -34,8 +34,8 @@ namespace System_Overload.Src.GameData.Components
 
 
 		public static loadPlayer CurrentPlayer { get; set; } = null;
-		public static SectorData? CurrentSector { get; set; } = null; // FIXED: Removed SectorLoader prefix
-		public static AdminData? CurrentAdmin { get; set; } = null;
+		public static FloorData? CurrentFloor { get; set; } = null; // FIXED: Removed FloorLoader prefix
+		public static BossDefinition? CurrentBoss { get; set; } = null;
 
 		// 4. System States
 		public static bool IsDevMode { get; set; } = true;
@@ -54,7 +54,7 @@ namespace System_Overload.Src.GameData.Components
 			// Create the Master Path first
 			if (!Directory.Exists(MasterPath)) Directory.CreateDirectory(MasterPath);
 
-			// Create every subfolder (sectors, profiles, etc.)
+			// Create every subfolder (floors, profiles, etc.)
 			foreach (var folder in DataFolders)
 			{
 				string subPath = GetGlobalPath(folder);

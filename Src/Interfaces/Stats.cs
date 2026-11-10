@@ -1,4 +1,4 @@
-using System_Overload.Src.GameData.Components;
+using DungeonAdventures.Src.GameData.Components;
 using Pastel;
 using Maries_DataModels;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.Console;
 
-namespace System_Overload.Src.GameEngine.Interfaces
+namespace DungeonAdventures.Src.GameEngine.Interfaces
 {
 	internal class Stats
 	{

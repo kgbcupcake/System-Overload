@@ -1,12 +1,12 @@
-﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.Interfaces.UI;
+﻿using DungeonAdventures.Src.GameData.Components;
+using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
 using static System.Console;
 using System.Collections.Generic;
 
-namespace System_Overload.Src.Game.MainInterfaces
+namespace DungeonAdventures.Src.Game.MainInterfaces
 {
 	internal class CharSubMenus
 	{

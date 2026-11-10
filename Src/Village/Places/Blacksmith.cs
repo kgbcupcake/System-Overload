@@ -1,23 +1,23 @@
-﻿using System_Overload.Src.GameData.Components;
+﻿using DungeonAdventures.Src.GameData.Components;
 using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
 using Maries_DataModels;
 using static System.Console;
 
-namespace Src.TownSquare.InterFaces
+namespace DungeonAdventures.Src.Village.Places
 {
-	internal class HardwareTech
+	internal class Blacksmith
 	{
 		public static void Open()
 		{
 			var player = GameState.CurrentPlayer;
-			bool inHardwareMenu = true;
+			bool inForgeMenu = true;
 
 			// Kill the cursor so it doesn't leave a blinky trail
 			CursorVisible = false;
 
-			while (inHardwareMenu)
+			while (inForgeMenu)
 			{
 				Clear(); // Wipe the screen before drawing the forge
 
@@ -30,7 +30,7 @@ namespace Src.TownSquare.InterFaces
 					UiEngine.DrawCentered("You have no weapons to work on.".Pastel("#FF0000"), 10);
 					UiEngine.DrawCentered("[Press any key to return]".Pastel("#555555"), 12);
 					ReadKey(true);
-					inHardwareMenu = false;
+					inForgeMenu = false;
 					break;
 				}
 
@@ -68,13 +68,13 @@ namespace Src.TownSquare.InterFaces
 					if (key == ConsoleKey.Escape)
 					{
 						selecting = false;
-						inHardwareMenu = false;
+						inForgeMenu = false;
 					}
 				}
 			}
 
 			// THE NUKE: Clear the screen one last time before exiting the method
-			// This ensures the hardware text is GONE before the main menu even starts to think about redrawing.
+			// This ensures the forge text is GONE before the main menu even starts to think about redrawing.
 			Clear();
 		}
 

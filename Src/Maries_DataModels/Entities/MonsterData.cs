@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace Maries_DataModels
 {
-    [MariesGui.Contracts.MariesGuiContent("drones")]
-    public class NewEnemyData
+    [MariesGui.Contracts.MariesGuiContent("monsters")]
+    public class MonsterData
     {
         [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
@@ -31,15 +31,15 @@ namespace Maries_DataModels
         [JsonPropertyName("critChance")]
         public int CritChance { get; set; } = 5;
 
-        /// <summary>Verb for the combat log, e.g. "bites" in "Packet Mite bites for 6 damage".</summary>
+        /// <summary>Verb for the combat log, e.g. "bites" in "Giant Cave Rat bites for 6 damage".</summary>
         [JsonPropertyName("attackVerb")]
         public string AttackVerb { get; set; } = "strikes";
 
         [JsonPropertyName("rewards")]
-        public EnemyRewardData Rewards { get; set; } = new EnemyRewardData();
+        public MonsterRewardData Rewards { get; set; } = new MonsterRewardData();
     }
 
-    public class EnemyRewardData
+    public class MonsterRewardData
     {
         [JsonPropertyName("xp")]
         public int Xp { get; set; }

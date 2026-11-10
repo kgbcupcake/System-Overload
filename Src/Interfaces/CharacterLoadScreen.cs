@@ -1,13 +1,13 @@
-﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.Interfaces.UI;
+﻿using DungeonAdventures.Src.GameData.Components;
+using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
-using Src.TownSquare;
+using DungeonAdventures.Src.Village;
 using System.Text.Json;
 using static Maries_DataModels.PlayerData;
 using static System.Console;
 using System.Text.RegularExpressions;
 
-namespace System_Overload.Src.GameEngine.Interfaces
+namespace DungeonAdventures.Src.GameEngine.Interfaces
 {
 	public class CharacterLoadScreen
 	{
@@ -79,9 +79,9 @@ namespace System_Overload.Src.GameEngine.Interfaces
 					case ConsoleKey.Enter:
 						GameState.CurrentPlayer = preview;
 						Transitions.LoadSaveProgress();
-						Transitions.ShowSaveLoadedIcon(preview.PlayerName, preview.Health, preview.HitPoints, preview.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
+						Transitions.ShowSaveLoadedIcon(preview.PlayerName, preview.Health, (int)preview.GetTotalMaxHealth(), preview.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 						Thread.Sleep(800);
-						TheForgottenZone.MainTownSquare();
+						VillageSquare.MainTownSquare();
 						return true;
 				}
 			}

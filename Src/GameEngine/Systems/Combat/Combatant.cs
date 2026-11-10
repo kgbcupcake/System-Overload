@@ -1,9 +1,9 @@
 using Maries_DataModels;
 
-namespace System_Overload.Src.GameEngine.Combat
+namespace DungeonAdventures.Src.GameEngine.Combat
 {
 	/// <summary>
-	/// One side of a fight. Built from the player, a drone or an admin boss by EnemyFactory.
+	/// One side of a fight. Built from the player, a monster or a boss by EnemyFactory.
 	/// </summary>
 	public class Combatant
 	{
@@ -40,7 +40,7 @@ namespace System_Overload.Src.GameEngine.Combat
 		public int BonusDefense { get; set; }
 		public int SkipTurns { get; set; }
 
-		// --- Boss behaviour (only set for admins) ---
+		// --- Boss behaviour (only set for bosses) ---
 		public BossProfile? Boss { get; set; }
 		public bool IsBoss => Boss != null;
 
@@ -57,7 +57,7 @@ namespace System_Overload.Src.GameEngine.Combat
 	}
 
 	/// <summary>
-	/// Extra behaviour for boss fights, filled from an admin's JSON.
+	/// Extra behaviour for boss fights, filled from a boss's JSON.
 	/// </summary>
 	public class BossProfile
 	{
@@ -72,9 +72,9 @@ namespace System_Overload.Src.GameEngine.Combat
 		public bool Enraged { get; set; }
 
 		public string HexColor { get; set; } = "#B3001B";
-		public string OnBreach { get; set; } = "";
+		public string OnEncounter { get; set; } = "";
 		public string OnDamage { get; set; } = "";
-		public string OnDeletion { get; set; } = "";
+		public string OnDeath { get; set; } = "";
 
 		public int TurnCount { get; set; }
 	}
