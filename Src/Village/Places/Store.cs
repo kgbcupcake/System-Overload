@@ -1,18 +1,24 @@
 ﻿using DungeonAdventures.Src.GameData.Components;
-using Maries_Loaders; // FIX: Import the new Registry
+using Maries_Loaders;
 using Maries_Ui;
 using Pastel;
 using Maries_DataModels;
-using System.Text.Json;
 using static Maries_DataModels.PlayerData;
 using static System.Console;
+using static DungeonAdventures.Src.Village.Places.ItemPanels;
 
 namespace DungeonAdventures.Src.Village.Places
 {
+	/// <summary>
+	/// The General Store, in the inventory's two-panel layout: a BUY tab (healing potions and the
+	/// Dark Pact) and a SELL tab (everything in the pack), with the selected item's details on the right.
+	/// </summary>
 	public class Store
 	{
-		private static string dungeonPurple = "#2E0E4E";
-		private static string torchGold = "#FFAB00";
+		private const string Place = "GENERAL STORE";
+		private const string PlaceColor = "#2E0E4E";
+		private const string PactColor = "#B06CFF";
+		private static readonly string[] Tabs = { "Buy", "Sell" };
 
 		// 1. The Entry Point
 		public static void LoadShop(string shopFile = "GeneralStore.json")
@@ -20,13 +26,9 @@ namespace DungeonAdventures.Src.Village.Places
 			var p = GameState.CurrentPlayer;
 
 			// This runs UniversalLoader and fills AllItems, AllWeapons, etc.
-			// If you already call this in Program.cs, you don't need it here.
 			if (ItemRegistry.AllItems.Count == 0)
-			{
 				ItemRegistry.Initialize();
-			}
 
-			// Rest of your restock and shop logic...
 			TimeSpan elapsed = DateTime.Now - p.LastRestockTime;
 			if (elapsed.TotalMinutes >= 30)
 			{
@@ -34,192 +36,166 @@ namespace DungeonAdventures.Src.Village.Places
 				p.LastRestockTime = DateTime.Now;
 			}
 
-			string shopName = Path.GetFileNameWithoutExtension(shopFile);
-			var shopData = ShopLoader.GetByName(shopName) ?? new ShopDefinition();
-
-			List<ItemData> storeInventory = new List<ItemData>();
-			foreach (var name in shopData.InventoryRefs)
-			{
-				var template = ItemRegistry.GetItem(name);
-				if (template != null) storeInventory.Add(new ItemData(template));
-			}
-
 			UiEngine.DrawLoadingScreen(Story.Pick("store.enter"), 1000);
-			UpdateAndRun(p, storeInventory);
+			UpdateAndRun(p);
 		}
 
 		// 2. The Main Loop
-		// 2. The Main Loop
-		private static void UpdateAndRun(loadPlayer p, List<ItemData> storeInventory)
+		private static void UpdateAndRun(loadPlayer p)
 		{
-			bool shopping = true;
-			bool buyMode = true;
-			int sellIndex = 0;
-			string statusMessage = Story.Pick("store.greeting").Pastel("#888888");
+			int tab = 0, buySelected = 0, sellSelected = 0;
+			string message = Story.Pick("store.greeting").Pastel("#888888");
 
-			while (shopping)
+			while (true)
 			{
-				Clear();
-				HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
-
 				int potionPrice = 20 + (10 * p.StorePriceModifier);
-				int diffPrice = 300 + (100 * p.DifficultyRating);
+				int pactPrice = 300 + (100 * p.DifficultyRating);
+				float sellMultiplier = 1.0f + (p.DifficultyRating * 0.15f);
 
-				var sellableGroups = p.Inventory
+				// Gear in hand or being worn can't be sold. With several copies, a spare one is sold instead;
+				// Item is that spare, or the equipped piece itself when there's no spare (Locked).
+				var weapon = p.GetEquippedWeapon();
+				bool InUse(ItemData i) => ReferenceEquals(i, weapon) || i is ArmorData { IsEquipped: true };
+				var sellable = p.Inventory
 					.GroupBy(i => i.Name)
-					.Select(g => new { Name = g.Key, Count = g.Count(), Item = g.First() })
+					.Select(g =>
+					{
+						var spare = g.FirstOrDefault(i => !InUse(i));
+						return (Name: g.Key, Count: g.Count(), Item: spare ?? g.First(), Locked: spare == null,
+							Equipped: g.Any(InUse), Price: (int)(BaseSellPrice(g.First().Rarity) * sellMultiplier));
+					})
 					.ToList();
 
-				string modeHeader = buyMode ? "--- BUYING ---" : "--- SELLING ---";
-				string modeToggleHint = buyMode ? "[TAB] Switch to Sell Mode" : "[TAB] Switch to Buy Mode";
+				string summary =
+					$" {"Gold".Pastel(Dim)} {p.Coins.ToString().Pastel(Gold)}" +
+					$"   {"Potions in stock".Pastel(Dim)} {p.StorePotionStock}" +
+					$"   {"Dark Pacts".Pastel(Dim)} {p.DifficultyRating.ToString().Pastel(PactColor)}" +
+					$"   {"Pack".Pastel(Dim)} {p.Inventory.Count}/{p.InventorySize}";
 
-				List<string> menuLines = new List<string>();
-				// Clickable lines: (line index, key it acts like, sell row it selects)
-				var clicks = new List<(int Line, ConsoleKey Key, int? Index)>();
-				menuLines.Add("╔════════════ GENERAL STORE ═══════════════╗".Pastel(dungeonPurple));
-				menuLines.Add(BuildLine("YOUR GOLD:", p.Coins, "#FFD700", dungeonPurple));
-				menuLines.Add("╟──────────────────────────────────────────╢".Pastel(dungeonPurple));
-
-				if (buyMode)
+				ItemPanels.Choice choice;
+				if (tab == 0)
 				{
-					clicks.Add((menuLines.Count, ConsoleKey.P, null));
-					menuLines.Add(BuildLine($"(P)otion [Qty: {p.StorePotionStock}]", p.StorePotionStock > 0 ? potionPrice : -1, torchGold, dungeonPurple));
-					clicks.Add((menuLines.Count, ConsoleKey.D, null));
-					menuLines.Add(BuildLine("(D)ark Pact (harder foes)", diffPrice, torchGold, dungeonPurple));
+					var potion = ItemRegistry.GetItem("Healing Potion");
+					var rows = new List<PanelRow>
+					{
+						new("Healing Potion", RarityColor(ItemRarity.Common),
+							Right: p.StorePotionStock > 0 ? $"{potionPrice}g" : "sold out",
+							RightColor: p.StorePotionStock == 0 ? Muted : potionPrice > p.Coins ? Bad : Gold),
+						new("Dark Pact", PactColor, Right: $"{pactPrice}g", RightColor: pactPrice > p.Coins ? Bad : Gold),
+					};
+
+					choice = Choose(Place, PlaceColor, p, rows,
+						i => i == 0 ? PotionDetail(p, potion, potionPrice) : PactDetail(p, pactPrice),
+						message, summary, "Buy", ref buySelected, tabs: Tabs, activeTab: tab);
 				}
 				else
 				{
-					for (int i = 0; i < sellableGroups.Count; i++)
-					{
-						var group = sellableGroups[i];
+					var rows = sellable.Select(s => new PanelRow(s.Name, RarityColor(s.Item.Rarity),
+						Right: s.Locked ? "in use" : s.Count > 1 ? $"x{s.Count}  {s.Price}g" : $"{s.Price}g",
+						RightColor: s.Locked ? Muted : Good,
+						Tag: s.Equipped ? "[E] " : "")).ToList();
 
-						string rarityColor = group.Item.Rarity switch
+					choice = Choose(Place, PlaceColor, p, rows,
+						i => ItemDetail(p, sellable[i].Item, equipped: sellable[i].Locked ? true : null,
+							quantity: sellable[i].Count, extra: new[]
 						{
-							ItemRarity.Uncommon => "#1EFF00",
-							ItemRarity.Rare => "#0070DD",
-							ItemRarity.Epic => "#A335EE",
-							ItemRarity.Legendary => "#FF8000",
-							_ => "#FFFFFF"
-						};
-
-						// 1. Calculate Base Value
-						int baseVal = group.Item.Rarity switch
-						{
-							ItemRarity.Common => 15,
-							ItemRarity.Uncommon => 45,
-							ItemRarity.Rare => 120,
-							ItemRarity.Epic => 300,
-							ItemRarity.Legendary => 750,
-							_ => 10
-						};
-
-						// 2. Apply Difficulty Multiplier to the Display Price
-						float multi = 1.0f + (p.DifficultyRating * 0.15f);
-						int displayVal = (int)(baseVal * multi);
-
-						string selector = (i == sellIndex) ? ">> " : "   ";
-						string lineText = $"{selector}{group.Name.Pastel(rarityColor)} (x{group.Count})";
-
-						clicks.Add((menuLines.Count, ConsoleKey.Enter, i));
-						menuLines.Add(BuildLine(lineText, displayVal, "#00FF00", dungeonPurple));
-					}
-					if (sellableGroups.Count == 0)
-						menuLines.Add(BuildLine("NOTHING TO SELL", -1, "#555555", dungeonPurple));
+							sellable[i].Locked
+								? (sellable[i].Item is WeaponData ? "Equip another weapon to sell it." : "Take it off to sell it.").Pastel(Bad)
+								: Stat("Sells for", $"{sellable[i].Price} gold", Good),
+						}, showValue: false).Build(),
+						message, summary, "Sell one", ref sellSelected, emptyText: "Nothing to sell.", tabs: Tabs, activeTab: tab);
 				}
 
-				menuLines.Add("║                                          ║".Pastel(dungeonPurple));
-				clicks.Add((menuLines.Count, ConsoleKey.E, null));
-				menuLines.Add(BuildLine("(E)xit to Town Square", -1, torchGold, dungeonPurple));
-				menuLines.Add("╚══════════════════════════════════════════╝".Pastel(dungeonPurple));
-				menuLines.Add("");
-				menuLines.Add($" {modeHeader.Pastel("#00FFFF")} ");
-				clicks.Add((menuLines.Count, ConsoleKey.Tab, null));
-				menuLines.Add($" {modeToggleHint.Pastel("#555555")} ");
-				menuLines.Add("");
-				menuLines.Add(" STATUS: " + statusMessage);
-
-				int startX = (85 / 2) - (44 / 2);
-				int startY = 6;
-				MouseInput.ClearZones();
-				foreach (var (line, clickKey, index) in clicks)
-					MouseInput.AddKeyZone(startY + line, startX, 44, clickKey, index);
-				int boxTop = startY;
-				foreach (var line in menuLines) { SetCursorPosition(startX, startY++); WriteLine(line); }
-
-				// Icon of what's on offer (the potion) or of the item picked to sell, right of the box.
-				string? shownItem = buyMode ? "Healing Potion"
-					: sellableGroups.Count > 0 ? sellableGroups[Math.Clamp(sellIndex, 0, sellableGroups.Count - 1)].Name
-					: null;
-				var icon = shownItem != null ? PixelIcon.ForItem(shownItem) : null;
-				if (icon != null)
-					for (int r = 0; r < icon.Length; r++) { SetCursorPosition(startX + 46, boxTop + 1 + r); Write(icon[r]); }
-
-				var key = MouseInput.ReadMenuKey(ref sellIndex, sellableGroups.Count);
-				if (key == ConsoleKey.Tab) { buyMode = !buyMode; statusMessage = "MODE TOGGLED".Pastel("#FFD700"); }
-				else if (key == ConsoleKey.E)
+				if (choice.Back)
 				{
-					// Small exit animation
-					statusMessage = Story.Pick("store.farewell").Pastel("#FFAB00");
-					SetCursorPosition(startX, startY - 1); // Re-draw the status line
-					WriteLine(" STATUS: " + statusMessage);
+					WriteAt(ListX, MessageRow, Pad(" " + Story.Pick("store.farewell").Pastel(Amber), ScreenWidth - 2));
 					Thread.Sleep(500);
-					shopping = false;
 					Clear();
+					return;
 				}
-				else if (buyMode)
+				if (choice.Tab >= 0)
 				{
-					if (key == ConsoleKey.P && p.StorePotionStock > 0)
-					{
-						// CALLING IT HERE: Pass the EXACT name the Registry/JSON expects
-						statusMessage = TryBuyReturnStatus("Healing Potion", potionPrice, p);
+					tab = choice.Tab;
+					message = "";
+					continue;
+				}
 
-						if (statusMessage.Contains("SUCCESS"))
+				if (tab == 0 && choice.Index == 0)
+				{
+					if (p.StorePotionStock <= 0)
+						message = "SOLD OUT: Come back later for more potions.".Pastel(Bad);
+					else
+					{
+						message = TryBuyReturnStatus("Healing Potion", potionPrice, p);
+						if (message.Contains("SUCCESS"))
 						{
 							p.StorePotionStock--;
 							p.StorePriceModifier++;
 							GameState.Sync();
 						}
 					}
-					else if (key == ConsoleKey.D)
-					{
-						statusMessage = TryBuyReturnStatus("Difficulty", diffPrice, p);
-						if (statusMessage.Contains("SUCCESS")) GameState.Sync();
-					}
 				}
-				else if (!buyMode && sellableGroups.Count > 0)
+				else if (tab == 0)
 				{
-					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) sellIndex = MenuNavigator.HandleVerticalNav(key, sellIndex, sellableGroups.Count);
-
-					if (key == ConsoleKey.Enter)
+					message = TryBuyReturnStatus("Difficulty", pactPrice, p);
+					if (message.Contains("SUCCESS")) GameState.Sync();
+				}
+				else
+				{
+					var target = sellable[choice.Index];
+					if (target.Locked)
 					{
-						var target = sellableGroups[sellIndex];
-
-						int baseProfit = target.Item.Rarity switch
-						{
-							ItemRarity.Common => 15,
-							ItemRarity.Uncommon => 45,
-							ItemRarity.Rare => 120,
-							ItemRarity.Epic => 300,
-							ItemRarity.Legendary => 750,
-							_ => 10
-						};
-
-						// APPLY MULTIPLIER TO ACTUAL SALE
-						float multiplier = 1.0f + (p.DifficultyRating * 0.15f);
-						int finalProfit = (int)(baseProfit * multiplier);
-
-						p.Coins += finalProfit;
-						p.Inventory.Remove(target.Item);
-
-						statusMessage = $"SOLD: {target.Name} (+{finalProfit} gold)".Pastel("#00FF00");
-
-						GameState.Sync();
-
-						if (sellIndex >= sellableGroups.Count) sellIndex = Math.Max(0, sellableGroups.Count - 1);
+						message = (target.Item is WeaponData
+							? $"That's the {target.Name} in your hand. Equip another weapon in your inventory first."
+							: $"You're wearing the {target.Name}. Take it off in your inventory first.").Pastel(Bad);
+						continue;
 					}
+					p.Coins += target.Price;
+					p.Inventory.Remove(target.Item);
+					message = $"SOLD: {target.Name} (+{target.Price} gold)".Pastel("#00FF00");
+					GameState.Sync();
 				}
 			}
 		}
+
+		private static List<string> PotionDetail(loadPlayer p, ItemData? potion, int price)
+		{
+			var extra = new[]
+			{
+				Stat("Price", $"{price} gold", price > p.Coins ? Bad : Gold),
+				Stat("In stock", p.StorePotionStock.ToString(), p.StorePotionStock > 0 ? Text : Bad),
+				"Price goes up 10 gold with each one sold.".Pastel(Muted),
+			};
+			if (potion != null)
+				return ItemDetail(p, potion, extra: extra, showValue: false).Build();
+
+			var d = new Detail("Healing Potion");
+			d.Line("HEALING POTION", Text).Blank();
+			foreach (var line in extra) d.Add(line);
+			return d.Build();
+		}
+
+		private static List<string> PactDetail(loadPlayer p, int price)
+		{
+			var d = new Detail("Dark Pact");
+			d.Line("DARK PACT", PactColor).Line("A bargain in the dark", Muted).Blank();
+			d.Wrapped("Seal it and every foe grows stronger, but the shop pays more for what you bring back.", Flavour).Blank();
+			d.Stat("Pacts made", $"{p.DifficultyRating} → {p.DifficultyRating + 1}", PactColor);
+			d.Stat("Sell prices", $"+{p.DifficultyRating * 15}% → +{(p.DifficultyRating + 1) * 15}%", Good);
+			d.Stat("Price", $"{price} gold", price > p.Coins ? Bad : Gold);
+			return d.Build();
+		}
+
+		private static int BaseSellPrice(ItemRarity rarity) => rarity switch
+		{
+			ItemRarity.Common => 15,
+			ItemRarity.Uncommon => 45,
+			ItemRarity.Rare => 120,
+			ItemRarity.Epic => 300,
+			ItemRarity.Legendary => 750,
+			_ => 10
+		};
+
 		private static string TryBuyReturnStatus(string item, int cost, loadPlayer p)
 		{
 			if (p.Coins >= cost)
@@ -231,7 +207,6 @@ namespace DungeonAdventures.Src.Village.Places
 					return "SUCCESS: The pact is sealed. Your foes grow stronger.".Pastel("#00FF00");
 				}
 
-				// Logic for Healing Potion
 				if (item == "Healing Potion")
 				{
 					var template = ItemRegistry.GetItem("Healing Potion");
@@ -248,35 +223,6 @@ namespace DungeonAdventures.Src.Village.Places
 				}
 			}
 			return "DENIED: Not enough gold.".Pastel("#FF0000");
-		}
-		private static string BuildLine(string label, int val, string valColor, string borderColor)
-		{
-			string leftWall = "║ ".Pastel(borderColor);
-			string rightWall = " ║".Pastel(borderColor);
-			int contentWidth = 40;
-
-			// STRIP ANSI so we know exactly how many visible characters we have
-			string cleanLabel = UiEngine.StripAnsi(label);
-			string result;
-
-			if (val == -1)
-			{
-				int paddingNeeded = contentWidth - cleanLabel.Length;
-				result = leftWall + label + new string(' ', Math.Max(0, paddingNeeded)) + rightWall;
-			}
-			else
-			{
-				string valStr = label.Contains("YOUR GOLD") ? val.ToString() : $"Cost: {val}";
-				string coloredVal = valStr.Pastel(valColor);
-
-				int spacesNeeded = contentWidth - cleanLabel.Length - valStr.Length;
-				string gap = new string(' ', Math.Max(0, spacesNeeded));
-
-				// Combine it all into one solid string before returning
-				result = leftWall + label + gap + coloredVal + rightWall;
-			}
-
-			return result;
 		}
 	}
 }

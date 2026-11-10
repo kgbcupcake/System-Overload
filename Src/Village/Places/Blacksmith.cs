@@ -4,6 +4,7 @@ using Maries_Loaders;
 using Pastel;
 using Maries_DataModels;
 using static System.Console;
+using static DungeonAdventures.Src.Village.Places.ItemPanels;
 
 namespace DungeonAdventures.Src.Village.Places
 {
@@ -11,33 +12,56 @@ namespace DungeonAdventures.Src.Village.Places
 	/// The forge. Sets gems into weapons, armor and clothing, takes them back out, punches new
 	/// sockets, and sells gear. Which items take gems, how many sockets, what gems do and what
 	/// everything costs all come from the equipment rules JSON; the stock comes from shops/Blacksmith.json.
+	/// Every screen uses the inventory's two-panel layout (<see cref="ItemPanels"/>).
 	/// </summary>
 	internal class Blacksmith
 	{
-		private const string Gold = "#FFD700";
-		private const string Amber = "#FFAB00";
-		private const string Gem = "#BC8FDF";
-		private const string Muted = "#555555";
-		private const string Good = "#00FF00";
-		private const string Bad = "#FF4500";
+		private const string Place = "THE FORGE";
+		private const string PlaceColor = "#7A3B10";
 
 		private static EquipmentRules Rules => EquipmentRules.Current;
 
 		public static void Open()
 		{
 			var player = GameState.CurrentPlayer;
-			CursorVisible = false;
 			string message = Story.Pick("blacksmith.greeting").Pastel(Amber);
+			int selected = 0;
+
+			var rows = new List<PanelRow>
+			{
+				new("Work on gear", Text, Right: "gem sockets"),
+				new("Buy gear", Text, Right: "the smith's racks"),
+			};
 
 			while (true)
 			{
-				int choice = Choose("=== THE FORGE ===", new[] { message, $"Gold: {player.Coins}".Pastel(Gold) },
-					new List<string> { "Work on gear (gem sockets)", "Buy gear" });
-
-				if (choice == -1) break;
-				message = choice == 0 ? GearMenu(player) : BuyMenu(player);
+				var choice = Choose(Place, PlaceColor, player, rows, ForgeDetail, message, Summary(player), "Choose", ref selected);
+				if (choice.Back) break;
+				message = choice.Index == 0 ? GearMenu(player) : BuyMenu(player);
 			}
 			Clear();
+		}
+
+		private static List<string> ForgeDetail(int index)
+		{
+			var d = new Detail();
+			if (index == 0)
+			{
+				d.Line("WORK ON GEAR", Gold).Line("Gem sockets", Muted).Blank();
+				d.Wrapped("Set gems into weapons, armor and clothing, pry them back out, or have a new socket punched.", Flavour).Blank();
+				d.Stat("Set a gem", $"{Rules.SetGemCost} gold", Gold);
+				d.Stat("Remove gem", $"{Rules.RemoveGemCost} gold", Gold);
+				if (Rules.RemoveGemDestroysGem) d.Add("Removed gems are destroyed.".Pastel(Bad));
+				d.Stat("New socket", "price depends on the item", Muted);
+			}
+			else
+			{
+				d.Line("BUY GEAR", Gold).Line("The smith's racks", Muted).Blank();
+				d.Wrapped("Armor, clothing and gems, hammered out right here in Ashford.", Flavour).Blank();
+				int count = ShopLoader.GetByName("Blacksmith")?.InventoryRefs.Count ?? 0;
+				d.Stat("For sale", $"{count} items", Text);
+			}
+			return d.Build();
 		}
 
 		// ---------------------------------------------------------------- sockets
@@ -45,6 +69,7 @@ namespace DungeonAdventures.Src.Village.Places
 		private static string GearMenu(PlayerData.loadPlayer player)
 		{
 			string message = "";
+			int selected = 0;
 			while (true)
 			{
 				var gear = player.Inventory.Where(Rules.CanHoldGems)
@@ -56,50 +81,50 @@ namespace DungeonAdventures.Src.Village.Places
 					return Story.Line("blacksmith.no_gear").Pastel(Bad);
 
 				var equipped = player.GetEquippedItems().ToList();
-				var lines = gear.Select(i =>
-				{
-					string tag = equipped.Any(e => ReferenceEquals(e, i)) ? "[E] " : "";
-					return $"{tag}{i.Name} ({HostLabel(i)}) [{i.SocketedGems.Count}/{Rules.SocketsOn(i)}]";
-				}).ToList();
+				bool IsWorn(ItemData i) => equipped.Any(e => ReferenceEquals(e, i));
 
-				int pick = Choose("=== CHOOSE GEAR TO WORK ON ===", new[] { message, $"Gold: {player.Coins}".Pastel(Gold) }, lines);
-				if (pick == -1) return "";
-				message = Workbench(player, gear[pick]);
+				var rows = gear.Select(i => new PanelRow(i.Name, RarityColor(i.Rarity),
+					Right: $"◆ {i.SocketedGems.Count}/{Rules.SocketsOn(i)}", RightColor: GemColor,
+					Tag: IsWorn(i) ? "[E] " : "")).ToList();
+
+				var choice = Choose(Place, PlaceColor, player, rows,
+					i => ItemDetail(player, gear[i], IsWorn(gear[i])).Build(),
+					message, Summary(player), "Work on it", ref selected);
+				if (choice.Back) return "";
+				message = Workbench(player, gear[choice.Index], IsWorn(gear[choice.Index]));
 			}
 		}
 
-		private static string Workbench(PlayerData.loadPlayer player, ItemData item)
+		private static string Workbench(PlayerData.loadPlayer player, ItemData item, bool worn)
 		{
-			string message = "";
+			string message = $"At the anvil: {item.Name}.".Pastel(Dim);
+			int selected = 0;
 			while (true)
 			{
 				var host = Rules.HostFor(item)!;
-				int sockets = Rules.SocketsOn(item);
 
-				var info = new List<string>
-				{
-					message,
-					$"{item.Name} ({host.Label})  Sockets {item.SocketedGems.Count}/{sockets}  Gold {player.Coins}".Pastel(Gold),
-				};
-				foreach (var gem in item.SocketedGems)
-					info.Add($"◆ {gem.Name}: {EquipmentRules.Describe(Rules.GemBonuses(gem, host.Id))}".Pastel(Gem));
-				for (int i = item.SocketedGems.Count; i < sockets; i++)
-					info.Add("◇ empty socket".Pastel(Muted));
-
-				var actions = new List<(string Label, Func<string> Run)>();
+				var actions = new List<(PanelRow Row, Func<string> Run)>();
 				if (item.HasEmptySocket())
-					actions.Add(($"Set a gem ({Rules.SetGemCost}g)", () => SetGem(player, item)));
+					actions.Add((new PanelRow("Set a gem", Text, Right: $"{Rules.SetGemCost}g", RightColor: Gold), () => SetGem(player, item)));
 				if (item.SocketedGems.Count > 0)
-					actions.Add(($"Remove a gem ({Rules.RemoveGemCost}g{(Rules.RemoveGemDestroysGem ? ", gem is lost" : "")})", () => RemoveGem(player, item)));
+					actions.Add((new PanelRow(Rules.RemoveGemDestroysGem ? "Remove a gem (it breaks)" : "Remove a gem", Text,
+						Right: $"{Rules.RemoveGemCost}g", RightColor: Gold), () => RemoveGem(player, item)));
 				if (Rules.CanPunchSocket(item))
-					actions.Add(($"Punch a new socket ({Rules.PunchCost(item)}g, max {host.MaxSockets})", () => PunchSocket(player, item)));
+					actions.Add((new PanelRow($"Punch a new socket (max {host.MaxSockets})", Text,
+						Right: $"{Rules.PunchCost(item)}g", RightColor: Gold), () => PunchSocket(player, item)));
 
 				if (actions.Count == 0)
-					actions.Add(("Nothing more can be done here", () => ""));
+					actions.Add((new PanelRow("Nothing more can be done", Muted), () => ""));
 
-				int pick = Choose($"=== WORKING: {item.Name.ToUpper()} ===", info, actions.Select(a => a.Label).ToList());
-				if (pick == -1) return "";
-				message = actions[pick].Run();
+				// The item being worked on stays on the right, with its sockets and gems.
+				int empty = Rules.SocketsOn(item) - item.SocketedGems.Count;
+				var emptyLines = Enumerable.Repeat("  ◇ empty socket".Pastel(Muted), Math.Max(0, empty));
+
+				var choice = Choose(Place, PlaceColor, player, actions.Select(a => a.Row).ToList(),
+					_ => ItemDetail(player, item, worn, extra: emptyLines, showValue: false).Build(),
+					message, Summary(player), "Do it", ref selected);
+				if (choice.Back) return "";
+				message = actions[choice.Index].Run();
 			}
 		}
 
@@ -110,14 +135,18 @@ namespace DungeonAdventures.Src.Village.Places
 				return Story.Line("blacksmith.no_gems").Pastel(Bad);
 
 			var host = Rules.HostFor(item)!;
-			var lines = gems.Select(g => $"{g.Name}  →  {EquipmentRules.Describe(Rules.GemBonuses(g, host.Id))}").ToList();
-			int pick = Choose($"=== SET A GEM IN: {item.Name.ToUpper()} ===", new[] { $"Cost: {Rules.SetGemCost}g   Gold: {player.Coins}".Pastel(Gold) }, lines);
-			if (pick == -1) return "";
+			var rows = gems.Select(g => new PanelRow(g.Name, RarityColor(g.Rarity), Right: $"+{g.Power:0.#}", RightColor: GemColor)).ToList();
+			int selected = 0;
+
+			var choice = Choose(Place, PlaceColor, player, rows,
+				i => GemForItem(gems[i], item, $"In your {item.Name}:", Rules.SetGemCost, breaks: false),
+				$"Which gem goes into the {item.Name}?".Pastel(Dim), Summary(player), "Set it", ref selected);
+			if (choice.Back) return "";
 
 			if (!Pay(player, Rules.SetGemCost))
 				return Story.Line("blacksmith.no_gold").Pastel(Bad);
 
-			var gem = gems[pick];
+			var gem = gems[choice.Index];
 			player.Inventory.Remove(gem);
 			item.SocketedGems.Add(gem);
 			GameState.Sync();
@@ -126,15 +155,21 @@ namespace DungeonAdventures.Src.Village.Places
 
 		private static string RemoveGem(PlayerData.loadPlayer player, ItemData item)
 		{
-			var lines = item.SocketedGems.Select(g => g.Name).ToList();
-			int pick = Choose($"=== REMOVE A GEM FROM: {item.Name.ToUpper()} ===", new[] { $"Cost: {Rules.RemoveGemCost}g   Gold: {player.Coins}".Pastel(Gold) }, lines);
-			if (pick == -1) return "";
+			var host = Rules.HostFor(item)!;
+			var gems = item.SocketedGems;
+			var rows = gems.Select(g => new PanelRow(g.Name, RarityColor(g.Rarity), Right: $"+{g.Power:0.#}", RightColor: GemColor)).ToList();
+			int selected = 0;
+
+			var choice = Choose(Place, PlaceColor, player, rows,
+				i => GemForItem(gems[i], item, $"Gives your {item.Name}:", Rules.RemoveGemCost, breaks: Rules.RemoveGemDestroysGem),
+				$"Which gem comes out of the {item.Name}?".Pastel(Dim), Summary(player), "Remove it", ref selected);
+			if (choice.Back) return "";
 
 			if (!Pay(player, Rules.RemoveGemCost))
 				return Story.Line("blacksmith.no_gold").Pastel(Bad);
 
-			var gem = item.SocketedGems[pick];
-			item.SocketedGems.RemoveAt(pick);
+			var gem = gems[choice.Index];
+			gems.RemoveAt(choice.Index);
 			if (Rules.RemoveGemDestroysGem)
 			{
 				GameState.Sync();
@@ -169,13 +204,22 @@ namespace DungeonAdventures.Src.Village.Places
 				return Story.Line("blacksmith.no_stock").Pastel(Bad);
 
 			string message = "";
+			int selected = 0;
 			while (true)
 			{
-				var lines = stock.Select(StockLine).ToList();
-				int pick = Choose("=== BLACKSMITH'S WARES ===", new[] { message, $"Gold: {player.Coins}".Pastel(Gold) }, lines);
-				if (pick == -1) return "";
+				var rows = stock.Select(i => new PanelRow(i.Name, RarityColor(i.Rarity),
+					Right: i.LevelReq > player.Level ? $"Lv{i.LevelReq}  {i.Value}g" : $"{i.Value}g",
+					RightColor: i.LevelReq > player.Level ? Bad : i.Value > player.Coins ? Muted : Gold)).ToList();
 
-				var item = stock[pick];
+				var choice = Choose(Place, PlaceColor, player, rows,
+					i => ItemDetail(player, stock[i], extra: new[]
+					{
+						Stat("Price", $"{stock[i].Value} gold", stock[i].Value > player.Coins ? Bad : Gold),
+					}, showValue: false).Build(),
+					message, Summary(player), "Buy", ref selected);
+				if (choice.Back) return "";
+
+				var item = stock[choice.Index];
 				if (item.LevelReq > player.Level)
 				{
 					message = Story.Line("blacksmith.level_too_low", ("item", item.Name), ("level", item.LevelReq)).Pastel(Bad);
@@ -199,75 +243,41 @@ namespace DungeonAdventures.Src.Village.Places
 			}
 		}
 
-		private static string StockLine(ItemData item)
-		{
-			string stats = item switch
-			{
-				ArmorData a => $"{Rules.SlotLabel(a.Slot)} {a.Type}, Def {a.Defense}{(a.BonusHealth > 0 ? $", +{a.BonusHealth} HP" : "")}",
-				GemData g => $"Gem, power {g.Power:0.#}",
-				WeaponData w => $"{w.Type}, Dmg {w.Damage}",
-				_ => item.Type,
-			};
-			string sockets = Rules.SocketsOn(item) > 0 ? $", {Rules.SocketsOn(item)} socket(s)" : "";
-			string level = item.LevelReq > 0 ? $"  Lv{item.LevelReq}" : "";
-			return $"{item.Name} ({stats}{sockets}) {item.Value}g{level}";
-		}
-
 		// ---------------------------------------------------------------- helpers
 
-		private static string HostLabel(ItemData item) => item switch
+		/// <summary>
+		/// A gem's details for one item: what it does there and the price. Shorter than the full gem
+		/// panel (which lists every kind of gear) so the part that matters always fits.
+		/// </summary>
+		private static List<string> GemForItem(GemData gem, ItemData item, string heading, int cost, bool breaks)
 		{
-			ArmorData a => $"{Rules.SlotLabel(a.Slot)} {Rules.HostFor(item)?.Label}",
-			_ => Rules.HostFor(item)?.Label ?? item.Type,
-		};
+			var d = new Detail(gem.Name);
+			d.Line(gem.Name.ToUpper(), RarityColor(gem.Rarity));
+			d.Line($"{gem.Rarity} gem", Muted);
+			string descKey = "item." + Slug(gem.Name);
+			if (Story.Has(descKey)) d.Wrapped(Story.Line(descKey), Flavour);
+			d.Blank();
+			d.Stat("Power", $"+{gem.Power:0.#}", GemColor);
+			if (gem.Attributes.Count > 0) d.Stat("Element", string.Join(", ", gem.Attributes), "#87CEEB");
+			d.Blank();
+			d.Line(heading, Dim);
+			d.Line($"  {EquipmentRules.Describe(Rules.GemBonuses(gem, Rules.HostFor(item)!.Id))}", Good);
+			d.Blank();
+			d.Stat("Cost", $"{cost} gold", Gold);
+			if (breaks) d.Add("The gem breaks when removed.".Pastel(Bad));
+			return d.Build();
+		}
+
+		private static string Summary(PlayerData.loadPlayer player) =>
+			$" {"Gold".Pastel(Dim)} {player.Coins.ToString().Pastel(Gold)}" +
+			$"   {"Gems in pack".Pastel(Dim)} {player.Inventory.OfType<GemData>().Count().ToString().Pastel(GemColor)}" +
+			$"   {"Pack".Pastel(Dim)} {player.Inventory.Count}/{player.InventorySize}";
 
 		private static bool Pay(PlayerData.loadPlayer player, int cost)
 		{
 			if (player.Coins < cost) return false;
 			player.Coins -= cost;
 			return true;
-		}
-
-		/// <summary>
-		/// A simple arrow-key menu. Returns the chosen index, or -1 on Escape.
-		/// </summary>
-		private static int Choose(string title, IEnumerable<string> info, List<string> options)
-		{
-			int selected = 0;
-			while (true)
-			{
-				Clear();
-				UiEngine.DrawCentered(title.Pastel(Amber), 3);
-
-				int row = 5;
-				foreach (var line in info.Where(l => !string.IsNullOrEmpty(l)))
-					UiEngine.DrawCentered(line, row++);
-
-				row++;
-				MouseInput.ClearZones();
-				for (int i = 0; i < options.Count; i++)
-				{
-					MouseInput.AddZone(row + i, 0, 94, i);
-					string line = i == selected
-						? $">> {options[i]} <<".Pastel(Good)
-						: $"   {options[i]}   ".Pastel("#AAAAAA");
-					UiEngine.DrawCentered(line, row + i);
-				}
-
-				string hint = "[↑↓] Select   [ENTER] Choose   [ESC] Back";
-				UiEngine.DrawCentered(hint.Pastel(Gold), row + options.Count + 2);
-				// "[ESC] Back" at the end of the centred hint is clickable.
-				int hintX = 94 / 2 - hint.Length / 2;
-				MouseInput.AddKeyZone(row + options.Count + 2, hintX + hint.Length - "[ESC] Back".Length, "[ESC] Back".Length, ConsoleKey.Escape);
-
-				var key = MouseInput.ReadMenuKey(ref selected, options.Count);
-				if (key is ConsoleKey.UpArrow or ConsoleKey.DownArrow)
-					selected = MenuNavigator.HandleVerticalNav(key, selected, options.Count);
-				else if (key == ConsoleKey.Enter && options.Count > 0)
-					return selected;
-				else if (key == ConsoleKey.Escape)
-					return -1;
-			}
 		}
 	}
 }

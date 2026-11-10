@@ -6,6 +6,7 @@ using Pastel;
 using System.Text;
 using System.Text.RegularExpressions;
 using static System.Console;
+using static DungeonAdventures.Src.Village.Places.ItemPanels;
 
 namespace DungeonAdventures.Src.Village.Places
 {
@@ -18,36 +19,12 @@ namespace DungeonAdventures.Src.Village.Places
 	/// </summary>
 	internal class InventoryScreen
 	{
-		private const int ScreenWidth = 94;
-		private const int ListX = 1, ListWidth = 44;
-		private const int DetailX = 46, DetailWidth = 47;
-		private const int BoxTop = 2, BoxHeight = 17;
-		private const int VisibleRows = BoxHeight - 2;
-		private const int SummaryRow = 19, MessageRow = 20, KeysRow = 21;
-
-		private const string Border = "#8B5A2B";
-		private const string Gold = "#FFD700";
-		private const string Amber = "#FFAB00";
-		private const string Dim = "#8B6B4A";
-		private const string Muted = "#777777";
-		private const string Good = "#7CFC00";
-		private const string Bad = "#FF4500";
-
 		private enum Tab { All, Gear, Gems, Potions, Other }
 		private static readonly Tab[] Tabs = Enum.GetValues<Tab>();
 
 		/// <summary>One row of the list: a single weapon or piece of gear, or every copy of anything else.</summary>
 		private sealed record Entry(ItemData Item, int Quantity);
 
-		/// <summary>A clickable span on one screen row, recorded while drawing.</summary>
-		private sealed record Hotspot(int Y, int X1, int X2, string Command);
-		private static readonly List<Hotspot> _hotspots = new();
-
-		private static void AddHotspot(int y, int x, int width, string command) =>
-			_hotspots.Add(new Hotspot(y, x, x + width - 1, command));
-
-		private static string? HitTest(int x, int y) =>
-			_hotspots.FirstOrDefault(h => h.Y == y && x >= h.X1 && x <= h.X2)?.Command;
 
 		public static void Open(PlayerData.loadPlayer player)
 		{
@@ -164,8 +141,6 @@ namespace DungeonAdventures.Src.Village.Places
 		}
 
 		private static bool IsUnique(ItemData i) => i is WeaponData or ArmorData;
-		private static bool IsGem(ItemData i) => i is GemData || i.Type.Equals("Gem", StringComparison.OrdinalIgnoreCase);
-		private static bool IsPotion(ItemData i) => i.Type.Equals("Consumable", StringComparison.OrdinalIgnoreCase);
 
 		private static int Category(ItemData i) => i is WeaponData ? 0 : i is ArmorData ? 1 : IsGem(i) ? 2 : IsPotion(i) ? 3 : 4;
 
@@ -187,49 +162,25 @@ namespace DungeonAdventures.Src.Village.Places
 		private static void Draw(PlayerData.loadPlayer player, List<Entry> entries, int tab, int selected, int scroll, string message)
 		{
 			var equipped = player.GetEquippedWeapon();
-			_hotspots.Clear();
+			ClearHotspots();
 
-			DrawHeader(player);
-
-			// Filter tabs, top-right corner of the header row
-			var tabs = new StringBuilder();
-			int tabsWidth = Tabs.Sum(tb => tb.ToString().Length + 2);
-			int tabX = ScreenWidth - 1 - tabsWidth;
-			int tabsStart = tabX;
-			for (int t = 0; t < Tabs.Length; t++)
-			{
-				string label = $" {Tabs[t].ToString().ToUpper()} ";
-				tabs.Append(t == tab ? label.Pastel("#000000").PastelBg(Amber) : label.Pastel(Dim));
-				AddHotspot(0, tabX, label.Length, $"tab:{t}");
-				tabX += label.Length;
-			}
-			WriteAt(tabsStart, 0, tabs.ToString());
+			DrawHeader("INVENTORY", "#8B0000", player);
+			DrawTabs(Tabs.Select(t => t.ToString()).ToList(), tab);
 
 			// Item list
-			var listLines = new List<string>();
-			if (entries.Count == 0)
-				listLines.Add(Story.Line("inventory.empty").Pastel(Muted));
-			for (int r = 0; r < VisibleRows; r++)
-			{
-				int idx = scroll + r;
-				if (idx < entries.Count)
-				{
-					listLines.Add(ListLine(entries[idx], idx == selected, IsEquipped(entries[idx].Item, equipped)));
-					AddHotspot(BoxTop + 1 + r, ListX, ListWidth, $"row:{idx}");
-				}
-			}
-			int packCount = BuildEntries(player, Tab.All).Count;
-			DrawBox(ListX, ListWidth, listLines,
-				moreAbove: scroll > 0, moreBelow: scroll + VisibleRows < entries.Count);
+			var rows = entries.Select(e => new PanelRow(
+				e.Item.Name, RarityColor(e.Item.Rarity),
+				Right: e.Quantity > 1 ? $"x{e.Quantity}" : "",
+				Tag: IsEquipped(e.Item, equipped) ? "[E] " : "")).ToList();
+			DrawList(rows, selected, scroll, Story.Line("inventory.empty"));
 
 			// Details, with the item's icon (if it has one) in the top-right corner
-			var icon = entries.Count > 0 ? PixelIcon.ForItem(entries[selected].Item.Name) : null;
-			var detail = entries.Count > 0
-				? DetailLines(player, entries[selected], IsEquipped(entries[selected].Item, equipped), icon)
-				: new List<string>();
-			DrawBox(DetailX, DetailWidth, detail);
+			DrawDetail(entries.Count > 0
+				? ItemDetail(player, entries[selected].Item, IsEquipped(entries[selected].Item, equipped), entries[selected].Quantity).Build()
+				: new List<string>());
 
 			// Summary bar
+			int packCount = BuildEntries(player, Tab.All).Count;
 			var hero = EnemyFactory.CreatePlayer(player);
 			// Strength and gem bonus that combat adds on top of the weapon's own range.
 			int bonus = Math.Max(0, (int)player.GetTotalDamage() - 10);
@@ -241,195 +192,16 @@ namespace DungeonAdventures.Src.Village.Places
 				$"   {"Defense".Pastel(Dim)} {player.ArmorValue.ToString().Pastel("#87CEEB")}" +
 				$"   {"Weight".Pastel(Dim)} {weight:0.#}" +
 				$"   {"Pack".Pastel(Dim)} {packCount}/{player.InventorySize}";
-			WriteAt(ListX, SummaryRow, Pad(summary, ScreenWidth - 2));
 
-			// Message and keys
-			WriteAt(ListX, MessageRow, Pad(" " + message, ScreenWidth - 2));
+			// Keys
 			string action = entries.Count > 0 ? ActionLabel(entries[selected].Item, IsEquipped(entries[selected].Item, equipped)) : "";
 			var hints = new List<(string Text, string? Command)> { (" [↑↓] Select", null), ("   [←→] Filter", null) };
 			if (action.Length > 0) hints.Add(($"   [ENTER] {action}", "use"));
 			if (entries.Count > 0) hints.Add(("   [X] Drop", "drop"));
 			hints.Add(("   [ESC] Close", "close"));
 
-			var keys = new StringBuilder();
-			int hintX = ListX;
-			foreach (var (text, command) in hints)
-			{
-				// Clickable hints are a little brighter than the plain ones.
-				keys.Append(text.Pastel(command is null ? Muted : "#B09070"));
-				if (command is not null)
-				{
-					int lead = text.Length - text.TrimStart().Length;
-					AddHotspot(KeysRow, hintX + lead, text.Length - lead, command);
-				}
-				hintX += text.Length;
-			}
-			WriteAt(ListX, KeysRow, Pad(keys.ToString(), ScreenWidth - 2));
-
-			HudChrome.DisplayFooter(GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
+			DrawFooter(summary, message, hints);
 		}
-
-		private static string ListLine(Entry e, bool selected, bool equipped)
-		{
-			int inner = ListWidth - 4;
-			string tag = equipped ? "[E] " : "";
-			string qty = e.Quantity > 1 ? $"x{e.Quantity}" : "";
-			string name = Fit(e.Item.Name, inner - 2 - tag.Length - qty.Length - 1);
-			string gap = new string(' ', Math.Max(1, inner - 2 - tag.Length - name.Length - qty.Length));
-
-			if (selected)
-				return $"> {tag}{name}{gap}{qty}".Pastel("#000000").PastelBg(Gold);
-
-			return "  " + tag.Pastel(Good) + name.Pastel(RarityColor(e.Item.Rarity)) + gap + qty.Pastel(Dim);
-		}
-
-		private static List<string> DetailLines(PlayerData.loadPlayer player, Entry e, bool equipped, string[]? icon)
-		{
-			var item = e.Item;
-			int full = DetailWidth - 4;
-			// Lines beside the icon are kept narrow so they never run into it.
-			const int IconGap = 2;
-			int iconRows = icon?.Length ?? 0;
-			int narrow = icon != null ? full - PixelIcon.Width(icon) - IconGap : full;
-			var lines = new List<string>();
-			int Width() => lines.Count < iconRows ? narrow : full;
-
-			lines.Add(Fit(item.Name.ToUpper(), Width()).Pastel(RarityColor(item.Rarity)));
-			lines.Add(Fit($"{item.Rarity} {TypeLabel(item)}", Width()).Pastel(Muted));
-
-			string descKey = "item." + Slug(item.Name);
-			if (Story.Has(descKey))
-			{
-				// The narrow column beside an icon wraps to more lines, so skip this spacer to keep
-				// the stats at the bottom (Value, Weight) inside the panel.
-				if (icon == null) lines.Add("");
-				var words = new Queue<string>(Story.Line(descKey).Split(' ', StringSplitOptions.RemoveEmptyEntries));
-				while (words.Count > 0)
-					lines.Add(TakeLine(words, Width()).Pastel("#C8B08A"));
-			}
-			lines.Add("");
-
-			switch (item)
-			{
-				case WeaponData w:
-					int min = w.MinDamage > 0 ? w.MinDamage : (int)Math.Round(w.Damage * 0.8);
-					int max = w.MaxDamage > 0 ? w.MaxDamage : (int)Math.Round(w.Damage * 1.2);
-					lines.Add(Stat("Damage", $"{min}-{max}", Bad));
-					lines.Add(Stat("Crit chance", $"{w.CritChance}%", Amber));
-					if (w.Effect != EffectType.None)
-						lines.Add(Stat(IsElement(w.Effect) ? "Element" : "Effect", w.Effect.ToString(), "#87CEEB"));
-					AddSocketLines(lines, w, Width);
-					lines.Add(Stat("Status", equipped ? "EQUIPPED" : "In pack", equipped ? Good : Muted));
-					break;
-
-				case ArmorData a:
-					lines.Add(Stat("Slot", EquipmentRules.Current.SlotLabel(a.Slot), "#DCDCDC"));
-					lines.Add(Stat("Defense", $"+{a.Defense}", "#87CEEB"));
-					if (a.BonusHealth != 0) lines.Add(Stat("Max HP", $"+{a.BonusHealth}", Good));
-					if (a.LevelReq > 0) lines.Add(Stat("Level req", a.LevelReq.ToString(), a.LevelReq > player.Level ? Bad : "#DCDCDC"));
-					AddSocketLines(lines, a, Width);
-					lines.Add(Stat("Status", equipped ? "WORN" : "In pack", equipped ? Good : Muted));
-					break;
-
-				case GemData g:
-					lines.Add(Stat("Power", $"+{g.Power:0.#}", "#BC8FDF"));
-					if (g.Attributes.Count > 0) lines.Add(Stat("Element", string.Join(", ", g.Attributes), "#87CEEB"));
-					lines.Add("When set in:".Pastel(Dim));
-					foreach (var host in EquipmentRules.Current.SocketHosts)
-						lines.Add(Fit($"  {host.Label}: {EquipmentRules.Describe(EquipmentRules.Current.GemBonuses(g, host.Id))}", Width()).Pastel(Good));
-					lines.Add("Only counts in equipped gear.".Pastel(Muted));
-					break;
-
-				default:
-					if (IsPotion(item)) lines.Add(Stat("Effect", PotionEffect(item), Good));
-					if (item.IsQuestItem) lines.Add(Stat("Quest item", "Can't be dropped", Amber));
-					break;
-			}
-
-			if (e.Quantity > 1) lines.Add(Stat("Carrying", e.Quantity.ToString(), "#DCDCDC"));
-			lines.Add(Stat("Weight", $"{item.Weight:0.#}", "#DCDCDC"));
-			lines.Add(Stat("Value", $"{item.Value} gold", Gold));
-
-			// Place the icon to the right of the first rows. A few stat lines can still be a little
-			// too long for the narrow column, so cut those rather than letting them hit the icon.
-			for (int r = 0; r < iconRows; r++)
-			{
-				// Where the icon has no pixels (its transparent margin) the line can use the full width.
-				if (r < lines.Count && UiEngine.StripAnsi(icon![r]).Trim().Length == 0) continue;
-				string text = r < lines.Count ? ClipVisible(lines[r], narrow) : "";
-				string row = Pad(text, narrow) + new string(' ', IconGap) + icon![r];
-				if (r < lines.Count) lines[r] = row; else lines.Add(row);
-			}
-
-			return lines.Take(VisibleRows).ToList();
-		}
-
-		/// <summary>Takes as many whole words as fit in one line of the given width.</summary>
-		private static string TakeLine(Queue<string> words, int width)
-		{
-			var line = new StringBuilder(words.Dequeue());
-			while (words.Count > 0 && line.Length + 1 + words.Peek().Length <= width)
-				line.Append(' ').Append(words.Dequeue());
-			return Fit(line.ToString(), width); // a single word longer than the line
-		}
-
-		/// <summary>Cuts a coloured string to a visible width, ending in "…", keeping its colour codes intact.</summary>
-		private static string ClipVisible(string text, int width)
-		{
-			if (UiEngine.StripAnsi(text).Length <= width) return text;
-			var sb = new StringBuilder();
-			int visible = 0;
-			for (int i = 0; i < text.Length && visible < width - 1; i++)
-			{
-				if (text[i] == '\x1b')
-				{
-					int end = text.IndexOf('m', i);
-					if (end < 0) break;
-					sb.Append(text, i, end - i + 1);
-					i = end;
-					continue;
-				}
-				sb.Append(text[i]);
-				visible++;
-			}
-			return sb.Append('…').Append("\x1b[0m").ToString();
-		}
-
-		/// <summary>Socket count and each set gem with what it gives in this item.</summary>
-		private static void AddSocketLines(List<string> lines, ItemData item, Func<int> width)
-		{
-			var rules = EquipmentRules.Current;
-			int sockets = rules.SocketsOn(item);
-			if (sockets <= 0) return;
-
-			string hostId = rules.HostFor(item)!.Id;
-			lines.Add(Stat("Sockets", $"{item.SocketedGems.Count}/{sockets}", "#BC8FDF"));
-			foreach (var gem in item.SocketedGems.Take(sockets))
-				lines.Add(Fit($"  ◆ {gem.Name}: {EquipmentRules.Describe(rules.GemBonuses(gem, hostId))}", width()).Pastel("#BC8FDF"));
-		}
-
-		private static string Stat(string label, string value, string color) =>
-			$"{label.PadRight(12).Pastel(Dim)}{value.Pastel(color)}";
-
-		private static string TypeLabel(ItemData item) => item switch
-		{
-			WeaponData w => $"{w.Type} weapon",
-			ArmorData a => $"{a.Type.ToLower()} ({EquipmentRules.Current.SlotLabel(a.Slot).ToLower()})",
-			_ when IsGem(item) => "gem",
-			_ when IsPotion(item) => "potion",
-			_ => item.Type.ToLower(),
-		};
-
-		private static bool IsElement(EffectType e) =>
-			e is EffectType.Fire or EffectType.Ice or EffectType.Poison or EffectType.Electric;
-
-		private static string PotionEffect(ItemData item) => item.Effect switch
-		{
-			EffectType.Restorative => $"Restores {item.Value} HP",
-			EffectType.Speed => "Foe loses a turn (battle)",
-			EffectType.Defense => "+5 defense (battle)",
-			_ => "None",
-		};
 
 		private static string ActionLabel(ItemData item, bool equipped) => item switch
 		{
@@ -527,67 +299,5 @@ namespace DungeonAdventures.Src.Village.Places
 			else
 				player.Inventory.Remove(target);
 		}
-
-		// ---------------------------------------------------------------- helpers
-
-		private static void DrawHeader(PlayerData.loadPlayer p)
-		{
-			string loc = " INVENTORY ".Pastel("#FFFFFF").PastelBg("#8B0000");
-			// Name is capped so the header never runs into the filter tabs on the right.
-			string stats = $" | 👤 {Fit(p.PlayerName, 10)} | ❤️ HP: {p.Health}/{(int)p.GetTotalMaxHealth()} | 💰 {p.Coins} ".Pastel(Gold);
-			SetCursorPosition(0, 0);
-			Write(new string(' ', ScreenWidth));
-			SetCursorPosition(0, 0);
-			Write(loc + stats);
-		}
-
-		private static void DrawBox(int x, int width, List<string> lines, bool moreAbove = false, bool moreBelow = false)
-		{
-			int inner = width - 2;
-			WriteAt(x, BoxTop, ("╔" + new string('═', inner) + "╗").Pastel(Border));
-
-			for (int r = 0; r < VisibleRows; r++)
-			{
-				string content = r < lines.Count ? lines[r] : "";
-				string right = r == 0 && moreAbove ? "▲" : r == VisibleRows - 1 && moreBelow ? "▼" : "║";
-				WriteAt(x, BoxTop + 1 + r, "║".Pastel(Border) + " " + Pad(content, inner - 2) + " " + right.Pastel(Border));
-			}
-
-			WriteAt(x, BoxTop + BoxHeight - 1, ("╚" + new string('═', inner) + "╝").Pastel(Border));
-		}
-
-		private static void WriteAt(int x, int y, string text)
-		{
-			SetCursorPosition(x, y);
-			Write(text);
-		}
-
-		/// <summary>Pads a (possibly coloured) string to a visible width.</summary>
-		private static string Pad(string text, int width)
-		{
-			int visible = UiEngine.StripAnsi(text).Length;
-			return visible >= width ? text : text + new string(' ', width - visible);
-		}
-
-		/// <summary>Cuts plain text to a width, adding "..." when it doesn't fit.</summary>
-		private static string Fit(string text, int width)
-		{
-			if (width <= 0) return "";
-			return text.Length <= width ? text : text[..Math.Max(0, width - 3)] + "...";
-		}
-
-		/// <summary>"Rogue's Dagger" -> "rogues_dagger", the key used for item descriptions.</summary>
-		private static string Slug(string name) =>
-			Regex.Replace(name.ToLowerInvariant().Replace("'", ""), "[^a-z0-9]+", "_").Trim('_');
-
-		private static string RarityColor(ItemRarity rarity) => rarity switch
-		{
-			ItemRarity.Uncommon => "#3CDC3C",
-			ItemRarity.Rare => "#4DA6FF",
-			ItemRarity.Epic => "#B06CFF",
-			ItemRarity.Legendary => "#FF8000",
-			ItemRarity.Mythic => "#FF4040",
-			_ => "#DCDCDC",
-		};
 	}
 }
