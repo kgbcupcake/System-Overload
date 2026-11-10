@@ -19,7 +19,7 @@
     { "ItemID": "Ember Shard", "Chance": 0.4 }
   ],
   "Dialogue": {
-    "OnEncounter": "A thief in my hoard? I will melt the gold from your teeth.",
+    "OnEncounter": "The elders broke the pact. The seal is failing, and you bring the clapper to me?",
     "OnDamage": "You dare scar my scales? BURN!",
     "OnDeath": "My hoard... my... fire..."
   }

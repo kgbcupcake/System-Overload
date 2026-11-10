@@ -18,7 +18,7 @@
     { "ItemID": "Rogue's Dagger", "Chance": 0.3 }
   ],
   "Dialogue": {
-    "OnEncounter": "These halls were sealed before your grandfather's grandfather drew breath. Leave.",
+    "OnEncounter": "The bell warns the dead to stay below. I cannot let you take its clapper.",
     "OnDamage": "You disturb the dead... then join them!",
     "OnDeath": "...at last... the keys... rest..."
   }

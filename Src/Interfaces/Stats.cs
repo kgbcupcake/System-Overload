@@ -1,4 +1,5 @@
 using DungeonAdventures.Src.GameData.Components;
+using Maries_Ui;
 using Pastel;
 using Maries_DataModels;
 using System;
@@ -57,8 +58,8 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			statLines.Add("╟──────────────────────────────────────────────────╢".Pastel(bColor));
 
 			// --- WEAPON SECTION (Weapon/Sockets) ---
-			// We look for the first weapon in inventory as the 'Active' one
-			var weapon = p.Inventory.OfType<WeaponData>().FirstOrDefault();
+			// The weapon the hero fights with (equipped, or their best one)
+			var weapon = p.GetEquippedWeapon();
 
 			if (weapon != null)
 			{
@@ -66,10 +67,12 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 				statLines.Add(BuildStatLine("BASE DMG", weapon.Damage.ToString(), vColor, bColor));
 				statLines.Add(BuildStatLine("SOCKETS", $"{weapon.SocketedGems.Count}/{weapon.NumSockets}", "#FFD700", bColor));
 
-				// List specific Socketed Gems
-				foreach (var gem in weapon.SocketedGems)
+				// Socketed gems, on one line so the sheet fits the 24-row screen
+				if (weapon.SocketedGems.Count > 0)
 				{
-					statLines.Add(BuildStatLine(" > GEM", gem.Name, "#DCDCDC", bColor));
+					string gems = string.Join(", ", weapon.SocketedGems.Select(g => g.Name));
+					if (gems.Length > 28) gems = gems[..25] + "...";
+					statLines.Add(BuildStatLine(" > GEMS", gems, "#DCDCDC", bColor));
 				}
 			}
 			else
@@ -77,26 +80,47 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 				statLines.Add(BuildStatLine("WEAPON", "UNARMED", "#555555", bColor));
 			}
 
+			// --- GEAR SECTION (worn armor and clothing) ---
+			var rules = EquipmentRules.Current;
+			var armor = p.GetEquippedArmor();
+			statLines.Add("╟──────────────────────────────────────────────────╢".Pastel(bColor));
+			statLines.Add(BuildStatLine("DEFENSE", ((int)p.GetTotalDefense()).ToString(), "#87CEEB", bColor));
+			if (armor.Count == 0)
+				statLines.Add(BuildStatLine("GEAR", "NOTHING WORN", "#555555", bColor));
+			foreach (var piece in armor)
+			{
+				string sockets = rules.SocketsOn(piece) > 0 ? $" [{piece.SocketedGems.Count}/{rules.SocketsOn(piece)}]" : "";
+				statLines.Add(BuildStatLine(rules.SlotLabel(piece.Slot).ToUpper(), piece.Name + sockets, "#DCDCDC", bColor));
+			}
+
+			// Total gem bonuses from everything equipped, as set by the equipment rules JSON.
+			var bonuses = Enum.GetValues<SocketStat>().Select(s => (s, p.GetSocketBonus(s)));
+			string bonusText = EquipmentRules.Describe(bonuses);
+			if (bonusText.Length > 28) bonusText = bonusText[..25] + "...";
+			statLines.Add(BuildStatLine("GEM BONUS", bonusText, "#BC8FDF", bColor));
+
 			statLines.Add("╚══════════════════════════════════════════════════╝".Pastel(bColor));
 			statLines.Add("               [ PRESS ANY KEY TO RETURN ]               ");
 
 			// 5. Draw Header
 			string header = $"HERO: {p.PlayerName.ToUpper()} ({p.PlayerClass})";
 			int headerPadding = header.Length / 2;
-			SetCursorPosition(Math.Max(0, center - headerPadding), 4);
+			SetCursorPosition(Math.Max(0, center - headerPadding), 1);
 			WriteLine(header.Pastel(hColor));
 
 			// 6. Draw the Box
-			int row = 7;
+			int row = 2;
 			foreach (string line in statLines)
 			{
 				SetCursorPosition(startX, row++);
 				WriteLine(line);
 			}
 
-			ReadKey(true);
+			MouseInput.WaitForAnyInput();
 			Clear();
 		}
+
+		private const int ContentWidth = 48;
 
 		private static string BuildStatLine(string label, string value, string valColor, string borderColor)
 		{
@@ -104,8 +128,8 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			string rightWall = " ║".Pastel(borderColor);
 			string labelPart = (label + ":").PadRight(18);
 
-			// Adjusted width for the 50-char box
-			int totalContentWidth = 46;
+			// The border lines are 52 wide: "║ " + 48 columns of content + " ║"
+			int totalContentWidth = ContentWidth;
 			int remainingSpace = totalContentWidth - (labelPart.Length + value.Length);
 			string padding = new string(' ', Math.Max(0, remainingSpace));
 
@@ -118,8 +142,9 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			string rightWall = " ║".Pastel(borderColor);
 			string labelPart = (label + ":").PadRight(18);
 
-			// Fixed padding for the progress bar
-			string padding = new string(' ', 19);
+			// Pad by the bar's visible width (its colour codes take no space on screen)
+			int barWidth = UiEngine.StripAnsi(bar).Length;
+			string padding = new string(' ', Math.Max(0, ContentWidth - labelPart.Length - barWidth));
 
 			return leftWall + labelPart + bar + padding + rightWall;
 		}
@@ -137,7 +162,7 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 
 				p.Health = (int)p.GetTotalMaxHealth();
 				WriteLine("Your health is fully restored.".Pastel("#00FF00"));
-				ReadKey(true);
+				MouseInput.WaitForAnyInput();
 			}
 		}
 	}

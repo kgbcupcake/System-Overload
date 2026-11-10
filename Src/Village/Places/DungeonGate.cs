@@ -49,7 +49,10 @@ namespace DungeonAdventures.Src.Village.Places
 					selectedIndex: selectedIndex - scrollOffset
 				);
 
-				var key = ReadKey(true).Key;
+				// Clicks map to the visible rows, so add the scroll offset back.
+				int visibleSelected = selectedIndex - scrollOffset;
+				var key = MouseInput.ReadMenuKey(ref visibleSelected, visibleLines.Count);
+				selectedIndex = scrollOffset + visibleSelected;
 
 				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
 				{
@@ -125,8 +128,8 @@ namespace DungeonAdventures.Src.Village.Places
 
 			SaveGame.Save();
 
-			WriteLine("\nPress any key to return to the Dungeon Gate...");
-			ReadKey(true);
+			WriteLine("\nPress any key (or click) to return to the Dungeon Gate...");
+			MouseInput.WaitForAnyInput();
 			Clear();
 		}
 	}

@@ -48,20 +48,20 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 		
 				RenderMenu(options, selectedIndex, saveExists);
 
-				while (!KeyAvailable)
+				while (!MouseInput.InputAvailable)
 				{
 					UpdateIdleAnimation(saveExists);
 					Thread.Sleep(50);
 				}
 
-				ConsoleKeyInfo keyInfo = ReadKey(true);
+				// Keys, or a click on a menu row (selects it and acts like Enter).
+				var key = MouseInput.ReadMenuKey(ref selectedIndex, options.Length);
 
-
-				switch (keyInfo.Key)
+				switch (key)
 				{
 					case ConsoleKey.UpArrow:
 					case ConsoleKey.DownArrow:
-						selectedIndex = MenuNavigator.HandleVerticalNav(keyInfo.Key, selectedIndex, options.Length);
+						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, options.Length);
 						break;
 					case ConsoleKey.Enter:
 						isRunning = ExecuteSelection(options[selectedIndex], saveExists);
@@ -86,7 +86,8 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 				menuItems.Add(BuildMenuItem(i, selectedIndex, saveExists, options));
 			}
 
-			GameUiEngine.DrawDynamicFrame("MAIN MENU", menuItems, "Use Arrows & Enter", boxWidth: boxWidth, startY: startY);
+			// No hint line: it landed on the same row as the bottom tagline. Arrows and clicks both work.
+			GameUiEngine.DrawDynamicFrame("MAIN MENU", menuItems, "", boxWidth: boxWidth, startY: startY);
 		}
 
 		private static string BuildMenuItem(int index, int selectedIndex, bool saveExists, string[] options)
@@ -177,8 +178,8 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			Clear();
 			UiEngine.DrawCentered("CREATED BY: Kgbcupcake".Pastel("#FFAB00"), 10);
 			UiEngine.DrawCentered("V2 ENGINE POWERED BY C# & IMGUI", 12);
-			UiEngine.DrawCentered("Press any key to return...", 16);
-			ReadKey(true);
+			UiEngine.DrawCentered("Press any key (or click) to return...", 16);
+			MouseInput.WaitForAnyInput();
 			Clear();
 		}
 	}

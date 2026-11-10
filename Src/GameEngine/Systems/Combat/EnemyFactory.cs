@@ -78,10 +78,9 @@ public static class EnemyFactory
 	}
 
 	/// <summary>
-	/// The weapon the player fights with: the highest-damage weapon in their inventory.
+	/// The weapon the player fights with: the one they equipped, else their highest-damage weapon.
 	/// </summary>
-	public static WeaponData? GetEquippedWeapon(PlayerData.loadPlayer player) =>
-		player.Inventory.OfType<WeaponData>().OrderByDescending(w => w.Damage).FirstOrDefault();
+	public static WeaponData? GetEquippedWeapon(PlayerData.loadPlayer player) => player.GetEquippedWeapon();
 
 	/// <summary>
 	/// Builds the player's side of the fight from their stats and best weapon.
@@ -114,8 +113,11 @@ public static class EnemyFactory
 			combatant.AttackVerb = "punch and deal";
 		}
 
+		// Wisdom (+1% per point) and gems in equipped gear sharpen crit (see equipment rules JSON).
+		combatant.CritChance = Math.Clamp(combatant.CritChance + player.WisdomPoints + (int)Math.Round(player.GetSocketBonus(SocketStat.CritChance)), 0, 100);
+
 		combatant.Level = player.Level;
-		combatant.Accuracy = 90;
+		combatant.Accuracy = 90 + (int)Math.Round(player.GetSocketBonus(SocketStat.Accuracy));
 		combatant.Inventory = player.Inventory;
 		combatant.Health = player.Health;
 		return combatant;

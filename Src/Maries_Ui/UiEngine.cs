@@ -120,9 +120,13 @@ namespace Maries_Ui
 			{
 				Clear();
 				WriteLine($"\n {prompt.Pastel("#FFD700")}\n");
+				// The prompt takes rows 0-2, so the options are on rows 3 and 4.
+				MouseInput.ClearZones();
+				MouseInput.AddZone(3, 0, 40, 0);
 				WriteLine($" {(selected == 0 ? " > ".Pastel("#00FF00") : "    ")} {option1}");
+				MouseInput.AddZone(4, 0, 40, 1);
 				WriteLine($" {(selected == 1 ? " > ".Pastel("#00FF00") : "    ")} {option2}");
-				var key = ReadKey(true).Key;
+				var key = MouseInput.ReadMenuKey(ref selected, 2);
 				if (key == ConsoleKey.UpArrow) selected = 0;
 				else if (key == ConsoleKey.DownArrow) selected = 1;
 				else if (key == ConsoleKey.Enter) return selected == 0;

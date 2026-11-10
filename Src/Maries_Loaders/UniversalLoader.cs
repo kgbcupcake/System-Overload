@@ -59,12 +59,14 @@ namespace Maries_Loaders
 		public static List<ItemData> AllItems { get; private set; } = new List<ItemData>();
 		public static List<WeaponData> AllWeapons { get; private set; } = new List<WeaponData>();
 		public static List<GemData> AllGems { get; private set; } = new List<GemData>();
+		public static List<ArmorData> AllArmor { get; private set; } = new List<ArmorData>();
 
 		public static void Initialize()
 		{
 			AllItems = UniversalLoader.LoadCollection<ItemData>("items");
 			AllWeapons = UniversalLoader.LoadCollection<WeaponData>("weapons");
 			AllGems = UniversalLoader.LoadCollection<GemData>("gems");
+			AllArmor = UniversalLoader.LoadCollection<ArmorData>("armor");
 
 			Console.WriteLine($"[SYSTEM] Database Synchronized: {AllItems.Count} Items Loaded.");
 
@@ -75,11 +77,12 @@ namespace Maries_Loaders
 		/// </summary>
 		public static ItemData? CreateCopy(string name)
 		{
-			if (AllItems.Count == 0 && AllWeapons.Count == 0 && AllGems.Count == 0)
+			if (AllItems.Count == 0 && AllWeapons.Count == 0 && AllGems.Count == 0 && AllArmor.Count == 0)
 				Initialize();
 
 			ItemData? template =
 				(ItemData?)AllWeapons.FirstOrDefault(w => w.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+				?? AllArmor.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
 				?? AllGems.FirstOrDefault(g => g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
 				?? AllItems.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
@@ -91,6 +94,8 @@ namespace Maries_Loaders
 			var copy = (ItemData?)JsonSerializer.Deserialize(JsonSerializer.Serialize(template, type, _copyOptions), type, _copyOptions);
 			if (copy != null)
 				copy.Amount = 1;
+			if (copy is ArmorData armor)
+				armor.IsEquipped = false;
 			return copy;
 		}
 
@@ -105,6 +110,7 @@ namespace Maries_Loaders
 			AllItems = new List<ItemData>();
 			AllWeapons = new List<WeaponData>();
 			AllGems = new List<GemData>();
+			AllArmor = new List<ArmorData>();
 		}
 
 		public static ItemData? GetItem(string name)

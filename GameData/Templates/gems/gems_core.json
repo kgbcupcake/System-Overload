@@ -2,5 +2,10 @@
   { "Name": "Ember Shard",    "Value": 90,  "Weight": 0.1, "Type": "Gem", "Rarity": "Uncommon", "Effect": "Fire",      "Attributes": ["Fire"],              "Power": 4 },
   { "Name": "Frost Sapphire", "Value": 90,  "Weight": 0.1, "Type": "Gem", "Rarity": "Uncommon", "Effect": "Ice",       "Attributes": ["Ice"],               "Power": 4 },
   { "Name": "Storm Opal",     "Value": 140, "Weight": 0.1, "Type": "Gem", "Rarity": "Rare",     "Effect": "Electric",  "Attributes": ["Electric", "Speed"], "Power": 6 },
-  { "Name": "Bloodstone",     "Value": 260, "Weight": 0.1, "Type": "Gem", "Rarity": "Epic",     "Effect": "LifeLeech", "Attributes": ["LifeLeech"],         "Power": 9 }
+  { "Name": "Bloodstone",     "Value": 260, "Weight": 0.1, "Type": "Gem", "Rarity": "Epic",     "Effect": "LifeLeech", "Attributes": ["LifeLeech"],         "Power": 9 },
+  { "Name": "Hawk's Eye",     "Value": 180, "Weight": 0.1, "Type": "Gem", "Rarity": "Rare",     "Effect": "Speed",     "Attributes": ["Speed"],             "Power": 5,
+    "Modifiers": [
+      { "Host": "Weapon",   "Stat": "CritChance", "Amount": 6 },
+      { "Host": "*",        "Stat": "Accuracy",   "Amount": 4 }
+    ] }
 ]

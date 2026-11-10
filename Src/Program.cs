@@ -10,6 +10,10 @@ using System.Text;
 // This ensures Ubuntu/WSL renders the swords ⚔️ instead of ??
 Console.OutputEncoding = Encoding.UTF8;
 
+// Mouse support for the whole game: menus are clickable and a click works as "press any key".
+// MouseInput turns it off again on exit or Ctrl+C.
+MouseInput.Enable();
+
 // Ensure game directories are set up
 GameState.EnsureDirectories();
 
@@ -23,6 +27,7 @@ ContentSeeder.SeedInitialContent();
 
 /// --- Game Loader's --- ///
 ItemRegistry.Initialize();
+EquipmentRulesLoader.LoadAll();
 BossLoader.LoadAll();
 FloorLoader.LoadAll();
 Story.LoadAll();
@@ -46,11 +51,11 @@ Console.Write("\x1b[2J\x1b[3J\x1b[H");
 HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 
 // 4. Loading Sequence
-Console.WriteLine("Press 'S' to skip loading, or any other key to view the loading sequence...");
-// Wait for a key press. This will block until a key is pressed.
-ConsoleKeyInfo key = Console.ReadKey(true); // 'true' means don't display the key
+Console.WriteLine("Press 'S' to skip loading, or any other key (or click) to view the loading sequence...");
+// Wait for a key press or a click.
+var firstInput = MouseInput.Read();
 
-if (key.Key == ConsoleKey.S)
+if (firstInput.Key?.Key == ConsoleKey.S)
 {
     Console.WriteLine("Loading sequence skipped.");
     // Clear the console to prepare for MainMenu

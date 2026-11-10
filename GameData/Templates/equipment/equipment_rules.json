@@ -1,0 +1,56 @@
+{
+  "_comment": "Rules for gear and gem sockets. Everything the socket system does is read from here.",
+
+  "EquipSlots": [
+    { "Id": "Head",  "Label": "Head"  },
+    { "Id": "Chest", "Label": "Chest" },
+    { "Id": "Hands", "Label": "Hands" },
+    { "Id": "Legs",  "Label": "Legs"  },
+    { "Id": "Feet",  "Label": "Feet"  },
+    { "Id": "Cloak", "Label": "Cloak" }
+  ],
+
+  "SocketHosts": [
+    { "Id": "Weapon",   "Label": "Weapon",   "MaxSockets": 4, "ItemTypes": ["Melee", "Heavy", "Ranged", "Magic", "Firearm", "Exotic"] },
+    { "Id": "Armor",    "Label": "Armor",    "MaxSockets": 3, "ItemTypes": ["Armor"] },
+    { "Id": "Clothing", "Label": "Clothing", "MaxSockets": 2, "ItemTypes": ["Clothing"] }
+  ],
+
+  "_effects": "What a gem gives, by the gem's Attributes and the kind of item it sits in. Amount = gem Power x PerPower. Host \"*\" matches any item. A gem with its own Modifiers list uses those instead.",
+  "GemEffects": [
+    { "Attribute": "Fire",        "Host": "Weapon",   "Stat": "Damage",     "PerPower": 1.0  },
+    { "Attribute": "Ice",         "Host": "Weapon",   "Stat": "Damage",     "PerPower": 1.0  },
+    { "Attribute": "Poison",      "Host": "Weapon",   "Stat": "Damage",     "PerPower": 1.0  },
+    { "Attribute": "Electric",    "Host": "Weapon",   "Stat": "Damage",     "PerPower": 1.0  },
+    { "Attribute": "Speed",       "Host": "Weapon",   "Stat": "CritChance", "PerPower": 0.5  },
+    { "Attribute": "LifeLeech",   "Host": "Weapon",   "Stat": "Damage",     "PerPower": 0.5  },
+    { "Attribute": "Restorative", "Host": "Weapon",   "Stat": "Health",     "PerPower": 1.0  },
+    { "Attribute": "Defense",     "Host": "Weapon",   "Stat": "Health",     "PerPower": 1.0  },
+    { "Attribute": "Defense",     "Host": "Weapon",   "Stat": "Defense",    "PerPower": 1.0  },
+
+    { "Attribute": "Fire",        "Host": "Armor",    "Stat": "Defense",    "PerPower": 0.5  },
+    { "Attribute": "Ice",         "Host": "Armor",    "Stat": "Defense",    "PerPower": 0.75 },
+    { "Attribute": "Poison",      "Host": "Armor",    "Stat": "Health",     "PerPower": 2.0  },
+    { "Attribute": "Electric",    "Host": "Armor",    "Stat": "Accuracy",   "PerPower": 0.5  },
+    { "Attribute": "Speed",       "Host": "Armor",    "Stat": "Accuracy",   "PerPower": 1.0  },
+    { "Attribute": "LifeLeech",   "Host": "Armor",    "Stat": "Health",     "PerPower": 3.0  },
+    { "Attribute": "Restorative", "Host": "Armor",    "Stat": "Health",     "PerPower": 3.0  },
+    { "Attribute": "Defense",     "Host": "Armor",    "Stat": "Defense",    "PerPower": 1.5  },
+
+    { "Attribute": "Fire",        "Host": "Clothing", "Stat": "Health",     "PerPower": 2.0  },
+    { "Attribute": "Ice",         "Host": "Clothing", "Stat": "Health",     "PerPower": 2.0  },
+    { "Attribute": "Poison",      "Host": "Clothing", "Stat": "CritChance", "PerPower": 0.5  },
+    { "Attribute": "Electric",    "Host": "Clothing", "Stat": "CritChance", "PerPower": 0.75 },
+    { "Attribute": "Speed",       "Host": "Clothing", "Stat": "Accuracy",   "PerPower": 1.5  },
+    { "Attribute": "LifeLeech",   "Host": "Clothing", "Stat": "Health",     "PerPower": 2.0  },
+    { "Attribute": "Restorative", "Host": "Clothing", "Stat": "Health",     "PerPower": 4.0  },
+    { "Attribute": "Defense",     "Host": "Clothing", "Stat": "Defense",    "PerPower": 0.75 }
+  ],
+
+  "_costs": "Gold the Blacksmith charges. Punching a socket costs PunchBaseCost + PunchCostPerSocket x sockets already on the item.",
+  "SetGemCost": 25,
+  "RemoveGemCost": 60,
+  "RemoveGemDestroysGem": false,
+  "PunchBaseCost": 150,
+  "PunchCostPerSocket": 200
+}

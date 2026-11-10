@@ -14,8 +14,8 @@ namespace Maries_Ui
 			Console.SetCursorPosition((85 / 2) - 10, y + 2);
 			Console.Write("Press any key...".Pastel("#555555"));
 
-			// This stops the code right here until a key is pressed!
-			Console.ReadKey(true);
+			// Waits for a key press or a click.
+			MouseInput.WaitForAnyInput();
 		}
 	}
 }

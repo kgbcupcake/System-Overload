@@ -57,7 +57,7 @@ namespace DungeonAdventures.Src.Game.MainInterfaces
 				// Draw the UI frame using the standard Width (94) for consistency
 				GameUiEngine.DrawDynamicFrame($"CHOOSE YOUR PATH: {player.PlayerName.ToUpper()}",
 					evolutionOptions,
-					"[UP/DOWN] to browse | [ENTER] to choose",
+					"[UP/DOWN] to browse | [ENTER] or click to choose",
 					boxWidth: 94,
 					selectedIndex: selected);
 
@@ -67,7 +67,7 @@ namespace DungeonAdventures.Src.Game.MainInterfaces
 				UiEngine.DrawCentered(" THE PATH ".Pastel("#000000").PastelBg(flavorColor), contentBaseY);
 				UiEngine.DrawCentered(descriptions[selected].Pastel("#DCDCDC"), contentBaseY + 2);
 
-				var key = ReadKey(true).Key;
+				var key = MouseInput.ReadMenuKey(ref selected, subClasses.Length);
 				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selected = MenuNavigator.HandleVerticalNav(key, selected, subClasses.Length);
 				else if (key == ConsoleKey.Enter)
 				{

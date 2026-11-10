@@ -43,10 +43,13 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 					// 1. Draw the Header and Health Bars (This makes HP updates live)
 					RefreshCombatUI(player, enemy);
 
-					// 2. Draw the Command Menu Box
+					// 2. Draw the Command Menu Box (always right under the 9-row combat header)
+					Console.SetCursorPosition(0, MenuTop);
 					Console.WriteLine("\n  ┌── INPUT COMMAND ────────────────────┐".Pastel("#FFD700"));
+					MouseInput.ClearZones();
 					for (int i = 0; i < menuOptions.Length; i++)
 					{
+						MouseInput.AddZone(MenuTop + 2 + i, 2, 39, i);
 						if (i == selectedIndex)
 						{
 							// Selection styling
@@ -62,7 +65,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 					Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#FFD700"));
 
 					// 3. Handle Input
-					var key = Console.ReadKey(true).Key;
+					var key = MouseInput.ReadMenuKey(ref selectedIndex, menuOptions.Length);
 
 					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
 					{
@@ -84,7 +87,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 							if (usableItems.Count == 0)
 							{
 								Console.WriteLine("\n  [!] You have nothing to use.");
-								Console.ReadKey(true);
+								MouseInput.WaitForAnyInput();
 							}
 							else
 							{
@@ -94,21 +97,21 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 						else if (selectedIndex == 2) // SPECIAL
 						{
 							Console.WriteLine("\n  Special abilities are currently locked!");
-							Console.ReadKey(true);
+							MouseInput.WaitForAnyInput();
 						}
 						else if (selectedIndex == 3) // RETREAT
 						{
 							if (enemy.IsBoss)
 							{
 								Console.WriteLine("\n  " + Story.Pick("combat.no_retreat", ("enemy", enemy.Name)).Pastel("#FF0000"));
-								Console.ReadKey(true);
+								MouseInput.WaitForAnyInput();
 								continue;
 							}
 
 							Console.Clear();
 							DrawTitleBar();
 							Console.WriteLine("\n  " + Story.Pick("combat.fled", ("enemy", enemy.Name)));
-							Console.ReadKey(true);
+							MouseInput.WaitForAnyInput();
 							if (owner != null)
 								owner.Health = player.Health;
 							return false;
@@ -147,7 +150,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 				CheckEnrage(enemy);
 
 			Console.WriteLine("\n  Press any key...");
-			Console.ReadKey(true);
+			MouseInput.WaitForAnyInput();
 		}
 
 		/// <summary>A boss below half health enrages once: it speaks and hits harder.</summary>
@@ -172,7 +175,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 				RefreshCombatUI(player, enemy);
 				Console.WriteLine($"\n  > {enemy.Name} is too slow and loses its turn.".Pastel("#00FFFF"));
 				Console.WriteLine("\n  Press any key for the next turn...");
-				Console.ReadKey(true);
+				MouseInput.WaitForAnyInput();
 				return;
 			}
 
@@ -217,7 +220,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 			RefreshCombatUI(player, enemy);
 			Console.WriteLine(message);
 			Console.WriteLine("\n  Press any key for the next turn...");
-			Console.ReadKey(true);
+			MouseInput.WaitForAnyInput();
 		}
 
 		// ---------------------------------------------------------------- screens
@@ -235,10 +238,17 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 			if (!string.IsNullOrWhiteSpace(boss.OnEncounter))
 				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnEncounter}\"");
 			Console.WriteLine("\n  Press any key to engage...");
-			Console.ReadKey(true);
+			MouseInput.WaitForAnyInput();
 		}
 
 		// Combined UI Refresh to prevent "flicker" or "lag"
+		/// <summary>
+		/// RefreshCombatUI always prints 9 rows (title bar + enemy + hero), so menus start here.
+		/// Rows are fixed instead of read from Console.CursorTop, which asks the terminal and can
+		/// swallow a mouse click's codes.
+		/// </summary>
+		private const int MenuTop = 9;
+
 		private static void RefreshCombatUI(Combatant player, Combatant enemy)
 		{
 			Console.Clear();
@@ -304,7 +314,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 			SaveGame.Save();
 
 			Console.WriteLine("\n  Press any key to continue...");
-			Console.ReadKey(true);
+			MouseInput.WaitForAnyInput();
 		}
 
 		private static void GrantRewards(PlayerData.loadPlayer owner, Combatant enemy)
@@ -361,10 +371,13 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 			while (choosing)
 			{
 				RefreshCombatUI(player, enemy);
+				Console.SetCursorPosition(0, MenuTop);
 				Console.WriteLine("\n  ┌── SELECT CONSUMABLE ────────────────┐".Pastel("#00FFFF"));
 
+				MouseInput.ClearZones();
 				for (int i = 0; i < items.Count; i++)
 				{
+					MouseInput.AddZone(MenuTop + 2 + i, 2, 60, i);
 					string line = $"{items[i].Name} x{items[i].Amount} - {DescribeEffect(items[i])}";
 					if (i == itemIndex)
 						Console.WriteLine($"  │ > {line}".Pastel("#000000").PastelBg("#00FFFF"));
@@ -372,9 +385,12 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 						Console.WriteLine($"  │   {line}");
 				}
 				Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#00FFFF"));
+				int hintRow = MenuTop + 2 + items.Count + 1; // after the items and the box's bottom line
+				MouseInput.AddKeyZone(hintRow, 2, 12, ConsoleKey.Escape);
+				MouseInput.AddKeyZone(hintRow, 17, 11, ConsoleKey.Enter);
 				Console.WriteLine("  [ESC] Cancel | [ENTER] Use");
 
-				var key = Console.ReadKey(true).Key;
+				var key = MouseInput.ReadMenuKey(ref itemIndex, items.Count);
 				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) itemIndex = MenuNavigator.HandleVerticalNav(key, itemIndex, items.Count);
 				else if (key == ConsoleKey.Escape) choosing = false;
 				else if (key == ConsoleKey.Enter)
@@ -390,7 +406,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 					RefreshCombatUI(player, enemy);
 					Console.WriteLine(feedback);
 					Console.WriteLine("\n  Press any key...");
-					Console.ReadKey(true);
+					MouseInput.WaitForAnyInput();
 
 					choosing = false;
 					turnActionTaken = true;

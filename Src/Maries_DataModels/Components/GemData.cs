@@ -1,9 +1,11 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace Maries_DataModels
 {
-	// Note: If you want Gems to have a Name, Value, and Weight, 
-	// you should inherit from ItemData like your WeaponData does.
+	/// <summary>
+	/// A gem that can be set into a socket on a weapon, armor or clothing. What it gives depends on
+	/// the item it sits in: by default its Attributes x Power through the equipment rules'
+	/// GemEffects, or its own Modifiers when it has any for that kind of item.
+	/// </summary>
 	[MariesGui.Contracts.MariesGuiContent("gems")]
 	public class GemData : ItemData
 	{
@@ -11,35 +13,8 @@ namespace Maries_DataModels
 
 		public float Power { get; set; } = 0f;
 
-
-
-
-		[JsonConverter(typeof(JsonStringEnumConverter))]
-		public enum StatType
-		{
-			FireResist,
-			IceResist,
-			PoisonResist,
-			ElectricResist,
-			Speed,
-			Strength,
-			Dexterity,
-			CritChance,
-			Damage,
-			Health,
-			Defense,
-			Haste
-			
-
-		}
-		[JsonConverter(typeof(JsonStringEnumConverter))]
-		public class StatModifier
-		{
-			public StatType Stat { get; set; }
-			public float Amount { get; set; }
-		}
-
-	
+		/// <summary>Optional flat bonuses that replace the attribute rules for the matching hosts.</summary>
+		public List<GemModifier> Modifiers { get; set; } = new();
 
 		public GemData() : base()
 		{

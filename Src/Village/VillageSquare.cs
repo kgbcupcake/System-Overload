@@ -48,12 +48,12 @@ namespace DungeonAdventures.Src.Village
 				GameUiEngine.DrawDynamicFrame(
 					title: Story.Line("town.title"),
 					lines: paddedOptions,
-					hint: "Use arrow keys to navigate",
+					hint: "Use arrow keys or click to choose",
 					boxWidth: boxWidth,
 					selectedIndex: selectedIndex
 				);
 
-				ConsoleKey key = ReadKey(true).Key;
+				ConsoleKey key = MouseInput.ReadMenuKey(ref selectedIndex, options.Length);
 
 				switch (key)
 				{

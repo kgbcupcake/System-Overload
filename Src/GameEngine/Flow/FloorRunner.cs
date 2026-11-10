@@ -24,7 +24,7 @@ namespace DungeonAdventures.Src.GameEngine.Flow
 			WriteLine(Story.Line("dungeon.enter", ("title", floor.Title)).Pastel("#FFAB00"));
 			WriteLine(floor.Description);
 			WriteLine($"DANGER: {floor.Difficulty}".Pastel("#FFD700"));
-			ReadKey(true);
+			MouseInput.WaitForAnyInput();
 
 			// 1. Walk through each stage of the floor
 			foreach (var stage in floor.Stages ?? Enumerable.Empty<FloorStage>())
@@ -38,7 +38,7 @@ namespace DungeonAdventures.Src.GameEngine.Flow
 					: stage.StoryText.Pastel(stage.HexColor);
 
 				WriteLine(narrative);
-				ReadKey(true);
+				MouseInput.WaitForAnyInput();
 
 				if (!string.IsNullOrWhiteSpace(stage.EnemyId))
 				{
@@ -72,7 +72,7 @@ namespace DungeonAdventures.Src.GameEngine.Flow
 			WriteLine($"  {done}");
 			WriteLine("=====================================".Pastel("#FFD700"));
 			WriteLine($"REWARD: {floor.CompletionGold} gold and {floor.CompletionExp} XP");
-			ReadKey(true);
+			MouseInput.WaitForAnyInput();
 
 			return true;
 		}

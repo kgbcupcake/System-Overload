@@ -13,6 +13,7 @@ namespace Maries_DataModels
 	[JsonDerivedType(typeof(ItemData), typeDiscriminator: "base")]
 	[JsonDerivedType(typeof(WeaponData), typeDiscriminator: "weapon")]
 	[JsonDerivedType(typeof(GemData), typeDiscriminator: "gem")]
+	[JsonDerivedType(typeof(ArmorData), typeDiscriminator: "armor")]
 	[MariesGui.Contracts.MariesGuiContent("items")]
 	public class ItemData
 	{
@@ -72,7 +73,8 @@ namespace Maries_DataModels
 			IconId = iconId;
 		}
 
-		public bool HasEmptySocket() => SocketedGems.Count < NumSockets;
+		/// <summary>True if the item has a free socket. The equipment rules can cap NumSockets lower.</summary>
+		public bool HasEmptySocket() => SocketedGems.Count < EquipmentRules.Current.SocketsOn(this);
 
 		public override string ToString()
 		{
@@ -81,4 +83,4 @@ namespace Maries_DataModels
 			return $"[{Rarity}] {Name} ({Type}){stackText} | Effect: {Effect} | Value: {Value * Amount}g{socketText}";
 		}
 	}
-}
+}

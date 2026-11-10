@@ -30,7 +30,10 @@ namespace DungeonAdventures.Src.Game.Interfaces
 
 			CursorVisible = true;
 			ForegroundColor = ConsoleColor.Yellow;
-			string? nameInput = ReadLine();
+			string? nameInput;
+			// Mouse mode is paused while typing so clicks can't type junk into the name.
+			using (MouseInput.Suspend())
+				nameInput = ReadLine();
 			ResetColor();
 
 			player.PlayerName = string.IsNullOrWhiteSpace(nameInput) ? Story.Line("creation.default_name") : nameInput;
@@ -53,8 +56,10 @@ namespace DungeonAdventures.Src.Game.Interfaces
 				string greeting = Story.Line("creation.greeting", ("name", player.PlayerName));
 				UiEngine.DrawCentered(greeting.Pastel("#FFD700"), boxY + 1);
 
+				MouseInput.ClearZones();
 				for (int i = 0; i < coreArchetypes.Length; i++)
 				{
+					MouseInput.AddZone(boxY + 4 + i, boxX, boxW, i);
 					string rawText = (i == selectedIndex) ? $">> {coreArchetypes[i].ToUpper()} <<" : $"    {coreArchetypes[i]}    ";
 
 					if (i == selectedIndex)
@@ -63,10 +68,10 @@ namespace DungeonAdventures.Src.Game.Interfaces
 						UiEngine.DrawCentered(rawText.Pastel("#555555"), boxY + 4 + i);
 				}
 
-				string hint = "[UP/DOWN] to navigate | [ENTER] to choose";
+				string hint = "[UP/DOWN] to navigate | [ENTER] or click to choose";
 				UiEngine.DrawCentered(hint.Pastel("#333333"), 17);
 
-				var key = ReadKey(true).Key;
+				var key = MouseInput.ReadMenuKey(ref selectedIndex, coreArchetypes.Length);
 				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, coreArchetypes.Length);
 				if (key == ConsoleKey.Enter) pickingBase = false;
 			}
@@ -123,6 +128,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			player.VitalityPoints = 0;
 			player.StrengthPoints = 0;
 			player.FortitudePoints = 0;
+			player.WisdomPoints = 0;
 
 			while (allocating)
 			{
@@ -143,21 +149,26 @@ namespace DungeonAdventures.Src.Game.Interfaces
 									 new string('□', pointsLeft).Pastel("#333333");
 				WriteLine($"Points: [{progressBar}] | {pointsLeft} left to spend");
 
+				MouseInput.ClearZones();
 				for (int i = 0; i < modules.Length; i++)
 				{
 					SetCursorPosition(8, 11 + i);
+					// Row layout from x=8: "> "(8-9) name(10-23) " "(24) "[-]"(25-27) " "(28) value(29-30) " "(31) "[+]"(32-34)
+					MouseInput.AddZone(11 + i, 8, 17, i);                           // name: select the row
+					MouseInput.AddKeyZone(11 + i, 25, 3, ConsoleKey.LeftArrow, i);  // [-]
+					MouseInput.AddKeyZone(11 + i, 32, 3, ConsoleKey.RightArrow, i); // [+]
 					int currentVal = i switch
 					{
 						0 => player.VitalityPoints,
 						1 => player.StrengthPoints,
 						2 => player.FortitudePoints,
-						3 => 0, // Wisdom does nothing yet
+						3 => player.WisdomPoints,
 						_ => 0
 					};
 
 					string line = (i == selectedModule)
-						? $"> {modules[i].PadRight(22)} [+{currentVal}] <"
-						: $"  {modules[i].PadRight(22)} [+{currentVal}]  ";
+						? $"> {modules[i].PadRight(14)} [-] {currentVal,2} [+] <"
+						: $"  {modules[i].PadRight(14)} [-] {currentVal,2} [+]  ";
 
 					Write(i == selectedModule ? line.Pastel("#00FF00") : line.Pastel("#555555"));
 				}
@@ -165,7 +176,15 @@ namespace DungeonAdventures.Src.Game.Interfaces
 				// The hero stat box gives live feedback on the right
 				GameUiEngine.DrawAttributeBox(player, 52, 11, selectedModule);
 
-				var key = ReadKey(true).Key;
+				SetCursorPosition(8, 17);
+				Write("[←][→] or click [-]/[+]".Pastel("#555555"));
+				SetCursorPosition(8, 19);
+				Write((pointsLeft == 0 ? "[ DONE ]".Pastel("#000000").PastelBg("#FFD700") : "[ DONE ]".Pastel("#444444")));
+				MouseInput.AddKeyZone(19, 8, 8, ConsoleKey.Enter);
+
+				// Clicking a row's name selects it; the row's own Enter does nothing until points are spent.
+				var key = MouseInput.ReadMenuKey(ref selectedModule, modules.Length);
+				if (key == ConsoleKey.Enter && pointsLeft > 0) continue;
 				if (key == ConsoleKey.UpArrow) selectedModule = (selectedModule == 0) ? modules.Length - 1 : selectedModule - 1;
 				if (key == ConsoleKey.DownArrow) selectedModule = (selectedModule == modules.Length - 1) ? 0 : selectedModule + 1;
 
@@ -174,16 +193,18 @@ namespace DungeonAdventures.Src.Game.Interfaces
 					if (selectedModule == 0) player.VitalityPoints++;
 					else if (selectedModule == 1) player.StrengthPoints++;
 					else if (selectedModule == 2) player.FortitudePoints++;
+					else if (selectedModule == 3) player.WisdomPoints++;
 					pointsLeft--;
 				}
 				if (key == ConsoleKey.LeftArrow)
 				{
-					bool canReduce = selectedModule switch { 0 => player.VitalityPoints > 0, 1 => player.StrengthPoints > 0, 2 => player.FortitudePoints > 0, _ => false };
+					bool canReduce = selectedModule switch { 0 => player.VitalityPoints > 0, 1 => player.StrengthPoints > 0, 2 => player.FortitudePoints > 0, 3 => player.WisdomPoints > 0, _ => false };
 					if (canReduce)
 					{
 						if (selectedModule == 0) player.VitalityPoints--;
 						else if (selectedModule == 1) player.StrengthPoints--;
 						else if (selectedModule == 2) player.FortitudePoints--;
+						else if (selectedModule == 3) player.WisdomPoints--;
 						pointsLeft++;
 					}
 				}

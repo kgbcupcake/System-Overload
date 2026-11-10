@@ -19,7 +19,7 @@ torch gold, ember orange and old blood red.
 ## Core Features & Functionality
 - **Heroes:**
     - Three classes (Warrior, Rogue, Mage), each with three paths.
-    - Ten attribute points across Vitality, Strength and Fortitude (Wisdom is planned).
+    - Ten attribute points across Vitality, Strength, Fortitude and Wisdom.
     - Starting gear that fits the class.
 - **Dungeon Floors:**
     - Hand-written floors made of story stages, with monsters along the way and a boss at the end.

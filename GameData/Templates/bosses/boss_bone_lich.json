@@ -37,7 +37,7 @@
     }
   ],
   "Dialogue": {
-    "OnEncounter": "Every life ends, mortal. I merely choose the hour.",
+    "OnEncounter": "The bell takes names so the thing below cannot learn them. Your elders knew the price.",
     "OnDamage": "Your soul burns brighter... how delicious.",
     "OnDeath": "My phylactery... you could not... have found it..."
   }

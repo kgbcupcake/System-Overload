@@ -44,9 +44,9 @@ The hero then spends 10 attribute points:
 | Attribute | Field on `PlayerData` | Effect |
 |:---|:---|:---|
 | Vitality | `VitalityPoints` | +15 max HP each |
-| Strength | `StrengthPoints` | +3 damage each |
+| Strength | `StrengthPoints` | +1 damage per hit each |
 | Fortitude | `FortitudePoints` | +2 defense each |
-| Wisdom | none yet | no effect yet |
+| Wisdom | `WisdomPoints` | +1% critical hit chance each |
 
 Max HP is always read through `PlayerData.GetTotalMaxHealth()` (base `HitPoints` + Vitality + gem bonuses). Show that, not `HitPoints`, anywhere the player sees their max HP.
 

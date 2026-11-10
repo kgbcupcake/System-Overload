@@ -65,7 +65,7 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 
 				RenderCharacterMenu(title, displayNames, selectedIndex, preview);
 
-				var key = ReadKey(true).Key;
+				var key = MouseInput.ReadMenuKey(ref selectedIndex, displayNames.Count);
 				if (key == ConsoleKey.Escape) return false;
 				if (displayNames.Count == 0) continue;
 

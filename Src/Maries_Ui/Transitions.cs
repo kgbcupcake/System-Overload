@@ -84,16 +84,16 @@ namespace Maries_Ui
 
 			PlatformConsole.PlayBeepSequence((600, 50), (900, 50), (1200, 100));
 
-			while (!Console.KeyAvailable)
+			while (!MouseInput.InputAvailable)
 			{
 				UiEngine.DrawCentered(prompt.Pastel("#FFFFFF"), promptY, 50);
 				Thread.Sleep(500);
-				if (Console.KeyAvailable) break;
+				if (MouseInput.InputAvailable) break;
 				UiEngine.DrawCentered(prompt.Pastel("#444444"), promptY, 50);
 				Thread.Sleep(250);
 			}
 
-			Console.ReadKey(true);
+			MouseInput.WaitForAnyInput();
 			Clear();
 		}
 
@@ -264,7 +264,7 @@ namespace Maries_Ui
 			// FIX: Ensure the loading screen stays until the user is ready for the menu
 			UiEngine.DrawCentered("» PRESS ANY KEY «".Pastel("#444444"), centerY + 2);
 			Thread.Sleep(1000);
-			Console.ReadKey(true);
+			MouseInput.WaitForAnyInput();
 
 			Console.ResetColor();
 			Console.Clear();

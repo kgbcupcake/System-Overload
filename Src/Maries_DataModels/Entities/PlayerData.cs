@@ -21,6 +21,7 @@ namespace Maries_DataModels
 			public int VitalityPoints { get; set; } = 0;   // Vitality: spent on Max HP
 			public int StrengthPoints { get; set; } = 0;  // Strength: spent on Attack Power
 			public int FortitudePoints { get; set; } = 0;    // Fortitude: spent on Defense
+			public int WisdomPoints { get; set; } = 0;       // Wisdom: +1% critical hit chance per point
 
 
 
@@ -53,6 +54,55 @@ namespace Maries_DataModels
 			public int DifficultyRating { get; set; } = 0;
 
 			public List<ItemData> Inventory { get; set; } = new List<ItemData>();
+
+			/// <summary>Name of the weapon the hero has chosen to fight with (set from the inventory screen).</summary>
+			public string EquippedWeapon { get; set; } = "";
+
+			/// <summary>
+			/// The weapon the hero fights with: the one they equipped, or their highest-damage weapon
+			/// if they haven't picked one (or no longer carry it).
+			/// </summary>
+			public WeaponData? GetEquippedWeapon()
+			{
+				var weapons = Inventory.OfType<WeaponData>().ToList();
+				return weapons.FirstOrDefault(w => w.Name == EquippedWeapon)
+					?? weapons.OrderByDescending(w => w.Damage).FirstOrDefault();
+			}
+
+			/// <summary>Armor and clothing the hero is wearing (at most one per slot).</summary>
+			public List<ArmorData> GetEquippedArmor() =>
+				Inventory.OfType<ArmorData>()
+					.Where(a => a.IsEquipped)
+					.GroupBy(a => a.Slot, StringComparer.OrdinalIgnoreCase)
+					.Select(g => g.First())
+					.ToList();
+
+			/// <summary>What the hero is wearing in a slot, or null.</summary>
+			public ArmorData? GetArmorInSlot(string slot) =>
+				GetEquippedArmor().FirstOrDefault(a => a.Slot.Equals(slot, StringComparison.OrdinalIgnoreCase));
+
+			/// <summary>Wears a piece of gear, taking off whatever was in its slot.</summary>
+			public void EquipArmor(ArmorData armor)
+			{
+				foreach (var worn in Inventory.OfType<ArmorData>().Where(a => a.Slot.Equals(armor.Slot, StringComparison.OrdinalIgnoreCase)))
+					worn.IsEquipped = false;
+				armor.IsEquipped = true;
+			}
+
+			/// <summary>Everything that counts for stats: the equipped weapon plus worn gear.</summary>
+			public IEnumerable<ItemData> GetEquippedItems()
+			{
+				if (GetEquippedWeapon() is { } weapon) yield return weapon;
+				foreach (var armor in GetEquippedArmor()) yield return armor;
+			}
+
+			/// <summary>
+			/// Total bonus to one stat from gems socketed in equipped items. What each gem gives
+			/// comes from the equipment rules JSON (EquipmentRules.Current).
+			/// </summary>
+			public float GetSocketBonus(SocketStat stat) =>
+				GetEquippedItems().Sum(item => EquipmentRules.Current.ItemBonuses(item).GetValueOrDefault(stat));
+
 			public List<WeaponData> Weapons { get; set; } = new List<WeaponData>();
 
 			// --- CALCULATIONS ---
@@ -72,48 +122,29 @@ namespace Maries_DataModels
 
 			public float GetTotalDamage()
 			{
-				// Base Damage (10) + Strength Points (3 per point)
-				float baseDmg = 10 + (StrengthPoints * 3);
+				// Base Damage (10) + Strength Points (1 per point). Combat adds everything above the
+				// base 10 on top of the weapon's range, so keep this small or weapons stop mattering.
+				float baseDmg = 10 + StrengthPoints;
 
-				float gemBonus = Inventory
-					.SelectMany(item => item.SocketedGems)
-					.Where(gem => gem != null)
-					.SelectMany(gem => gem.Attributes.Select(attr => new { gem.Power, Attribute = attr }))
-					.Where(x => x.Attribute == EffectType.Fire ||
-								x.Attribute == EffectType.Ice ||
-								x.Attribute == EffectType.Poison ||
-								x.Attribute == EffectType.Electric)
-					.Sum(x => x.Power);
-
-				return baseDmg + gemBonus;
+				return baseDmg + GetSocketBonus(SocketStat.Damage);
 			}
 
 			public float GetTotalMaxHealth()
 			{
-				// Base Health + Vitality Points (15 per point)
+				// Base Health + Vitality Points (15 per point) + worn gear + gems
 				float baseMax = HitPoints + (VitalityPoints * 15);
+				float gearHealth = GetEquippedArmor().Sum(a => a.BonusHealth);
 
-				float gemBonus = Inventory
-					.SelectMany(i => i.SocketedGems)
-					.SelectMany(g => g.Attributes.Select(attr => new { Gem = g, Attribute = attr }))
-					.Where(x => x.Attribute == EffectType.Restorative || x.Attribute == EffectType.Defense)
-					.Sum(x => x.Gem.Power);
-
-				return baseMax + gemBonus;
+				return baseMax + gearHealth + GetSocketBonus(SocketStat.Health);
 			}
 
 			public float GetTotalDefense()
 			{
-				// Base Defense (10) + Fortitude Points (2 per point)
+				// Base Defense (10) + Fortitude Points (2 per point) + worn gear + gems
 				float baseDefense = 10.0f + (FortitudePoints * 2);
+				float gearDefense = GetEquippedArmor().Sum(a => a.Defense);
 
-				float gemDefense = Inventory
-					.SelectMany(i => i.SocketedGems)
-					.SelectMany(g => g.Attributes.Select(attr => new { Gem = g, Attribute = attr }))
-					.Where(x => x.Attribute == EffectType.Defense)
-					.Sum(x => x.Gem.Power);
-
-				return baseDefense + gemDefense;
+				return baseDefense + gearDefense + GetSocketBonus(SocketStat.Defense);
 			}
 
 			public int ArmorValue => (int)GetTotalDefense();

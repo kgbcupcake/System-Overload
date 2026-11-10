@@ -21,6 +21,5 @@ re-theme; the 84x24 safe zone and cursor-positioned rendering were kept.
 
 ## [ ] Track: Next up
 - Open the Healer in Hollowmere.
-- Give the Wisdom attribute an effect.
 - Add ASCII art for monsters and bosses (`ArtRef`), and use `AuraIntensity`.
 - Unlock the SPECIAL combat action per class.

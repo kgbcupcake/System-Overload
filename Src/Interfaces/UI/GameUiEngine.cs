@@ -21,6 +21,9 @@ namespace DungeonAdventures.Src.Interfaces.UI
 			// startY is already a parameter, we use the value passed in (11)
 			string borderColor = UiEngine.BorderColor;
 
+			// Every line of the box is a clickable menu row (row i -> index i).
+			MouseInput.ClearZones();
+
 			// 2. Top Border Logic (title centred in the border, trimmed if it doesn't fit)
 			SetCursorPosition(startX, startY);
 			int innerWidth = boxWidth - 2;
@@ -56,6 +59,7 @@ namespace DungeonAdventures.Src.Interfaces.UI
 
 				// Write line with borders
 				Write($"║{currentLine}║".Pastel(borderColor));
+				MouseInput.AddZone(startY + 1 + i, startX, boxWidth, i);
 			}
 
 			// 4. Bottom Border
@@ -87,11 +91,13 @@ namespace DungeonAdventures.Src.Interfaces.UI
 			WriteLine(top.Pastel(bColor));
 
 			// Pulling real data from your new WeaponData and Player logic
-			var weapon = player.Inventory.OfType<WeaponData>().FirstOrDefault();
+			var weapon = player.GetEquippedWeapon();
 			string weaponName = weapon != null ? weapon.Name : "Unarmed";
 			float totalDmg = player.GetTotalDamage();
-			int socketsUsed = weapon?.SocketedGems.Count ?? 0;
-			int totalSockets = weapon?.NumSockets ?? 0;
+			// Sockets across everything equipped: weapon, armor and clothing.
+			var equipped = player.GetEquippedItems().ToList();
+			int totalSockets = equipped.Sum(i => EquipmentRules.Current.SocketsOn(i));
+			int socketsUsed = equipped.Sum(i => Math.Min(i.SocketedGems.Count, EquipmentRules.Current.SocketsOn(i)));
 
 			// Hero stats
 			DrawStatLine("Health", player.Health, x, y + 1, false, "#00FF00", "#FFFFFF", bColor);
@@ -101,7 +107,8 @@ namespace DungeonAdventures.Src.Interfaces.UI
 			DrawTextLine("Gem Sockets", $"{socketsUsed}/{totalSockets}", x, y + 5, "#BC1DBC", bColor);
 			DrawStatLine("Danger Rank", player.DifficultyRating, x, y + 6, false, "#FF0000", "#FFFFFF", bColor);
 			DrawTextLine("Pack Space", $"{player.Inventory.Count}/{player.InventorySize}", x, y + 7, "#DCDCDC", bColor);
-			DrawTextLine("Status", "READY", x, y + 8, "#00FF00", bColor);
+			// Crit chance as combat will use it: weapon + Wisdom + gem bonuses.
+			DrawTextLine("Crit Chance", $"{EnemyFactory.CreatePlayer(player).CritChance}%", x, y + 8, "#FFAB00", bColor);
 
 			SetCursorPosition(x, y + 9);
 			WriteLine(mid.Pastel(bColor));

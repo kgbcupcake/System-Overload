@@ -30,6 +30,9 @@ namespace Maries_Loaders
 			return lines.Select(l => Fill(l, tokens)).ToList();
 		}
 
+		/// <summary>True if the key exists and has at least one line. Use it for optional text.</summary>
+		public static bool Has(string key) => _entries.TryGetValue(key, out var lines) && lines.Count > 0;
+
 		/// <summary>The first line for a key.</summary>
 		public static string Line(string key, params (string Token, object? Value)[] tokens)
 			=> Lines(key, tokens).FirstOrDefault() ?? "";

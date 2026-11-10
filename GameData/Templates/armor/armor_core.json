@@ -1,0 +1,12 @@
+[
+  { "Name": "Padded Tunic",        "Type": "Clothing", "Slot": "Chest", "Defense": 1, "BonusHealth": 10, "Value": 60,  "Weight": 2.0, "Rarity": "Common",   "LevelReq": 0, "NumSockets": 1 },
+  { "Name": "Traveler's Hood",     "Type": "Clothing", "Slot": "Head",  "Defense": 0, "BonusHealth": 5,  "Value": 40,  "Weight": 0.5, "Rarity": "Common",   "LevelReq": 0, "NumSockets": 1 },
+  { "Name": "Wanderer's Cloak",    "Type": "Clothing", "Slot": "Cloak", "Defense": 1, "BonusHealth": 8,  "Value": 110, "Weight": 1.5, "Rarity": "Uncommon", "LevelReq": 1, "NumSockets": 2 },
+  { "Name": "Soft Leather Boots",  "Type": "Clothing", "Slot": "Feet",  "Defense": 1, "BonusHealth": 0,  "Value": 50,  "Weight": 1.0, "Rarity": "Common",   "LevelReq": 0, "NumSockets": 1 },
+
+  { "Name": "Iron Cap",            "Type": "Armor",    "Slot": "Head",  "Defense": 3, "BonusHealth": 0,  "Value": 120, "Weight": 3.0, "Rarity": "Common",   "LevelReq": 1, "NumSockets": 1 },
+  { "Name": "Chainmail Hauberk",   "Type": "Armor",    "Slot": "Chest", "Defense": 6, "BonusHealth": 0,  "Value": 280, "Weight": 14,  "Rarity": "Uncommon", "LevelReq": 2, "NumSockets": 2 },
+  { "Name": "Studded Gauntlets",   "Type": "Armor",    "Slot": "Hands", "Defense": 2, "BonusHealth": 0,  "Value": 140, "Weight": 2.5, "Rarity": "Common",   "LevelReq": 1, "NumSockets": 1 },
+  { "Name": "Plated Greaves",      "Type": "Armor",    "Slot": "Legs",  "Defense": 4, "BonusHealth": 0,  "Value": 220, "Weight": 9,   "Rarity": "Uncommon", "LevelReq": 2, "NumSockets": 1 },
+  { "Name": "Gravewarden Plate",   "Type": "Armor",    "Slot": "Chest", "Defense": 10,"BonusHealth": 20, "Value": 900, "Weight": 22,  "Rarity": "Epic",     "LevelReq": 6, "NumSockets": 3 }
+]

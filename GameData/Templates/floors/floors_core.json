@@ -13,7 +13,7 @@
     ],
     "Stages": [
       {
-        "StoryText": "You squeeze past a cracked tombstone and drop into the crypt. Old bones crunch underfoot.",
+        "StoryText": "At midnight, the bell rang beneath Hollowmere. By morning, Mara's chair was empty. Her mother remembered having a daughter, but not her name. The elders opened the dungeon gate and begged you to bring back the bell's clapper. From far below, it rang again.",
         "EnemyId": "",
         "HexColor": "#7FB3A0"
       },
@@ -23,7 +23,7 @@
         "HexColor": "#7FB3A0"
       },
       {
-        "StoryText": "A rusted bell tolls somewhere in the dark. A Skeleton Guard pulls itself up from its post.",
+        "StoryText": "A rusted bell tolls somewhere in the dark. A Skeleton Guard rises from its post, keys clattering at its side. One bears a name you recognize from Hollowmere.",
         "EnemyId": "skeleton_guard",
         "HexColor": "#B3001B"
       },
@@ -63,7 +63,7 @@
         "HexColor": "#B3001B"
       },
       {
-        "StoryText": "The cavern opens onto a mountain of gold. The mountain moves. VEXARA THE EMBER DRAKE uncoils from her hoard.",
+        "StoryText": "The cavern opens onto a mountain of gold. Vexara uncoils from her hoard. 'The elders broke the pact,' she growls. 'Now the seal is failing.'",
         "EnemyId": "boss_ember_drake",
         "HexColor": "#FF5F1F"
       }
@@ -93,7 +93,7 @@
         "HexColor": "#B3001B"
       },
       {
-        "StoryText": "Every skull in the walls turns to watch you. On a throne of bones, MALGRATH THE BONE LICH raises a withered hand.",
+        "StoryText": "On a throne of bones, Malgrath raises a withered hand. 'The bell takes names so the thing below cannot learn them. Your elders knew the price.'",
         "EnemyId": "boss_bone_lich",
         "HexColor": "#8A2BE2"
       }
@@ -119,7 +119,7 @@
         "HexColor": "#B3001B"
       },
       {
-        "StoryText": "THE DREAD KING rises from his throne, a crown of black iron on his brow. 'Kneel. Every soul in this realm is mine to command.'",
+        "StoryText": "The Dread King lowers his blade. 'I chose who the village forgot. I have hated every toll. I can no longer keep the seal. The choice is yours.'",
         "EnemyId": "boss_dread_king",
         "HexColor": "#B3001B"
       }

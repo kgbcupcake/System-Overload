@@ -74,13 +74,17 @@ namespace DungeonAdventures.Src.Village.Places
 				string modeToggleHint = buyMode ? "[TAB] Switch to Sell Mode" : "[TAB] Switch to Buy Mode";
 
 				List<string> menuLines = new List<string>();
+				// Clickable lines: (line index, key it acts like, sell row it selects)
+				var clicks = new List<(int Line, ConsoleKey Key, int? Index)>();
 				menuLines.Add("╔════════════ GENERAL STORE ═══════════════╗".Pastel(dungeonPurple));
 				menuLines.Add(BuildLine("YOUR GOLD:", p.Coins, "#FFD700", dungeonPurple));
 				menuLines.Add("╟──────────────────────────────────────────╢".Pastel(dungeonPurple));
 
 				if (buyMode)
 				{
+					clicks.Add((menuLines.Count, ConsoleKey.P, null));
 					menuLines.Add(BuildLine($"(P)otion [Qty: {p.StorePotionStock}]", p.StorePotionStock > 0 ? potionPrice : -1, torchGold, dungeonPurple));
+					clicks.Add((menuLines.Count, ConsoleKey.D, null));
 					menuLines.Add(BuildLine("(D)ark Pact (harder foes)", diffPrice, torchGold, dungeonPurple));
 				}
 				else
@@ -116,6 +120,7 @@ namespace DungeonAdventures.Src.Village.Places
 						string selector = (i == sellIndex) ? ">> " : "   ";
 						string lineText = $"{selector}{group.Name.Pastel(rarityColor)} (x{group.Count})";
 
+						clicks.Add((menuLines.Count, ConsoleKey.Enter, i));
 						menuLines.Add(BuildLine(lineText, displayVal, "#00FF00", dungeonPurple));
 					}
 					if (sellableGroups.Count == 0)
@@ -123,19 +128,24 @@ namespace DungeonAdventures.Src.Village.Places
 				}
 
 				menuLines.Add("║                                          ║".Pastel(dungeonPurple));
+				clicks.Add((menuLines.Count, ConsoleKey.E, null));
 				menuLines.Add(BuildLine("(E)xit to Town Square", -1, torchGold, dungeonPurple));
 				menuLines.Add("╚══════════════════════════════════════════╝".Pastel(dungeonPurple));
 				menuLines.Add("");
 				menuLines.Add($" {modeHeader.Pastel("#00FFFF")} ");
+				clicks.Add((menuLines.Count, ConsoleKey.Tab, null));
 				menuLines.Add($" {modeToggleHint.Pastel("#555555")} ");
 				menuLines.Add("");
 				menuLines.Add(" STATUS: " + statusMessage);
 
 				int startX = (85 / 2) - (44 / 2);
 				int startY = 6;
+				MouseInput.ClearZones();
+				foreach (var (line, clickKey, index) in clicks)
+					MouseInput.AddKeyZone(startY + line, startX, 44, clickKey, index);
 				foreach (var line in menuLines) { SetCursorPosition(startX, startY++); WriteLine(line); }
 
-				var key = ReadKey(true).Key;
+				var key = MouseInput.ReadMenuKey(ref sellIndex, sellableGroups.Count);
 				if (key == ConsoleKey.Tab) { buyMode = !buyMode; statusMessage = "MODE TOGGLED".Pastel("#FFD700"); }
 				else if (key == ConsoleKey.E)
 				{
