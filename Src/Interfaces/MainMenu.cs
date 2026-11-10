@@ -189,7 +189,9 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			Clear();
 			UiEngine.DrawCentered("CREATED BY: Kgbcupcake".Pastel("#FFAB00"), 10);
 			UiEngine.DrawCentered("V2 ENGINE POWERED BY C# & IMGUI", 12);
-			UiEngine.DrawCentered("Press any key (or click) to return...", 16);
+			UiEngine.DrawCentered("Hero art: Universal LPC Spritesheet Character Generator contributors".Pastel("#888888"), 14);
+			UiEngine.DrawCentered("CC-BY-SA 3.0 / GPL 3.0 / OGA-BY 3.0, authors in assets/LPC/CREDITS.csv".Pastel("#666666"), 15);
+			UiEngine.DrawCentered("Press any key (or click) to return...", 17);
 			MouseInput.WaitForAnyInput();
 			Clear();
 		}

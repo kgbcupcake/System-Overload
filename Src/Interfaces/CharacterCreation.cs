@@ -81,6 +81,9 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			// Trigger the Evolution Sub-Menu
 			CharSubMenus.ChooseSubClass();
 
+			// The hero's appearance, drawn from the LPC character catalog (skipped when it isn't installed)
+			MakeCharacterScreen.Run(player);
+
 			// 3. CLASS STATS AND STARTING GEAR (before training, so its preview shows the real hero)
 			InitializeClassStats(player);
 			AssignStarterKit(player);

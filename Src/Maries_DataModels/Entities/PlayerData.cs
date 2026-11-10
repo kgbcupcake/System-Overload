@@ -14,6 +14,8 @@ namespace Maries_DataModels
 			// Core Identity
 			public string PlayerName { get; set; } = "Unnamed Hero";
 			public string PlayerClass { get; set; } = "Adventurer";
+			/// <summary>The hero's appearance from the "Make your character" screen; null for heroes made before it.</summary>
+			public HeroLook? Look { get; set; }
 			public int Level { get; set; } = 1;
 			public int InventorySize { get; set; } = 20;
 
