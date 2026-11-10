@@ -14,8 +14,10 @@ Standard C# conventions apply. This guide only adds the rules that matter for a 
   still use it; convert them when you're working in them anyway.
 
 ## 3. Story and Content Belong in Data
-- **CRITICAL:** No narrative or flavour text in C#. Put it in `GameData/Templates/story/story_core.json` and read it with
-  `Story.Line`, `Story.Pick` or `Story.Lines`.
+- **CRITICAL:** No narrative or flavour text in C#. Put it in a JSON file in `GameData/Templates/story/` (for example
+  `story_core.json` or `story_prologue.json`) and read it with `Story.Line`, `Story.Pick` or `Story.Lines`. Every file in
+  that folder is loaded. New text for an existing install belongs in a new file, because the seeder never overwrites a
+  file the player already has.
 - Monsters, bosses, floors, items, weapons, gems and shops are JSON. Code should never depend on a specific item or enemy
   name unless it is a deliberate rule (for example, the store's Healing Potion).
 - Menu labels and key hints (`"[ENTER] Use"`, `"BACK TO TOWN"`) may stay in code.

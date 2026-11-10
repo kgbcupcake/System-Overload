@@ -134,6 +134,7 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			{
 				case "START NEW GAME":
 					Clear();
+					Prologue.Show();
 					CharacterCreation.Start();
 					if (GameState.CurrentPlayer != null)
 					{

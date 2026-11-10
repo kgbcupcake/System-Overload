@@ -1,0 +1,37 @@
+[
+  { "Key": "prologue.header", "Lines": ["PROLOGUE"] },
+  { "Key": "prologue.title", "Lines": ["THE VANISHING"] },
+  { "Key": "prologue.subtitle", "Lines": ["A Story of Lost Souls"] },
+
+  { "Key": "prologue.page.1", "Lines": [
+    "The world was once a place of ordinary troubles.",
+    "Kingdoms rose and fell. Merchants travelled between distant cities. Farmers tended their fields, adventurers explored forgotten ruins, and people lived their lives without much thought for what lay beyond the horizon.",
+    "Then people started disappearing."
+  ] },
+  { "Key": "prologue.page.2", "Lines": [
+    "At first, nobody thought much of it. A traveller who never reached the next town. A villager who failed to come home. A child missing from their bed.",
+    "But the disappearances continued.",
+    "People vanished from locked homes, crowded marketplaces and guarded castles. No bodies were found. No witnesses could say what happened. There was no sign of a struggle, no tracks to follow, and no answers."
+  ] },
+  { "Key": "prologue.page.3", "Lines": [
+    "Kings sent their soldiers. Scholars searched ancient texts. Priests offered prayers. Yet nobody could explain where the missing had gone.",
+    "As the years passed, fear spread through the kingdoms. Roads grew dangerous, villages emptied, and trust between neighbours began to crumble."
+  ] },
+  { "Key": "prologue.page.4", "Lines": [
+    "And then, one day, it happened to you.",
+    "The person you loved disappeared.",
+    "There was no warning. No explanation. One moment they were there, and the next, they were gone.",
+    "Others learned to accept their losses. You refused to believe they were dead."
+  ] },
+  { "Key": "prologue.page.5", "Lines": [
+    "Somewhere in this vast world, there had to be an answer. And somewhere, somehow, they were still alive.",
+    "So you set out on a journey that would take you across kingdoms, through forgotten civilisations, into dangerous dungeons, and beyond the edge of everything you thought you knew.",
+    "You don't know what awaits you. You don't know how long the journey will take.",
+    "But you know one thing."
+  ] },
+  { "Key": "prologue.page.6", "Lines": [
+    "You are going to find them."
+  ] },
+
+  { "Key": "prologue.final", "Lines": ["Your journey begins here."] }
+]
