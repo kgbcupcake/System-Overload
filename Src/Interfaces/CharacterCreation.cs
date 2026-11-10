@@ -81,12 +81,12 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			// Trigger the Evolution Sub-Menu
 			CharSubMenus.ChooseSubClass();
 
-			// 3. SYSTEM ALLOCATION (The New Attribute Spending System)
-			PointDistribution(player, screenWidth);
-
-			// 4. GEAR INITIALIZATION
+			// 3. CLASS STATS AND STARTING GEAR (before training, so its preview shows the real hero)
 			InitializeClassStats(player);
 			AssignStarterKit(player);
+
+			// 4. ATTRIBUTE POINTS
+			TrainHeroScreen.Run(player);
 
 			// 5. FINAL MANIFEST DISPLAY
 			Clear();
@@ -115,101 +115,6 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			GameState.Sync();
 
 			Transitions.ShowCreationAnimation(player.PlayerName, player.PlayerClass, player.Health, (int)player.GetTotalMaxHealth(), player.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
-		}
-
-		private static void PointDistribution(loadPlayer player, int screenWidth)
-		{
-			int pointsLeft = 10;
-			string[] modules = { "Vitality", "Strength", "Fortitude", "Wisdom" };
-			int selectedModule = 0;
-			bool allocating = true;
-
-			// Reset boost values to 0 before starting allocation
-			player.VitalityPoints = 0;
-			player.StrengthPoints = 0;
-			player.FortitudePoints = 0;
-			player.WisdomPoints = 0;
-
-			while (allocating)
-			{
-				Clear();
-				WriteLine("=== ATTRIBUTE POINTS ===".Pastel("#FFAB00"));
-				WriteLine(new string('-', screenWidth).Pastel("#5A3A1A"));
-
-				SetCursorPosition(4, 3);
-				WriteLine(" TRAIN YOUR HERO ".Pastel("#000000").PastelBg("#FFAB00"));
-				SetCursorPosition(4, 4);
-				WriteLine(Story.Line("creation.attributes").Pastel("#DCDCDC"));
-
-				// Update live health during allocation
-				player.Health = (int)player.GetTotalMaxHealth();
-
-				SetCursorPosition(4, 7);
-				string progressBar = new string('■', 10 - pointsLeft).Pastel("#FFD700") +
-									 new string('□', pointsLeft).Pastel("#333333");
-				WriteLine($"Points: [{progressBar}] | {pointsLeft} left to spend");
-
-				MouseInput.ClearZones();
-				for (int i = 0; i < modules.Length; i++)
-				{
-					SetCursorPosition(8, 11 + i);
-					// Row layout from x=8: "> "(8-9) name(10-23) " "(24) "[-]"(25-27) " "(28) value(29-30) " "(31) "[+]"(32-34)
-					MouseInput.AddZone(11 + i, 8, 17, i);                           // name: select the row
-					MouseInput.AddKeyZone(11 + i, 25, 3, ConsoleKey.LeftArrow, i);  // [-]
-					MouseInput.AddKeyZone(11 + i, 32, 3, ConsoleKey.RightArrow, i); // [+]
-					int currentVal = i switch
-					{
-						0 => player.VitalityPoints,
-						1 => player.StrengthPoints,
-						2 => player.FortitudePoints,
-						3 => player.WisdomPoints,
-						_ => 0
-					};
-
-					string line = (i == selectedModule)
-						? $"> {modules[i].PadRight(14)} [-] {currentVal,2} [+] <"
-						: $"  {modules[i].PadRight(14)} [-] {currentVal,2} [+]  ";
-
-					Write(i == selectedModule ? line.Pastel("#00FF00") : line.Pastel("#555555"));
-				}
-
-				// The hero stat box gives live feedback on the right
-				GameUiEngine.DrawAttributeBox(player, 52, 11, selectedModule);
-
-				SetCursorPosition(8, 17);
-				Write("[←][→] or click [-]/[+]".Pastel("#555555"));
-				SetCursorPosition(8, 19);
-				Write((pointsLeft == 0 ? "[ DONE ]".Pastel("#000000").PastelBg("#FFD700") : "[ DONE ]".Pastel("#444444")));
-				MouseInput.AddKeyZone(19, 8, 8, ConsoleKey.Enter);
-
-				// Clicking a row's name selects it; the row's own Enter does nothing until points are spent.
-				var key = MouseInput.ReadMenuKey(ref selectedModule, modules.Length);
-				if (key == ConsoleKey.Enter && pointsLeft > 0) continue;
-				if (key == ConsoleKey.UpArrow) selectedModule = (selectedModule == 0) ? modules.Length - 1 : selectedModule - 1;
-				if (key == ConsoleKey.DownArrow) selectedModule = (selectedModule == modules.Length - 1) ? 0 : selectedModule + 1;
-
-				if (key == ConsoleKey.RightArrow && pointsLeft > 0)
-				{
-					if (selectedModule == 0) player.VitalityPoints++;
-					else if (selectedModule == 1) player.StrengthPoints++;
-					else if (selectedModule == 2) player.FortitudePoints++;
-					else if (selectedModule == 3) player.WisdomPoints++;
-					pointsLeft--;
-				}
-				if (key == ConsoleKey.LeftArrow)
-				{
-					bool canReduce = selectedModule switch { 0 => player.VitalityPoints > 0, 1 => player.StrengthPoints > 0, 2 => player.FortitudePoints > 0, 3 => player.WisdomPoints > 0, _ => false };
-					if (canReduce)
-					{
-						if (selectedModule == 0) player.VitalityPoints--;
-						else if (selectedModule == 1) player.StrengthPoints--;
-						else if (selectedModule == 2) player.FortitudePoints--;
-						else if (selectedModule == 3) player.WisdomPoints--;
-						pointsLeft++;
-					}
-				}
-				if (key == ConsoleKey.Enter && pointsLeft == 0) allocating = false;
-			}
 		}
 
 		private static void DrawOuterBox(int x, int y, int w, int h, string color)

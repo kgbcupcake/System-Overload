@@ -34,5 +34,9 @@ done <<'MAP'
 997 storm_opal
 927 bloodstone
 1047 hawks_eye
+25 vitality
+196 strength
+114 fortitude
+201 wisdom
 MAP
 echo "Copied $(ls "$dest"/*.png | wc -l) icons to $dest"
