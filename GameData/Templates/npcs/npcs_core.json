@@ -1,0 +1,5 @@
+[
+  {"Id": "edrin", "Name": "Edrin", "Role": "Village elder", "Location": "ashford", "GreetingKey": "npc.edrin.greeting", "RequiresFlag": ""},
+  {"Id": "mara", "Name": "Mara", "Role": "Tavern keeper", "Location": "ashford", "GreetingKey": "npc.mara.greeting", "RequiresFlag": ""},
+  {"Id": "tomas", "Name": "Tomas", "Role": "Village guard", "Location": "ashford", "GreetingKey": "npc.tomas.greeting", "RequiresFlag": ""}
+]

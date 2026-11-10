@@ -13,7 +13,7 @@
     ],
     "Stages": [
       {
-        "StoryText": "At midnight, the bell rang beneath Hollowmere. By morning, Mara's chair was empty. Her mother remembered having a daughter, but not her name. The elders opened the dungeon gate and begged you to bring back the bell's clapper. From far below, it rang again.",
+        "StoryText": "At midnight, the bell rang beneath Hollowmere. By morning, Wren's chair was empty. Her mother remembered having a daughter, but not her name. The elders opened the dungeon gate and begged you to bring back the bell's clapper. From far below, it rang again.",
         "EnemyId": "",
         "HexColor": "#7FB3A0"
       },
@@ -122,6 +122,104 @@
         "StoryText": "The Dread King lowers his blade. 'I chose who the village forgot. I have hated every toll. I can no longer keep the seal. The choice is yours.'",
         "EnemyId": "boss_dread_king",
         "HexColor": "#B3001B"
+      }
+    ]
+  },
+  {
+    "Id": "last_known_location",
+    "Title": "THE WOODED PATH",
+    "Difficulty": "EASY",
+    "Description": "The path east of Ashford, where {loved} was last seen walking alone at dusk.",
+    "CompletionGold": 10,
+    "CompletionExp": 20,
+    "CompletionText": "The path ends beneath an old tree. Beyond it, there is nothing. Not even footprints.",
+    "Tags": [
+      "chapter1",
+      "overworld",
+      "repeatable"
+    ],
+    "Stages": [
+      {
+        "StoryText": "You follow the wooded path east of Ashford. The trees lean close and the birds have gone quiet.",
+        "EnemyId": "",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "Something lean and grey slips out from the ferns, hackles raised.",
+        "EnemyId": "forest_wolf",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "The trail narrows to a single old tree, its bark scored with markings you don't recognise.",
+        "EnemyId": "",
+        "HexColor": "#6B8E5A"
+      }
+    ]
+  },
+  {
+    "Id": "northern_trail",
+    "Title": "THE NORTHERN TRAIL",
+    "Difficulty": "EASY",
+    "Description": "The trail north out of Ashford, toward the traveller's abandoned camp. Wolves hunt here.",
+    "CompletionGold": 15,
+    "CompletionExp": 30,
+    "CompletionText": "The howling falls behind you. Ahead, smoke-blackened stones mark an old campsite.",
+    "Tags": [
+      "chapter1",
+      "overworld",
+      "repeatable"
+    ],
+    "Stages": [
+      {
+        "StoryText": "The northern trail climbs into the hills. Fresh paw prints cross the mud, more than one set.",
+        "EnemyId": "",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "A Forest Wolf blocks the path, lips peeled back from yellow teeth.",
+        "EnemyId": "forest_wolf",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "A second wolf circles in from the trees, drawn by the noise.",
+        "EnemyId": "forest_wolf",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "The last of the pack lunges from the underbrush.",
+        "EnemyId": "forest_wolf",
+        "HexColor": "#6B8E5A"
+      }
+    ]
+  },
+  {
+    "Id": "northern_camp",
+    "Title": "THE ABANDONED CAMP",
+    "Difficulty": "EASY",
+    "Description": "Where the traveller who asked about the disappearances made his last camp.",
+    "CompletionGold": 20,
+    "CompletionExp": 40,
+    "CompletionText": "Among the torn canvas you find the traveller's journal, its pages swollen with rain.",
+    "Tags": [
+      "chapter1",
+      "overworld",
+      "repeatable"
+    ],
+    "Stages": [
+      {
+        "StoryText": "The camp is torn apart. A cold fire pit, a slashed tent, a bedroll dragged into the brush.",
+        "EnemyId": "",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "A wolf is nosing through the traveller's pack. It turns on you.",
+        "EnemyId": "forest_wolf",
+        "HexColor": "#6B8E5A"
+      },
+      {
+        "StoryText": "A huge grey wolf pads out of the torn tent, something leather-bound in its jaws.",
+        "EnemyId": "boss_grey_alpha",
+        "HexColor": "#8A8F98"
       }
     ]
   }

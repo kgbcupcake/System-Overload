@@ -2,6 +2,7 @@
   { "Key": "prologue.header", "Lines": ["PROLOGUE"] },
   { "Key": "prologue.title", "Lines": ["THE VANISHING"] },
   { "Key": "prologue.subtitle", "Lines": ["A Story of Lost Souls"] },
+  { "Key": "prologue.skip", "Lines": ["SKIP INTRODUCTION"] },
 
   { "Key": "prologue.page.1", "Lines": [
     "The world was once a place of ordinary troubles.",

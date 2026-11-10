@@ -1,10 +1,12 @@
 ﻿using DungeonAdventures.Src.GameData.Components;
 using DungeonAdventures.Src.GameEngine.Interfaces;
+using DungeonAdventures.Src.GameEngine.Systems;
 using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
 using Maries_Loaders;
 using Pastel;
 using DungeonAdventures.Src.Village.Places;
+using DungeonAdventures.Src.Game.Interfaces;
 using System.Numerics;
 using static System.Console;
 
@@ -12,6 +14,13 @@ namespace DungeonAdventures.Src.Village
 {
 	internal class VillageSquare
 	{
+		private const string ReloadContentOption = "RELOAD CONTENT (DEV)";
+
+		// The id quests use for the village itself, e.g. "Return to Ashford".
+		private const string VillageLocationId = "ashford";
+
+		// The location id for the hero's house, used by points of interest.
+		private const string HomeLocationId = "home";
 
 		public static void MainTownSquare()
 		{
@@ -20,14 +29,20 @@ namespace DungeonAdventures.Src.Village
 
 			string[] options =
 			{
+				"HOME",
+				"TALK TO VILLAGERS",
 				"GENERAL STORE",
-				"DUNGEON GATE",
+				"ROAD TO HOLLOWMERE",
 				"BLACKSMITH",
 				"HEALER",
+				"JOURNAL",
 				"CHARACTER",
 				"INVENTORY",
 				"LEAVE THE REALM"
 			};
+			// Dev builds get an extra option to pick up content edited in MariesGui without restarting.
+			if (GameState.IsDevMode)
+				options = options.Append(ReloadContentOption).ToArray();
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			const int boxWidth = 92;
 			int contentWidth = boxWidth - 2;
@@ -36,6 +51,13 @@ namespace DungeonAdventures.Src.Village
 			{
 			RedrawMenu:
 				CursorVisible = false;
+
+				// Being in the village counts as reaching it for quests ("discover_location" ashford).
+				if (GameState.CurrentPlayer != null)
+					QuestSystem.Notify(GameState.CurrentPlayer, "discover_location", VillageLocationId);
+
+				// Quest news from wherever the hero just was (a floor, a shop...) comes first.
+				QuestScreens.ShowNotices();
 
 				LocalHeader();
 				HudChrome.DisplayFooter(GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
@@ -74,12 +96,29 @@ namespace DungeonAdventures.Src.Village
 		{
 			switch (selection)
 			{
+				case "HOME":
+					// Things to examine at the hero's house come from the "points_of_interest" data.
+					if (GameState.CurrentPlayer == null ||
+						PeopleAndPlacesLoader.PlacesAt(HomeLocationId, f => QuestSystem.HasFlag(GameState.CurrentPlayer, f)).Count == 0)
+					{
+						Alerts.QuickAlert("The house is quiet. There's nothing to look at here right now.");
+						break;
+					}
+					Clear();
+					PeopleAndPlacesScreens.LookAround(HomeLocationId, "HOME");
+					break;
+
+				case "TALK TO VILLAGERS":
+					Clear();
+					PeopleAndPlacesScreens.TalkMenu(VillageLocationId, Story.Line("town.name"));
+					break;
+
 				case "GENERAL STORE":
 					Clear();
 					Store.LoadShop();
 					break;
 
-				case "DUNGEON GATE":
+				case "ROAD TO HOLLOWMERE":
 					if (GameState.CurrentPlayer == null)
 					{
 						Alerts.QuickAlert("No hero is loaded.");
@@ -95,6 +134,10 @@ namespace DungeonAdventures.Src.Village
 					Blacksmith.Open();
 					break;
 
+				case "JOURNAL":
+					QuestScreens.Journal();
+					break;
+
 				case "CHARACTER":
 					Clear();
 					Stats.PlayerStats();
@@ -107,6 +150,11 @@ namespace DungeonAdventures.Src.Village
 
 
 
+
+				case ReloadContentOption:
+					ContentReload.ReloadAll();
+					Alerts.QuickAlert("Content reloaded from Realm Data.");
+					break;
 
 				case "LEAVE THE REALM":
 					Transitions.ShutdownSequence();

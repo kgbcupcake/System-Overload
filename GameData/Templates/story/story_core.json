@@ -72,8 +72,8 @@
   { "Key": "class.warlock", "Lines": ["Trades their own health for terrible power."] },
   { "Key": "class.battlemage", "Lines": ["Bends the rules of magic to find better loot."] },
 
-  { "Key": "town.name", "Lines": ["HOLLOWMERE"] },
-  { "Key": "town.title", "Lines": ["THE VILLAGE OF HOLLOWMERE"] },
+  { "Key": "town.name", "Lines": ["ASHFORD"] },
+  { "Key": "town.title", "Lines": ["THE VILLAGE OF ASHFORD"] },
   { "Key": "town.closed", "Lines": [
     "The {place} is boarded up. Come back another day.",
     "A sign on the {place} door reads: 'Gone to the dungeon. Back soon. Maybe.'"
@@ -171,7 +171,7 @@
   {"Key": "item.storm_opal","Lines": ["Tiny lightning flickers inside it, like a storm in a bottle."]},
   {"Key": "item.bloodstone","Lines": ["Dark red and faintly warm, like a heartbeat. Hungers for life."]},
   {"Key": "item.mana_crystal","Lines": ["A pale blue crystal humming with stored magic."]},
-  {"Key": "story.bell.opening","Lines": ["At midnight, the bell rang beneath Hollowmere. By morning, Mara's chair was empty.","Her mother remembered having a daughter. She could not remember her name.","The elders opened the dungeon gate. Bring back the bell's clapper, they said.","From far below, the bell rang again."]},
+  {"Key": "story.bell.opening","Lines": ["At midnight, the bell rang beneath Hollowmere. By morning, Wren's chair was empty.","Her mother remembered having a daughter. She could not remember her name.","The elders opened the dungeon gate. Bring back the bell's clapper, they said.","From far below, the bell rang again."]},
   {"Key": "story.bell.crypt","Lines": ["The Crypt Warden raises its rusted keys. The bell is not a weapon; it warns the dead to stay below.","A name is scratched into the Warden's key ring. You recognize the handwriting from Hollowmere."]},
   {"Key": "story.bell.caverns","Lines": ["Vexara coils around the clapper. The elders broke the pact, she snarls. Now the seal is failing.","The drake's flames gutter as she speaks: the King has kept something beneath the mountain asleep."]},
   {"Key": "story.bell.catacombs","Lines": ["Malgrath's skull turns toward you. The bell takes names so the thing below cannot learn them.","The Lich points to the surface. Your elders knew the price. They chose to break the pact anyway."]},

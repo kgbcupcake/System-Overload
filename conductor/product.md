@@ -1,6 +1,7 @@
 # Initial Concept
 > Dungeon Adventures – Reborn is a classic fantasy dungeon crawler played entirely in the terminal.
-A hero leaves the village of Hollowmere and descends, floor by floor, into the dungeon beneath it: a flooded crypt,
+The story begins with "The Vanishing": people across the world are disappearing, and the hero sets out from the village of
+Ashford to find the one they lost. Along the way lies Hollowmere, and the dungeon beneath it: a flooded crypt,
 volcanic caverns, a lich's catacombs and finally the Dread King's throne room. Each floor is told in short story beats,
 fought through turn by turn, and guarded by a dungeon lord. The terminal is the whole world: a fixed 84x24 window lit in
 torch gold, ember orange and old blood red.
@@ -25,9 +26,12 @@ torch gold, ember orange and old blood red.
     - Hand-written floors made of story stages, with monsters along the way and a boss at the end.
     - Bosses with named moves, a special ability, an enraged phase and their own dialogue.
     - Loot drops, gold and experience, with level-ups.
-- **The Village of Hollowmere:**
+- **Main Story (The Vanishing):**
+    - A prologue, then "A Life Before": the player names the one who vanished and chooses who she was to them.
+    - Data-driven quests (the "quests" folder) that advance on game events and story flags, with a quest journal.
+- **The Village of Ashford:**
     - General Store (potions, the Dark Pact difficulty option, selling loot).
-    - Dungeon Gate (pick a floor), Blacksmith (socket gems), Inventory and Character sheet.
+    - Road to Hollowmere (pick a dungeon floor), Blacksmith (socket gems), Journal, Inventory and Character sheet.
     - A Healer is planned.
 - **Data-Driven World:**
     - Monsters, bosses, floors, items, weapons, gems, shops and all story text are JSON files.

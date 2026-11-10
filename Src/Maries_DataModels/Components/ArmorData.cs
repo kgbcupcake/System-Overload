@@ -7,6 +7,7 @@ namespace Maries_DataModels
 	[MariesGui.Contracts.MariesGuiContent("armor")]
 	public class ArmorData : ItemData
 	{
+		[MariesGui.Contracts.MariesGuiRef("EquipSlots.Id", "equipment")]
 		public string Slot { get; set; } = "Chest";
 		public int Defense { get; set; } = 0;
 		public int BonusHealth { get; set; } = 0;

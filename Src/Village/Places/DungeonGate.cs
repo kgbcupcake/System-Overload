@@ -4,6 +4,7 @@ using Maries_DataModels;
 using DungeonAdventures.Src.GameEngine;
 using DungeonAdventures.Src.GameEngine.Flow;
 using DungeonAdventures.Src.GameEngine.Systems;
+using DungeonAdventures.Src.Game.Interfaces;
 using DungeonAdventures.Src.Interfaces.UI;
 using Maries_Ui;
 using Maries_Loaders;
@@ -41,7 +42,7 @@ namespace DungeonAdventures.Src.Village.Places
 				var visibleLines = allItems.Skip(scrollOffset).Take(maxVisibleItems).ToList();
 
 				GameUiEngine.DrawDynamicFrame(
-					title: $"DUNGEON GATE ({floors.Count} FLOORS)",
+					title: $"BENEATH HOLLOWMERE ({floors.Count} FLOORS)",
 					lines: visibleLines,
 					hint: "Choose a floor to descend into | [ESC] Back",
 					boxWidth: boxWidth,
@@ -96,7 +97,11 @@ namespace DungeonAdventures.Src.Village.Places
 		{
 			var log = PlayerQuestLog.Instance;
 
-			if (log.IsQuestCompleted(floor.Id))
+			// Floors tagged "repeatable" (story locations such as the northern trail) can be entered
+			// again after clearing, so a quest that needs them later can't get stuck.
+			bool repeatable = floor.Tags.Any(t => t.Equals("repeatable", StringComparison.OrdinalIgnoreCase));
+
+			if (log.IsQuestCompleted(floor.Id) && !repeatable)
 			{
 				Alerts.QuickAlert(Story.Line("dungeon.already_cleared", ("title", floor.Title)));
 				return;
@@ -108,6 +113,9 @@ namespace DungeonAdventures.Src.Village.Places
 				log.AcceptQuest(floor.Id);
 				Alerts.QuickAlert(Story.Line("dungeon.accepted", ("title", floor.Title)));
 			}
+
+			// Quests can send the hero to a floor ("discover_location" with the floor's Id).
+			QuestSystem.Notify(player, "discover_location", floor.Id);
 
 			// 1. Run the floor
 			// Note: You will need to update AdventureRunner.Run to accept FloorData instead of AdventureData
@@ -128,9 +136,21 @@ namespace DungeonAdventures.Src.Village.Places
 
 			SaveGame.Save();
 
-			WriteLine("\nPress any key (or click) to return to the Dungeon Gate...");
+			WriteLine("\nPress any key (or click) to return to Hollowmere...");
 			MouseInput.WaitForAnyInput();
 			Clear();
+
+			// Any quest progress made on the floor (kills, loot) is shown once the hero is back.
+			QuestScreens.ShowNotices();
+
+			// A cleared floor can have things to examine and people to talk to (see the
+			// "points_of_interest" and "npcs" data, with Location set to the floor's Id).
+			if (isVictory && player.Health > 0)
+			{
+				PeopleAndPlacesScreens.LookAround(floor.Id, floor.Title);
+				if (PeopleAndPlacesLoader.NpcsAt(floor.Id, f => QuestSystem.HasFlag(player, f)).Count > 0)
+					PeopleAndPlacesScreens.TalkMenu(floor.Id, floor.Title);
+			}
 		}
 	}
 }

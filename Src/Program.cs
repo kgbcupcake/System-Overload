@@ -2,6 +2,7 @@ using DungeonAdventures.Dev;
 using DungeonAdventures.Src.GameData.Components;
 using Maries_DataModels;
 using DungeonAdventures.Src.GameEngine.Interfaces;
+using DungeonAdventures.Src.GameEngine.Systems;
 using Maries_Loaders;
 using Maries_Ui;
 using System.Text;
@@ -31,6 +32,11 @@ EquipmentRulesLoader.LoadAll();
 BossLoader.LoadAll();
 FloorLoader.LoadAll();
 Story.LoadAll();
+QuestLoader.LoadAll();
+PeopleAndPlacesLoader.LoadAll();
+
+// Story lines can use {hero}, {loved} and friends anywhere without each caller passing them.
+Story.GlobalTokens = StoryTokens.ForCurrentHero;
 
 // Let the VS/WSL "path dump" finish
 Thread.Sleep(100);

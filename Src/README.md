@@ -9,17 +9,18 @@ A tour of the code in `Src/`. For building, running and editing content, see the
 ```text
 Program.cs
   ├─ seed content      ContentSeeder copies GameData/Templates → ~/Documents/DungeonAdventures/Realm Data
-  ├─ load content      ItemRegistry, BossLoader, FloorLoader, Story
+  ├─ load content      ItemRegistry, BossLoader, FloorLoader, Story, QuestLoader
   ├─ intro             Transitions (skippable with S)
   └─ MainMenu
-       ├─ new hero     CharacterCreation → CharSubMenus → VillageSquare
+       ├─ new hero     StoryPages (prologue) → CharacterCreation → CharSubMenus → LifeBefore → VillageSquare
        └─ load hero    CharacterLoadScreen → VillageSquare
 
-VillageSquare (Hollowmere)
+VillageSquare (Ashford)
   ├─ GENERAL STORE     Places/Store
-  ├─ DUNGEON GATE      Places/DungeonGate → FloorRunner → CombatEncounter
+  ├─ ROAD TO HOLLOWMERE Places/DungeonGate → FloorRunner → CombatEncounter
   ├─ BLACKSMITH        Places/Blacksmith (socket gems into weapons)
   ├─ HEALER            not open yet
+  ├─ JOURNAL           Interfaces/QuestScreens (active and finished quests)
   ├─ CHARACTER         Interfaces/Stats
   ├─ INVENTORY         Places/InventoryScreen
   └─ LEAVE THE REALM   farewell sequence and exit
@@ -163,9 +164,36 @@ Story.Lines("loading.labels");                          // all lines
 
 Rules:
 
-- No narrative or flavour text goes in C#. Add a key to `GameData/Templates/story/story_core.json` and look it up.
+- No narrative or flavour text goes in C#. Add a key to a file in `GameData/Templates/story/` and look it up.
 - Tokens are written `{name}` and filled by the caller.
+- Some tokens work everywhere without being passed (`GameEngine/Systems/StoryTokens.cs`): `{hero}`, `{loved}` (the
+  name chosen in "A Life Before", or `life_before.default_name`), `{relation}` and `{relation_memory}`.
 - In dev mode a missing key shows as `<key>`, so gaps are easy to spot.
+
+Paged scenes such as the prologue use `Interfaces/StoryPages.cs`: `StoryPages.Play("prologue")` reads
+`prologue.title`, `prologue.page.1`, `prologue.page.2`, ... and `prologue.final`. Add a page by adding the next key.
+
+---
+
+## 🧭 Quests and story flags
+
+`quests/*.json` holds `QuestData` (`Maries_DataModels/Components/QuestData.cs`), run by
+`GameEngine/Systems/QuestSystem.cs`. Quests never run gameplay themselves. The game reports events and sets flags:
+
+```csharp
+QuestSystem.Notify(player, "defeat_enemy", enemy.Name);   // also: talk_to, examine, discover_location, collect_item
+QuestSystem.SetFlag(player, "relationship_established");
+```
+
+- A quest starts as soon as all its `Prerequisites` flags are set (unless `AutoStart` is false).
+- Each stage finishes when its required objectives are done; an objective of type `flag` is done once that flag is set.
+- Finishing a quest pays its `Rewards` and sets its `CompletionFlags`, which can start the next quest.
+- Targets match loosely: `"Forest Wolf"` matches `"forest_wolf"`.
+- Progress and flags are saved on the hero (`Quests`, `StoryFlags`). Notices are shown by `Interfaces/QuestScreens.cs`,
+  which also draws the JOURNAL.
+
+Hooked up today: `defeat_enemy` and `collect_item` (combat and loot), `discover_location` (entering a floor uses the
+floor's `Id`). `talk_to` and `examine` are waiting on NPCs and the home investigation.
 
 ---
 

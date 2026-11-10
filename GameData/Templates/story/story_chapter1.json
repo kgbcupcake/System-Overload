@@ -1,0 +1,100 @@
+[
+  { "Key": "life_before.title", "Lines": ["A LIFE BEFORE"] },
+  { "Key": "life_before.intro", "Lines": [
+    "Before the road, before the search, there was someone.",
+    "Someone whose chair is still pulled up to the fire."
+  ] },
+  { "Key": "life_before.name_prompt", "Lines": ["What was her name?"] },
+  { "Key": "life_before.default_name", "Lines": ["Elara"] },
+  { "Key": "life_before.relation_prompt", "Lines": ["What was {loved} to you?"] },
+
+  { "Key": "life_before.relation_ids", "Lines": ["childhood_friend", "partner", "spouse", "family"] },
+  { "Key": "life_before.relation.childhood_friend", "Lines": [
+    "My childhood friend",
+    "your oldest friend",
+    "You had known {loved} since you were children, racing each other down to the river and back."
+  ] },
+  { "Key": "life_before.relation.partner", "Lines": [
+    "The one I loved",
+    "the one you love",
+    "It had taken you both far too long to admit what everyone in Ashford already knew."
+  ] },
+  { "Key": "life_before.relation.spouse", "Lines": [
+    "My wife",
+    "your wife",
+    "Three winters married, and {loved} still laughed at the way you burned the bread."
+  ] },
+  { "Key": "life_before.relation.family", "Lines": [
+    "The one who became family",
+    "the one who became your family",
+    "No blood tied you together. You had chosen each other anyway, and that had always been enough."
+  ] },
+
+  { "Key": "memory.title", "Lines": ["A LIFE BEFORE"] },
+  { "Key": "memory.subtitle", "Lines": ["The last quiet evening"] },
+  { "Key": "memory.page.1", "Lines": [
+    "{relation_memory}",
+    "You remember a quiet evening, sitting together beside the fireplace. Rain on the shutters. A pot of something warm forgotten on the hearth.",
+    "{loved} turns toward you.",
+    "\"Promise me something?\""
+  ] },
+  { "Key": "memory.page.2", "Lines": [
+    "You look at her.",
+    "\"If something ever happens, don't lose yourself trying to find me.\"",
+    "She smiles before you can answer.",
+    "\"I know you. You'll probably ignore that advice anyway.\""
+  ] },
+  { "Key": "memory.page.3", "Lines": [
+    "You never got to answer her."
+  ] },
+  { "Key": "memory.final", "Lines": ["You answer her now."] },
+
+  { "Key": "quest.started", "Lines": ["NEW QUEST: {quest}"] },
+  { "Key": "quest.updated", "Lines": ["QUEST UPDATED: {quest}"] },
+  { "Key": "quest.completed", "Lines": ["QUEST COMPLETE: {quest}"] },
+  { "Key": "quest.journal_empty", "Lines": ["No quests yet. Ashford is quiet... for now."] },
+
+  { "Key": "ch1.wake_up", "Lines": [
+    "Morning light filters through the window. The house is quiet. Too quiet.",
+    "{loved}'s belongings are still here. Her favourite book rests beside the bed. Her clothes hang untouched.",
+    "But she isn't here."
+  ] },
+  { "Key": "ch1.ask_around", "Lines": [
+    "Nothing in the house explains it. Someone in Ashford must have seen something."
+  ] },
+  { "Key": "ch1.last_place", "Lines": [
+    "Tomas says {loved} was last seen on the wooded path east of the village, walking alone at dusk."
+  ] },
+  { "Key": "ch1.trail_end", "Lines": [
+    "The trail ends beneath an old tree. There are no footprints beyond this point.",
+    "No broken branches. No signs of a struggle. Just silence.",
+    "Whatever happened here, it wasn't ordinary."
+  ] },
+  { "Key": "ch1.second_disappearance", "Lines": [
+    "When you reach Ashford, the square is full of raised voices. A shepherd's boy went to fetch water last night and never came back.",
+    "It isn't over. It's still happening."
+  ] },
+  { "Key": "ch1.northern_trail", "Lines": [
+    "Edrin unrolls a stained map. \"A traveller made camp on the northern trail a week ago. He was asking about the disappearances too. Nobody has seen him since.\""
+  ] },
+  { "Key": "ch1.journal", "Lines": [
+    "Day 12. Another village has reported missing people.",
+    "I spoke with a merchant who claims he saw someone disappear right before his eyes. He described a strange distortion in the air. Like looking through water.",
+    "I thought he was drunk. Now I'm not so sure."
+  ] },
+  { "Key": "ch1.beyond_home", "Lines": [
+    "Edrin reads the journal twice. \"There are places beyond these hills where the old world still leaves its marks.\"",
+    "\"If you truly intend to find answers, you'll need to leave this place. But understand something. Whatever took her may be far beyond anything you've faced.\""
+  ] },
+  {"Key": "npc.edrin.greeting", "Lines": ["Edrin leans on his stick. \"Ashford has weathered hard winters before. We'll weather this one.\" He doesn't sound sure."]},
+  {"Key": "npc.mara.greeting", "Lines": ["Mara wipes down the bar. \"Sit, if you like. The ale's warm, but the fire's warmer.\""]},
+  {"Key": "npc.tomas.greeting", "Lines": ["Tomas keeps his eyes on the road. \"Quiet watch. I don't trust quiet anymore.\""]},
+  {"Key": "ch1.talk.edrin_ask", "Lines": ["\"{loved}? No, I haven't seen her since market day.\" Edrin frowns. \"Ask Mara. Half the village passes through her tavern of an evening.\""]},
+  {"Key": "ch1.talk.mara_ask", "Lines": ["Mara sets down a cup. \"She came in at dusk for bread. Said she wanted a walk before dark.\"", "She hesitates. \"Tomas had the east gate that night. Ask him.\""]},
+  {"Key": "ch1.talk.tomas_ask", "Lines": ["Tomas nods slowly. \"I saw her. Heading east, up the wooded path. I called out, but she didn't turn.\"", "\"Like she didn't hear me at all.\""]},
+  {"Key": "ch1.talk.edrin_news", "Lines": ["Edrin's face is grey. \"The shepherd's boy. Same as {loved}. No struggle, no trail. Nothing.\"", "He lowers his voice. \"There was a traveller through here, a week past. He was asking about people going missing. Not just here.\""]},
+  {"Key": "ch1.talk.edrin_journal", "Lines": ["You hand Edrin the traveller's journal. His hands shake as he turns the swollen pages."]},
+  {"Key": "poi.loved_belongings", "Lines": ["Her book still has a ribbon marking the page. Her shawl hangs by the door, as if she'll be back for it any moment.", "In the drawer, wrapped in cloth, you find the little carved keepsake you gave her years ago."]},
+  {"Key": "poi.strange_markings", "Lines": ["Someone, or something, has cut a ring of symbols into the bark. They're no letters you know.", "The cuts are old. The sap weeping from them is fresh."]},
+  {"Key": "poi.vanishing_footprints", "Lines": ["Her footprints are clear in the soft earth, right up to the tree.", "Then they simply stop. Mid-stride."]}
+]

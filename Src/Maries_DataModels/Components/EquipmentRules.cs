@@ -28,6 +28,7 @@ namespace Maries_DataModels
 		[JsonConverter(typeof(JsonStringEnumConverter))]
 		public EffectType Attribute { get; set; }
 		/// <summary>A SocketHostRule Id, or "*" for any host.</summary>
+		[MariesGui.Contracts.MariesGuiRef("SocketHosts.Id", "equipment", AlsoAllowed = "*")]
 		public string Host { get; set; } = "*";
 		public SocketStat Stat { get; set; }
 		public float PerPower { get; set; } = 1f;
@@ -37,6 +38,7 @@ namespace Maries_DataModels
 	public class GemModifier
 	{
 		/// <summary>A SocketHostRule Id, or "*" for any host.</summary>
+		[MariesGui.Contracts.MariesGuiRef("SocketHosts.Id", "equipment", AlsoAllowed = "*")]
 		public string Host { get; set; } = "*";
 		public SocketStat Stat { get; set; }
 		public float Amount { get; set; }

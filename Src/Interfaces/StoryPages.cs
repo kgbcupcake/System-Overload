@@ -7,11 +7,13 @@ using static System.Console;
 namespace DungeonAdventures.Src.Game.Interfaces
 {
 	/// <summary>
-	/// The opening story shown when a new game starts, before character creation.
-	/// The text lives in the story data as "prologue.page.1", "prologue.page.2", ... and each page
-	/// is typed out on its own screen. Players can page forward and back, or skip the whole thing.
+	/// Plays a paged story scene, such as the prologue or the "A Life Before" memory.
+	/// A scene with the prefix "prologue" reads its text from the story data keys
+	/// "prologue.header", "prologue.title", "prologue.subtitle", "prologue.page.1", "prologue.page.2", ...
+	/// and "prologue.final". Each page is typed out on its own screen; players can page forward and
+	/// back, or skip the whole scene. The last page is shown alone and centered, like a closing line.
 	/// </summary>
-	internal static class Prologue
+	internal static class StoryPages
 	{
 		// The screen is 94 wide; the text block is narrower so it reads like a page, not a log.
 		private const int ScreenWidth = 94;
@@ -31,11 +33,11 @@ namespace DungeonAdventures.Src.Game.Interfaces
 
 		private enum PageResult { Next, Back, Skip }
 
-		/// <summary>Plays the prologue. Returns when the player finishes or skips it.</summary>
-		public static void Show()
+		/// <summary>Plays the scene. Returns when the player finishes or skips it.</summary>
+		public static void Play(string prefix)
 		{
-			var pages = LoadPages();
-			if (pages.Count == 0) return; // No prologue in the data: go straight to character creation.
+			var pages = LoadPages(prefix);
+			if (pages.Count == 0) return; // Nothing in the data for this scene: carry on without it.
 
 			CursorVisible = false;
 			int page = 0;
@@ -47,7 +49,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 				bool typeOut = page > furthestSeen;
 				furthestSeen = Math.Max(furthestSeen, page);
 
-				var result = ShowPage(pages, page, typeOut);
+				var result = ShowPage(prefix, pages, page, typeOut);
 				if (result == PageResult.Skip) break;
 				if (result == PageResult.Back) page = Math.Max(0, page - 1);
 				else page++;
@@ -58,27 +60,27 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			Clear();
 		}
 
-		private static List<List<string>> LoadPages()
+		private static List<List<string>> LoadPages(string prefix)
 		{
 			var pages = new List<List<string>>();
-			for (int i = 1; Story.Has($"prologue.page.{i}"); i++)
-				pages.Add(Story.Lines($"prologue.page.{i}"));
+			for (int i = 1; Story.Has($"{prefix}.page.{i}"); i++)
+				pages.Add(Story.Lines($"{prefix}.page.{i}"));
 			return pages;
 		}
 
-		private static PageResult ShowPage(List<List<string>> pages, int index, bool typeOut)
+		private static PageResult ShowPage(string prefix, List<List<string>> pages, int index, bool typeOut)
 		{
 			bool isLast = index == pages.Count - 1;
 
 			Clear();
-			DrawHeader();
+			DrawHeader(prefix);
 			DrawRule(TextTop - 2);
 			DrawRule(TextBottom + 2);
 			DrawPageDots(index, pages.Count);
-			DrawButtons(isLast, index > 0);
+			DrawButtons(prefix, isLast, index > 0);
 
 			bool skipped = isLast
-				? DrawFinalPage(pages[index], typeOut)
+				? DrawFinalPage(prefix, pages[index], typeOut)
 				: DrawBody(pages[index], typeOut);
 			if (skipped) return PageResult.Skip;
 
@@ -103,11 +105,12 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			}
 		}
 
-		private static void DrawHeader()
+		private static void DrawHeader(string prefix)
 		{
-			UiEngine.DrawCentered(Story.Line("prologue.header").Pastel(DimColor), 2);
-			UiEngine.DrawCentered(Story.Line("prologue.title").Pastel(GoldColor), 3);
-			UiEngine.DrawCentered(Story.Line("prologue.subtitle").Pastel(LeatherColor), 4);
+			// Header lines are optional, so a scene can have just a title.
+			if (Story.Has($"{prefix}.header")) UiEngine.DrawCentered(Story.Line($"{prefix}.header").Pastel(DimColor), 2);
+			if (Story.Has($"{prefix}.title")) UiEngine.DrawCentered(Story.Line($"{prefix}.title").Pastel(GoldColor), 3);
+			if (Story.Has($"{prefix}.subtitle")) UiEngine.DrawCentered(Story.Line($"{prefix}.subtitle").Pastel(LeatherColor), 4);
 		}
 
 		private static void DrawRule(int row)
@@ -127,14 +130,15 @@ namespace DungeonAdventures.Src.Game.Interfaces
 		}
 
 		/// <summary>Draws the clickable buttons and registers them as click zones.</summary>
-		private static void DrawButtons(bool isLast, bool canGoBack)
+		private static void DrawButtons(string prefix, bool isLast, bool canGoBack)
 		{
 			MouseInput.ClearZones();
 
 			var buttons = new List<(string Label, ConsoleKey Key, string Color)>();
 			if (canGoBack) buttons.Add(("[ BACK ]", ConsoleKey.LeftArrow, DimColor));
 			buttons.Add((isLast ? "[ BEGIN ]" : "[ CONTINUE ]", ConsoleKey.Enter, BrightGold));
-			if (!isLast) buttons.Add(("[ SKIP INTRODUCTION ]", ConsoleKey.S, DimColor));
+			string skip = Story.Has($"{prefix}.skip") ? Story.Line($"{prefix}.skip") : "SKIP";
+			if (!isLast) buttons.Add(($"[ {skip} ]", ConsoleKey.S, DimColor));
 
 			const int gap = 4;
 			int totalWidth = buttons.Sum(b => b.Label.Length) + gap * (buttons.Count - 1);
@@ -177,7 +181,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 		}
 
 		/// <summary>The last page: the promise, alone and bright, then the closing line.</summary>
-		private static bool DrawFinalPage(List<string> lines, bool typeOut)
+		private static bool DrawFinalPage(string prefix, List<string> lines, bool typeOut)
 		{
 			int middle = (TextTop + TextBottom) / 2;
 			bool instant = !typeOut;
@@ -192,15 +196,14 @@ namespace DungeonAdventures.Src.Game.Interfaces
 
 			if (!instant) Thread.Sleep(600);
 
-			string final = Story.Line("prologue.final");
-			if (final.Length > 0)
-				UiEngine.DrawCentered(final.Pastel(GoldColor), row + 1);
+			if (Story.Has($"{prefix}.final"))
+				UiEngine.DrawCentered(Story.Line($"{prefix}.final").Pastel(GoldColor), row + 1);
 			return false;
 		}
 
 		/// <summary>
 		/// Writes one line, a character at a time unless <paramref name="instant"/> is set.
-		/// Any key or click while typing finishes the page at once; S or Esc skips the prologue.
+		/// Any key or click while typing finishes the page at once; S or Esc skips the scene.
 		/// Returns true if the player chose to skip.
 		/// </summary>
 		private static bool TypeLine(string text, int x, int y, string color, ref bool instant)
@@ -233,7 +236,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 		}
 
 		/// <summary>Splits text into lines no wider than <paramref name="width"/>, breaking between words.</summary>
-		private static List<string> Wrap(string text, int width)
+		internal static List<string> Wrap(string text, int width)
 		{
 			var lines = new List<string>();
 			var line = new StringBuilder();

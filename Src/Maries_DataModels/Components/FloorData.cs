@@ -23,6 +23,7 @@ namespace Maries_DataModels
 	public class FloorStage
 	{
 		public string StoryText { get; set; } = "";
+		[MariesGui.Contracts.MariesGuiRef("Id", "monsters", "bosses")]
 		public string EnemyId { get; set; } = "";
 		public string HexColor { get; set; } = "#FFAB00";
 	}

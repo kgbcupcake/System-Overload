@@ -7,7 +7,7 @@
 [![Branch](https://img.shields.io/badge/branch-Dev-orange?style=for-the-badge)](https://github.com/kgbcupcake/System-Overload/tree/Dev)
 [![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](LICENSE)
 
-**Dungeon Adventures – Reborn** is a terminal fantasy dungeon crawler written in C# on .NET 10. Make a hero, gear up in the village of Hollowmere, then descend floor by floor through crypts, caverns and catacombs, fighting monsters and the dungeon lords who guard each floor, until you face the Dread King.
+**Dungeon Adventures – Reborn** is a terminal fantasy dungeon crawler written in C# on .NET 10. People are vanishing without a trace, and one of them was yours. Make a hero, gear up in the village of Ashford, then descend floor by floor beneath Hollowmere through crypts, caverns and catacombs, fighting monsters and the dungeon lords who guard each floor, until you face the Dread King.
 
 Everything is drawn inside a fixed **84×24** window: no scrolling, just torchlight, gold and a lot of things that want you dead.
 
@@ -18,7 +18,8 @@ Everything is drawn inside a fixed **84×24** window: no scrolling, just torchli
 - **Dungeon floors**: four floors, each told in short story stages, with its own monsters and a boss at the end.
 - **Heroes**: three classes (Warrior, Rogue, Mage), each with three paths, and attribute points for Vitality, Strength and Fortitude.
 - **Turn-based combat**: weapons, gems, potions, critical hits, and bosses who enrage at half health.
-- **The village of Hollowmere**: the General Store, Dungeon Gate, Blacksmith (gem socketing), character sheet and inventory, with save and load between runs.
+- **The Vanishing**: a skippable prologue, a short "A Life Before" scene where you name the one you lost, and data-driven story quests with a journal.
+- **The village of Ashford**: the General Store, the Road to Hollowmere (dungeon floors), Blacksmith (gem socketing), journal, character sheet and inventory, with save and load between runs.
 - **Data-driven content**: monsters, bosses, floors, weapons, items, gems, shops and every line of story text are plain JSON, editable by hand or with the MariesGui editor.
 - **Colourful UI**: 24-bit colour via `Pastel` and `Spectre.Console`, with flicker-free redraws locked to the 84×24 grid.
 
@@ -102,11 +103,11 @@ Content classes are tagged with `[MariesGuiContent]`, and a ready-made profile s
 System-Overload/            (repository folder)
 ├── Dungeon-Adventures.sln
 ├── Dungeon-Adventures.csproj
-├── GameData/Templates/     Default JSON content (bosses, monsters, floors, weapons, items, gems, shops, story)
+├── GameData/Templates/     Default JSON content (bosses, monsters, floors, weapons, items, gems, shops, story, quests)
 ├── Src/
 │   ├── Program.cs          Entry point: seeding, loaders, intro, main menu
 │   ├── Interfaces/         Main menu, character creation, load screen, stats, GameUiEngine
-│   ├── Village/            Hollowmere: VillageSquare hub
+│   ├── Village/            Ashford: VillageSquare hub
 │   │   └── Places/         Store, DungeonGate, Blacksmith, InventoryScreen
 │   ├── GameEngine/
 │   │   ├── Flow/           FloorRunner (plays a floor stage by stage)
@@ -151,7 +152,7 @@ This is the `Dev` branch. Expect unfinished features and rough edges.
 - [ ] **ARMORY**: more weapons and items
 - [ ] **GEMS**: loot drop tables and gem effects
 - [ ] **BESTIARY ART**: give monsters and bosses ASCII/Spectre art
-- [ ] **HEALER**: open the Healer in Hollowmere
+- [ ] **HEALER**: open the Healer in Ashford
 - [ ] **WISDOM**: make the Wisdom attribute do something
 
 ---
