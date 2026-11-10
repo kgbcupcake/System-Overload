@@ -28,10 +28,6 @@ namespace DungeonAdventures.Src.Game.Interfaces
 		private const int OptX = 42, OptW = 52, OptTop = 2, OptH = 17;
 		private const int MsgRow = 19, HintRow = 22;
 
-		// The part of a 64 px frame that is drawn (the character with wings), and the size it's shrunk to.
-		private const int CropX = 6, CropY = 8, CropW = 52, CropH = 54;
-		private const int SpriteW = 35, SpriteH = 36;
-
 		private const int LabelW = 14, ValueW = 22;
 
 		private enum Kind { Name, Body, Part, Colour, PartColour }
@@ -63,7 +59,6 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			new("SHOE COLOUR", Kind.PartColour, "shoes"),
 		};
 
-		private static readonly string[] DirNames = { "up", "left", "down", "right" };
 
 		/// <summary>The skin, hair and eye ramps RANDOM picks from.</summary>
 		private static readonly Dictionary<string, string[]> NaturalColours = new()
@@ -100,7 +95,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 				while (!MouseInput.InputAvailable)
 				{
 					Thread.Sleep(110);
-					frame = (frame + 1) % 8;
+					frame = (frame + 1) % HeroSprite.Frames;
 					DrawSprite(look, dir, frame);
 				}
 
@@ -387,16 +382,8 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			Fit($"{LpcCatalog.Words(look.BodyType)} · {LpcCatalog.NameOf(LpcLook.Part(look, "hair"))} hair · {LpcCatalog.NameOf(LpcLook.Part(look, "clothes"))}", OptW - 2);
 
 		/// <summary>Draws just the hero (the animation redraws this alone).</summary>
-		private static void DrawSprite(HeroLook look, int dir, int frame)
-		{
-			var full = LpcComposer.Frame(look, "walk", DirNames[dir], 1 + frame);
-			var small = LpcComposer.Shrink(full, CropX, CropY, CropW, CropH, SpriteW, SpriteH);
-			var rows = PixelIcon.Render(small, SpriteW, SpriteH);
-			int x = PreviewX + (PreviewW - SpriteW) / 2;
-			int y = PreviewTop + 1;
-			for (int r = 0; r < rows.Length && r < PreviewH - 2; r++)
-				WriteAt(x, y + r, rows[r]);
-		}
+		private static void DrawSprite(HeroLook look, int dir, int frame) =>
+			HeroSprite.Draw(look, PreviewX + (PreviewW - HeroSprite.Width) / 2, PreviewTop + 1, dir, frame);
 
 		private static void DrawFrame(int x, int y, int w, int h)
 		{

@@ -1,4 +1,5 @@
 using DungeonAdventures.Src.GameData.Components;
+using DungeonAdventures.Src.Lpc;
 using Maries_Ui;
 using Pastel;
 using Maries_DataModels;
@@ -36,11 +37,18 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 
 			Clear();
 
-			// 3. Layout Settings
+			// 3. Layout Settings. With a look from "Make your character", the hero stands on the left
+			// and the stats box moves right; otherwise the box is centred as before.
+			bool portrait = HeroSprite.CanDraw(p.Look);
 			int screenWidth = 85;
 			int boxWidth = 50;
 			int center = screenWidth / 2;
 			int startX = center - (boxWidth / 2);
+			if (portrait)
+			{
+				startX = PortraitX + PortraitW + 1;
+				center = startX + 26;
+			}
 
 			string bColor = "#B8860B"; // Old gold
 			string vColor = "#FFFFFF"; // Pure White
@@ -100,7 +108,9 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 			statLines.Add(BuildStatLine("GEM BONUS", bonusText, "#BC8FDF", bColor));
 
 			statLines.Add("╚══════════════════════════════════════════════════╝".Pastel(bColor));
-			statLines.Add("               [ PRESS ANY KEY TO RETURN ]               ");
+			statLines.Add(portrait
+				? "   [ and ] turn the hero    any other key returns   ".Pastel("#777777")
+				: "               [ PRESS ANY KEY TO RETURN ]               ");
 
 			// 5. Draw Header
 			string header = $"HERO: {p.PlayerName.ToUpper()} ({p.PlayerClass})";
@@ -116,8 +126,67 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 				WriteLine(line);
 			}
 
-			MouseInput.WaitForAnyInput();
+			if (!portrait)
+			{
+				MouseInput.WaitForAnyInput();
+				Clear();
+				return;
+			}
+
+			ShowPortrait(p.Look!);
 			Clear();
+		}
+
+		// The hero's frame on the left of the sheet: x 1..40, rows 2..21, TURN set into its bottom edge.
+		private const int PortraitX = 1, PortraitW = 40, PortraitTop = 2, PortraitH = 20;
+
+		/// <summary>
+		/// Draws the hero walking in place until a key or click. [ and ] (or the TURN arrows) turn the
+		/// hero; anything else closes the sheet.
+		/// </summary>
+		private static void ShowPortrait(HeroLook look)
+		{
+			string border = "#B8860B";
+			SetCursorPosition(PortraitX, PortraitTop);
+			Write(("╔" + new string('═', PortraitW - 2) + "╗").Pastel(border));
+			for (int r = 1; r < PortraitH - 1; r++)
+			{
+				SetCursorPosition(PortraitX, PortraitTop + r);
+				Write("║".Pastel(border));
+				SetCursorPosition(PortraitX + PortraitW - 1, PortraitTop + r);
+				Write("║".Pastel(border));
+			}
+			string turn = " ◀  TURN  ▶ ";
+			int side = (PortraitW - 2 - turn.Length) / 2;
+			int turnX = PortraitX + 1 + side;
+			SetCursorPosition(PortraitX, PortraitTop + PortraitH - 1);
+			Write(("╚" + new string('═', side)).Pastel(border) + turn.Pastel("#FFD700")
+				+ (new string('═', PortraitW - 2 - side - turn.Length) + "╝").Pastel(border));
+
+			int spriteX = PortraitX + (PortraitW - HeroSprite.Width) / 2;
+			int dir = 2, frame = 0;
+			while (true)
+			{
+				HeroSprite.Draw(look, spriteX, PortraitTop + 1, dir, frame);
+				while (!MouseInput.InputAvailable)
+				{
+					Thread.Sleep(110);
+					frame = (frame + 1) % HeroSprite.Frames;
+					HeroSprite.Draw(look, spriteX, PortraitTop + 1, dir, frame);
+				}
+
+				var input = MouseInput.Read();
+				char ch = input.Key?.KeyChar ?? '\0';
+				int turnStep = ch == '[' ? -1 : ch == ']' ? 1 : 0;
+				if (input.Mouse is { Action: MouseAction.LeftClick } m && m.Y == PortraitTop + PortraitH - 1)
+				{
+					if (m.X >= turnX && m.X < turnX + 3) turnStep = -1;
+					else if (m.X >= turnX + turn.Length - 3 && m.X < turnX + turn.Length) turnStep = 1;
+				}
+				if (input.Mouse is { Action: MouseAction.WheelUp or MouseAction.WheelDown }) continue;
+				if (turnStep == 0) return;
+				dir = (dir + turnStep + 4) % 4;
+			}
 		}
 
 		private const int ContentWidth = 48;
