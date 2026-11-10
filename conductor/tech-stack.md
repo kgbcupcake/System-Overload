@@ -2,7 +2,7 @@
 
 ## Core Technologies
 - **Programming Language:** C#
-- **Framework:** .NET 8.0
+- **Framework:** .NET 10.0 (LTS)
 
 ## Key Libraries & APIs
 - **`Pastel`:** Utilized for 24-bit console coloring, specifically for "Emergency Red" (`#FF0000`) and "Toxic Green" (`#00FF00`).

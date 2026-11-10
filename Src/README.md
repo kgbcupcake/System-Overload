@@ -10,7 +10,7 @@
 
 ## ☣️ OVERVIEW
 
-**System Overload** is a .NET 8.0 **Lethal-Tier Engine** and terminal-based crawler.
+**System Overload** is a .NET 10.0 **Lethal-Tier Engine** and terminal-based crawler.
 
 It is no longer a mere adventure. It is a **Sentient Malignancy**—a dying machine intelligence allowing you to navigate its corrupted memory sectors before a total hardware collapse occurs.
 
@@ -33,7 +33,7 @@ If your terminal begins to flicker in Toxic Green or Emergency Red, the infectio
 
 | Component | Logic | Aesthetic Impact |
 |:---|:---|:---|
-| **Forge Core** | .NET 8.0 (C#) | High-speed memory corruption simulation |
+| **Forge Core** | .NET 10.0 (C#) | High-speed memory corruption simulation |
 | **Visual Pulse** | `Pastel` + `StringBuilder` | 24-bit Emergency Red & Toxic Green output |
 | **Interface** | `Spectre.Console` | Structured chaos, controlled malignancy |
 | **Neural Link** | `Ollama` / `OpenAI` | AI-driven environmental hostility |
@@ -85,7 +85,7 @@ Markdown
 
 ## ☣️ OVERVIEW
 
-**System Overload** is a .NET 8.0 **Lethal-Tier Engine** and terminal-based crawler.
+**System Overload** is a .NET 10.0 **Lethal-Tier Engine** and terminal-based crawler.
 
 It is no longer a mere adventure. It is a **Sentient Malignancy**—a dying machine intelligence allowing you to navigate its corrupted memory sectors before a total hardware collapse occurs.
 
@@ -108,7 +108,7 @@ If your terminal begins to flicker in Toxic Green or Emergency Red, the infectio
 
 | Component | Logic | Aesthetic Impact |
 |:---|:---|:---|
-| **Forge Core** | .NET 8.0 (C#) | High-speed memory corruption simulation |
+| **Forge Core** | .NET 10.0 (C#) | High-speed memory corruption simulation |
 | **Visual Pulse** | `Pastel` + `StringBuilder` | 24-bit Emergency Red & Toxic Green output |
 | **Interface** | `Spectre.Console` | Structured chaos, controlled malignancy |
 | **Neural Link** | `Ollama` / `OpenAI` | AI-driven environmental hostility |

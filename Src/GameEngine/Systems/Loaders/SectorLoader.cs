@@ -24,7 +24,7 @@ namespace System_Overload.GameEngine.Systems.Loaders
 			var allSectors = new List<SectorData>();
 
 			// 1. PATH TO YOUR BUILD FOLDER (WSL/Visual Studio Side)
-			// This looks in: bin/Debug/net8.0/GameData/Templates/sectors
+			// This looks in: bin/Debug/net10.0/GameData/Templates/sectors
 			string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GameData", "Templates", "sectors");
 
 			// 2. PATH TO YOUR DOCUMENTS (D:\Documents Side)
