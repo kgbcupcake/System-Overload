@@ -1,4 +1,4 @@
-﻿using System_Overload.Src.GameData.Entities;
+﻿using Maries_DataModels;
 
 namespace System_Overload.Src.GameEngine.Combat
 {

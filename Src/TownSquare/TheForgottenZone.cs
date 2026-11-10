@@ -1,6 +1,7 @@
 ﻿using System_Overload.Src.GameData.Components;
 using System_Overload.Src.GameEngine.Interfaces;
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
 using Pastel;
 using Src.TownSquare.InterFaces;
 using System.Numerics;
@@ -37,14 +38,14 @@ namespace Src.TownSquare
 				CursorVisible = false;
 
 				LocalHeader();
-				UiFunctions.DisplayFooter();
+				HudChrome.DisplayFooter(GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 
 				// 🔧 FIX: pad every line to box width
 				var paddedOptions = options
 					.Select(o => o.PadRight(contentWidth))
 					.ToList();
 
-				UiEngine.DrawDynamicFrame(
+				GameUiEngine.DrawDynamicFrame(
 					title: "THE FORGOTTEN OUTPOST",
 					lines: paddedOptions,
 					hint: "Use arrow keys to navigate",
@@ -57,11 +58,8 @@ namespace Src.TownSquare
 				switch (key)
 				{
 					case ConsoleKey.UpArrow:
-						selectedIndex = (selectedIndex == 0) ? options.Length - 1 : selectedIndex - 1;
-						break;
-
 					case ConsoleKey.DownArrow:
-						selectedIndex = (selectedIndex == options.Length - 1) ? 0 : selectedIndex + 1;
+						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, options.Length);
 						break;
 
 					case ConsoleKey.Enter:
@@ -84,7 +82,7 @@ namespace Src.TownSquare
 				case "BREACH TERMINAL":
 					if (GameState.CurrentPlayer == null)
 					{
-						UiFunctions.QuickAlert("IDENTITY ERROR: No active bio-signature found.");
+						Alerts.QuickAlert("IDENTITY ERROR: No active bio-signature found.");
 						break;
 					}
 					Clear();
@@ -111,12 +109,12 @@ namespace Src.TownSquare
 
 
 				case "DISCONNECT":
-					UiFunctions.ShutdownSequence();
+					Transitions.ShutdownSequence();
 					//isRunning = false;
 					break;
 
 				default:
-					UiFunctions.QuickAlert($"{selection} is currently unstable in this reality.");
+					Alerts.QuickAlert($"{selection} is currently unstable in this reality.");
 					break;
 			}
 		}

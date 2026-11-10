@@ -1,7 +1,8 @@
 using System_Overload.Src.Game.Interfaces;
 using System_Overload.Src.GameData.Components;
-using System_Overload.Src.Utilities.GameArt;
-using System_Overload.Src.Utilities.UI;
+using Maries_DataModels;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
 using Pastel;
 using Src.TownSquare;
 using System.Runtime.InteropServices;
@@ -26,7 +27,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 
 			// --- INTEGRATED STANDARDIZED TITLE BAR ---
 			Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 
 			// --- ATMOSPHERIC BACKGROUND TEXT ---
 			// Shifted slightly to ensure the new icon-based TitleBar at Row 0 doesn't overlap
@@ -58,16 +59,8 @@ namespace System_Overload.Src.GameEngine.Interfaces
 				switch (keyInfo.Key)
 				{
 					case ConsoleKey.UpArrow:
-						if (selectedIndex > 0)
-						{
-							selectedIndex--;
-						}
-						break;
 					case ConsoleKey.DownArrow:
-						if (selectedIndex < options.Length - 1)
-						{
-							selectedIndex++;
-						}
+						selectedIndex = MenuNavigator.HandleVerticalNav(keyInfo.Key, selectedIndex, options.Length);
 						break;
 					case ConsoleKey.Enter:
 						isRunning = ExecuteSelection(options[selectedIndex], saveExists);
@@ -92,7 +85,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 				menuItems.Add(BuildMenuItem(i, selectedIndex, saveExists, options));
 			}
 
-			UiEngine.DrawDynamicFrame("MAIN MENU", menuItems, "Use Arrows & Enter", boxWidth: boxWidth, startY: startY);
+			GameUiEngine.DrawDynamicFrame("MAIN MENU", menuItems, "Use Arrows & Enter", boxWidth: boxWidth, startY: startY);
 		}
 
 		private static string BuildMenuItem(int index, int selectedIndex, bool saveExists, string[] options)
@@ -143,7 +136,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 					if (GameState.CurrentPlayer != null)
 					{
 						GameState.Sync(); // Ensure character is written to profiles immediately
-						UiFunctions.TitleBar();
+						DrawTitleBar();
 						TheForgottenZone.MainTownSquare();
 					}
 					return false;
@@ -154,7 +147,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 						Clear();
 						if (CharacterLoadScreen.ShowLoadMenu())
 						{
-							UiFunctions.TitleBar();
+							DrawTitleBar();
 							return false;
 						}
 					}
@@ -165,7 +158,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 					return true;
 
 				case "EXIT":
-					UiFunctions.ShutdownSequence();
+					Transitions.ShutdownSequence();
 					return false;
 
 				default:
@@ -173,10 +166,15 @@ namespace System_Overload.Src.GameEngine.Interfaces
 			}
 		}
 
+		private static void DrawTitleBar()
+		{
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+		}
+
 		private static void ShowCredits()
 		{
 			Clear();
-			UiEngine.DrawCentered("CREATED BY: YOUR NAME".Pastel("#FFAB00"), 10);
+			UiEngine.DrawCentered("CREATED BY: Kgbcupcake".Pastel("#FFAB00"), 10);
 			UiEngine.DrawCentered("V2 ENGINE POWERED BY C# & IMGUI", 12);
 			UiEngine.DrawCentered("Press any key to return...", 16);
 			ReadKey(true);

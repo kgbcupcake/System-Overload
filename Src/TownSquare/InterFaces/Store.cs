@@ -1,10 +1,10 @@
 ﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameEngine.Systems.Loaders; // FIX: Import the new Registry
-using System_Overload.Src.Utilities.UI;
+using Maries_Loaders; // FIX: Import the new Registry
+using Maries_Ui;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
 using System.Text.Json;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using static Maries_DataModels.PlayerData;
 using static System.Console;
 
 namespace Src.TownSquare.InterFaces
@@ -19,23 +19,12 @@ namespace Src.TownSquare.InterFaces
 		{
 			var p = GameState.CurrentPlayer;
 
-			// --- THE FIX: Call your actual method name ---
 			// This runs UniversalLoader and fills AllItems, AllWeapons, etc.
 			// If you already call this in Program.cs, you don't need it here.
 			if (ItemRegistry.AllItems.Count == 0)
 			{
 				ItemRegistry.Initialize();
 			}
-
-			// DEBUG: This will tell you if the loader actually found the file
-			if (ItemRegistry.AllItems.Count == 0)
-			{
-				Console.WriteLine("[CRITICAL ERROR] ItemRegistry is STILL EMPTY after Initialize!");
-				Console.WriteLine("Check Path: " + GameState.GetGlobalPath("items"));
-			}
-
-
-			// ----------------------------------------------
 
 			// Rest of your restock and shop logic...
 			TimeSpan elapsed = DateTime.Now - p.LastRestockTime;
@@ -45,21 +34,14 @@ namespace Src.TownSquare.InterFaces
 				p.LastRestockTime = DateTime.Now;
 			}
 
-			string path = Path.Combine(GameState.GetGlobalPath("shops"), shopFile);
-			List<ItemData> storeInventory = new List<ItemData>();
+			string shopName = Path.GetFileNameWithoutExtension(shopFile);
+			var shopData = ShopLoader.GetByName(shopName) ?? new ShopDefinition();
 
-			if (File.Exists(path))
+			List<ItemData> storeInventory = new List<ItemData>();
+			foreach (var name in shopData.InventoryRefs)
 			{
-				string json = File.ReadAllText(path);
-				// MariesGui saves shops as a one-element list, so accept either shape.
-				var shopData = (json.TrimStart().StartsWith('[')
-					? JsonSerializer.Deserialize<List<ShopDefinition>>(json)?.FirstOrDefault()
-					: JsonSerializer.Deserialize<ShopDefinition>(json)) ?? new ShopDefinition();
-				foreach (var name in shopData.InventoryRefs)
-				{
-					var template = ItemRegistry.GetItem(name);
-					if (template != null) storeInventory.Add(new ItemData(template));
-				}
+				var template = ItemRegistry.GetItem(name);
+				if (template != null) storeInventory.Add(new ItemData(template));
 			}
 
 			UiEngine.DrawLoadingScreen("UNPACKING CARGO...", 1000);
@@ -78,7 +60,7 @@ namespace Src.TownSquare.InterFaces
 			while (shopping)
 			{
 				Clear();
-				UiFunctions.TitleBar();
+				HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 
 				int stimPrice = 20 + (10 * p.StorePriceModifier);
 				int diffPrice = 300 + (100 * p.DifficultyRating);
@@ -187,8 +169,7 @@ namespace Src.TownSquare.InterFaces
 				}
 				else if (!buyMode && sellableGroups.Count > 0)
 				{
-					if (key == ConsoleKey.UpArrow) sellIndex = (sellIndex == 0) ? sellableGroups.Count - 1 : sellIndex - 1;
-					if (key == ConsoleKey.DownArrow) sellIndex = (sellIndex == sellableGroups.Count - 1) ? 0 : sellIndex + 1;
+					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) sellIndex = MenuNavigator.HandleVerticalNav(key, sellIndex, sellableGroups.Count);
 
 					if (key == ConsoleKey.Enter)
 					{

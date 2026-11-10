@@ -1,8 +1,8 @@
-﻿using System_Overload.Src.GameData;
-using System_Overload.Src.GameData.Entities;
+using Maries_DataModels;
+using System_Overload.Src.GameData.Components;
 using System_Overload.Src.GameEngine.Combat;
-using System_Overload.Src.Utilities.UI;
-using System_Overload.GameEngine.Systems.Loaders; // Make sure this namespace is included
+using Maries_Ui;
+using Maries_Loaders; // Make sure this namespace is included
 using static System.Console;
 using Pastel;
 
@@ -10,11 +10,16 @@ namespace System_Overload.Src.GameEngine.Flow
 {
 	public static class SimulationExecutor
 	{
+		private static void DrawTitleBar()
+		{
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+		}
+
 		// Changed parameter from AdventureData to SectorData
 		public static bool Run(SectorData sector, PlayerData.loadPlayer player)
 		{
 			Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 
 			// Using simulation terminology
 			WriteLine($"INITIALIZING BREACH: {sector.Title}".Pastel("#00FFFF"));
@@ -26,7 +31,7 @@ namespace System_Overload.Src.GameEngine.Flow
 			foreach (var stage in sector.Stages ?? Enumerable.Empty<SectorStage>())
 			{
 				Clear();
-				UiFunctions.TitleBar();
+				DrawTitleBar();
 
 				// Apply the stage color if provided in the JSON
 				string narrative = string.IsNullOrEmpty(stage.HexColor)
@@ -60,7 +65,7 @@ namespace System_Overload.Src.GameEngine.Flow
 			player.AddGold(sector.CompletionCredits); // Map credits to your gold function for now
 
 			Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 			WriteLine("=====================================".Pastel("#00FF00"));
 			WriteLine("         SECTOR PURGE COMPLETE!      ");
 			WriteLine("=====================================".Pastel("#00FF00"));

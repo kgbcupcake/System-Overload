@@ -1,10 +1,10 @@
 using System_Overload.Src.GameData.Components;
-using System_Overload.Src.GameData.Entities;
-using System_Overload.Src.GameData.Loaders;
+using Maries_DataModels;
+using Maries_Loaders;
 using System_Overload.Src.GameEngine.Combat;
-using System_Overload.Src.Utilities.UI;
-using Src.GameData.Components;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
+using static Maries_DataModels.PlayerData;
 using static System.Console;
 
 namespace Src.Adventures.Encounters.MainEncounters
@@ -47,7 +47,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 					$"Stim-Packs: {stimCount} | Damage Rating: {player.GetTotalDamage()}"
 				};
 
-				UiEngine.DrawDynamicFrame("NEURAL COMBAT", lines, "[A]ttack    [H]eal");
+				GameUiEngine.DrawDynamicFrame("NEURAL COMBAT", lines, "[A]ttack    [H]eal");
 
 				var key = ReadKey(true).Key;
 
@@ -62,7 +62,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 					enemy.Health -= playerDamage;
 					player.Health -= enemyDamage;
 
-					UiEngine.DrawDynamicFrame(
+					GameUiEngine.DrawDynamicFrame(
 						"COMBAT LOG",
 						new List<string>
 						{
@@ -91,7 +91,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 
 			if (stim == null)
 			{
-				UiEngine.DrawDynamicFrame("SYSTEM ERROR", new List<string> { "No Neural Stim-Packs found in buffer!", "", "Press any key..." });
+				GameUiEngine.DrawDynamicFrame("SYSTEM ERROR", new List<string> { "No Neural Stim-Packs found in buffer!", "", "Press any key..." });
 				ReadKey(true);
 				return;
 			}
@@ -100,7 +100,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 			player.Inventory.Remove(stim); // Consume the item
 			player.Health = Math.Min(player.Health + healAmount, (int)player.GetTotalMaxHealth());
 
-			UiEngine.DrawDynamicFrame("RECOVERY", new List<string> { "Neural Stim-Pack injected.", "Sync stability re-established.", $"+{healAmount} Integrity", "", "Press any key..." });
+			GameUiEngine.DrawDynamicFrame("RECOVERY", new List<string> { "Neural Stim-Pack injected.", "Sync stability re-established.", $"+{healAmount} Integrity", "", "Press any key..." });
 			ReadKey(true);
 		}
 
@@ -108,7 +108,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 		{
 			if (player.Health <= 0)
 			{
-				UiEngine.DrawDynamicFrame(
+				GameUiEngine.DrawDynamicFrame(
 					"CONNECTION LOST",
 					new List<string> { "Neural Link Severed.", "Simulation Terminated." },
 					"Press any key to restart..."
@@ -121,7 +121,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 			player.AddGold(newEnemyData.Rewards.Coins);
 			player.AddXP(newEnemyData.Rewards.Xp);
 
-			UiEngine.DrawDynamicFrame(
+			GameUiEngine.DrawDynamicFrame(
 				"DATA ACQUIRED",
 				new List<string>
 				{
@@ -146,7 +146,7 @@ namespace Src.Adventures.Encounters.MainEncounters
 			player.HitPoints += 25; // Permanent integrity boost
 			player.Health = (int)player.GetTotalMaxHealth();
 
-			UiEngine.DrawDynamicFrame(
+			GameUiEngine.DrawDynamicFrame(
 				"HARDWARE UPGRADE",
 				new List<string>
 				{

@@ -4,7 +4,9 @@
 
   // The game's compiled DLL, relative to this manifest. Build the game first (dotnet build).
   "assemblies": [
-    "../../bin/Debug/net10.0/System-Overload.dll"
+    "../../bin/Debug/net10.0/System-Overload.dll",
+    "../../bin/Debug/net10.0/Maries_DataModels.dll",
+    "../../bin/Debug/net10.0/Maries_Loaders.dll"
   ],
 
   // Where the game reads its live content and save profiles from.

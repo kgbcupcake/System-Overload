@@ -40,9 +40,15 @@
 		<None Remove="**/*:Zone.Identifier" />
 		<Compile Remove="**/*:Zone.Identifier" />
 
-		<Compile Remove="src\dev\.seeded\**;Src\GameData\Data\**;Src\GameData\gems\**;Src\GameData\items\**;Src\GameData\weapons\**" />
-		<None Remove="src\dev\.seeded\**;Src\GameData\Data\**;Src\GameData\gems\**;Src\GameData\items\**;Src\GameData\weapons\**" />
+		<Compile Remove="src\dev\.seeded\**;Src\GameData\Data\**;Src\GameData\gems\**;Src\GameData\items\**;Src\GameData\weapons\**;Src\Maries_Ui\**;Src\Maries_DataModels\**;Src\Maries_Loaders\**" />
+		<None Remove="src\dev\.seeded\**;Src\GameData\Data\**;Src\GameData\gems\**;Src\GameData\items\**;Src\GameData\weapons\**;Src\Maries_Ui\**;Src\Maries_DataModels\**;Src\Maries_Loaders\**" />
 		<Compile Remove="Src\Interfaces\DevGui_Main.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="Src\Maries_Ui\Maries_Ui.csproj" />
+		<ProjectReference Include="Src\Maries_DataModels\Maries_DataModels.csproj" />
+		<ProjectReference Include="Src\Maries_Loaders\Maries_Loaders.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

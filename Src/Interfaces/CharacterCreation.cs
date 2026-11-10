@@ -1,10 +1,11 @@
 ﻿using System_Overload.Src.Game.MainInterfaces;
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.Interfaces.UI;
+using Maries_Ui;
 using Pastel;
 using static System.Console;
 using System_Overload.Src.GameData.Components;
-using static System_Overload.Src.GameData.Entities.PlayerData;
-using Src.GameData.Components;
+using static Maries_DataModels.PlayerData;
+using Maries_DataModels;
 
 namespace System_Overload.Src.Game.Interfaces
 {
@@ -22,12 +23,9 @@ namespace System_Overload.Src.Game.Interfaces
 			string subHeader = "--- NEURAL UPLINK INITIALIZED ---";
 			string prompt = "Input Consciousness Designation (Name): ";
 
-			SetCursorPosition((screenWidth / 2) - (subHeader.Length / 2), 5);
-			WriteLine(subHeader.Pastel("#00FFFF"));
+			UiEngine.DrawCentered(subHeader.Pastel("#00FFFF"), 5);
 
-			int promptX = (screenWidth / 2) - (prompt.Length / 2);
-			SetCursorPosition(promptX, 7);
-			Write(prompt.Pastel("#FFFFFF"));
+			UiEngine.DrawCentered(prompt.Pastel("#FFFFFF"), 7);
 
 			CursorVisible = true;
 			ForegroundColor = ConsoleColor.Cyan;
@@ -52,28 +50,23 @@ namespace System_Overload.Src.Game.Interfaces
 				DrawOuterBox(boxX, boxY, boxW, 12, "#00FFFF");
 
 				string greeting = $"Syncing Profile: {player.PlayerName}";
-				SetCursorPosition((screenWidth / 2) - (greeting.Length / 2), boxY + 1);
-				Write(greeting.Pastel("#FFD700"));
+				UiEngine.DrawCentered(greeting.Pastel("#FFD700"), boxY + 1);
 
 				for (int i = 0; i < coreArchetypes.Length; i++)
 				{
 					string rawText = (i == selectedIndex) ? $">> {coreArchetypes[i].ToUpper()} <<" : $"    {coreArchetypes[i]}    ";
-					int classX = (screenWidth / 2) - (rawText.Length / 2);
-					SetCursorPosition(classX, boxY + 4 + i);
 
 					if (i == selectedIndex)
-						Write(rawText.Pastel("#00FF00"));
+						UiEngine.DrawCentered(rawText.Pastel("#00FF00"), boxY + 4 + i);
 					else
-						Write(rawText.Pastel("#555555"));
+						UiEngine.DrawCentered(rawText.Pastel("#555555"), boxY + 4 + i);
 				}
 
 				string hint = "[UP/DOWN] to navigate | [ENTER] to confirm link";
-				SetCursorPosition((screenWidth / 2) - (hint.Length / 2), 17);
-				Write(hint.Pastel("#333333"));
+				UiEngine.DrawCentered(hint.Pastel("#333333"), 17);
 
 				var key = ReadKey(true).Key;
-				if (key == ConsoleKey.UpArrow) selectedIndex = (selectedIndex == 0) ? coreArchetypes.Length - 1 : selectedIndex - 1;
-				if (key == ConsoleKey.DownArrow) selectedIndex = (selectedIndex == coreArchetypes.Length - 1) ? 0 : selectedIndex + 1;
+				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, coreArchetypes.Length);
 				if (key == ConsoleKey.Enter) pickingBase = false;
 			}
 
@@ -94,18 +87,13 @@ namespace System_Overload.Src.Game.Interfaces
 			int centerX = (screenWidth / 2);
 
 			string welcomeMsg = $"Link Confirmed, {player.PlayerName.Pastel("#00FF00")}!";
-			int welcomeVisualLength = UiEngine.StripAnsi(welcomeMsg).Length;
-			SetCursorPosition(centerX - (welcomeVisualLength / 2), 8);
-			WriteLine(welcomeMsg);
+			UiEngine.DrawCentered(welcomeMsg, 8);
 
 			string journeyMsg = $"Simulation Profile: {player.PlayerClass.Pastel("#FFD700")}";
-			int journeyVisualLength = UiEngine.StripAnsi(journeyMsg).Length;
-			SetCursorPosition(centerX - (journeyVisualLength / 2), 10);
-			WriteLine(journeyMsg.Pastel("#DCDCDC"));
+			UiEngine.DrawCentered(journeyMsg.Pastel("#DCDCDC"), 10);
 
 			string gearMsg = "Initial data manifests added to buffer.";
-			SetCursorPosition(centerX - (gearMsg.Length / 2), 12);
-			WriteLine(gearMsg);
+			UiEngine.DrawCentered(gearMsg, 12);
 
 			SetCursorPosition(centerX - 12, 14);
 			WriteLine("\n    --- INITIAL MANIFEST ---".Pastel("#00FFFF"));
@@ -120,7 +108,7 @@ namespace System_Overload.Src.Game.Interfaces
 			Thread.Sleep(3000);
 			GameState.Sync();
 
-			UiFunctions.ShowCreationAnimation(player.PlayerName, player.PlayerClass);
+			Transitions.ShowCreationAnimation(player.PlayerName, player.PlayerClass, player.Health, player.HitPoints, player.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 		}
 
 		private static void PointDistribution(loadPlayer player, int screenWidth)
@@ -174,7 +162,7 @@ namespace System_Overload.Src.Game.Interfaces
 				}
 
 				// The high-tech attribute box provides live feedback on the right
-				UiEngine.DrawAttributeBox(player, 52, 11, selectedModule);
+				GameUiEngine.DrawAttributeBox(player, 52, 11, selectedModule);
 
 				var key = ReadKey(true).Key;
 				if (key == ConsoleKey.UpArrow) selectedModule = (selectedModule == 0) ? modules.Length - 1 : selectedModule - 1;

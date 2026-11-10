@@ -1,7 +1,7 @@
 ﻿using System_Overload.Src.GameData.Components;
-using System_Overload.Src.Utilities.UI;
+using Maries_Ui;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
 using static System.Console;
 
 namespace Src.TownSquare.InterFaces
@@ -55,8 +55,7 @@ namespace Src.TownSquare.InterFaces
 
 					var key = ReadKey(true).Key;
 
-					if (key == ConsoleKey.UpArrow) selected = (selected == 0) ? weapons.Count - 1 : selected - 1;
-					if (key == ConsoleKey.DownArrow) selected = (selected == weapons.Count - 1) ? 0 : selected + 1;
+					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selected = MenuNavigator.HandleVerticalNav(key, selected, weapons.Count);
 
 					if (key == ConsoleKey.Enter)
 					{
@@ -120,8 +119,7 @@ namespace Src.TownSquare.InterFaces
 				UiEngine.DrawCentered("[ESC] CANCEL INJECTION".Pastel("#FFD700"), 14 + gems.Count);
 
 				var key = ReadKey(true).Key;
-				if (key == ConsoleKey.UpArrow) selected = (selected == 0) ? gems.Count - 1 : selected - 1;
-				if (key == ConsoleKey.DownArrow) selected = (selected == gems.Count - 1) ? 0 : selected + 1;
+				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selected = MenuNavigator.HandleVerticalNav(key, selected, gems.Count);
 
 				if (key == ConsoleKey.Enter)
 				{

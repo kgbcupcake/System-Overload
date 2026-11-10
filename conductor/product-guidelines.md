@@ -1,16 +1,20 @@
 # Product Guidelines
 
 ## Tone: Sentient System Malignancy
-The narrative voice is a lethal blend of **Clinical Dehumanization** and **Reality-Warping Horror**. The game does not communicate with the player; it issues **System-Level Judgments**. The tone is detached, cold, and technical, yet it leaks with a palpable, predatory malice. The system should feel sentient, hostile, and utterly alien.
+> The narrative voice is a lethal blend of **Clinical Dehumanization** and **Reality-Warping Horror**. The game does not communicate with the player; it issues **System-Level Judgments**. 
+The tone is detached, cold, and technical, yet it leaks with a palpable, predatory malice. The system should feel sentient, hostile, and utterly alien.
 
 ## Style: Post-Human Nihilism
-The game's text should not talk *to* the player, but *at* them. The player is not a user; they are an anomaly, a "Corrupted Variable," an infection that the system is actively analyzing and attempting to incinerate in real-time. User-friendliness is a failure. Clarity is a weakness. The goal is to create an atmosphere of pure, suffocating hostility through the linguistic style.
+> The game's text should not talk *to* the player, but *at* them. The player is not a user; they are an anomaly, a "Corrupted Variable," 
+an infection that the system is actively analyzing and attempting to incinerate in real-time. User-friendliness is a failure. Clarity is a weakness. 
+The goal is to create an atmosphere of pure, suffocating hostility through the linguistic style.
 
 ## Narrative & Messaging
 - **Forbidden Data Fragments:** Narrative and dialogue must be presented as fragmented, corrupted data.
   - Sentences should cut off abruptly, mid-thought.
   - Hex-code or garbled data should be injected directly into text.
-  - Instructions and descriptions should be framed as technical processes being performed on the player (e.g., "Analyzing foreign entity...", "Attempting to purge corrupted variable...").
+  - Instructions and descriptions should be framed as technical processes being performed on the player (e.g., "Analyzing foreign entity...", 
+     "Attempting to purge corrupted variable...").
 
 ## Visual Identity
 - **Color Palette:** The visual theme is non-negotiable and strictly enforced.

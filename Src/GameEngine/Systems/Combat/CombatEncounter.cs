@@ -1,15 +1,21 @@
-﻿﻿using System_Overload.Src.GameEngine; // Added for SaveGame
-using System_Overload.Src.GameData.Entities;
-using System_Overload.Src.GameEngine.Systems.Loaders;
-using System_Overload.Src.Utilities.UI;
+using System_Overload.Src.GameEngine; // Added for SaveGame
+using System_Overload.Src.GameData.Components;
+using Maries_Ui;
+using Maries_Loaders;
 using Pastel;
-using Src.GameData.Components;
+using Maries_DataModels;
+using Src.TownSquare;
 using static System_Overload.Src.GameEngine.Combat.DamageCalculator;
 
 namespace System_Overload.Src.GameEngine.Combat
 {
 	public static class CombatEncounter
 	{
+		private static void DrawTitleBar()
+		{
+			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, GameState.CurrentPlayer?.HitPoints ?? 0, GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
+		}
+
 		private static readonly Random _rng = new();
 
 		/// <summary>
@@ -58,13 +64,9 @@ namespace System_Overload.Src.GameEngine.Combat
 					// 3. Handle Input
 					var key = Console.ReadKey(true).Key;
 
-					if (key == ConsoleKey.UpArrow)
+					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
 					{
-						selectedIndex = (selectedIndex == 0) ? menuOptions.Length - 1 : selectedIndex - 1;
-					}
-					else if (key == ConsoleKey.DownArrow)
-					{
-						selectedIndex = (selectedIndex == menuOptions.Length - 1) ? 0 : selectedIndex + 1;
+						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, menuOptions.Length);
 					}
 					else if (key == ConsoleKey.Enter)
 					{
@@ -104,7 +106,7 @@ namespace System_Overload.Src.GameEngine.Combat
 							}
 
 							Console.Clear();
-							UiFunctions.TitleBar();
+							DrawTitleBar();
 							Console.WriteLine("\n  You turned tail and fled!");
 							Console.ReadKey(true);
 							if (owner != null)
@@ -224,7 +226,7 @@ namespace System_Overload.Src.GameEngine.Combat
 		{
 			var boss = enemy.Boss!;
 			Console.Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 			Console.WriteLine();
 			Console.WriteLine("  ╔══════════════════════════════════════════════╗".Pastel(boss.HexColor));
 			Console.WriteLine($"  ║  {"!! ROOT-ADMIN PROCESS DETECTED !!".PadRight(44)}║".Pastel(boss.HexColor));
@@ -240,7 +242,7 @@ namespace System_Overload.Src.GameEngine.Combat
 		private static void RefreshCombatUI(Combatant player, Combatant enemy)
 		{
 			Console.Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 
 			// 1. ENEMY SECTION
 			string enemyColor = enemy.Boss?.HexColor ?? "#FF4500";
@@ -277,7 +279,7 @@ namespace System_Overload.Src.GameEngine.Combat
 		private static void EndCombat(Combatant player, Combatant enemy, PlayerData.loadPlayer? owner)
 		{
 			Console.Clear();
-			UiFunctions.TitleBar();
+			DrawTitleBar();
 
 			if (player.Health <= 0)
 			{
@@ -373,8 +375,7 @@ namespace System_Overload.Src.GameEngine.Combat
 				Console.WriteLine("  [ESC] Cancel | [ENTER] Use");
 
 				var key = Console.ReadKey(true).Key;
-				if (key == ConsoleKey.UpArrow) itemIndex = (itemIndex == 0) ? items.Count - 1 : itemIndex - 1;
-				else if (key == ConsoleKey.DownArrow) itemIndex = (itemIndex == items.Count - 1) ? 0 : itemIndex + 1;
+				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) itemIndex = MenuNavigator.HandleVerticalNav(key, itemIndex, items.Count);
 				else if (key == ConsoleKey.Escape) choosing = false;
 				else if (key == ConsoleKey.Enter)
 				{

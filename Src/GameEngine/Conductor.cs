@@ -1,5 +1,6 @@
 using System_Overload.Src.GameData.Components;
-using static System_Overload.Src.GameData.Entities.PlayerData;
+using Maries_DataModels;
+using static Maries_DataModels.PlayerData;
 
 namespace System_Overload.Src.GameEngine
 {
