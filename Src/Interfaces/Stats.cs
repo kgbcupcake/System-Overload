@@ -24,11 +24,11 @@ namespace System_Overload.Src.GameEngine.Interfaces
 			int filledSlots = Math.Clamp((int)(xpPercent * 10), 0, 10);
 
 			// 2. Build the UI Components
-			string filledPart = new string('■', filledSlots).Pastel("#00FFFF");
+			string filledPart = new string('■', filledSlots).Pastel("#FFD700");
 			string emptyPart = new string('-', 10 - filledSlots).Pastel("#333333");
 
-			string openB = "[".Pastel("#00FFFF");
-			string closeB = "]".Pastel("#00FFFF");
+			string openB = "[".Pastel("#B8860B");
+			string closeB = "]".Pastel("#B8860B");
 			string xpBar = openB + filledPart + emptyPart + closeB;
 
 			string xpString = $"{p.Experience}/{p.ExperienceToLevel}";
@@ -41,47 +41,47 @@ namespace System_Overload.Src.GameEngine.Interfaces
 			int center = screenWidth / 2;
 			int startX = center - (boxWidth / 2);
 
-			string bColor = "#00FFFF"; // Cyber Cyan
+			string bColor = "#B8860B"; // Old gold
 			string vColor = "#FFFFFF"; // Pure White
 			string hColor = "#FFD700"; // Gold Header
 
 			List<string> statLines = new List<string>();
 
 			statLines.Add("╔══════════════════════════════════════════════════╗".Pastel(bColor));
-			statLines.Add(BuildStatLine("SIM LEVEL", playerLevel.ToString(), "#BC1DBC", bColor));
-			statLines.Add(BuildStatLine("SYNC STABILITY", $"{p.Health}/{p.GetTotalMaxHealth()}", "#00FF00", bColor));
-			statLines.Add(BuildStatLine("CREDITS", p.Coins.ToString(), vColor, bColor));
-			statLines.Add(BuildStatLine("MEMORY FRAGS", xpString, vColor, bColor));
-			statLines.Add(BuildBarLine("DATA UPLINK", xpBar, bColor));
+			statLines.Add(BuildStatLine("LEVEL", playerLevel.ToString(), "#BC1DBC", bColor));
+			statLines.Add(BuildStatLine("HEALTH", $"{p.Health}/{p.GetTotalMaxHealth()}", "#00FF00", bColor));
+			statLines.Add(BuildStatLine("GOLD", p.Coins.ToString(), vColor, bColor));
+			statLines.Add(BuildStatLine("EXPERIENCE", xpString, vColor, bColor));
+			statLines.Add(BuildBarLine("NEXT LEVEL", xpBar, bColor));
 
 			statLines.Add("╟──────────────────────────────────────────────────╢".Pastel(bColor));
 
-			// --- DYNAMIC HARDWARE SECTION (Weapon/Sockets) ---
+			// --- WEAPON SECTION (Weapon/Sockets) ---
 			// We look for the first weapon in inventory as the 'Active' one
 			var weapon = p.Inventory.OfType<WeaponData>().FirstOrDefault();
 
 			if (weapon != null)
 			{
-				statLines.Add(BuildStatLine("HARDWARE", weapon.Name, "#FF4500", bColor));
+				statLines.Add(BuildStatLine("WEAPON", weapon.Name, "#FF4500", bColor));
 				statLines.Add(BuildStatLine("BASE DMG", weapon.Damage.ToString(), vColor, bColor));
-				statLines.Add(BuildStatLine("SOCKETS", $"{weapon.SocketedGems.Count}/{weapon.NumSockets}", "#00FFFF", bColor));
+				statLines.Add(BuildStatLine("SOCKETS", $"{weapon.SocketedGems.Count}/{weapon.NumSockets}", "#FFD700", bColor));
 
 				// List specific Socketed Gems
 				foreach (var gem in weapon.SocketedGems)
 				{
-					statLines.Add(BuildStatLine(" > MODULE", gem.Name, "#DCDCDC", bColor));
+					statLines.Add(BuildStatLine(" > GEM", gem.Name, "#DCDCDC", bColor));
 				}
 			}
 			else
 			{
-				statLines.Add(BuildStatLine("HARDWARE", "UNARMED", "#555555", bColor));
+				statLines.Add(BuildStatLine("WEAPON", "UNARMED", "#555555", bColor));
 			}
 
 			statLines.Add("╚══════════════════════════════════════════════════╝".Pastel(bColor));
-			statLines.Add("             [ PRESS ANY KEY TO DISCONNECT ]             ");
+			statLines.Add("               [ PRESS ANY KEY TO RETURN ]               ");
 
 			// 5. Draw Header
-			string header = $"LINKED PROFILE: {p.PlayerName.ToUpper()} ({p.PlayerClass})";
+			string header = $"HERO: {p.PlayerName.ToUpper()} ({p.PlayerClass})";
 			int headerPadding = header.Length / 2;
 			SetCursorPosition(Math.Max(0, center - headerPadding), 4);
 			WriteLine(header.Pastel(hColor));
@@ -132,11 +132,11 @@ namespace System_Overload.Src.GameEngine.Interfaces
 			{
 				p.DifficultyRating = p.Level;
 				Clear();
-				WriteLine("\n" + "!!! SIMULATION COMPLEXITY INCREASED !!!".Pastel("#FF0000"));
-				WriteLine($"Threat Rank: {p.DifficultyRating}".Pastel("#FF4500"));
+				WriteLine("\n" + "!!! THE DUNGEON GROWS DARKER !!!".Pastel("#FF0000"));
+				WriteLine($"Danger Rank: {p.DifficultyRating}".Pastel("#FF4500"));
 
 				p.Health = (int)p.GetTotalMaxHealth();
-				WriteLine("System integrity restored to 100%.".Pastel("#00FF00"));
+				WriteLine("Your health is fully restored.".Pastel("#00FF00"));
 				ReadKey(true);
 			}
 		}

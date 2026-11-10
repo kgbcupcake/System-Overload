@@ -19,7 +19,7 @@ public static class EnemyFactory
 			return FromAdmin(admin);
 
 		// Unknown id: a generic enemy so the sector can still be played.
-		return new Combatant($"Unknown_Process [{enemyId}]", 50, 12, 5) { Level = 2, XpReward = 10, CoinReward = 5 };
+		return new Combatant($"Unknown Creature [{enemyId}]", 50, 12, 5) { Level = 2, XpReward = 10, CoinReward = 5 };
 	}
 
 	/// <summary>True if the id names a drone or an admin.</summary>

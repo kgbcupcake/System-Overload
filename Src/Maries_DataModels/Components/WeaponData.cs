@@ -41,7 +41,7 @@ namespace Maries_DataModels
 			string extraStats = "";
 			if (Type == "Melee" && Durability > 0)
 			{
-				extraStats = $" | Integrity: {Durability}/{Durability}";
+				extraStats = $" | Durability: {Durability}/{Durability}";
 			}
 			else if ((Type == "Firearm" || Type == "Ranged" || Type == "Heavy") && MagSize > 0)
 			{

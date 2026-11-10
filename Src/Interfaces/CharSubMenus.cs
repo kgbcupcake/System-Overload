@@ -1,6 +1,7 @@
 ﻿using System_Overload.Src.GameData.Components;
 using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
+using Maries_Loaders;
 using Pastel;
 using static System.Console;
 using System.Collections.Generic;
@@ -16,26 +17,25 @@ namespace System_Overload.Src.Game.MainInterfaces
 			string[] descriptions;
 			string flavorColor;
 
-			// Logic: Map the new Neural Archetypes to specialized sub-routines
+			// Each class branches into three paths. Their descriptions live in the story data
+			// under "class.<path>" (for example "class.knight").
 			switch (player.PlayerClass)
 			{
-				case "Aegis-Protocol":
-					subClasses = new string[] { "Titan-Shell", "Bastion-Core", "Sentinel-v2" };
-					flavorColor = "#00FFFF"; // Cyan
-					descriptions = new string[] { "Heavy kinetic plating. Unmatched integrity.", "Energy shielding and recursive repair.", "Area denial and crowd suppression." };
+				case "Warrior":
+					subClasses = new string[] { "Knight", "Paladin", "Berserker" };
+					flavorColor = "#FF4500"; // Ember
 					break;
-				case "Cipher-Blade":
-					subClasses = new string[] { "Ghost-Code", "Neural-Reaper", "Phase-Shift" };
-					flavorColor = "#00FF00"; // Neon Green
-					descriptions = new string[] { "Stealth-based infiltration. Critical strikes.", "Rapid multi-target data-corruption.", "High mobility and evasion modules." };
+				case "Rogue":
+					subClasses = new string[] { "Assassin", "Shadowblade", "Ranger" };
+					flavorColor = "#9370DB"; // Dusk purple
 					break;
-				case "System-Architect":
-					subClasses = new string[] { "Logic-Bombard", "Overclocker", "Root-Admin" };
-					flavorColor = "#BC1DBC"; // Purple
-					descriptions = new string[] { "High-output energy discharge attacks.", "Sacrifice stability for massive burst damage.", "Manipulate simulation laws and loot drops." };
+				case "Mage":
+					subClasses = new string[] { "Wizard", "Warlock", "Battlemage" };
+					flavorColor = "#00BFFF"; // Arcane blue
 					break;
 				default: return;
 			}
+			descriptions = subClasses.Select(s => Story.Line($"class.{s.ToLower()}")).ToArray();
 
 			int selected = 0;
 			while (true)
@@ -55,16 +55,16 @@ namespace System_Overload.Src.Game.MainInterfaces
 				}
 
 				// Draw the UI frame using the standard Width (94) for consistency
-				GameUiEngine.DrawDynamicFrame($"SPEC-EVOLUTION: {player.PlayerName.ToUpper()}",
+				GameUiEngine.DrawDynamicFrame($"CHOOSE YOUR PATH: {player.PlayerName.ToUpper()}",
 					evolutionOptions,
-					"[UP/DOWN] to browse | [ENTER] to confirm specialization",
+					"[UP/DOWN] to browse | [ENTER] to choose",
 					boxWidth: 94,
 					selectedIndex: selected);
 
-				UiEngine.DrawCentered($"Select Neural Specialization for {player.PlayerClass}".Pastel(flavorColor), 6);
+				UiEngine.DrawCentered(Story.Line("creation.subclass_prompt", ("class", player.PlayerClass)).Pastel(flavorColor), 6);
 
 				int contentBaseY = 20;
-				UiEngine.DrawCentered(" SUB-ROUTINE SPECS ".Pastel("#000000").PastelBg(flavorColor), contentBaseY);
+				UiEngine.DrawCentered(" THE PATH ".Pastel("#000000").PastelBg(flavorColor), contentBaseY);
 				UiEngine.DrawCentered(descriptions[selected].Pastel("#DCDCDC"), contentBaseY + 2);
 
 				var key = ReadKey(true).Key;

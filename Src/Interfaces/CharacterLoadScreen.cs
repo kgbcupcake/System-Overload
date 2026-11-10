@@ -55,7 +55,7 @@ namespace System_Overload.Src.GameEngine.Interfaces
 					}
 					catch
 					{
-						preview.PlayerName = "CORRUPT DATA";
+						preview.PlayerName = "UNREADABLE SAVE";
 					}
 				}
 

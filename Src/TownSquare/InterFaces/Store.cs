@@ -44,7 +44,7 @@ namespace Src.TownSquare.InterFaces
 				if (template != null) storeInventory.Add(new ItemData(template));
 			}
 
-			UiEngine.DrawLoadingScreen("UNPACKING CARGO...", 1000);
+			UiEngine.DrawLoadingScreen(Story.Pick("store.enter"), 1000);
 			UpdateAndRun(p, storeInventory);
 		}
 
@@ -55,7 +55,7 @@ namespace Src.TownSquare.InterFaces
 			bool shopping = true;
 			bool buyMode = true;
 			int sellIndex = 0;
-			string statusMessage = "SYSTEM READY: AWAITING INPUT".Pastel("#555555");
+			string statusMessage = Story.Pick("store.greeting").Pastel("#888888");
 
 			while (shopping)
 			{
@@ -70,18 +70,18 @@ namespace Src.TownSquare.InterFaces
 					.Select(g => new { Name = g.Key, Count = g.Count(), Item = g.First() })
 					.ToList();
 
-				string modeHeader = buyMode ? "--- PURCHASE PROTOCOL ---" : "--- LIQUIDATION PROTOCOL ---";
+				string modeHeader = buyMode ? "--- BUYING ---" : "--- SELLING ---";
 				string modeToggleHint = buyMode ? "[TAB] Switch to Sell Mode" : "[TAB] Switch to Buy Mode";
 
 				List<string> menuLines = new List<string>();
-				menuLines.Add("╔════════════ DATA EXCHANGE ═══════════════╗".Pastel(dungeonPurple));
-				menuLines.Add(BuildLine("AVAILABLE CREDITS:", p.Coins, "#FFD700", dungeonPurple));
+				menuLines.Add("╔════════════ GENERAL STORE ═══════════════╗".Pastel(dungeonPurple));
+				menuLines.Add(BuildLine("YOUR GOLD:", p.Coins, "#FFD700", dungeonPurple));
 				menuLines.Add("╟──────────────────────────────────────────╢".Pastel(dungeonPurple));
 
 				if (buyMode)
 				{
-					menuLines.Add(BuildLine($"(S)tim-Pack [Qty: {p.StoreStimStock}]", p.StoreStimStock > 0 ? stimPrice : -1, torchGold, dungeonPurple));
-					menuLines.Add(BuildLine("(D)ifficulty Logic", diffPrice, torchGold, dungeonPurple));
+					menuLines.Add(BuildLine($"(P)otion [Qty: {p.StoreStimStock}]", p.StoreStimStock > 0 ? stimPrice : -1, torchGold, dungeonPurple));
+					menuLines.Add(BuildLine("(D)ark Pact (harder foes)", diffPrice, torchGold, dungeonPurple));
 				}
 				else
 				{
@@ -119,7 +119,7 @@ namespace Src.TownSquare.InterFaces
 						menuLines.Add(BuildLine(lineText, displayVal, "#00FF00", dungeonPurple));
 					}
 					if (sellableGroups.Count == 0)
-						menuLines.Add(BuildLine("NO RECYCLABLE DATA FOUND", -1, "#555555", dungeonPurple));
+						menuLines.Add(BuildLine("NOTHING TO SELL", -1, "#555555", dungeonPurple));
 				}
 
 				menuLines.Add("║                                          ║".Pastel(dungeonPurple));
@@ -140,7 +140,7 @@ namespace Src.TownSquare.InterFaces
 				else if (key == ConsoleKey.E)
 				{
 					// Small exit animation
-					statusMessage = "TERMINATING UPLINK...".Pastel("#FF0000");
+					statusMessage = Story.Pick("store.farewell").Pastel("#FFAB00");
 					SetCursorPosition(startX, startY - 1); // Re-draw the status line
 					WriteLine(" STATUS: " + statusMessage);
 					Thread.Sleep(500);
@@ -149,10 +149,10 @@ namespace Src.TownSquare.InterFaces
 				}
 				else if (buyMode)
 				{
-					if (key == ConsoleKey.S && p.StoreStimStock > 0)
+					if (key == ConsoleKey.P && p.StoreStimStock > 0)
 					{
 						// CALLING IT HERE: Pass the EXACT name the Registry/JSON expects
-						statusMessage = TryBuyReturnStatus("Neural Stim-Pack", stimPrice, p);
+						statusMessage = TryBuyReturnStatus("Healing Potion", stimPrice, p);
 
 						if (statusMessage.Contains("SUCCESS"))
 						{
@@ -192,7 +192,7 @@ namespace Src.TownSquare.InterFaces
 						p.Coins += finalProfit;
 						p.Inventory.Remove(target.Item);
 
-						statusMessage = $"RECYCLED: {target.Name} (+{finalProfit} CR)".Pastel("#00FF00");
+						statusMessage = $"SOLD: {target.Name} (+{finalProfit} gold)".Pastel("#00FF00");
 
 						GameState.Sync();
 
@@ -209,26 +209,26 @@ namespace Src.TownSquare.InterFaces
 				{
 					p.Coins -= cost;
 					p.DifficultyRating++;
-					return "SUCCESS: Difficulty Logic Rewritten.".Pastel("#00FF00");
+					return "SUCCESS: The pact is sealed. Your foes grow stronger.".Pastel("#00FF00");
 				}
 
-				// Logic for Neural Stim-Pack
-				if (item == "Neural Stim-Pack")
+				// Logic for Healing Potion
+				if (item == "Healing Potion")
 				{
-					var template = ItemRegistry.GetItem("Neural Stim-Pack");
+					var template = ItemRegistry.GetItem("Healing Potion");
 
 					if (template != null)
 					{
 						p.Coins -= cost;
 						p.Inventory.Add(new ItemData(template));
-						return "SUCCESS: Neural Stim-Pack Synced.".Pastel("#00FF00");
+						return "SUCCESS: Healing Potion bought.".Pastel("#00FF00");
 					}
 
 					// If it hits here, the NAME is right, but the Registry is empty or the file wasn't loaded
-					return $"ERROR: Registry Template [{item}] Missing from Memory.".Pastel("#FF0000");
+					return $"ERROR: [{item}] is missing from the item data.".Pastel("#FF0000");
 				}
 			}
-			return "DENIED: Insufficient Credits.".Pastel("#FF0000");
+			return "DENIED: Not enough gold.".Pastel("#FF0000");
 		}
 		private static string BuildLine(string label, int val, string valColor, string borderColor)
 		{
@@ -247,7 +247,7 @@ namespace Src.TownSquare.InterFaces
 			}
 			else
 			{
-				string valStr = label.Contains("CREDITS") ? val.ToString() : $"Cost: {val}";
+				string valStr = label.Contains("YOUR GOLD") ? val.ToString() : $"Cost: {val}";
 				string coloredVal = valStr.Pastel(valColor);
 
 				int spacesNeeded = contentWidth - cleanLabel.Length - valStr.Length;

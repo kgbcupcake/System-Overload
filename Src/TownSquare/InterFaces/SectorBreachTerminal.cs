@@ -6,6 +6,7 @@ using System_Overload.Src.GameEngine.Flow;
 using System_Overload.Src.GameEngine.Systems;
 using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
+using Maries_Loaders;
 using Pastel;
 using static System.Console;
 
@@ -34,15 +35,15 @@ namespace Src.TownSquare.InterFaces
 
 				// Build total list including EXIT
 				var allItems = sectors.Select(s => FormatSectorLine(s)).ToList();
-				allItems.Add("EXIT TERMINAL".PadRight(boxWidth - 2));
+				allItems.Add("BACK TO TOWN".PadRight(boxWidth - 2));
 
 				// Calculate visible window
 				var visibleLines = allItems.Skip(scrollOffset).Take(maxVisibleItems).ToList();
 
 				GameUiEngine.DrawDynamicFrame(
-					title: $"SECTOR BREACH TERMINAL ({sectors.Count} NODES DETECTED)",
+					title: $"DUNGEON GATE ({sectors.Count} FLOORS)",
 					lines: visibleLines,
-					hint: "Select a Sector to begin Breach Protocol | [ESC] Back",
+					hint: "Choose a floor to descend into | [ESC] Back",
 					boxWidth: boxWidth,
 					startY: 5,
 					selectedIndex: selectedIndex - scrollOffset
@@ -79,9 +80,9 @@ namespace Src.TownSquare.InterFaces
 		private static string FormatSectorLine(SectorData sector)
 		{
 			var log = PlayerQuestLog.Instance;
-			string status = "[STABLE   ]";
-			if (log.IsQuestCompleted(sector.Id)) status = "[DELETED  ]".Pastel("#555555");
-			else if (log.IsQuestAccepted(sector.Id)) status = "[BREACHING]".Pastel("#00FF00");
+			string status = "[UNCLEARED]";
+			if (log.IsQuestCompleted(sector.Id)) status = "[CLEARED  ]".Pastel("#555555");
+			else if (log.IsQuestAccepted(sector.Id)) status = "[EXPLORING]".Pastel("#FFD700");
 
 			// Use the new Title property
 			string name = sector.Title.Length > 50 ? sector.Title.Substring(0, 47) + "..." : sector.Title;
@@ -94,15 +95,15 @@ namespace Src.TownSquare.InterFaces
 
 			if (log.IsQuestCompleted(sector.Id))
 			{
-				Alerts.QuickAlert("This sector has already been purged.");
+				Alerts.QuickAlert(Story.Line("dungeon.already_cleared", ("title", sector.Title)));
 				return;
 			}
 
-			// Accept if not already accepted (Logic remains the same, just simulation themed)
+			// Accept the floor the first time the hero enters it
 			if (!log.IsQuestAccepted(sector.Id))
 			{
 				log.AcceptQuest(sector.Id);
-				Alerts.QuickAlert($"Breach Initialized: {sector.Title}");
+				Alerts.QuickAlert(Story.Line("dungeon.accepted", ("title", sector.Title)));
 			}
 
 			// 1. Run the Sector directly (No AdventureSelector needed!)
@@ -114,17 +115,17 @@ namespace Src.TownSquare.InterFaces
 			{
 				log.CompleteQuest(sector.Id);
 				// Completion credits and XP are already paid by SimulationExecutor.Run.
-				Alerts.QuickAlert($"BREACH SUCCESSFUL: {sector.Title}".Pastel("#00FF00"));
-				WriteLine($"System rewards distributed: {sector.CompletionCredits} Credits.".Pastel("#FFD700"));
+				Alerts.QuickAlert(Story.Line("dungeon.cleared", ("title", sector.Title)).Pastel("#00FF00"));
+				WriteLine($"Reward: {sector.CompletionCredits} gold.".Pastel("#FFD700"));
 			}
 			else
 			{
-				Alerts.QuickAlert($"BREACH FAILED: Connection Terminated!".Pastel("#FF0000"));
+				Alerts.QuickAlert(Story.Line("dungeon.failed", ("title", sector.Title)).Pastel("#FF0000"));
 			}
 
 			SaveGame.Save();
 
-			WriteLine("\nPress any key to return to Terminal...");
+			WriteLine("\nPress any key to return to the Dungeon Gate...");
 			ReadKey(true);
 			Clear();
 		}

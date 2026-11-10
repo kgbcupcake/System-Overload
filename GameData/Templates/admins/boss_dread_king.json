@@ -1,0 +1,44 @@
+{
+  "AdminID": "boss_dread_king",
+  "SystemName": "THE DREAD KING",
+  "AccessLevel": "THRONE_LORD",
+  "Level": 10,
+  "XpReward": 400,
+  "CoinReward": 250,
+  "Stats": {
+    "Integrity": 225,
+    "ProcessingPower": 19,
+    "Firewall": 11,
+    "CorruptionRate": 1.25
+  },
+  "CombatLogic": {
+    "PrimaryAttack": "Kingsblade",
+    "SecondaryAttack": "Crushing Decree",
+    "SpecialAbility": "Crown of Ruin",
+    "SpecialEvery": 3
+  },
+  "Visuals": {
+    "HexColor": "#B3001B",
+    "GlitchIntensity": 0.7,
+    "AsciiArtRef": "dread_king"
+  },
+  "DropTable": [
+    {
+      "ItemID": "Crown Fragment",
+      "Chance": 0.35
+    },
+    {
+      "ItemID": "Soulreaver",
+      "Chance": 0.15
+    },
+    {
+      "ItemID": "Swiftness Draught",
+      "Chance": 0.6
+    }
+  ],
+  "Dialogue": {
+    "OnBreach": "Kneel. Every soul in this realm is mine to command.",
+    "OnDamage": "Impossible... no blade can wound a king!",
+    "OnDeletion": "The crown... it was never... mine..."
+  }
+}

@@ -26,7 +26,7 @@ namespace Src.TownSquare.InterFaces
 						Type = group.First().Type,
 						Rarity = group.First().Rarity,
 						Effect = group.First().Effect,
-						ItemReference = group.First() // Reference for Data Readout
+						ItemReference = group.First() // Reference for the details panel
 					})
 					.OrderBy(i => i.Type)
 					.ThenBy(i => i.Name)
@@ -39,7 +39,7 @@ namespace Src.TownSquare.InterFaces
 						: $" [{i.Type.ToUpper()}] {i.Name} ")
 					.ToList();
 
-				options.Add(" DISCONNECT SYSTEM ");
+				options.Add(" CLOSE PACK ");
 
 				Clear();
 				DrawPrivateHeader(player);
@@ -47,15 +47,15 @@ namespace Src.TownSquare.InterFaces
 				int boxWidth = 44;
 				int screenWidth = 85;
 				int startX = (screenWidth / 2) - (boxWidth / 2);
-				string bColor = "#125874";
+				string bColor = "#8B5A2B";
 
 				List<string> menuLines = new List<string>();
-				menuLines.Add("╔══════════ MEMORY BUFFER ═════════════════╗".Pastel(bColor));
+				menuLines.Add("╔══════════ YOUR PACK ═════════════════════╗".Pastel(bColor));
 
 				for (int i = 0; i < options.Count; i++)
 				{
 					bool isSelected = (i == selectedIndex);
-					string color = isSelected ? "#00FFFF" : "#4A0000";
+					string color = isSelected ? "#FFD700" : "#8B6B4A";
 
 					if (i == options.Count - 1 && !isSelected) color = "#888888";
 
@@ -70,12 +70,12 @@ namespace Src.TownSquare.InterFaces
 				{
 					var item = stackedInventory[selectedIndex];
 					menuLines.Add("");
-					menuLines.Add("  DATA READOUT:".Pastel("#555555"));
+					menuLines.Add("  DETAILS:".Pastel("#555555"));
 					menuLines.Add($"  NAME: {item.Name}".Pastel("#FFD700"));
 					menuLines.Add($"  TYPE: {item.Type} | RARITY: {item.Rarity}".Pastel("#FFD700"));
 					menuLines.Add($"  EFFECT: {item.Effect}".Pastel("#00FF00"));
 					menuLines.Add("");
-					menuLines.Add("  [ENTER] Execute | [X/DEL] Purge Data ".Pastel("#444444"));
+					menuLines.Add("  [ENTER] Use | [X/DEL] Drop ".Pastel("#444444"));
 				}
 
 				int row = 5;
@@ -131,17 +131,17 @@ namespace Src.TownSquare.InterFaces
 		{
 			if (item.Effect == EffectType.Restorative)
 			{
-				int maxHP = (int)p.GetTotalMaxHealth(); // Handle upgraded integrity
+				int maxHP = (int)p.GetTotalMaxHealth(); // Includes bonus max HP
 
 				if (p.Health >= maxHP)
 				{
-					UiEngine.DrawCentered("SYSTEM STABLE: Integrity at maximum.".Pastel("#FFD700"), 22);
+					UiEngine.DrawCentered("You are already at full health.".Pastel("#FFD700"), 22);
 				}
 				else
 				{
 					p.Health = Math.Min(maxHP, p.Health + 25);
 					p.Inventory.Remove(item); // Removes only ONE instance
-					UiEngine.DrawCentered($"INJECTION SUCCESS: {item.Name} utilized.".Pastel("#00FF00"), 22);
+					UiEngine.DrawCentered($"You use the {item.Name}.".Pastel("#00FF00"), 22);
 				}
 				Thread.Sleep(800);
 			}
@@ -149,7 +149,7 @@ namespace Src.TownSquare.InterFaces
 
 		private static void DiscardItem(PlayerData.loadPlayer p, ItemData item)
 		{
-			UiEngine.DrawCentered($"PURGING DATA: {item.Name} removed from buffer.".Pastel("#FF4500"), 22);
+			UiEngine.DrawCentered($"You drop the {item.Name}.".Pastel("#FF4500"), 22);
 			p.Inventory.Remove(item);
 			Thread.Sleep(600);
 		}
@@ -157,8 +157,8 @@ namespace Src.TownSquare.InterFaces
 		private static void DrawPrivateHeader(PlayerData.loadPlayer p)
 		{
 			SetCursorPosition(0, 0);
-			string loc = "Neural link".Pastel("#FFFFFF").PastelBg("#8B0000");
-			string stats = $" | 👤 {p.PlayerName} | ❤️ INT: {p.Health}/{(int)p.GetTotalMaxHealth()} | 💰 CREDITS: {p.Coins} ".Pastel("#FFD700");
+			string loc = " INVENTORY ".Pastel("#FFFFFF").PastelBg("#8B0000");
+			string stats = $" | 👤 {p.PlayerName} | ❤️ HP: {p.Health}/{(int)p.GetTotalMaxHealth()} | 💰 GOLD: {p.Coins} ".Pastel("#FFD700");
 			Write(new string(' ', WindowWidth));
 			SetCursorPosition(0, 0);
 			Write(loc + stats);

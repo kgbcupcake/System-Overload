@@ -25,6 +25,7 @@ ContentSeeder.SeedInitialContent();
 ItemRegistry.Initialize();
 AdminLoader.LoadAll();
 SectorLoader.LoadAll();
+Story.LoadAll();
 
 // Let the VS/WSL "path dump" finish
 Thread.Sleep(100);
@@ -35,10 +36,6 @@ Console.Write("\x1b[2J\x1b[3J\x1b[H");
 
 
 
-
-string contentRoot =
-Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-"DungeonAdventures");
 
 
 

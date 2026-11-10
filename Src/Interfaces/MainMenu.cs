@@ -3,6 +3,7 @@ using System_Overload.Src.GameData.Components;
 using Maries_DataModels;
 using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
+using Maries_Loaders;
 using Pastel;
 using Src.TownSquare;
 using System.Runtime.InteropServices;
@@ -32,9 +33,9 @@ namespace System_Overload.Src.GameEngine.Interfaces
 			// --- ATMOSPHERIC BACKGROUND TEXT ---
 			// Shifted slightly to ensure the new icon-based TitleBar at Row 0 doesn't overlap
 			UiEngine.DrawCentered("--------------------------------------------".Pastel("#4A0000"), 3);
-			UiEngine.DrawCentered("SYSTEM // CORRUPTED // REALITY // FRAGMENTED".Pastel("#4A0000"), 4);
+			UiEngine.DrawCentered(Story.Line("main_menu.tagline_top").Pastel("#4A0000"), 4);
 			UiEngine.DrawCentered("--------------------------------------------".Pastel("#4A0000"), 18);
-			UiEngine.DrawCentered("ERROR // SECTOR // UNSTABLE // ENTITY".Pastel("#4A0000"), 19);
+			UiEngine.DrawCentered(Story.Line("main_menu.tagline_bottom").Pastel("#4A0000"), 19);
 			UiEngine.DrawCentered("--------------------------------------------".Pastel("#4A0000"), 20);
 			MainMenuArt.DrawMainHeader();
 			
@@ -111,9 +112,9 @@ namespace System_Overload.Src.GameEngine.Interfaces
 
 		private static void UpdateIdleAnimation(bool saveExists)
 		{
-			string status = saveExists ? "[ SAVES DETECTED ]" : "[ NO SAVES FOUND ]";
+			string status = saveExists ? "[ SAVED HEROES FOUND ]" : "[ NO SAVED HEROES ]";
 			bool statusVisible = ((int)(DateTime.Now.TimeOfDay.TotalSeconds * 2.0) % 2 == 0);
-			UiEngine.DrawCentered(statusVisible ? status.Pastel(saveExists ? "#00FF00" : "#FF0000") : "                     ", 22);
+			UiEngine.DrawCentered(statusVisible ? status.Pastel(saveExists ? "#00FF00" : "#FF0000") : "                        ", 22);
 		}
 
 		private static bool CheckForSaves()

@@ -21,9 +21,22 @@ namespace System_Overload.Src.Interfaces.UI
 			// startY is already a parameter, we use the value passed in (11)
 			string borderColor = UiEngine.BorderColor;
 
-			// 2. Top Border Logic
+			// 2. Top Border Logic (title centred in the border, trimmed if it doesn't fit)
 			SetCursorPosition(startX, startY);
-			Write($"╔{new string('═', boxWidth - 2)}╗".Pastel(borderColor));
+			int innerWidth = boxWidth - 2;
+			string cleanTitle = UiEngine.StripAnsi(title ?? "").Trim();
+			if (cleanTitle.Length > innerWidth - 4) cleanTitle = cleanTitle.Substring(0, Math.Max(0, innerWidth - 7)) + "...";
+			if (cleanTitle.Length == 0)
+			{
+				Write($"╔{new string('═', innerWidth)}╗".Pastel(borderColor));
+			}
+			else
+			{
+				string label = $" {cleanTitle} ";
+				int left = (innerWidth - label.Length) / 2;
+				int right = innerWidth - label.Length - left;
+				Write($"╔{new string('═', left)}".Pastel(borderColor) + label.Pastel("#FFD700") + $"{new string('═', right)}╗".Pastel(borderColor));
+			}
 
 			// 3. The Hover-Aware Loop
 			for (int i = 0; i < lines.Count; i++)
@@ -65,8 +78,8 @@ namespace System_Overload.Src.Interfaces.UI
 		{
 			string bColor = UiEngine.BorderColor; // Reusing the shared BorderColor variable
 
-			// Header themed for Neural Simulation
-			string top = "╔══════════════ SYSTEM SPECS ════════════╗";
+			// Hero stat sheet
+			string top = "╔══════════════ HERO STATS ══════════════╗";
 			string mid = "╠════════════════════════════════════════╣";
 			string bottom = "╚════════════════════════════════════════╝";
 
@@ -75,34 +88,34 @@ namespace System_Overload.Src.Interfaces.UI
 
 			// Pulling real data from your new WeaponData and Player logic
 			var weapon = player.Inventory.OfType<WeaponData>().FirstOrDefault();
-			string weaponName = weapon != null ? weapon.Name : "No Link Detected";
+			string weaponName = weapon != null ? weapon.Name : "Unarmed";
 			float totalDmg = player.GetTotalDamage();
 			int socketsUsed = weapon?.SocketedGems.Count ?? 0;
 			int totalSockets = weapon?.NumSockets ?? 0;
 
-			// Displaying Hardware/Software stats instead of fantasy Abilities
-			DrawStatLine("Link Stability", player.Health, x, y + 1, false, "#00FF00", "#FFFFFF", bColor);
-			DrawHardwareLine("Hardware", weaponName, x, y + 2, "#FFD700", bColor);
-			DrawStatLine("Damage Rating", (int)totalDmg, x, y + 3, false, "#FF4500", "#FFFFFF", bColor);
-			DrawStatLine("Defense Index", (int)player.GetTotalDefense(), x, y + 4, false, "#00FFFF", "#FFFFFF", bColor);
-			DrawHardwareLine("Socket Array", $"{socketsUsed}/{totalSockets}", x, y + 5, "#BC1DBC", bColor);
-			DrawStatLine("Threat Rank", player.DifficultyRating, x, y + 6, false, "#FF0000", "#FFFFFF", bColor);
-			DrawHardwareLine("Buffer Cap", $"{player.Inventory.Count}/{player.InventorySize}", x, y + 7, "#DCDCDC", bColor);
-			DrawHardwareLine("Status", "OPTIMIZED", x, y + 8, "#00FF00", bColor);
+			// Hero stats
+			DrawStatLine("Health", player.Health, x, y + 1, false, "#00FF00", "#FFFFFF", bColor);
+			DrawHardwareLine("Weapon", weaponName, x, y + 2, "#FFD700", bColor);
+			DrawStatLine("Damage", (int)totalDmg, x, y + 3, false, "#FF4500", "#FFFFFF", bColor);
+			DrawStatLine("Defense", (int)player.GetTotalDefense(), x, y + 4, false, "#00FFFF", "#FFFFFF", bColor);
+			DrawHardwareLine("Gem Sockets", $"{socketsUsed}/{totalSockets}", x, y + 5, "#BC1DBC", bColor);
+			DrawStatLine("Danger Rank", player.DifficultyRating, x, y + 6, false, "#FF0000", "#FFFFFF", bColor);
+			DrawHardwareLine("Pack Space", $"{player.Inventory.Count}/{player.InventorySize}", x, y + 7, "#DCDCDC", bColor);
+			DrawHardwareLine("Status", "READY", x, y + 8, "#00FF00", bColor);
 
 			SetCursorPosition(x, y + 9);
 			WriteLine(mid.Pastel(bColor));
 
-			// Core System Integrity line
+			// Health line
 			SetCursorPosition(x, y + 10);
-			string integrityText = $" Integrity: {player.Health}/{player.GetTotalMaxHealth()}";
+			string integrityText = $" HP: {player.Health}/{player.GetTotalMaxHealth()}";
 			WriteLine($"║{integrityText.PadRight(40)}║".Pastel(bColor));
 
 			SetCursorPosition(x, y + 11);
 			WriteLine(bottom.Pastel(bColor));
 		}
 
-		// Helper for strings like "Hardware: Kinetic Breacher"
+		// Helper for strings like "Weapon: Iron Warhammer"
 		private static void DrawHardwareLine(string label, string value, int x, int y, string valColor, string bColor)
 		{
 			SetCursorPosition(x, y);

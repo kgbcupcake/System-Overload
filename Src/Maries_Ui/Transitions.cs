@@ -1,3 +1,4 @@
+using Maries_Loaders;
 using Pastel;
 using System.Text;
 
@@ -18,46 +19,48 @@ namespace Maries_Ui
 			int startY = 5;
 
 			// --- SIDE DATA PILLARS (Dynamic Width) ---
-			string[] sideDecor = { " [CON-4] ", " [TRN-R] ", " [LOG-V] ", " [SYS-8] " };
+			string[] sideDecor = { " † ", " * ", " † ", " * " };
 			for (int i = 0; i < sideDecor.Length; i++)
 			{
 				// Use Console.WindowWidth - 10 to keep them relative to the screen edge
 				Console.SetCursorPosition(2, 7 + (i * 3));
-				Console.Write(sideDecor[i].Pastel("#125874"));
+				Console.Write(sideDecor[i].Pastel("#8B5A2B"));
 
 				Console.SetCursorPosition(Console.WindowWidth - 11, 7 + (i * 3));
-				Console.Write(sideDecor[i].Pastel("#125874"));
+				Console.Write(sideDecor[i].Pastel("#8B5A2B"));
 			}
 
 			// 1. TOP ACCENTS
-			string topAccent = "◢◤".Pastel("#00FF00") + " —————————————————————————————————————— " + "◥◣".Pastel("#00FF00");
+			string topAccent = "◢◤".Pastel("#FFAB00") + " —————————————————————————————————————— " + "◥◣".Pastel("#FFAB00");
 			Console.SetCursorPosition(Math.Max(0, centerX - (UiEngine.StripAnsi(topAccent).Length / 2)), startY - 2);
 			Console.Write(topAccent);
 
-			// 2. 3D ICON
-			string icon = @"
-      _______________________
-     /                      /|
-    /      RECONSTRUCT     / |
-   /        COMPLETE      /  |
-  /______________________/   |
-  |                      |   |
-  |   [ VESSEL ONLINE ]  |   |
-  |______________________|  /";
+			// 2. 3D ICON (the words inside come from the "save_loaded.box" story lines)
+			var boxText = Story.Lines("save_loaded.box");
+			string BoxLine(int i) => UiEngine.PadAnsiStringWithCenter(i < boxText.Count ? boxText[i] : "", 22);
+			string icon =
+				"      _______________________\n" +
+				"     /                      /|\n" +
+				$"    /{BoxLine(0)}/ |\n" +
+				$"   /{BoxLine(1)}/  |\n" +
+				"  /______________________/   |\n" +
+				"  |                      |   |\n" +
+				$"  |{BoxLine(2)}|   |\n" +
+				"  |______________________|  /";
 
 			string[] lines = icon.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 			int currentY = startY;
 			foreach (string line in lines)
 			{
 				Console.SetCursorPosition(centerX - 13, currentY++);
-				string color = (currentY % 2 == 0) ? "#00FF00" : "#008800";
+				string color = (currentY % 2 == 0) ? "#FFAB00" : "#B8860B";
 				Console.Write(line.Pastel(color));
 			}
 
 			// 3. PLAYER DATA BLOCK
 			currentY += 1;
-			string bracketL = ">> [".Pastel("#00FFFF");
-			string bracketR = "] <<".Pastel("#00FFFF");
+			string bracketL = ">> [".Pastel("#B8860B");
+			string bracketR = "] <<".Pastel("#B8860B");
 			string nameDisp = playerName.ToUpper().Pastel("#FFD700");
 			string fullRow = $"{bracketL} {nameDisp} {bracketR}";
 
@@ -68,7 +71,7 @@ namespace Maries_Ui
 
 			// 4. METRICS
 			currentY += 3;
-			string[] metrics = { "INTEGRITY: 100%", "BIO-SYNC: STABLE", "CHRONO-LINK: ACTIVE" };
+			var metrics = Story.Lines("save_loaded.status");
 			foreach (var m in metrics)
 			{
 				Console.SetCursorPosition(centerX - (m.Length / 2), currentY++);
@@ -76,7 +79,7 @@ namespace Maries_Ui
 			}
 
 			// 5. THE PULSE PROMPT
-			string prompt = "— PRESS ANY KEY TO ENTER THE VOID —";
+			string prompt = Story.Line("save_loaded.prompt");
 			int promptY = 20;
 
 			PlatformConsole.PlayBeepSequence((600, 50), (900, 50), (1200, 100));
@@ -113,29 +116,24 @@ namespace Maries_Ui
 			for (int i = 0; i < 15; i++)
 			{
 				Console.SetCursorPosition(centerX - 20, centerY);
-				string noise = $"SCANNING_SECTOR_{rnd.Next(1000, 9999)} >> 0x{rnd.Next(100, 999)}FF{rnd.Next(10, 99)}";
-				Console.Write(noise.Pastel("#ed0410"));
+				string noise = Story.Pick("load_save.scan", ("n", rnd.Next(1, 999))).PadRight(40);
+				Console.Write(noise.Pastel("#B8860B"));
 				Thread.Sleep(90);
 			}
 
-			string[] steps = {
-		"INITIALIZING HANDSHAKE",
-		"DECRYPTING SOUL-FILE",
-		"STITCHING TEMPORAL VECTORS",
-		"RECONSTRUCTING VESSEL"
-	};
+			var steps = Story.Lines("load_save.steps");
 
 			// 2. PHASE TWO: THE PROGRESS BAR + RAIN
-			for (int i = 0; i < steps.Length; i++)
+			for (int i = 0; i < steps.Count; i++)
 			{
 				Console.SetCursorPosition(centerX - 25, centerY - 2);
 				Console.Write(new string(' ', 50));
 				Console.SetCursorPosition(centerX - (steps[i].Length / 2), centerY - 2);
-				Console.Write(steps[i].Pastel("#00FFFF"));
+				Console.Write(steps[i].Pastel("#FFAB00"));
 
 				for (int p = 0; p <= 10; p++)
 				{
-					// --- UPDATE BINARY RAIN ---
+					// --- UPDATE FALLING EMBERS ---
 					for (int r = 0; r < rainCols.Length; r++)
 					{
 						// Erase old bit
@@ -148,15 +146,15 @@ namespace Maries_Ui
 
 						// Draw new bit
 						Console.SetCursorPosition(rainCols[r], rainY[r]);
-						string bit = rnd.Next(2).ToString();
-						// Alternate between bright cyan and deep teal for depth
-						string color = rnd.Next(3) == 0 ? "#00FFFF" : "#004444";
+						string bit = rnd.Next(2) == 0 ? "*" : "·";
+						// Alternate between bright and dim embers for depth
+						string color = rnd.Next(3) == 0 ? "#FF8C00" : "#5A2A00";
 						Console.Write(bit.Pastel(color));
 					}
 
 					// --- UPDATE PROGRESS BAR ---
-					float totalPercent = ((i * 10) + p) / 40f;
-					ProgressBarRenderer.Draw(centerX - (barWidth / 2), centerY, totalPercent, barWidth, "#00FFFF", "#222222");
+					float totalPercent = ((i * 10) + p) / (steps.Count * 10f);
+					ProgressBarRenderer.Draw(centerX - (barWidth / 2), centerY, totalPercent, barWidth, "#FFAB00", "#222222");
 
 					Thread.Sleep(rnd.Next(30, 80));
 				}
@@ -164,7 +162,7 @@ namespace Maries_Ui
 
 			// 3. FINAL LOCK-ON
 			Console.SetCursorPosition(centerX - 10, centerY + 2);
-			Console.Write("SYNC SUCCESSFUL".Pastel("#00FF00"));
+			Console.Write(Story.Line("load_save.done").Pastel("#FFD700"));
 
 			PlatformConsole.PlayBeepSequence((1200, 100), (1500, 150));
 			Thread.Sleep(800);
@@ -182,7 +180,7 @@ namespace Maries_Ui
 			Console.CursorVisible = false;
 
 			// FIX: Clean Title Bar (Removes the ←[38;2;... artifacts from screenshots)
-			Console.Title = "Dungeon Adventures - Reborn";
+			Console.Title = Story.Line("game.title");
 
 			int centerX = width / 2;
 			int centerY = height / 2;
@@ -200,7 +198,7 @@ namespace Maries_Ui
 					{
 						if (rnd.Next(0, 100) < 15)
 						{
-							burst.Append(GlitchText.NextGlitchChar(rnd, null, new[] { "#FF0000", "#00FF00" }));
+							burst.Append((rnd.Next(2) == 0 ? "*" : "·").Pastel(rnd.Next(2) == 0 ? "#FF4500" : "#FFAB00"));
 						}
 						else burst.Append(" ");
 					}
@@ -209,21 +207,14 @@ namespace Maries_Ui
 				Thread.Sleep(300);
 			}
 
-			// --- STEP 3: THE MAIN LOOP (Rain + Skulls + Nukes) ---
-			string[] scaryLabels = {
-		"SYSTEM INTEGRITY: CRITICAL...",
-		"REALITY ANCHORS: DEGRADED...",
-		"INITIATING UNSTABLE PROTOCOL...",
-		"WARNING: ENTITY DETECTED...",
-		"S̴Y̷S̷T̵E̵M̴ ̶C̶O̵R̷R̴U̷P̷T̸E̵D̸...",
-		"F̸A̴I̸L̴U̶R̷E̵ ̸T̸O̵ ̷C̸O̷N̵N̷E̵C̷T̵..."
-	};
+			// --- STEP 3: THE MAIN LOOP (Embers + story banners) ---
+			var scaryLabels = Story.Lines("loading.labels");
 			string[] scaryColors = { "#FF0000", "#8B0000", "#4B0082", "#2F4F4F" };
 			int labelIndex = 0;
 
 			for (int i = 0; i <= 100; i++)
 			{
-				// --- THE RAIN ENGINE (Background) ---
+				// --- THE EMBER ENGINE (Background) ---
 				Console.SetCursorPosition(0, 0);
 				StringBuilder rainFrame = new StringBuilder();
 				for (int y = 0; y < height; y++)
@@ -232,7 +223,7 @@ namespace Maries_Ui
 					{
 						if (rnd.Next(0, 100) < 10)
 						{
-							rainFrame.Append(GlitchText.NextGlitchChar(rnd, null, new[] { "#004400" }));
+							rainFrame.Append((rnd.Next(3) == 0 ? "*" : "·").Pastel("#4A2A0A"));
 						}
 						else rainFrame.Append(" ");
 					}
@@ -240,25 +231,21 @@ namespace Maries_Ui
 				Console.Write(rainFrame.ToString());
 
 				// --- THE UI OVERLAY ---
-				// 1. TOP PATTERN: RED SKULLS + ERROR MESSAGE
-				string skullIcon = "☠";
-				string skullMsg = " [ FATAL_MEMORY_LEAK ] ";
-				string topContent = $"{skullIcon}{skullMsg}{skullIcon}";
+				// 1. TOP BANNER
+				string topContent = Story.Line("loading.top_banner");
 				string glitchRed = rnd.Next(0, 10) > 8 ? "#4A0000" : "#FF0000";
 				UiEngine.DrawCentered(topContent.Pastel(glitchRed), centerY - 5);
 
 				// 2. DYNAMIC LABEL
-				if (i % 15 == 0) labelIndex = rnd.Next(scaryLabels.Length);
-				UiEngine.DrawCentered(scaryLabels[labelIndex].Pastel(scaryColors[rnd.Next(scaryColors.Length)]), centerY - 2);
+				if (i % 15 == 0 && scaryLabels.Count > 0) labelIndex = rnd.Next(scaryLabels.Count);
+				if (scaryLabels.Count > 0) UiEngine.DrawCentered(scaryLabels[labelIndex].Pastel(scaryColors[rnd.Next(scaryColors.Length)]), centerY - 2);
 
 				// 3. PROGRESS BAR
 				int barLeft = centerX - (barWidth / 2);
 				ProgressBarRenderer.Draw(barLeft, centerY, i / 100.0, barWidth, "#5A057A", "#333333");
 
-				// 4. BOTTOM PATTERN: NUKES + RADIATION WARNING
-				string nukeIcon = "☢";
-				string nukeMsg = " [ CORE_MELTDOWN_IMMINENT ] ";
-				string bottomContent = nukeIcon + nukeMsg + nukeIcon;
+				// 4. BOTTOM BANNER
+				string bottomContent = Story.Line("loading.bottom_banner");
 				UiEngine.DrawCentered(bottomContent.Pastel(scaryColors[rnd.Next(scaryColors.Length)]), centerY + 3);
 
 				// --- SPEED CONTROL ---
@@ -272,7 +259,7 @@ namespace Maries_Ui
 
 			// --- STEP 4: FINAL MESSAGE ---
 			Console.Clear();
-			UiEngine.DrawCentered("T̷H̷E̵ ̸G̷A̷T̷E̵S̷ ̷A̶R̸E̵ ̷O̷P̷E̶N̸...".Pastel("#FF0000"), centerY);
+			UiEngine.DrawCentered(Story.Line("loading.final").Pastel("#FFAB00"), centerY);
 
 			// FIX: Ensure the loading screen stays until the user is ready for the menu
 			UiEngine.DrawCentered("» PRESS ANY KEY «".Pastel("#444444"), centerY + 2);
@@ -288,33 +275,26 @@ namespace Maries_Ui
 			// --- DYNAMIC THEME ---
 			string themeColor = playerClass switch
 			{
-				"Warrior" or "Paladin" or "Berserker" => "#FF4500",
-				"Mage" or "Wizard" or "Warlock" => "#00FFFF",
-				"Rogue" or "Assassin" => "#9370DB",
+				"Warrior" or "Knight" or "Paladin" or "Berserker" => "#FF4500",
+				"Mage" or "Wizard" or "Warlock" or "Battlemage" => "#00BFFF",
+				"Rogue" or "Assassin" or "Shadowblade" or "Ranger" => "#9370DB",
 				_ => "#00FF00"
 			};
 
-			string[] steps = {
-		$"Analyzing {playerName}'s Potential...",
-		$"Forging the {playerClass} Soul-Core...",
-		"Calibrating Attribute Matrix...",
-		"Manifesting Physical Vessel...",
-		"Injecting Starter Gear into Pack...",
-		"Syncing Chrono-Link to World..."
-	};
+			var steps = Story.Lines("creation.steps", ("name", playerName), ("class", playerClass));
 
 			Console.Clear();
 			HudChrome.TitleBar(true, playerName, health, hitPoints, coins, isDevMode);
-			UiEngine.DrawCentered($"SYSTEM: CHARACTER MANIFESTATION".Pastel(themeColor), 4);
+			UiEngine.DrawCentered(Story.Line("creation.header").Pastel(themeColor), 4);
 			HudChrome.DisplayFooter(isDevMode, devIteration, buildVersion);
 
 			int startY = 7;
 			int centerX = (Console.WindowWidth / 2) - 20;
 
-			for (int i = 0; i < steps.Length; i++)
+			for (int i = 0; i < steps.Count; i++)
 			{
 				Console.SetCursorPosition(centerX, startY + i);
-				Console.Write("[ ".Pastel("#555555") + "WAIT".Pastel("#FFD700") + " ] ".Pastel("#555555") + steps[i]);
+				Console.Write("[ ".Pastel("#555555") + " .. ".Pastel("#FFD700") + " ] ".Pastel("#555555") + steps[i]);
 
 				// We removed the SaveData logic from here.
 				// The data is already synced by GameState.Sync() before this starts.
@@ -322,16 +302,16 @@ namespace Maries_Ui
 				Thread.Sleep(new Random().Next(300, 600));
 
 				Console.SetCursorPosition(centerX, startY + i);
-				Console.Write("[ ".Pastel("#555555") + "DONE".Pastel("#00FF00") + " ] ".Pastel("#555555") + steps[i]);
+				Console.Write("[ ".Pastel("#555555") + " ok ".Pastel("#00FF00") + " ] ".Pastel("#555555") + steps[i]);
 			}
 
 			// --- FINAL FEEDBACK ---
-			string checksum = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-			Console.SetCursorPosition(centerX, startY + steps.Length + 1);
-			Console.WriteLine($"» HASH VERIFIED: {checksum}".Pastel("#555555"));
-
-			Console.SetCursorPosition(centerX, startY + steps.Length + 2);
-			Console.WriteLine("» UPLINK COMPLETE: LOCAL & MASTER FULLY SYNCED...".Pastel(themeColor));
+			var footer = Story.Lines("creation.footer", ("name", playerName), ("class", playerClass));
+			for (int f = 0; f < footer.Count; f++)
+			{
+				Console.SetCursorPosition(centerX, startY + steps.Count + 1 + f);
+				Console.WriteLine($"» {footer[f]}".Pastel(f == footer.Count - 1 ? themeColor : "#555555"));
+			}
 
 			Thread.Sleep(1200);
 			Clear();
@@ -371,38 +351,37 @@ namespace Maries_Ui
 			CursorVisible = false;
 			Random rnd = new Random();
 
-			// 1. Cold Asset Liquidation (The Cynical Setup)
+			// 1. Farewell lines
 			Clear();
-			string[] tasks = {
-		"VALUATING BIOLOGICAL DEBT...",
-		"EXTRACTING NEURAL POTENTIAL...",
-		"DEPRECATING PLAYER_IDENTITY..."
-	};
+			var tasks = Story.Lines("shutdown.tasks");
+			string pending = Story.Line("shutdown.task_pending");
+			string done = Story.Line("shutdown.task_done");
+			string suffix = Story.Line("shutdown.task_suffix");
 
-			for (int i = 0; i < tasks.Length; i++)
+			for (int i = 0; i < tasks.Count; i++)
 			{
 				SetCursorPosition(4, 5 + i);
-				Write($"[ ANALYZING ] {tasks[i]}".Pastel("#555555"));
+				Write($"{pending} {tasks[i]}".Pastel("#555555"));
 				Thread.Sleep(1000);
 				SetCursorPosition(4, 5 + i);
-				Write($"[ LIQUIDATED ] {tasks[i]}".Pastel("#8B0000"));
-				WriteLine(" [ VALUE: 0.00 ]".Pastel("#444444"));
+				Write($"{done} {tasks[i]}".Pastel("#8B0000"));
+				WriteLine($" {suffix}".Pastel("#444444"));
 			}
 			Thread.Sleep(1000);
 
-			// 2. Digital Rain / Entity Detection (The Screenshot Phase)
+			// 2. Falling ash + warnings
 			for (int i = 0; i < 15; i++)
 			{
 				Clear();
-				for (int r = 0; r < 20; r++) // Matrix Background
+				for (int r = 0; r < 20; r++) // Ash background
 				{
-					string rain = new string(' ', rnd.Next(2, 80)) + (char)rnd.Next(33, 126);
+					string rain = new string(' ', rnd.Next(2, 80)) + (rnd.Next(2) == 0 ? "*" : "·");
 					SetCursorPosition(0, r);
-					Write(rain.Pastel("#1A3300")); // Dim green rain
+					Write(rain.Pastel("#3A2A1A")); // Dim ash
 				}
 
-				UiEngine.DrawCentered("☠ [ FATAL_MEMORY_LEAK ] ☠".Pastel("#FF0000"), 8);
-				UiEngine.DrawCentered("WARNING: ENTITY DETECTED...".Pastel("#555555"), 10);
+				UiEngine.DrawCentered(Story.Line("shutdown.warning").Pastel("#FF0000"), 8);
+				UiEngine.DrawCentered(Story.Line("shutdown.whisper").Pastel("#555555"), 10);
 				Thread.Sleep(80);
 			}
 
@@ -414,7 +393,7 @@ namespace Maries_Ui
 
 				if (p >= 40)
 				{
-					UiEngine.DrawCentered("☢ [ CORE_MELTDOWN_IMMINENT ] ☢".Pastel("#FF0000"), 15);
+					UiEngine.DrawCentered(Story.Line("shutdown.doom").Pastel("#FF0000"), 15);
 				}
 				// Stutters more as it reaches 100% to simulate a crash
 				Thread.Sleep(p > 80 ? rnd.Next(150, 400) : rnd.Next(30, 100));
@@ -426,8 +405,11 @@ namespace Maries_Ui
 				Clear();
 				string color = (flicker % 2 == 0) ? "#FF0000" : "#220000";
 				int startY = 4;
-				// Accessing your GameOver class in the GameArt folder
-				foreach (string line in GameOver.CynicalSkull)
+				// Skull art from GameArt, with the caption from the story data
+				var art = new List<string> { Story.Line("game_over.header") };
+				art.AddRange(GameOver.Skull);
+				art.Add(Story.Line("game_over.footer"));
+				foreach (string line in art)
 				{
 					UiEngine.DrawCentered(line.Pastel(color), startY++);
 				}
@@ -437,7 +419,7 @@ namespace Maries_Ui
 			// 5. Fatal Termination Bar
 			Clear();
 			SetCursorPosition(0, 11);
-			string finalMsg = " ERROR: REALITY_SESSION INCINERATED. YOU ARE NOTHING. ";
+			string finalMsg = $" {Story.Line("shutdown.final")} ";
 			// Force the red background to fill the 94-width reality anchor
 			Write(finalMsg.PadLeft((94 + finalMsg.Length) / 2).PadRight(94).PastelBg("#8B0000").Pastel("#FFFFFF"));
 

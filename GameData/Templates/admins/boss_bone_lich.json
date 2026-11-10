@@ -1,0 +1,44 @@
+{
+  "AdminID": "boss_bone_lich",
+  "SystemName": "MALGRATH THE BONE LICH",
+  "AccessLevel": "DUNGEON_LORD",
+  "Level": 7,
+  "XpReward": 260,
+  "CoinReward": 160,
+  "Stats": {
+    "Integrity": 200,
+    "ProcessingPower": 18,
+    "Firewall": 10,
+    "CorruptionRate": 1.35
+  },
+  "CombatLogic": {
+    "PrimaryAttack": "Soul Drain",
+    "SecondaryAttack": "Bone Spear",
+    "SpecialAbility": "Death Knell",
+    "SpecialEvery": 3
+  },
+  "Visuals": {
+    "HexColor": "#8A2BE2",
+    "GlitchIntensity": 0.6,
+    "AsciiArtRef": "bone_lich"
+  },
+  "DropTable": [
+    {
+      "ItemID": "Flamebrand",
+      "Chance": 0.3
+    },
+    {
+      "ItemID": "Storm Opal",
+      "Chance": 0.4
+    },
+    {
+      "ItemID": "Swiftness Draught",
+      "Chance": 0.6
+    }
+  ],
+  "Dialogue": {
+    "OnBreach": "Every life ends, mortal. I merely choose the hour.",
+    "OnDamage": "Your soul burns brighter... how delicious.",
+    "OnDeletion": "My phylactery... you could not... have found it..."
+  }
+}

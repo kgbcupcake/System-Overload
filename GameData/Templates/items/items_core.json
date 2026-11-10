@@ -1,7 +1,7 @@
 [
-  { "Name": "Neural Stim-Pack",    "Value": 50,  "Weight": 0.1, "Amount": 1, "Type": "Consumable", "Rarity": "Common",   "Effect": "Restorative", "Durability": 0, "LevelReq": 0, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 },
-  { "Name": "Overclocked Coolant", "Value": 80,  "Weight": 0.5, "Amount": 1, "Type": "Consumable", "Rarity": "Uncommon", "Effect": "Speed",       "Durability": 0, "LevelReq": 1, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 },
-  { "Name": "Firewall Patch",      "Value": 120, "Weight": 0.2, "Amount": 1, "Type": "Consumable", "Rarity": "Uncommon", "Effect": "Defense",     "Durability": 0, "LevelReq": 2, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 },
-  { "Name": "Corrupted Sector Key","Value": 0,   "Weight": 0.0, "Amount": 1, "Type": "Key",        "Rarity": "Rare",     "Effect": "None",        "Durability": 0, "LevelReq": 0, "IsQuestItem": true,  "IconId": 0, "NumSockets": 0 },
-  { "Name": "Root Shard",          "Value": 400, "Weight": 0.1, "Amount": 1, "Type": "Material",   "Rarity": "Epic",     "Effect": "Ethereal",    "Durability": 0, "LevelReq": 0, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 }
+  { "Name": "Healing Potion",     "Value": 50,  "Weight": 0.1, "Amount": 1, "Type": "Consumable", "Rarity": "Common",   "Effect": "Restorative", "Durability": 0, "LevelReq": 0, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 },
+  { "Name": "Swiftness Draught",  "Value": 80,  "Weight": 0.5, "Amount": 1, "Type": "Consumable", "Rarity": "Uncommon", "Effect": "Speed",       "Durability": 0, "LevelReq": 1, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 },
+  { "Name": "Ironskin Tonic",     "Value": 120, "Weight": 0.2, "Amount": 1, "Type": "Consumable", "Rarity": "Uncommon", "Effect": "Defense",     "Durability": 0, "LevelReq": 2, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 },
+  { "Name": "Rusted Crypt Key",   "Value": 0,   "Weight": 0.0, "Amount": 1, "Type": "Key",        "Rarity": "Rare",     "Effect": "None",        "Durability": 0, "LevelReq": 0, "IsQuestItem": true,  "IconId": 0, "NumSockets": 0 },
+  { "Name": "Crown Fragment",     "Value": 400, "Weight": 0.1, "Amount": 1, "Type": "Material",   "Rarity": "Epic",     "Effect": "Ethereal",    "Durability": 0, "LevelReq": 0, "IsQuestItem": false, "IconId": 0, "NumSockets": 0 }
 ]

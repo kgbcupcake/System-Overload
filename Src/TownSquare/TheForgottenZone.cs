@@ -2,6 +2,7 @@
 using System_Overload.Src.GameEngine.Interfaces;
 using System_Overload.Src.Interfaces.UI;
 using Maries_Ui;
+using Maries_Loaders;
 using Pastel;
 using Src.TownSquare.InterFaces;
 using System.Numerics;
@@ -19,14 +20,13 @@ namespace Src.TownSquare
 
 			string[] options =
 			{
-				"DATA EXCHANGE",      // Was STORE
-				"BREACH TERMINAL",    // Was BOUNTY BOARD
-				"SIMULATION GATE",    // Was DUNGEON
-				"HARDWARE TECH",      // Was BLACK SMITH
-				"INTEGRITY REPAIR",   // Was MED CLINIC
-				"BIO-SIGNATURE",      // Was PLAYER STATS
-				"MEMORY DECK",
-				"DISCONNECT"
+				"GENERAL STORE",
+				"DUNGEON GATE",
+				"BLACKSMITH",
+				"HEALER",
+				"CHARACTER",
+				"INVENTORY",
+				"LEAVE THE REALM"
 			};
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			const int boxWidth = 92;
@@ -46,7 +46,7 @@ namespace Src.TownSquare
 					.ToList();
 
 				GameUiEngine.DrawDynamicFrame(
-					title: "THE FORGOTTEN OUTPOST",
+					title: Story.Line("town.title"),
 					lines: paddedOptions,
 					hint: "Use arrow keys to navigate",
 					boxWidth: boxWidth,
@@ -74,15 +74,15 @@ namespace Src.TownSquare
 		{
 			switch (selection)
 			{
-				case "DATA EXCHANGE":
+				case "GENERAL STORE":
 					Clear();
 					Store.LoadShop();
 					break;
 
-				case "BREACH TERMINAL":
+				case "DUNGEON GATE":
 					if (GameState.CurrentPlayer == null)
 					{
-						Alerts.QuickAlert("IDENTITY ERROR: No active bio-signature found.");
+						Alerts.QuickAlert("No hero is loaded.");
 						break;
 					}
 					Clear();
@@ -90,17 +90,17 @@ namespace Src.TownSquare
 					Clear();
 					break;
 
-				case "HARDWARE TECH":
+				case "BLACKSMITH":
 					Clear();
 					HardwareTech.Open();
 					break;
 
-				case "BIO-SIGNATURE":
+				case "CHARACTER":
 					Clear();
 					Stats.PlayerStats();
 					break;
 
-				case "MEMORY DECK":
+				case "INVENTORY":
 					Clear();
 					MemoryDeck.Open(GameState.CurrentPlayer);
 					break;
@@ -108,13 +108,13 @@ namespace Src.TownSquare
 
 
 
-				case "DISCONNECT":
+				case "LEAVE THE REALM":
 					Transitions.ShutdownSequence();
 					//isRunning = false;
 					break;
 
 				default:
-					Alerts.QuickAlert($"{selection} is currently unstable in this reality.");
+					Alerts.QuickAlert(Story.Pick("town.closed", ("place", selection)));
 					break;
 			}
 		}
@@ -126,10 +126,10 @@ namespace Src.TownSquare
 
 			// .Pastel sets the text color, .PastelBg sets the background color
 			// This creates the white text on a dark red bar from your screenshots
-			string loc = " THE FORGOTTEN ZONE ".Pastel("#FFFFFF").PastelBg("#8B0000");
+			string loc = $" {Story.Line("town.name")} ".Pastel("#FFFFFF").PastelBg("#8B0000");
 
 			// This creates the yellow/red icons on a transparent background
-			string stats = $" 👤 {p.PlayerName} | ❤️ HP: {p.Health}/{p.HitPoints} | 💰 {p.Coins} "
+			string stats = $" 👤 {p.PlayerName} | ❤️ HP: {p.Health}/{(int)p.GetTotalMaxHealth()} | 💰 {p.Coins} "
 							.Pastel("#FFD700");
 
 			// Clear the line first to prevent old text bleeding through

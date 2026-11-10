@@ -11,4 +11,8 @@
 		<PackageReference Include="Pastel" Version="7.0.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Maries_Loaders\Maries_Loaders.csproj" />
+	</ItemGroup>
+
 </Project>

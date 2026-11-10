@@ -6,6 +6,7 @@ using static System.Console;
 using System_Overload.Src.GameData.Components;
 using static Maries_DataModels.PlayerData;
 using Maries_DataModels;
+using Maries_Loaders;
 
 namespace System_Overload.Src.Game.Interfaces
 {
@@ -20,23 +21,23 @@ namespace System_Overload.Src.Game.Interfaces
 			Clear();
 
 			// 1. IDENTITY INPUT
-			string subHeader = "--- NEURAL UPLINK INITIALIZED ---";
-			string prompt = "Input Consciousness Designation (Name): ";
+			string subHeader = Story.Line("creation.intro");
+			string prompt = Story.Line("creation.name_prompt") + " ";
 
-			UiEngine.DrawCentered(subHeader.Pastel("#00FFFF"), 5);
+			UiEngine.DrawCentered(subHeader.Pastel("#FFAB00"), 5);
 
 			UiEngine.DrawCentered(prompt.Pastel("#FFFFFF"), 7);
 
 			CursorVisible = true;
-			ForegroundColor = ConsoleColor.Cyan;
+			ForegroundColor = ConsoleColor.Yellow;
 			string? nameInput = ReadLine();
 			ResetColor();
 
-			player.PlayerName = string.IsNullOrWhiteSpace(nameInput) ? "Subject_Zero" : nameInput;
+			player.PlayerName = string.IsNullOrWhiteSpace(nameInput) ? Story.Line("creation.default_name") : nameInput;
 			CursorVisible = false;
 
 			// 2. ARCHETYPE SELECTION
-			string[] coreArchetypes = { "Aegis-Protocol", "Cipher-Blade", "System-Architect" };
+			string[] coreArchetypes = { "Warrior", "Rogue", "Mage" };
 			int selectedIndex = 0;
 			bool pickingBase = true;
 
@@ -47,9 +48,9 @@ namespace System_Overload.Src.Game.Interfaces
 			while (pickingBase)
 			{
 				Clear();
-				DrawOuterBox(boxX, boxY, boxW, 12, "#00FFFF");
+				DrawOuterBox(boxX, boxY, boxW, 12, "#B8860B");
 
-				string greeting = $"Syncing Profile: {player.PlayerName}";
+				string greeting = Story.Line("creation.greeting", ("name", player.PlayerName));
 				UiEngine.DrawCentered(greeting.Pastel("#FFD700"), boxY + 1);
 
 				for (int i = 0; i < coreArchetypes.Length; i++)
@@ -62,7 +63,7 @@ namespace System_Overload.Src.Game.Interfaces
 						UiEngine.DrawCentered(rawText.Pastel("#555555"), boxY + 4 + i);
 				}
 
-				string hint = "[UP/DOWN] to navigate | [ENTER] to confirm link";
+				string hint = "[UP/DOWN] to navigate | [ENTER] to choose";
 				UiEngine.DrawCentered(hint.Pastel("#333333"), 17);
 
 				var key = ReadKey(true).Key;
@@ -86,17 +87,17 @@ namespace System_Overload.Src.Game.Interfaces
 			Clear();
 			int centerX = (screenWidth / 2);
 
-			string welcomeMsg = $"Link Confirmed, {player.PlayerName.Pastel("#00FF00")}!";
+			string welcomeMsg = Story.Line("creation.welcome", ("name", player.PlayerName.Pastel("#FFD700")));
 			UiEngine.DrawCentered(welcomeMsg, 8);
 
-			string journeyMsg = $"Simulation Profile: {player.PlayerClass.Pastel("#FFD700")}";
+			string journeyMsg = $"Class: {player.PlayerClass.Pastel("#FFD700")}";
 			UiEngine.DrawCentered(journeyMsg.Pastel("#DCDCDC"), 10);
 
-			string gearMsg = "Initial data manifests added to buffer.";
+			string gearMsg = Story.Line("creation.gear");
 			UiEngine.DrawCentered(gearMsg, 12);
 
 			SetCursorPosition(centerX - 12, 14);
-			WriteLine("\n    --- INITIAL MANIFEST ---".Pastel("#00FFFF"));
+			WriteLine("\n    --- STARTING GEAR ---".Pastel("#FFAB00"));
 
 			int itemRow = 16;
 			foreach (var item in player.Inventory)
@@ -113,8 +114,8 @@ namespace System_Overload.Src.Game.Interfaces
 
 		private static void PointDistribution(loadPlayer player, int screenWidth)
 		{
-			int bandwidthLeft = 10;
-			string[] modules = { "Integrity Protocol", "Throughput Ratio", "Firewall Uplink", "Buffer Optimization" };
+			int pointsLeft = 10;
+			string[] modules = { "Vitality", "Strength", "Fortitude", "Wisdom" };
 			int selectedModule = 0;
 			bool allocating = true;
 
@@ -126,21 +127,21 @@ namespace System_Overload.Src.Game.Interfaces
 			while (allocating)
 			{
 				Clear();
-				WriteLine("=== SYSTEM BANDWIDTH ALLOCATION ===".Pastel("#00FFFF"));
-				WriteLine(new string('-', screenWidth).Pastel("#125874"));
+				WriteLine("=== ATTRIBUTE POINTS ===".Pastel("#FFAB00"));
+				WriteLine(new string('-', screenWidth).Pastel("#5A3A1A"));
 
 				SetCursorPosition(4, 3);
-				WriteLine(" ALLOCATION OVERVIEW ".Pastel("#000000").PastelBg("#00FFFF"));
+				WriteLine(" TRAIN YOUR HERO ".Pastel("#000000").PastelBg("#FFAB00"));
 				SetCursorPosition(4, 4);
-				WriteLine($"Synchronize your Neural Link via bandwidth distribution.".Pastel("#DCDCDC"));
+				WriteLine(Story.Line("creation.attributes").Pastel("#DCDCDC"));
 
 				// Update live health during allocation
 				player.Health = (int)player.GetTotalMaxHealth();
 
 				SetCursorPosition(4, 7);
-				string progressBar = new string('■', 10 - bandwidthLeft).Pastel("#00FF00") +
-									 new string('?', bandwidthLeft).Pastel("#333333");
-				WriteLine($"Bandwidth Pool: [{progressBar}] | {bandwidthLeft} GHz Available");
+				string progressBar = new string('■', 10 - pointsLeft).Pastel("#FFD700") +
+									 new string('□', pointsLeft).Pastel("#333333");
+				WriteLine($"Points: [{progressBar}] | {pointsLeft} left to spend");
 
 				for (int i = 0; i < modules.Length; i++)
 				{
@@ -150,7 +151,7 @@ namespace System_Overload.Src.Game.Interfaces
 						0 => player.IntegrityPoints,
 						1 => player.ThroughputPoints,
 						2 => player.FirewallPoints,
-						3 => 0, // Visual placeholder for Buffer
+						3 => 0, // Wisdom does nothing yet
 						_ => 0
 					};
 
@@ -161,19 +162,19 @@ namespace System_Overload.Src.Game.Interfaces
 					Write(i == selectedModule ? line.Pastel("#00FF00") : line.Pastel("#555555"));
 				}
 
-				// The high-tech attribute box provides live feedback on the right
+				// The hero stat box gives live feedback on the right
 				GameUiEngine.DrawAttributeBox(player, 52, 11, selectedModule);
 
 				var key = ReadKey(true).Key;
 				if (key == ConsoleKey.UpArrow) selectedModule = (selectedModule == 0) ? modules.Length - 1 : selectedModule - 1;
 				if (key == ConsoleKey.DownArrow) selectedModule = (selectedModule == modules.Length - 1) ? 0 : selectedModule + 1;
 
-				if (key == ConsoleKey.RightArrow && bandwidthLeft > 0)
+				if (key == ConsoleKey.RightArrow && pointsLeft > 0)
 				{
 					if (selectedModule == 0) player.IntegrityPoints++;
 					else if (selectedModule == 1) player.ThroughputPoints++;
 					else if (selectedModule == 2) player.FirewallPoints++;
-					bandwidthLeft--;
+					pointsLeft--;
 				}
 				if (key == ConsoleKey.LeftArrow)
 				{
@@ -183,10 +184,10 @@ namespace System_Overload.Src.Game.Interfaces
 						if (selectedModule == 0) player.IntegrityPoints--;
 						else if (selectedModule == 1) player.ThroughputPoints--;
 						else if (selectedModule == 2) player.FirewallPoints--;
-						bandwidthLeft++;
+						pointsLeft++;
 					}
 				}
-				if (key == ConsoleKey.Enter && bandwidthLeft == 0) allocating = false;
+				if (key == ConsoleKey.Enter && pointsLeft == 0) allocating = false;
 			}
 		}
 
@@ -211,23 +212,27 @@ namespace System_Overload.Src.Game.Interfaces
 
 		private static void InitializeSimulationStats(loadPlayer player)
 		{
-			// Setting starting parameters based on the chosen Profile
+			// Starting HP and danger based on the chosen class
 			switch (player.PlayerClass)
 			{
-				case "Aegis-Protocol":
-				case "Titan-Shell":
-				case "Bastion-Core":
+				case "Warrior":
+				case "Knight":
+				case "Paladin":
+				case "Berserker":
 					player.HitPoints = 150;
 					player.DifficultyRating = 0;
 					break;
-				case "Cipher-Blade":
-				case "Ghost-Code":
-				case "Neural-Reaper":
+				case "Rogue":
+				case "Assassin":
+				case "Shadowblade":
+				case "Ranger":
 					player.HitPoints = 100;
 					player.DifficultyRating = 1;
 					break;
-				case "System-Architect":
-				case "Root-Admin":
+				case "Mage":
+				case "Wizard":
+				case "Warlock":
+				case "Battlemage":
 					player.HitPoints = 120;
 					player.DifficultyRating = 2;
 					break;
@@ -236,8 +241,7 @@ namespace System_Overload.Src.Game.Interfaces
 					break;
 			}
 
-			// Apply the integrity points spent in allocation to base HP
-			player.HitPoints += (player.IntegrityPoints * 10);
+			// Vitality points are applied in GetTotalMaxHealth (15 HP each), so base HP stays as set above.
 			player.Health = (int)player.GetTotalMaxHealth();
 		}
 
@@ -246,22 +250,22 @@ namespace System_Overload.Src.Game.Interfaces
 			player.Inventory.Clear();
 			switch (player.PlayerClass)
 			{
-				case string s when s.Contains("Aegis") || s.Contains("Shell") || s.Contains("Bastion"):
+				case "Warrior" or "Knight" or "Paladin" or "Berserker":
 					player.AddGold(50);
-					player.Inventory.Add(new WeaponData("Kinetic Breacher", 18, 12.0f, 250, ItemRarity.Common, "Heavy", EffectType.Defense, 100, 10, "12ga", 5, 2));
-					player.Inventory.Add(new ItemData("Neural Stim-Pack", 50, 0.1f, 2, "Consumable", ItemRarity.Common, EffectType.Restorative, 0, 0, false, 0));
+					player.Inventory.Add(new WeaponData("Iron Warhammer", 18, 12.0f, 250, ItemRarity.Common, "Heavy", EffectType.Defense, 100, 0, "None", 5, 2));
+					player.Inventory.Add(new ItemData("Healing Potion", 50, 0.1f, 2, "Consumable", ItemRarity.Common, EffectType.Restorative, 0, 0, false, 0));
 					break;
 
-				case string s when s.Contains("Cipher") || s.Contains("Ghost") || s.Contains("Reaper"):
+				case "Rogue" or "Assassin" or "Shadowblade" or "Ranger":
 					player.AddGold(150);
-					player.Inventory.Add(new WeaponData("Mono-Molecular Edge", 25, 1.5f, 400, ItemRarity.Uncommon, "Melee", EffectType.Speed, 50, 0, "None", 20, 1));
-					player.Inventory.Add(new ItemData("Logic-Spike", 75, 0.2f, 1, "Tool", ItemRarity.Rare, EffectType.None, 1, 0, false, 0));
+					player.Inventory.Add(new WeaponData("Whisper Dagger", 25, 1.5f, 400, ItemRarity.Uncommon, "Melee", EffectType.Speed, 50, 0, "None", 20, 1));
+					player.Inventory.Add(new ItemData("Lockpick Set", 75, 0.2f, 1, "Tool", ItemRarity.Rare, EffectType.None, 1, 0, false, 0));
 					break;
 
-				case string s when s.Contains("Architect") || s.Contains("Admin"):
+				case "Mage" or "Wizard" or "Warlock" or "Battlemage":
 					player.AddGold(25);
-					player.Inventory.Add(new WeaponData("Feedback Staff", 15, 4.0f, 300, ItemRarity.Common, "Exotic", EffectType.Electric, 100, 20, "Energy", 10, 4));
-					player.Inventory.Add(new GemData { Name = "Clock-Cycle Gem", Power = 5.0f, Attributes = new List<EffectType> { EffectType.Electric } });
+					player.Inventory.Add(new WeaponData("Oak Staff", 15, 4.0f, 300, ItemRarity.Common, "Magic", EffectType.Electric, 100, 0, "None", 10, 4));
+					player.Inventory.Add(new GemData { Name = "Mana Crystal", Power = 5.0f, Attributes = new List<EffectType> { EffectType.Electric } });
 					break;
 			}
 		}

@@ -9,7 +9,9 @@ namespace Maries_DataModels
 		public string Id { get; set; } = "";
 		public string Title { get; set; } = "";
 		public string Description { get; set; } = "";
-		public string Difficulty { get; set; } = "STABLE";
+		public string Difficulty { get; set; } = "EASY";
+		/// <summary>Shown when the floor is cleared. Falls back to the "dungeon.complete" story line.</summary>
+		public string CompletionText { get; set; } = "";
 		public int CompletionCredits { get; set; }
 		public int CompletionExp { get; set; }
 		public List<string> Tags { get; set; } = new();
@@ -22,6 +24,6 @@ namespace Maries_DataModels
 	{
 		public string StoryText { get; set; } = "";
 		public string EnemyId { get; set; } = "";
-		public string HexColor { get; set; } = "#00FFFF";
+		public string HexColor { get; set; } = "#FFAB00";
 	}
 }

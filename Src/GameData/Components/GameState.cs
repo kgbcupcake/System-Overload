@@ -11,7 +11,7 @@ namespace System_Overload.Src.GameData.Components
 	public class GameState
 	{
 		private static readonly string UserDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-		public static readonly string MasterPath = Path.Combine(UserDocuments, "SystemOverload", "Corrupted Data");
+		public static readonly string MasterPath = Path.Combine(UserDocuments, "DungeonAdventures", "Realm Data");
 
 
 		// 1. Data registration
@@ -28,6 +28,7 @@ namespace System_Overload.Src.GameData.Components
 			"modules",
 			"shops",
 			"weapon_templates",
+			"story",
 
 		};
 

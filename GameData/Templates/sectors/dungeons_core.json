@@ -1,0 +1,128 @@
+[
+  {
+    "Id": "dungeon_01_crypt",
+    "Title": "FLOOR 1 // THE SUNKEN CRYPT",
+    "Description": "An old burial vault beneath the village. Something down there is still gnawing on the bones.",
+    "Difficulty": "EASY",
+    "CompletionCredits": 60,
+    "CompletionExp": 50,
+    "CompletionText": "The Warden's keys fall silent. The crypt is quiet at last.",
+    "Tags": [
+      "tutorial",
+      "crypt"
+    ],
+    "Stages": [
+      {
+        "StoryText": "You squeeze past a cracked tombstone and drop into the crypt. Old bones crunch underfoot.",
+        "EnemyId": "",
+        "HexColor": "#7FB3A0"
+      },
+      {
+        "StoryText": "A Giant Cave Rat the size of a hound scrambles out of an open coffin, teeth bared.",
+        "EnemyId": "cave_rat",
+        "HexColor": "#7FB3A0"
+      },
+      {
+        "StoryText": "A rusted bell tolls somewhere in the dark. A Skeleton Guard pulls itself up from its post.",
+        "EnemyId": "skeleton_guard",
+        "HexColor": "#B3001B"
+      },
+      {
+        "StoryText": "At the end of the hall, a great iron door groans open. THE CRYPT WARDEN steps out, a ring of keys clanking at its hip.",
+        "EnemyId": "boss_crypt_warden",
+        "HexColor": "#7FB3A0"
+      }
+    ]
+  },
+  {
+    "Id": "dungeon_02_caverns",
+    "Title": "FLOOR 2 // THE EMBER CAVERNS",
+    "Description": "Deep volcanic tunnels where the rock glows red. Something huge is breathing down here.",
+    "Difficulty": "MODERATE",
+    "CompletionCredits": 140,
+    "CompletionExp": 120,
+    "CompletionText": "The drake's fire dies, and her hoard is yours to plunder.",
+    "Tags": [
+      "caverns",
+      "fire"
+    ],
+    "Stages": [
+      {
+        "StoryText": "Heat rolls up the tunnel in waves. The walls are streaked with cooling lava, still glowing.",
+        "EnemyId": "",
+        "HexColor": "#FF5F1F"
+      },
+      {
+        "StoryText": "A Stone Sentinel grinds to life, rubble pouring from its shoulders as it turns to face you.",
+        "EnemyId": "stone_sentinel",
+        "HexColor": "#FF5F1F"
+      },
+      {
+        "StoryText": "Two burning eyes open in the shadows. A Shadow Wolf has caught your scent.",
+        "EnemyId": "shadow_wolf",
+        "HexColor": "#B3001B"
+      },
+      {
+        "StoryText": "The cavern opens onto a mountain of gold. The mountain moves. VEXARA THE EMBER DRAKE uncoils from her hoard.",
+        "EnemyId": "boss_ember_drake",
+        "HexColor": "#FF5F1F"
+      }
+    ]
+  },
+  {
+    "Id": "dungeon_03_catacombs",
+    "Title": "FLOOR 3 // THE LICH'S CATACOMBS",
+    "Description": "Endless halls of the honoured dead. The dead here are not allowed to rest.",
+    "Difficulty": "HARD",
+    "CompletionCredits": 300,
+    "CompletionExp": 280,
+    "CompletionText": "The Lich's bones scatter. The dead of the catacombs can finally rest.",
+    "Tags": [
+      "catacombs",
+      "boss"
+    ],
+    "Stages": [
+      {
+        "StoryText": "The torches here burn green. The air is cold enough to see your breath.",
+        "EnemyId": "",
+        "HexColor": "#7FB3A0"
+      },
+      {
+        "StoryText": "Drums and shrieking echo up the stairwell. A Goblin Horde pours out of the side passages.",
+        "EnemyId": "goblin_horde",
+        "HexColor": "#B3001B"
+      },
+      {
+        "StoryText": "Every skull in the walls turns to watch you. On a throne of bones, MALGRATH THE BONE LICH raises a withered hand.",
+        "EnemyId": "boss_bone_lich",
+        "HexColor": "#8A2BE2"
+      }
+    ]
+  },
+  {
+    "Id": "dungeon_04_throne",
+    "Title": "FLOOR 4 // THE DREAD THRONE",
+    "Description": "The heart of the dungeon. No hero who has entered this hall has ever walked back out.",
+    "Difficulty": "DEADLY",
+    "CompletionCredits": 500,
+    "CompletionExp": 500,
+    "CompletionText": "The Dread King falls. His black crown rolls to your feet. The realm is free.",
+    "Tags": [
+      "throne",
+      "boss",
+      "endgame"
+    ],
+    "Stages": [
+      {
+        "StoryText": "Black banners hang from a ceiling you cannot see. Your footsteps echo like a funeral march.",
+        "EnemyId": "",
+        "HexColor": "#B3001B"
+      },
+      {
+        "StoryText": "THE DREAD KING rises from his throne, a crown of black iron on his brow. 'Kneel. Every soul in this realm is mine to command.'",
+        "EnemyId": "boss_dread_king",
+        "HexColor": "#B3001B"
+      }
+    ]
+  }
+]

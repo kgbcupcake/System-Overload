@@ -1,5 +1,6 @@
 ﻿using System_Overload.Src.GameData.Components;
 using Maries_Ui;
+using Maries_Loaders;
 using Pastel;
 using Maries_DataModels;
 using static System.Console;
@@ -18,15 +19,15 @@ namespace Src.TownSquare.InterFaces
 
 			while (inHardwareMenu)
 			{
-				Clear(); // Wipe the terminal before drawing the tech interface
+				Clear(); // Wipe the screen before drawing the forge
 
-				UiEngine.DrawCentered("=== SELECT HARDWARE FOR MODIFICATION ===".Pastel("#00FFFF"), 4);
+				UiEngine.DrawCentered("=== CHOOSE A WEAPON TO SOCKET ===".Pastel("#FFAB00"), 4);
 
 				var weapons = player.Inventory.OfType<WeaponData>().ToList();
 
 				if (weapons.Count == 0)
 				{
-					UiEngine.DrawCentered("No valid hardware detected in inventory buffer.".Pastel("#FF0000"), 10);
+					UiEngine.DrawCentered("You have no weapons to work on.".Pastel("#FF0000"), 10);
 					UiEngine.DrawCentered("[Press any key to return]".Pastel("#555555"), 12);
 					ReadKey(true);
 					inHardwareMenu = false;
@@ -51,7 +52,7 @@ namespace Src.TownSquare.InterFaces
 						UiEngine.DrawCentered(weaponLine, 8 + i);
 					}
 
-					UiEngine.DrawCentered("[ESC] BACK TO TERMINAL".Pastel("#FFD700"), 14 + weapons.Count);
+					UiEngine.DrawCentered("[ESC] BACK TO TOWN".Pastel("#FFD700"), 14 + weapons.Count);
 
 					var key = ReadKey(true).Key;
 
@@ -86,27 +87,27 @@ namespace Src.TownSquare.InterFaces
 
 			if (weapon.SocketedGems.Count >= weapon.NumSockets)
 			{
-				UiEngine.DrawCentered("CRITICAL: Hardware socket array is full!".Pastel("#FF0000"), 10);
+				UiEngine.DrawCentered("Every socket on this weapon is already filled!".Pastel("#FF0000"), 10);
 				Thread.Sleep(1500);
 				return;
 			}
 
 			if (gems.Count == 0)
 			{
-				UiEngine.DrawCentered("ERROR: No compatible Data-Gems found in buffer.".Pastel("#FF0000"), 10);
+				UiEngine.DrawCentered("You have no gems to set.".Pastel("#FF0000"), 10);
 				Thread.Sleep(1500);
 				return;
 			}
 
 			int selected = 0;
-			bool injecting = true;
+			bool socketing = true;
 
-			while (injecting)
+			while (socketing)
 			{
 				// We don't Clear() every frame here to prevent flickering, just move the cursor
 				SetCursorPosition(0, 4);
-				UiEngine.DrawCentered($"INJECTING INTO: {weapon.Name.Pastel("#00FFFF")}", 4);
-				UiEngine.DrawCentered("Select Data-Gem for injection:", 6);
+				UiEngine.DrawCentered($"SOCKETING: {weapon.Name.Pastel("#FFAB00")}", 4);
+				UiEngine.DrawCentered("Choose a gem:", 6);
 
 				for (int i = 0; i < gems.Count; i++)
 				{
@@ -116,22 +117,23 @@ namespace Src.TownSquare.InterFaces
 					UiEngine.DrawCentered(gemLine, 10 + i);
 				}
 
-				UiEngine.DrawCentered("[ESC] CANCEL INJECTION".Pastel("#FFD700"), 14 + gems.Count);
+				UiEngine.DrawCentered("[ESC] CANCEL".Pastel("#FFD700"), 14 + gems.Count);
 
 				var key = ReadKey(true).Key;
 				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) selected = MenuNavigator.HandleVerticalNav(key, selected, gems.Count);
 
 				if (key == ConsoleKey.Enter)
 				{
-					weapon.SocketedGems.Add(gems[selected]);
-					player.Inventory.Remove(gems[selected]);
+					var gem = gems[selected];
+					weapon.SocketedGems.Add(gem);
+					player.Inventory.Remove(gem);
 					Clear();
-					UiEngine.DrawCentered("LINK SUCCESSFUL: Data-Gem integrated.".Pastel("#00FF00"), 10);
+					UiEngine.DrawCentered(Story.Pick("blacksmith.socketed", ("gem", gem.Name), ("weapon", weapon.Name)).Pastel("#00FF00"), 10);
 					Thread.Sleep(1000);
-					injecting = false;
+					socketing = false;
 				}
 
-				if (key == ConsoleKey.Escape) injecting = false;
+				if (key == ConsoleKey.Escape) socketing = false;
 			}
 		}
 	}

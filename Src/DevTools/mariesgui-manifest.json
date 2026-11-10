@@ -1,6 +1,6 @@
 {
   // Load this file in MariesGui's "Load Profile" window to edit System-Overload content.
-  "profileName": "System Overload",
+  "profileName": "Dungeon Adventures",
 
   // The game's compiled DLL, relative to this manifest. Build the game first (dotnet build).
   "assemblies": [
@@ -10,5 +10,5 @@
   ],
 
   // Where the game reads its live content and save profiles from.
-  "dataRoot": "~/Documents/SystemOverload/Corrupted Data"
+  "dataRoot": "~/Documents/DungeonAdventures/Realm Data"
 }

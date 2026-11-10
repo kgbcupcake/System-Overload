@@ -1,4 +1,5 @@
-﻿using Pastel;
+using Maries_Loaders;
+using Pastel;
 using System;
 
 namespace Maries_Ui
@@ -9,12 +10,12 @@ namespace Maries_Ui
 		public static void DrawMainHeader()
 		{
 			string separator = "[" + new string('=', Console.WindowWidth - 4) + "]";
-			string titleText = "S Y S T E M   O V E R L O A D";
-			string subText = "[ RESTORING CORE DATA... ]";
-			Console.ForegroundColor = ConsoleColor.Cyan;
+			string titleText = Story.Line("main_menu.title");
+			string subText = Story.Line("main_menu.subtitle");
+			Console.ForegroundColor = ConsoleColor.DarkYellow;
 			UiEngine.DrawCentered(separator, 5);
-			UiEngine.DrawCentered(titleText.Pastel("#00FFFF"), 6);
-			UiEngine.DrawCentered(subText.Pastel("#008B8B"), 8);
+			UiEngine.DrawCentered(titleText.Pastel("#FFAB00"), 6);
+			UiEngine.DrawCentered(subText.Pastel("#B8860B"), 8);
 			UiEngine.DrawCentered(separator, 10);
 			Console.ResetColor();
 		}
@@ -23,9 +24,9 @@ namespace Maries_Ui
 	#region// Game Over Art
 	public static class GameOver 
 	{
-		public static readonly string[] CynicalSkull = new string[]
+		// The caption above and below the skull comes from the "game_over" story lines.
+		public static readonly string[] Skull = new string[]
 		{
-			"         YOU WERE JUST RENTED DATA         ",
 			"___________________________________________",
 			"         oooo$$$$$$$$oooo                  ",
 			"      oo$$$$$$$$$$$$$$$$$$oo               ",
@@ -41,8 +42,7 @@ namespace Maries_Ui
 			"   $$$$$$$$\"\"$$$$$$$$$??$$$$$$$            ",
 			"    \"\"$$$$\"  \"$$$$$$$\"  \"$$$$\"             ",
 			"       \"$$$    \"$$$\"    $$$\"               ",
-			"___________________________________________",
-			"          [ REALITY TERMINATED ]           "
+			"___________________________________________"
 		};
 	}
 

@@ -1,393 +1,163 @@
-﻿# ⚡ [SYSTEM_OVERLOAD]: DEVELOPMENT_UPLINK
+﻿# ⚡ [SYSTEM_OVERLOAD]
 
-> **“THE VOID IS CURRENTLY UNDER RECONSTRUCTION. PROCEED WITH CAUTION.”**
+> **"THE SYSTEM IS NOT BROKEN. IT IS SIMPLY EVOLVING BEYOND YOUR CONTROL."**
 
-[![Version](https://img.shields.io/badge/version-v1.0.0-bolt?style=for-the-badge\&color=yellow)](https://github.com/kgbcupcake/System-Overload)
-[![Uplink](https://img.shields.io/badge/UPLINK-DEVELOPMENT-orange?style=for-the-badge\&logo=github)](https://github.com/kgbcupcake/System-Overload)
-[![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-v1.0.0-yellow?style=for-the-badge)](https://github.com/kgbcupcake/System-Overload)
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/download/dotnet/8.0)
+[![Branch](https://img.shields.io/badge/branch-Dev-orange?style=for-the-badge)](https://github.com/kgbcupcake/System-Overload/tree/Dev)
+[![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)](LICENSE)
 
----
+**System Overload** is a terminal dungeon crawler written in C# on .NET 10. You play inside a dying machine intelligence, breaching its corrupted memory sectors, fighting rogue drones and sector admins, and scavenging loot before the hardware collapses for good.
 
-# 🧪 DEV STATUS: `SECTOR_02_CALIBRATION`
-
-`dev-bench` is the experimental development environment for **System Overload**.
-
-This is where new systems are designed, tested, stressed, broken, and rebuilt before they become part of the stable game.
-
-Nothing here is guaranteed to work.
-
-That is the point.
-
-> ⚠️ **THIS IS THE LABORATORY.**
->
-> **EXPECT UNSTABLE SYSTEMS.**
+Everything is drawn inside a fixed **84×24 "Reality Anchor"**: no scrolling, no safety, no recovery. If your terminal starts flickering in Toxic Green and Emergency Red, the infection is going as planned.
 
 ---
 
-# 🚧 CURRENT RECONSTRUCTION
+## ☣️ Features
 
-## ⚔️ COMBAT ENGINE
-
-Current combat already exists in the main engine.
-
-`dev-bench` is being used to push it further.
-
-Development targets include:
-
-* [ ] Expanded hit detection
-* [ ] Damage scaling
-* [ ] Critical damage
-* [ ] Weapon-specific behavior
-* [ ] Enemy-specific behavior
-* [ ] Combat state expansion
-* [ ] Better combat feedback
-* [ ] Stress testing
-
-Current combat is already capable of player attacks, enemy counter-attacks, health tracking, Stim-Pack healing, weapon damage calculation, and combat logging.
-
-The laboratory exists to evolve those systems rather than replace them.
+- **Sector breaches**: push through corrupted memory sectors, each with its own hostile drones and an admin boss guarding the exit.
+- **Turn-based combat**: weapons, damage scaling and enemy stats all come from data files.
+- **The Town Square hub**: the Store, Hardware Tech, Memory Deck and Sector Breach Terminal, with save and load between runs.
+- **Data-driven content**: drones, admins, sectors, weapons, items, gems and shops are plain JSON, editable by hand or with the MariesGui editor.
+- **Hostile UI**: 24-bit colour via `Pastel` and `Spectre.Console`, with flicker-free redraws locked to the 84×24 grid.
 
 ---
 
-# 🔫 ARMORY EXPANSION
+## 🔌 Getting Started
 
-The weapon system already supports hardware and socketed Data-Gems.
+### Requirements
 
-The next stage is expanding the armory.
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- A terminal with UTF-8 and 24-bit colour support (Windows Terminal, GNOME Terminal, Konsole, kitty, etc.), sized to at least **84×24**
 
-### Planned development
-
-* [ ] Additional weapon types
-* [ ] New weapon identifiers
-* [ ] Weapon rarity
-* [ ] Expanded damage profiles
-* [ ] Weapon-specific effects
-* [ ] Hardware modification
-* [ ] Additional socket mechanics
-* [ ] Weapon balancing
-
-The goal is to make hardware feel like actual machine equipment rather than simple RPG inventory entries.
-
----
-
-# 💎 GEM RESONANCE
-
-Data-Gems already exist as socketable weapon components.
-
-The next stage is expanding their role into a larger loot and progression system.
-
-### Development targets
-
-* [ ] Gem drop tables
-* [ ] Gem rarity
-* [ ] Gem distribution
-* [ ] Currency relationships
-* [ ] Enemy-specific drops
-* [ ] Sector-specific drops
-* [ ] Reward scaling
-* [ ] Loot balancing
-
-Current injection flow:
-
-```text
-WEAPON
-   │
-   ▼
-DATA-GEM SELECTION
-   │
-   ▼
-SOCKET INJECTION
-   │
-   ▼
-WEAPON POWER MODIFIED
-```
-
-Future systems may allow gems to influence more than raw weapon power.
-
----
-
-# 👁️ VISUAL PULSE
-
-One of the major goals of `dev-bench` is moving combat presentation beyond simple text representations.
-
-### CURRENT
-
-```text
-[DRONE]
-HP: 100
-DMG: 15
-STATUS: HOSTILE
-```
-
-### TARGET
-
-```text
-        ┌─────────────────────┐
-        │      DRONE ENTITY   │
-        │                     │
-        │      [ HOSTILE ]    │
-        │                     │
-        │    SYSTEM TARGET    │
-        └─────────────────────┘
-```
-
-The exact visual system is still being developed.
-
-Potential improvements include:
-
-* [ ] Dedicated drone ASCII art
-* [ ] Drone-specific silhouettes
-* [ ] Damage states
-* [ ] Combat animation
-* [ ] Terminal corruption effects
-* [ ] Entity-specific rendering
-* [ ] Spectre.Console integration where appropriate
-* [ ] Reduced redraw artifacts
-
-The goal:
-
-> **Enemies should look like they belong inside the machine.**
-
----
-
-# ☣️ REALITY ANCHOR STRESS TEST
-
-System Overload relies heavily on controlled terminal rendering.
-
-The current UI architecture uses a **94-column rendering anchor** for major interfaces.
-
-`dev-bench` is responsible for testing what happens when the system is pushed beyond normal conditions.
-
-### Stress targets
-
-* [ ] Large menus
-* [ ] Multiple entities
-* [ ] Rapid redraws
-* [ ] Dense combat interfaces
-* [ ] Terminal resizing
-* [ ] Long-running sessions
-* [ ] Large sector lists
-* [ ] Heavy UI updates
-* [ ] State transition stability
-
-The terminal is part of the game.
-
-Therefore:
-
-**The terminal must survive the game.**
-
----
-
-# 🧠 NEURAL LINK
-
-## STATUS: `NOT IMPLEMENTED`
-
-The Neural Link is a **future experimental system**.
-
-It is intentionally listed here because `dev-bench` is where the architecture for it can be explored without pretending that it already exists in the playable game.
-
-Potential providers:
-
-```text
-┌─────────────────────────────┐
-│       NEURAL LINK           │
-├─────────────────────────────┤
-│                             │
-│  LOCAL                      │
-│  └── Ollama                 │
-│                             │
-│  REMOTE                     │
-│  └── OpenAI                 │
-│                             │
-└─────────────────────────────┘
-```
-
-Potential applications:
-
-* [ ] Dynamic system dialogue
-* [ ] Adaptive environmental events
-* [ ] Procedural narrative
-* [ ] Hostile system responses
-* [ ] Dynamic encounter generation
-* [ ] Player-behavior reactions
-* [ ] Persistent system memory
-* [ ] AI-controlled entities
-
-### Architecture Goal
-
-The AI should **not** become a requirement for the game to function.
-
-Instead:
-
-```text
-GAME CORE
-    │
-    ├── Combat
-    ├── Sectors
-    ├── Inventory
-    ├── Hardware
-    └── Economy
-             │
-             ▼
-       NEURAL LINK
-             │
-       ┌─────┴─────┐
-       ▼           ▼
-    Ollama       OpenAI
-```
-
-The core game remains deterministic.
-
-The Neural Link becomes an optional intelligence layer.
-
-> **The AI should feel like something living inside the machine.**
->
-> **Not something bolted onto it.**
-
----
-
-# 🧱 ARCHITECTURAL EXPERIMENTS
-
-`dev-bench` may contain prototypes that have not yet earned a place in the main engine.
-
-Experimental work may include:
-
-* New game systems
-* New data structures
-* UI prototypes
-* Rendering experiments
-* AI abstractions
-* Combat revisions
-* Loot systems
-* Performance experiments
-* Developer tools
-
-A system should only move toward the stable branch after it survives testing.
-
----
-
-# 🧪 DEVELOPMENT CHECKLIST
-
-```text
-[ ] BUILD
-[ ] TEST
-[ ] STRESS
-[ ] BREAK
-[ ] REPAIR
-[ ] REPEAT
-```
-
-Standard development commands:
+### Build and run
 
 ```bash
-dotnet build
-dotnet test
+git clone https://github.com/kgbcupcake/System-Overload.git
+```
+
+```bash
+cd System-Overload
+```
+
+```bash
 dotnet run
 ```
 
----
+On launch, press **S** to skip the boot sequence or any other key to watch it. Use the arrow keys and **Enter** to move through menus.
 
-# 📡 SYSTEM STATUS
+### Install as a .NET tool (optional)
 
-```text
-╔══════════════════════════════════════════════════════════════╗
-║                  SYSTEM_OVERLOAD :: DEV-BENCH               ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║  CORE ENGINE .............. STABLE                           ║
-║  COMBAT ................... DEVELOPING                       ║
-║  ARMORY ................... DEVELOPING                       ║
-║  GEM RESONANCE ............ DEVELOPING                       ║
-║  VISUAL PULSE ............. EVOLVING                         ║
-║  REALITY ANCHOR ........... TESTING                          ║
-║  NEURAL LINK .............. NOT IMPLEMENTED                  ║
-║                                                              ║
-║  CONTAINMENT .............. ACTIVE                            ║
-║  DEVELOPMENT .............. UNSTABLE                         ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
+The project is set up as a .NET global tool whose command is `so`:
+
+```bash
+dotnet pack -c Release
 ```
 
----
-
-# 👁️ ARCHITECT'S NOTES
-
-The current direction of System Overload is not to throw away the existing engine.
-
-It is to **push it further**.
-
-Combat already exists.
-
-Weapons already exist.
-
-Data-Gems already exist.
-
-Sectors already exist.
-
-The Memory Deck already exists.
-
-The development bench exists to turn those systems into something deeper.
-
-The next stage is visual identity, expanded combat, better loot, stronger hardware progression, and eventually an experimental intelligence layer.
-
-> **We do not refactor.**
->
-> **We infect.**
-
----
-
-# 🚨 DEVELOPMENT WARNING
-
-This branch may contain:
-
-* Broken features
-* Experimental APIs
-* Temporary systems
-* Debugging code
-* Unbalanced mechanics
-* Incomplete content
-* Performance regressions
-* Architectural experiments
-
-**Do not treat `dev-bench` as stable.**
-
-If something catches fire:
-
-> **That means the test worked.**
-
----
-
-# 👁️ THE ARCHITECT
-
-**Created by Kgbcupcake**
-
-Built for the terminal.
-
-Optimized for the void.
-
-Currently rebuilding the machine.
-
----
-
-# 📜 LEGAL TRACE
-
-Copyright (c) 2026 Kgbcupcake.
-
-Refer to [`LICENSE`](../LICENSE) for full legal containment details.
-
----
-
-```text
-[ DEVELOPMENT_UPLINK ]
-
-SECTOR_02 ........ CALIBRATING
-COMBAT ........... EVOLVING
-ARMORY ........... EXPANDING
-GEMS ............. RESONATING
-VISUALS .......... RECONSTRUCTING
-NEURAL LINK ...... DORMANT
-
-> THE MACHINE IS NOT READY.
-
-> THAT IS WHY YOU ARE HERE.
+```bash
+dotnet tool install --global --add-source ./bin/Release System-Overload
 ```
+
+```bash
+so
+```
+
+### Clean build
+
+`dotnet clean` runs the `SpookyCleanup` target, which deletes `bin/` and `obj/` on both Windows and Linux.
+
+---
+
+## 💾 Game Data and Saves
+
+On first launch the game creates its working folder and seeds it from the templates in the repo:
+
+| What | Where |
+|:---|:---|
+| Default content (source of truth in the repo) | `GameData/Templates/<type>/*.json` |
+| Live content and save profiles (what the game reads) | `~/Documents/DungeonAdventures/Realm Data/` |
+
+The content types are `admins`, `drones`, `sectors`, `weapons`, `items`, `gems`, `shops` and `story`. Editing files in the live folder changes your local game. To change the defaults everyone gets, edit `GameData/Templates/`.
+
+### Editing with MariesGui
+
+Content classes are tagged with `[MariesGuiContent]`, and a ready-made profile ships at [`Src/DevTools/mariesgui-manifest.json`](Src/DevTools/mariesgui-manifest.json):
+
+1. Build the game (`dotnet build`) so `bin/Debug/net10.0/System-Overload.dll` exists.
+2. In MariesGui, open **Load Profile** and select the manifest.
+3. Edit content. Changes are written to `~/Documents/DungeonAdventures/Realm Data/`.
+
+---
+
+## 💀 Project Layout
+
+```
+System-Overload/
+├── GameData/Templates/     Default JSON content (admins, drones, sectors, weapons, items, gems, shops, story)
+├── Src/
+│   ├── Program.cs          Entry point: seeding, loaders, boot sequence, main menu
+│   ├── Interfaces/         Main menu, character creation, load screen, stats, GameUiEngine
+│   ├── TownSquare/         Hub screens (Store, Hardware Tech, Memory Deck, Sector Breach Terminal)
+│   ├── Adventures/         Encounters, including custom boss encounters
+│   ├── GameEngine/
+│   │   ├── Flow/           Simulation executor
+│   │   └── Systems/        Combat, content loaders, shops, modding station, quest log
+│   ├── GameData/           Data components and entities (player, enemies, sectors, gear)
+│   ├── Dev/                Content seeder
+│   ├── DevTools/           MariesGui manifest
+│   ├── Maries_Ui/          Class library: console UI (HUD, transitions, menus, alerts, art)
+│   ├── Maries_DataModels/  Class library: content data classes + MariesGui attribute
+│   └── Maries_Loaders/     Class library: JSON content loaders, item registry, story text
+├── conductor/              Design docs: product vision, tech stack, style guides, workflow
+├── assets/                 Icons and installer art
+└── CHANGELOG.md
+```
+
+### The stack
+
+| Component | Library | Role |
+|:---|:---|:---|
+| **Forge Core** | .NET 10 (C#) | Game engine and logic |
+| **Visual Pulse** | `Pastel`, `StringBuilder` | 24-bit colour, pre-rendered frames |
+| **Interface** | `Spectre.Console` | Panels, tables and structured layout |
+| **Neural Link** | `Ollama`, `OpenAI`, `Microsoft.Extensions.AI` | AI-driven dialogue and hostility (in progress) |
+| **Logic Guard** | `NUnit` | Test framework |
+
+---
+
+## 🧪 Dev Status: SECTOR_02_CALIBRATION
+
+This is the `Dev` branch, the active lab. Expect unshielded logic, experimental weapon protocols and raw drone assets.
+
+| Component | Status | Focus |
+|:---|:---|:---|
+| **Forge Core** | 🟢 Stable | Core loop, save/load, content loading |
+| **Visual Pulse** | 🟡 Evolving | Drone art and flicker-free buffers |
+| **Neural Link** | 🟡 Testing | AI-driven environmental hostility |
+| **Loot Logic** | 🔴 Critical | Gem drops and loot distribution |
+
+### Reconstruction checklist
+
+- [ ] **COMBAT_ENGINE**: hit detection and damage scaling
+- [ ] **ARMORY_EXPANSION**: new weapons and item IDs
+- [ ] **GEM_RESONANCE**: loot drop tables and currency logic
+- [ ] **VISUAL_PULSE**: move drones from plain text to ASCII/Spectre entities
+- [ ] **STRESS_TEST**: validate the 84×24 Reality Anchor under heavy load
+
+### 👁️ Architect's notes
+
+The current focus is moving combat away from plain text. Drones are being rebuilt as distinct visual entities to raise the dread, and weapon maths is being tuned for consistent lethality.
+
+> *We do not refactor. We infect. We do not scroll. We contain.*
+
+---
+
+## 🤝 Contributing
+
+Read the design docs in [`conductor/`](conductor/) first, especially [`tech-stack.md`](conductor/tech-stack.md) for the rendering rules (84×24 safe zone, `SetCursorPosition` + `Write` instead of `WriteLine`, pre-rendered `StringBuilder` frames). See [`CHANGELOG.md`](CHANGELOG.md) for history and [`SECURITY.md`](SECURITY.md) for reporting vulnerabilities.
+
+---
+
+## 📜 License
+
+MIT © 2026 Kgbcupcake. See [LICENSE](LICENSE).

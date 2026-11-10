@@ -1,0 +1,128 @@
+[
+  { "Key": "game.title", "Lines": ["Dungeon Adventures - Reborn"] },
+  { "Key": "title.banner", "Lines": [
+    "~ The realm awaits a hero ~",
+    "~ The torches are lit. The dungeon is waiting. ~",
+    "~ Somewhere below, something is waking ~"
+  ] },
+
+  { "Key": "main_menu.title", "Lines": ["D U N G E O N   A D V E N T U R E S"] },
+  { "Key": "main_menu.subtitle", "Lines": ["[ R E B O R N ]"] },
+  { "Key": "main_menu.tagline_top", "Lines": ["BLADE // TORCH // GOLD // GLORY"] },
+  { "Key": "main_menu.tagline_bottom", "Lines": ["FEW WHO DESCEND EVER RETURN"] },
+
+  { "Key": "loading.top_banner", "Lines": ["† [ THE DUNGEON STIRS ] †"] },
+  { "Key": "loading.bottom_banner", "Lines": ["* [ THE TORCHES ARE BURNING LOW ] *"] },
+  { "Key": "loading.labels", "Lines": [
+    "Lighting the torches...",
+    "Sharpening the blades...",
+    "Counting the coins in the vault...",
+    "Waking the things that sleep below...",
+    "Unrolling the old maps...",
+    "Listening for footsteps in the dark..."
+  ] },
+  { "Key": "loading.final", "Lines": ["THE GATES ARE OPEN..."] },
+
+  { "Key": "load_save.scan", "Lines": [
+    "Turning page {n} of the chronicle...",
+    "Reading the tale of a fallen hero...",
+    "Brushing dust from an old journal..."
+  ] },
+  { "Key": "load_save.steps", "Lines": [
+    "OPENING THE CHRONICLE",
+    "READING THE HERO'S TALE",
+    "GATHERING THEIR GEAR",
+    "SUMMONING THE HERO"
+  ] },
+  { "Key": "load_save.done", "Lines": ["THE HERO RETURNS"] },
+
+  { "Key": "save_loaded.box", "Lines": ["THE HERO", "RETURNS", "[ READY FOR BATTLE ]"] },
+  { "Key": "save_loaded.status", "Lines": ["BLADE: SHARPENED", "PACK: STOCKED", "SPIRIT: UNBROKEN"] },
+  { "Key": "save_loaded.prompt", "Lines": ["— PRESS ANY KEY TO RETURN TO THE REALM —"] },
+
+  { "Key": "creation.intro", "Lines": ["--- A NEW HERO STEPS FORWARD ---"] },
+  { "Key": "creation.name_prompt", "Lines": ["What is your name, traveller?"] },
+  { "Key": "creation.default_name", "Lines": ["Nameless Wanderer"] },
+  { "Key": "creation.greeting", "Lines": ["Choose your calling, {name}"] },
+  { "Key": "creation.subclass_prompt", "Lines": ["Every {class} walks one path. Choose yours."] },
+  { "Key": "creation.attributes", "Lines": ["Spend your points to shape the hero you will become."] },
+  { "Key": "creation.welcome", "Lines": ["Welcome to the realm, {name}!"] },
+  { "Key": "creation.gear", "Lines": ["The quartermaster hands you your starting gear."] },
+  { "Key": "creation.header", "Lines": ["THE TALE OF A NEW HERO BEGINS"] },
+  { "Key": "creation.steps", "Lines": [
+    "Reading the stars for {name}...",
+    "Forging the soul of a {class}...",
+    "Weighing strength against wisdom...",
+    "Tempering body and blade...",
+    "Packing provisions for the road...",
+    "Writing {name}'s name in the chronicle..."
+  ] },
+  { "Key": "creation.footer", "Lines": [
+    "The chronicle has been sealed.",
+    "{name} the {class} sets out for the dungeon..."
+  ] },
+
+  { "Key": "class.knight", "Lines": ["Heavy plate and a steady shield. Very hard to bring down."] },
+  { "Key": "class.paladin", "Lines": ["A holy warrior who heals their wounds between blows."] },
+  { "Key": "class.berserker", "Lines": ["Fights in a rage. Hits hard and fears nothing."] },
+  { "Key": "class.assassin", "Lines": ["Strikes from the shadows. Lethal critical hits."] },
+  { "Key": "class.shadowblade", "Lines": ["Twin blades and a cloak of night. Cuts down many foes at once."] },
+  { "Key": "class.ranger", "Lines": ["Swift and hard to catch. Masters of the bow and the wild."] },
+  { "Key": "class.wizard", "Lines": ["Hurls fire and lightning from a safe distance."] },
+  { "Key": "class.warlock", "Lines": ["Trades their own health for terrible power."] },
+  { "Key": "class.battlemage", "Lines": ["Bends the rules of magic to find better loot."] },
+
+  { "Key": "town.name", "Lines": ["HOLLOWMERE"] },
+  { "Key": "town.title", "Lines": ["THE VILLAGE OF HOLLOWMERE"] },
+  { "Key": "town.closed", "Lines": [
+    "The {place} is boarded up. Come back another day.",
+    "A sign on the {place} door reads: 'Gone to the dungeon. Back soon. Maybe.'"
+  ] },
+
+  { "Key": "store.enter", "Lines": ["Pushing open the creaky shop door...", "The shop bell jingles..."] },
+  { "Key": "store.greeting", "Lines": [
+    "\"Welcome, welcome! Mind the cat.\"",
+    "\"Potions, tonics, a bit of everything!\"",
+    "\"Gold first, questions later.\""
+  ] },
+  { "Key": "store.farewell", "Lines": ["\"Come back alive, now!\"", "\"Safe travels, hero.\""] },
+
+  { "Key": "blacksmith.socketed", "Lines": [
+    "The smith sets the {gem} into your {weapon}.",
+    "Sparks fly. The {gem} now glows in your {weapon}."
+  ] },
+
+  { "Key": "dungeon.enter", "Lines": ["YOU DESCEND INTO {title}"] },
+  { "Key": "dungeon.accepted", "Lines": ["You take up the quest: {title}"] },
+  { "Key": "dungeon.already_cleared", "Lines": ["You have already cleared {title}. Nothing stirs there now."] },
+  { "Key": "dungeon.cleared", "Lines": ["QUEST COMPLETE: {title}"] },
+  { "Key": "dungeon.failed", "Lines": ["You stagger back to the surface, beaten."] },
+  { "Key": "dungeon.complete", "Lines": ["THE FLOOR IS CLEARED!"] },
+
+  { "Key": "combat.boss_banner", "Lines": ["!! A DUNGEON LORD BLOCKS YOUR PATH !!"] },
+  { "Key": "combat.no_retreat", "Lines": [
+    "The doors slam shut behind you. There is no escape from {enemy}.",
+    "{enemy} blocks the only way out. You must fight."
+  ] },
+  { "Key": "combat.fled", "Lines": ["You turn tail and run from {enemy}!", "You flee back into the dark, {enemy}'s roar echoing behind you."] },
+  { "Key": "combat.enemy_falls", "Lines": ["{enemy} falls!", "{enemy} crumples to the ground!"] },
+  { "Key": "combat.victory", "Lines": ["{enemy} has been slain.", "{enemy} will trouble no one again."] },
+  { "Key": "combat.defeat", "Lines": ["{enemy} has bested you.", "You fall before {enemy}."] },
+  { "Key": "combat.level_up", "Lines": ["YOU GROW STRONGER: LEVEL {level}"] },
+
+  { "Key": "shutdown.tasks", "Lines": [
+    "PUTTING OUT THE TORCHES...",
+    "LOCKING THE DUNGEON GATE...",
+    "CLOSING THE CHRONICLE..."
+  ] },
+  { "Key": "shutdown.task_pending", "Lines": ["[ ...... ]"] },
+  { "Key": "shutdown.task_done", "Lines": ["[ DONE ]"] },
+  { "Key": "shutdown.task_suffix", "Lines": ["[ farewell ]"] },
+  { "Key": "shutdown.warning", "Lines": ["† [ THE DARKNESS RETURNS ] †"] },
+  { "Key": "shutdown.whisper", "Lines": ["Something watches you leave..."] },
+  { "Key": "shutdown.doom", "Lines": ["* [ THE LAST TORCH GOES OUT ] *"] },
+  { "Key": "shutdown.final", "Lines": ["YOUR TALE ENDS HERE... FOR NOW."] },
+
+  { "Key": "game_over.header", "Lines": ["      ANOTHER HERO LOST TO THE DARK        "] },
+  { "Key": "game_over.footer", "Lines": ["          [ REST IN PEACE ]                "] }
+]

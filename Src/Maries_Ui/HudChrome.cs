@@ -1,5 +1,6 @@
 // Ignore Spelling: Tle
 
+using Maries_Loaders;
 using Pastel;
 using static System.Console;
 
@@ -21,7 +22,6 @@ namespace Maries_Ui
 				// Wipe the top line with spaces to act as a physical eraser
 				Console.Write(new string(' ', 84));
 
-				Random rnd = new Random();
 				// Check if player is established (e.g., after character creation or loading a game)
 				if (hasPlayer)
 				{
@@ -34,27 +34,13 @@ namespace Maries_Ui
 
 					// 2. SET THE TAB TITLE: Use the property for better cross-platform support
 					string modeLabel = isDevMode ? "DEVELOPER" : "STABLE";
-					Console.Title = $"⚔️ {modeLabel} MODE V2 ⚔️";
+					Console.Title = $"{Story.Line("game.title")} [{modeLabel}]";
 				}
 				else
 				{
-					// --- Glitchy, Vague Title Bar (Player Not Established) ---
-					string[] glitchTitles = {
-				"S̷Y̷S̷T̵E̵M̴ ̶E̵R̷R̴O̷R̴",
-				"D̷A̷T̵A̷ ̶C̶O̵R̷R̴U̷P̷T̸E̵D̸",
-				"U̷N̵K̵N̷O̵W̷N̵ ̶E̵N̵T̸I̵T̸Y̵",
-				"P̷R̷O̷T̸O̵C̸O̷L̵ ̶F̷A̷I̸L̴U̷R̷E̵"
-			};
-
-					string[] glitchChars = { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=", "+", "[", "]", "{", "}", ";", ":", "'", "\"", "\\", "|", "<", ">", ",", ".", "/", "?", "`", "~" };
-					string[] scaryColors = { "#FF0000", "#8B0000", "#4B0082", "#800000" }; // Red, Dark Red, Indigo, Maroon
-
-					// Flickering Console.Title
-					Console.Title = glitchTitles[rnd.Next(glitchTitles.Length)].Pastel(scaryColors[rnd.Next(scaryColors.Length)]);
-
-					// Row 0 Display - Dynamic and Glitchy
-					string glitchText = GlitchText.GenerateGlitchString(rnd.Next(15, 30), glitchChars, scaryColors, rnd);
-					UiEngine.DrawCentered(glitchText, 0);
+					// --- No hero yet: show the game's name and a line of story ---
+					Console.Title = Story.Line("game.title");
+					UiEngine.DrawCentered(Story.Pick("title.banner").Pastel("#B8860B"), 0);
 				}
 			}
 			finally

@@ -12,15 +12,15 @@ namespace Maries_DataModels
 			private Random rand = new Random();
 
 			// Core Identity
-			public string PlayerName { get; set; } = "Unnamed Operative";
-			public string PlayerClass { get; set; } = "Runner";
+			public string PlayerName { get; set; } = "Unnamed Hero";
+			public string PlayerClass { get; set; } = "Adventurer";
 			public int Level { get; set; } = 1;
 			public int InventorySize { get; set; } = 20;
 
 			// --- NEURAL ALLOCATION STATS (The missing pieces) ---
-			public int IntegrityPoints { get; set; } = 0;   // Spent on Max HP
-			public int ThroughputPoints { get; set; } = 0;  // Spent on Attack Power
-			public int FirewallPoints { get; set; } = 0;    // Spent on Defense
+			public int IntegrityPoints { get; set; } = 0;   // Vitality: spent on Max HP
+			public int ThroughputPoints { get; set; } = 0;  // Strength: spent on Attack Power
+			public int FirewallPoints { get; set; } = 0;    // Fortitude: spent on Defense
 
 
 

@@ -21,13 +21,12 @@ namespace System_Overload.Src.GameEngine.Flow
 			Clear();
 			DrawTitleBar();
 
-			// Using simulation terminology
-			WriteLine($"INITIALIZING BREACH: {sector.Title}".Pastel("#00FFFF"));
+			WriteLine(Story.Line("dungeon.enter", ("title", sector.Title)).Pastel("#FFAB00"));
 			WriteLine(sector.Description);
-			WriteLine($"SECURITY LEVEL: {sector.Difficulty}".Pastel("#FFD700"));
+			WriteLine($"DANGER: {sector.Difficulty}".Pastel("#FFD700"));
 			ReadKey(true);
 
-			// 1. BREACH LOOP (Iterating through Sector Stages)
+			// 1. Walk through each stage of the floor
 			foreach (var stage in sector.Stages ?? Enumerable.Empty<SectorStage>())
 			{
 				Clear();
@@ -54,7 +53,7 @@ namespace System_Overload.Src.GameEngine.Flow
 
 					if (!playerWon)
 					{
-						// Breach failed
+						// The hero fell or fled
 						return false;
 					}
 				}
@@ -66,10 +65,13 @@ namespace System_Overload.Src.GameEngine.Flow
 
 			Clear();
 			DrawTitleBar();
-			WriteLine("=====================================".Pastel("#00FF00"));
-			WriteLine("         SECTOR PURGE COMPLETE!      ");
-			WriteLine("=====================================".Pastel("#00FF00"));
-			WriteLine($"DATA RECOVERED: {sector.CompletionCredits} Credits and {sector.CompletionExp} XP");
+			WriteLine("=====================================".Pastel("#FFD700"));
+			string done = string.IsNullOrWhiteSpace(sector.CompletionText)
+				? Story.Line("dungeon.complete", ("title", sector.Title))
+				: sector.CompletionText;
+			WriteLine($"  {done}");
+			WriteLine("=====================================".Pastel("#FFD700"));
+			WriteLine($"REWARD: {sector.CompletionCredits} gold and {sector.CompletionExp} XP");
 			ReadKey(true);
 
 			return true;
