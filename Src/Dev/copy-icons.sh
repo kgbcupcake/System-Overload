@@ -38,5 +38,17 @@ done <<'MAP'
 196 strength
 114 fortitude
 201 wisdom
+3112 class_warrior
+3045 class_rogue
+2714 class_mage
+3465 class_knight
+3246 class_paladin
+3130 class_berserker
+3349 class_assassin
+3352 class_shadowblade
+3242 class_ranger
+5120 class_wizard
+953 class_warlock
+2707 class_battlemage
 MAP
 echo "Copied $(ls "$dest"/*.png | wc -l) icons to $dest"

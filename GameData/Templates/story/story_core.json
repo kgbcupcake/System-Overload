@@ -67,6 +67,9 @@
     "{name} the {class} sets out for the dungeon..."
   ] },
 
+  { "Key": "class.warrior", "Lines": ["Steel, stamina and stubbornness. Warriors stand in front and take the blows meant for others."] },
+  { "Key": "class.rogue", "Lines": ["Quick hands and quicker feet. Rogues strike first, strike true, and are gone before the answer comes."] },
+  { "Key": "class.mage", "Lines": ["Old words and dangerous light. Mages fight with what most people are wise to fear."] },
   { "Key": "class.knight", "Lines": ["Heavy plate and a steady shield. Very hard to bring down."] },
   { "Key": "class.paladin", "Lines": ["A holy warrior who heals their wounds between blows."] },
   { "Key": "class.berserker", "Lines": ["Fights in a rage. Hits hard and fears nothing."] },

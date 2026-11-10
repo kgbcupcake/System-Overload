@@ -43,7 +43,7 @@ namespace DungeonAdventures.Src.GameEngine.Flow
 				if (!string.IsNullOrWhiteSpace(stage.EnemyId))
 				{
 					var playerCombatant = EnemyFactory.CreatePlayer(player);
-					var enemyCombatant = EnemyFactory.CreateEnemy(stage.EnemyId);
+					var enemyCombatant = EnemyFactory.CreateEnemy(stage.EnemyId, player.DifficultyRating);
 
 					// CombatEncounter.Start returns false if the player dies OR runs
 					bool playerWon = CombatEncounter.Start(playerCombatant, enemyCombatant, player);

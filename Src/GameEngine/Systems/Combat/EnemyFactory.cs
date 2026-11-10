@@ -6,40 +6,42 @@ public static class EnemyFactory
 {
 	/// <summary>
 	/// Builds the enemy for a floor stage. The id can be a monster id (monsters folder)
-	/// or a boss id (bosses folder).
+	/// or a boss id (bosses folder). `danger` is the hero's danger rank: each rank makes the foe
+	/// tougher and its rewards bigger (see Danger).
 	/// </summary>
-	public static Combatant CreateEnemy(string enemyId)
+	public static Combatant CreateEnemy(string enemyId, int danger = 0)
 	{
 		var monster = MonsterLoader.GetById(enemyId);
 		if (monster != null)
-			return FromMonster(monster);
+			return FromMonster(monster, danger);
 
 		var def = BossLoader.GetBossById(enemyId);
 		if (def != null)
-			return FromBoss(def);
+			return FromBoss(def, danger);
 
 		// Unknown id: a generic enemy so the floor can still be played.
-		return new Combatant($"Unknown Creature [{enemyId}]", 50, 12, 5) { Level = 2, XpReward = 10, CoinReward = 5 };
+		return new Combatant($"Unknown Creature [{enemyId}]", Danger.Health(50, danger), Danger.Attack(12, danger), Danger.Defense(5, danger))
+			{ Level = 2, XpReward = Danger.Reward(10, danger), CoinReward = Danger.Reward(5, danger) };
 	}
 
 	/// <summary>True if the id names a monster or a boss.</summary>
 	public static bool Exists(string enemyId) =>
 		MonsterLoader.GetById(enemyId) != null || BossLoader.GetBossById(enemyId) != null;
 
-	private static Combatant FromMonster(MonsterData data)
+	private static Combatant FromMonster(MonsterData data, int danger)
 	{
-		return new Combatant(data.Name, data.MaxHealth, data.AttackPower, data.Defense)
+		return new Combatant(data.Name, Danger.Health(data.MaxHealth, danger), Danger.Attack(data.AttackPower, danger), Danger.Defense(data.Defense, danger))
 		{
 			Level = Math.Max(1, data.Level),
 			Accuracy = data.Accuracy,
 			CritChance = data.CritChance,
 			AttackVerb = string.IsNullOrWhiteSpace(data.AttackVerb) ? "strikes" : data.AttackVerb,
-			XpReward = data.Rewards?.Xp ?? 0,
-			CoinReward = data.Rewards?.Coins ?? 0,
+			XpReward = Danger.Reward(data.Rewards?.Xp ?? 0, danger),
+			CoinReward = Danger.Reward(data.Rewards?.Coins ?? 0, danger),
 		};
 	}
 
-	private static Combatant FromBoss(BossDefinition def)
+	private static Combatant FromBoss(BossDefinition def, int danger)
 	{
 		string name = string.IsNullOrWhiteSpace(def.Name) ? def.Id : def.Name;
 
@@ -60,13 +62,13 @@ public static class EnemyFactory
 				boss.AttackNames.Add(attack);
 		}
 
-		var combatant = new Combatant(name, Math.Max(1, def.Stats.Health), def.Stats.Attack, def.Stats.Defense)
+		var combatant = new Combatant(name, Danger.Health(Math.Max(1, def.Stats.Health), danger), Danger.Attack(def.Stats.Attack, danger), Danger.Defense(def.Stats.Defense, danger))
 		{
 			Level = Math.Max(1, def.Level),
 			Accuracy = 90,
 			CritChance = 8,
-			XpReward = def.XpReward,
-			CoinReward = def.CoinReward,
+			XpReward = Danger.Reward(def.XpReward, danger),
+			CoinReward = Danger.Reward(def.CoinReward, danger),
 			Boss = boss,
 		};
 		foreach (var drop in def.DropTable)

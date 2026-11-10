@@ -1,4 +1,5 @@
 ﻿using DungeonAdventures.Src.GameData.Components;
+using DungeonAdventures.Src.GameEngine.Combat;
 using Maries_Loaders;
 using Maries_Ui;
 using Pastel;
@@ -179,9 +180,12 @@ namespace DungeonAdventures.Src.Village.Places
 		{
 			var d = new Detail("Dark Pact");
 			d.Line("DARK PACT", PactColor).Line("A bargain in the dark", Muted).Blank();
-			d.Wrapped("Seal it and every foe grows stronger, but the shop pays more for what you bring back.", Flavour).Blank();
-			d.Stat("Pacts made", $"{p.DifficultyRating} → {p.DifficultyRating + 1}", PactColor);
-			d.Stat("Sell prices", $"+{p.DifficultyRating * 15}% → +{(p.DifficultyRating + 1) * 15}%", Good);
+			d.Wrapped("Seal it and every foe grows stronger, but they pay better, and so does the shop.", Flavour).Blank();
+			int r = p.DifficultyRating;
+			d.Stat("Danger rank", $"{r} → {r + 1}", PactColor);
+			d.Stat("Foes", $"{Danger.Percent(r)} → {Danger.Percent(r + 1)} health, attack", Bad);
+			d.Stat("Foe rewards", $"+{r * 10}% → +{(r + 1) * 10}% XP, gold", Good);
+			d.Stat("Sell prices", $"+{r * 15}% → +{(r + 1) * 15}%", Good);
 			d.Stat("Price", $"{price} gold", price > p.Coins ? Bad : Gold);
 			return d.Build();
 		}
