@@ -5,6 +5,10 @@ using Pastel;
 using Maries_DataModels;
 using static System.Console;
 using static DungeonAdventures.Src.Village.Places.ItemPanels;
+using static DungeonAdventures.Src.Village.Places.PanelText;
+using static DungeonAdventures.Src.Village.Places.ItemInfo;
+using static DungeonAdventures.Src.Village.Places.ItemDetails;
+using static DungeonAdventures.Src.Village.Places.PanelMenu;
 
 namespace DungeonAdventures.Src.Village.Places
 {

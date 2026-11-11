@@ -1,0 +1,38 @@
+[
+  {
+    "Id": "human", "Name": "Human", "Color": "#E8C9A0", "StoryKey": "race.human",
+    "Heads": {
+      "female": ["heads_human_female", "heads_human_female_small", "heads_human_female_elderly"],
+      "male": ["heads_human_male", "heads_human_male_small", "heads_human_male_gaunt", "heads_human_male_plump", "heads_human_male_elderly"]
+    },
+    "Ears": "",
+    "Skins": ["light", "amber", "olive", "taupe", "bronze", "brown", "black"]
+  },
+  {
+    "Id": "elf", "Name": "Elf", "Color": "#9FD8A8", "StoryKey": "race.elf",
+    "Heads": {
+      "female": ["heads_human_female", "heads_human_female_small", "heads_human_female_elderly"],
+      "male": ["heads_human_male", "heads_human_male_small", "heads_human_male_gaunt", "heads_human_male_elderly"]
+    },
+    "Ears": "head_ears_elven",
+    "Skins": ["light", "amber", "olive", "taupe", "bronze", "brown", "black", "lavender"]
+  },
+  {
+    "Id": "orc", "Name": "Orc", "Color": "#7FAF4F", "StoryKey": "race.orc",
+    "Heads": {
+      "female": ["heads_orc_female", "heads_orc_male"],
+      "male": ["heads_orc_male", "heads_orc_female"]
+    },
+    "Ears": "",
+    "Skins": ["green", "dark_green", "pale_green", "olive", "taupe"]
+  },
+  {
+    "Id": "goblin", "Name": "Goblin", "Color": "#B5C94A", "StoryKey": "race.goblin",
+    "Heads": {
+      "female": ["heads_goblin"],
+      "male": ["heads_goblin"]
+    },
+    "Ears": "",
+    "Skins": ["bright_green", "green", "pale_green", "dark_green", "olive"]
+  }
+]

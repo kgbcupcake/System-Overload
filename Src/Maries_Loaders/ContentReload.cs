@@ -23,6 +23,7 @@ namespace Maries_Loaders
 			Story.LoadAll();
 			QuestLoader.LoadAll();
 			PeopleAndPlacesLoader.LoadAll();
+			OriginLoader.LoadAll();
 		}
 	}
 }

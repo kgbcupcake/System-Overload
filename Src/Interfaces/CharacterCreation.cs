@@ -6,6 +6,7 @@ using DungeonAdventures.Src.GameData.Components;
 using static Maries_DataModels.PlayerData;
 using Maries_DataModels;
 using Maries_Loaders;
+using DungeonAdventures.Src.GameEngine.Systems;
 
 namespace DungeonAdventures.Src.Game.Interfaces
 {
@@ -38,20 +39,25 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			player.PlayerName = string.IsNullOrWhiteSpace(nameInput) ? Story.Line("creation.default_name") : nameInput;
 			CursorVisible = false;
 
-			// 2. CALLING AND PATH (Warrior -> Knight...), with what each starts with
+			// 2. PEOPLE AND BACKGROUND (the race shapes the look; the background adds a head start at the end)
+			OriginPickScreen.Run(player);
+
+			// 3. CALLING AND PATH (Warrior -> Knight...), with what each starts with
 			ClassPickScreen.Run(player);
 
 			// The hero's appearance, drawn from the LPC character catalog (skipped when it isn't installed)
 			MakeCharacterScreen.Run(player);
 
-			// 3. CLASS STATS AND STARTING GEAR (before training, so its preview shows the real hero)
+			// 4. CLASS STATS AND STARTING GEAR (before training, so its preview shows the real hero)
 			InitializeClassStats(player);
 			AssignStarterKit(player);
 
-			// 4. ATTRIBUTE POINTS
+			// 5. ATTRIBUTE POINTS, then the background's bonus on top of them
 			TrainHeroScreen.Run(player);
+			BackgroundPerks.Apply(player);
+			player.Health = (int)player.GetTotalMaxHealth();
 
-			// 5. FINAL MANIFEST DISPLAY
+			// 6. FINAL MANIFEST DISPLAY
 			Clear();
 			int centerX = (screenWidth / 2);
 
@@ -60,6 +66,8 @@ namespace DungeonAdventures.Src.Game.Interfaces
 
 			string journeyMsg = $"Class: {player.PlayerClass.Pastel("#FFD700")}";
 			UiEngine.DrawCentered(journeyMsg.Pastel("#DCDCDC"), 10);
+			if (StoryTokens.Origin(player) is { Length: > 0 } origin)
+				UiEngine.DrawCentered(origin.Pastel("#C8B08A"), 11);
 
 			string gearMsg = Story.Line("creation.gear");
 			UiEngine.DrawCentered(gearMsg, 12);
@@ -77,7 +85,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			Thread.Sleep(3000);
 			GameState.Sync();
 
-			Transitions.ShowCreationAnimation(player.PlayerName, player.PlayerClass, player.Health, (int)player.GetTotalMaxHealth(), player.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
+			CreationAnimation.Play(player.PlayerName, player.PlayerClass, player.Health, (int)player.GetTotalMaxHealth(), player.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 		}
 
 		private static void InitializeClassStats(loadPlayer player)

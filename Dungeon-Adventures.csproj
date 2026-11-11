@@ -36,6 +36,11 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 
+		<!-- Raven clothing icons (32x32) for the creator's CLOTHES tab: see Src/Dev/copy-clothing.sh -->
+		<None Include="assets\icons\clothing\**\*.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+
 		<Content Include="GameData\Templates\monsters\*.json;GameData\Templates\floors\*.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>

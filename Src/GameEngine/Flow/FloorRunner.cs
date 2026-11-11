@@ -18,13 +18,18 @@ namespace DungeonAdventures.Src.GameEngine.Flow
 		// Runs one dungeon floor stage by stage
 		public static bool Run(FloorData floor, PlayerData.loadPlayer player)
 		{
-			Clear();
-			DrawTitleBar();
-
-			WriteLine(Story.Line("dungeon.enter", ("title", floor.Title)).Pastel("#FFAB00"));
-			WriteLine(floor.Description);
-			WriteLine($"DANGER: {floor.Difficulty}".Pastel("#FFD700"));
-			MouseInput.WaitForAnyInput();
+			// The hero comes down the stairs into the floor; the plain heading when there's no art to draw.
+			var look = player.Look ?? (DungeonAdventures.Src.Lpc.LpcMeta.Available ? DungeonAdventures.Src.Lpc.LpcLook.Default() : null);
+			string heading = Story.Line("dungeon.enter", ("title", floor.Title));
+			if (!StageScene.Intro(floor, heading, look, DrawTitleBar))
+			{
+				Clear();
+				DrawTitleBar();
+				WriteLine(heading.Pastel("#FFAB00"));
+				WriteLine(floor.Description);
+				WriteLine($"DANGER: {floor.Difficulty}".Pastel("#FFD700"));
+				MouseInput.WaitForAnyInput();
+			}
 
 			// 1. Walk through each stage of the floor
 			foreach (var stage in floor.Stages ?? Enumerable.Empty<FloorStage>())
@@ -37,8 +42,14 @@ namespace DungeonAdventures.Src.GameEngine.Flow
 					? stage.StoryText
 					: stage.StoryText.Pastel(stage.HexColor);
 
-				WriteLine(narrative);
-				MouseInput.WaitForAnyInput();
+				// The room and the hero walking in; the plain line when there's no art to draw.
+				if (!StageScene.Play(floor, stage, look, DrawTitleBar))
+				{
+					Clear();
+					DrawTitleBar();
+					WriteLine(narrative);
+					MouseInput.WaitForAnyInput();
+				}
 
 				if (!string.IsNullOrWhiteSpace(stage.EnemyId))
 				{

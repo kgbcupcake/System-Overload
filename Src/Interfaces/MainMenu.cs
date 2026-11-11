@@ -171,7 +171,7 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 					return true;
 
 				case "EXIT":
-					Transitions.ShutdownSequence();
+					ShutdownSequence.Play();
 					return false;
 
 				default:

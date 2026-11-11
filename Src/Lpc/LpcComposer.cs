@@ -7,7 +7,8 @@ namespace DungeonAdventures.Src.Lpc
 	public static class LpcLook
 	{
 		/// <summary>Draw order of the part types for ties in height.</summary>
-		public static readonly string[] Order = { "body", "wings", "legs", "shoes", "clothes", "head", "expression", "beard", "hair" };
+		public static readonly string[] Order =
+			{ "body", "wings", "tail", "legs", "shoes", "clothes", "armour", "dress", "belt", "sash", "gloves", "cape", "head", "ears", "expression", "beard", "hair", "hat", "shield", "weapon" };
 
 		/// <summary>The look a brand-new hero starts from.</summary>
 		public static HeroLook Default() => new()
@@ -28,8 +29,9 @@ namespace DungeonAdventures.Src.Lpc
 			},
 		};
 
+		/// <summary>The item on a part. The body is the plain "body" unless the look swaps it (a skeleton's, a zombie's).</summary>
 		public static string Part(HeroLook look, string type) =>
-			type == "body" ? "body" : look.Parts.TryGetValue(type, out var id) && id != "" ? id : LpcMeta.None;
+			look.Parts.TryGetValue(type, out var id) && id != "" ? id : type == "body" ? "body" : LpcMeta.None;
 
 		public static LpcItem? Item(HeroLook look, string type) =>
 			LpcCatalog.Items.TryGetValue(Part(look, type), out var item) ? item : null;
@@ -81,16 +83,19 @@ namespace DungeonAdventures.Src.Lpc
 				foreach (string material in item.Recolors)
 				{
 					string ramp = LpcLook.ColourOf(look, type, material);
-					foreach (var pair in LpcPalette.Map(material, ramp)) map[pair.Key] = pair.Value;
+					foreach (var pair in LpcPalette.Map(material, ramp, item.RecolorBase)) map[pair.Key] = pair.Value;
 					key.Append(material).Append('=').Append(ramp).Append(';');
 				}
 
-				// Items sold as one file per colour (no recolours) take the file named like the part's cloth colour.
+				// Items sold as one file per colour (no recolours) take the file the part names as its "variant"
+				// (a foe's wolf tail in fur_grey), else the one named like the part's cloth colour.
 				string variant = "";
 				if (item.Variants.Count > 0 && item.Recolors.Count == 0)
 				{
 					string cloth = LpcLook.ColourOf(look, type, "cloth");
-					variant = item.Variants.FirstOrDefault(v => v.Replace(' ', '_') == cloth.Replace(' ', '_')) ?? item.Variants[0];
+					variant = look.PartColours.TryGetValue(type, out var own) && own.TryGetValue("variant", out var named) && item.Variants.Contains(named)
+						? named
+						: item.Variants.FirstOrDefault(v => v.Replace(' ', '_') == cloth.Replace(' ', '_')) ?? item.Variants[0];
 				}
 
 				foreach (var layer in item.Layers)
@@ -215,6 +220,39 @@ namespace DungeonAdventures.Src.Lpc
 					if (a <= 0) continue;
 					uint ar = (uint)Math.Clamp(Math.Round(a / area * 255), 0, 255);
 					dst[y * dw + x] = (uint)Math.Round(r / a) << 24 | (uint)Math.Round(g / a) << 16 | (uint)Math.Round(b / a) << 8 | ar;
+				}
+			return dst;
+		}
+
+		/// <summary>
+		/// Like <see cref="Shrink"/> but crisp, for pixel art: each target pixel takes the most common colour among
+		/// the source pixels it covers (clear when most of them are clear), so no blended in-between colours.
+		/// Dark outline pixels count a little extra, so a character keeps its outline when shrunk.
+		/// </summary>
+		public static uint[] ShrinkCrisp(uint[] src, int cx, int cy, int cw, int ch, int dw, int dh)
+		{
+			var dst = new uint[dw * dh];
+			double sx = (double)cw / dw, sy = (double)ch / dh;
+			var counts = new Dictionary<uint, double>();
+			for (int y = 0; y < dh; y++)
+				for (int x = 0; x < dw; x++)
+				{
+					counts.Clear();
+					double clear = 0, total = 0;
+					int x0 = cx + (int)(x * sx), x1 = cx + Math.Max((int)(x * sx) + 1, (int)((x + 1) * sx));
+					int y0 = cy + (int)(y * sy), y1 = cy + Math.Max((int)(y * sy) + 1, (int)((y + 1) * sy));
+					for (int py = y0; py < y1; py++)
+						for (int px = x0; px < x1; px++)
+						{
+							total++;
+							uint p = px >= 0 && py >= 0 && px < S && py < S ? src[py * S + px] : 0;
+							if ((p & 0xFF) < 128) { clear++; continue; }
+							uint rgb = p | 0xFF;
+							int lum = (int)((p >> 24) + ((p >> 16) & 0xFF) + ((p >> 8) & 0xFF));
+							counts[rgb] = counts.GetValueOrDefault(rgb) + (lum < 150 ? 1.6 : 1.0); // keep outlines
+						}
+					if (counts.Count == 0 || clear > total * 0.6) continue;
+					dst[y * dw + x] = counts.MaxBy(c => c.Value).Key;
 				}
 			return dst;
 		}

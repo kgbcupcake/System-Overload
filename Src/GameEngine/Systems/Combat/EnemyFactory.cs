@@ -1,6 +1,7 @@
 using Maries_DataModels;
 using DungeonAdventures.Src.GameEngine.Combat;
 using Maries_Loaders; // Added to access MonsterLoader
+using DungeonAdventures.Src.Lpc;
 
 public static class EnemyFactory
 {
@@ -21,7 +22,7 @@ public static class EnemyFactory
 
 		// Unknown id: a generic enemy so the floor can still be played.
 		return new Combatant($"Unknown Creature [{enemyId}]", Danger.Health(50, danger), Danger.Attack(12, danger), Danger.Defense(5, danger))
-			{ Level = 2, XpReward = Danger.Reward(10, danger), CoinReward = Danger.Reward(5, danger) };
+			{ Level = 2, XpReward = Danger.Reward(10, danger), CoinReward = Danger.Reward(5, danger), Look = EnemyLooks.Roll(enemyId, "") };
 	}
 
 	/// <summary>True if the id names a monster or a boss.</summary>
@@ -38,6 +39,7 @@ public static class EnemyFactory
 			AttackVerb = string.IsNullOrWhiteSpace(data.AttackVerb) ? "strikes" : data.AttackVerb,
 			XpReward = Danger.Reward(data.Rewards?.Xp ?? 0, danger),
 			CoinReward = Danger.Reward(data.Rewards?.Coins ?? 0, danger),
+			Look = EnemyLooks.Roll(data.Id, data.Name),
 		};
 	}
 
@@ -70,6 +72,7 @@ public static class EnemyFactory
 			XpReward = Danger.Reward(def.XpReward, danger),
 			CoinReward = Danger.Reward(def.CoinReward, danger),
 			Boss = boss,
+			Look = EnemyLooks.Roll(def.Id, name, def.Visuals.ArtRef),
 		};
 		foreach (var drop in def.DropTable)
 		{
@@ -122,6 +125,8 @@ public static class EnemyFactory
 		combatant.Accuracy = 90 + (int)Math.Round(player.GetSocketBonus(SocketStat.Accuracy));
 		combatant.Inventory = player.Inventory;
 		combatant.Health = player.Health;
+		// A hero made before the creator existed has no look: they fight in the starting one.
+		combatant.Look = player.Look ?? (LpcMeta.Available ? LpcLook.Default() : null);
 		return combatant;
 	}
 }

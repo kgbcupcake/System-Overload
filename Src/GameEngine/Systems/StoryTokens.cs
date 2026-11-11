@@ -5,7 +5,7 @@ namespace DungeonAdventures.Src.GameEngine.Systems
 {
 	/// <summary>
 	/// The tokens any story line can use, filled from the current hero:
-	/// {hero}, {loved}, {relation} and {relation_memory}.
+	/// {hero}, {loved}, {relation}, {relation_memory}, {race} and {background}.
 	/// </summary>
 	public static class StoryTokens
 	{
@@ -28,7 +28,15 @@ namespace DungeonAdventures.Src.GameEngine.Systems
 
 			yield return ("relation", Fill(1));
 			yield return ("relation_memory", Fill(2));
+
+			yield return ("race", OriginLoader.Race(player?.Race)?.Name ?? "");
+			yield return ("background", OriginLoader.Background(player?.Background)?.Name ?? "");
 		}
+
+		/// <summary>"Elf · Soldier" for the hero, or "" when they have neither (heroes made before origins).</summary>
+		public static string Origin(Maries_DataModels.PlayerData.loadPlayer player) =>
+			string.Join(" · ", new[] { OriginLoader.Race(player.Race)?.Name, OriginLoader.Background(player.Background)?.Name }
+				.Where(n => !string.IsNullOrEmpty(n)));
 
 		/// <summary>The chosen name, or the default from the story data when none was chosen.</summary>
 		public static string LovedOneName(string? chosen) =>

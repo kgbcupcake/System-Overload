@@ -16,6 +16,10 @@ namespace Maries_DataModels
 			public string PlayerClass { get; set; } = "Adventurer";
 			/// <summary>The hero's appearance from the "Make your character" screen; null for heroes made before it.</summary>
 			public HeroLook? Look { get; set; }
+			/// <summary>Race id from the "races" data (e.g. "elf"); empty for heroes made before races.</summary>
+			public string Race { get; set; } = "";
+			/// <summary>Background id from the "backgrounds" data (e.g. "soldier"); empty for heroes made before backgrounds.</summary>
+			public string Background { get; set; } = "";
 			public int Level { get; set; } = 1;
 			public int InventorySize { get; set; } = 20;
 

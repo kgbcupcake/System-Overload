@@ -7,6 +7,9 @@ using Maries_Loaders;
 using Pastel;
 using DungeonAdventures.Src.Village.Places;
 using DungeonAdventures.Src.Game.Interfaces;
+using DungeonAdventures.Src.Lpc;
+using DungeonAdventures.Src.Scenes;
+using DungeonAdventures.Src.Village.Street;
 using System.Numerics;
 using static System.Console;
 
@@ -22,9 +25,36 @@ namespace DungeonAdventures.Src.Village
 		// The location id for the hero's house, used by points of interest.
 		private const string HomeLocationId = "home";
 
+		private const string WalkOption = "WALK THE STREET";
+
+		/// <summary>
+		/// The village. With the LPC art there, it's a street to walk (<see cref="VillageStreet"/>), with Tab to
+		/// this list menu and WALK THE STREET back; without it, just the list menu.
+		/// </summary>
 		public static void MainTownSquare()
 		{
 			bool isRunning = true;
+			var player = GameState.CurrentPlayer;
+			var look = player?.Look ?? (LpcMeta.Available ? LpcLook.Default() : null);
+			bool street = player != null && Scene.CanCast(look);
+
+			while (isRunning)
+			{
+				if (street)
+				{
+					QuestSystem.Notify(player!, "discover_location", VillageLocationId);
+					QuestScreens.ShowNotices();
+					VillageStreet.Run(player!, look!, LocalHeader, option => ExecuteSelection(option, ref isRunning), VillageLocationId);
+				}
+				if (!isRunning) break;
+				Clear(); // the street's picture shouldn't show behind the list
+				ListMenu(ref isRunning, street);
+			}
+		}
+
+		/// <summary>The village as a list of places. Returns when WALK THE STREET (or Escape) is chosen.</summary>
+		private static void ListMenu(ref bool isRunning, bool street)
+		{
 			int selectedIndex = 0;
 
 			string[] options =
@@ -43,6 +73,8 @@ namespace DungeonAdventures.Src.Village
 			// Dev builds get an extra option to pick up content edited in MariesGui without restarting.
 			if (GameState.IsDevMode)
 				options = options.Append(ReloadContentOption).ToArray();
+			if (street)
+				options = options.Prepend(WalkOption).ToArray();
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			const int boxWidth = 92;
 			int contentWidth = boxWidth - 2;
@@ -84,7 +116,16 @@ namespace DungeonAdventures.Src.Village
 						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, options.Length);
 						break;
 
+					case ConsoleKey.Escape when street:
+						Clear();
+						return;
+
 					case ConsoleKey.Enter:
+						if (options[selectedIndex] == WalkOption)
+						{
+							Clear();
+							return;
+						}
 						ExecuteSelection(options[selectedIndex], ref isRunning);
 						if (isRunning) goto RedrawMenu;
 						break;
@@ -157,7 +198,7 @@ namespace DungeonAdventures.Src.Village
 					break;
 
 				case "LEAVE THE REALM":
-					Transitions.ShutdownSequence();
+					ShutdownSequence.Play();
 					//isRunning = false;
 					break;
 
@@ -167,7 +208,7 @@ namespace DungeonAdventures.Src.Village
 			}
 		}
 
-		private static void LocalHeader()
+		internal static void LocalHeader()
 		{
 			var p = GameState.CurrentPlayer;
 			Console.SetCursorPosition(0, 0);

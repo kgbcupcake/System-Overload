@@ -29,8 +29,33 @@ namespace DungeonAdventures.Src.Lpc
 		public static string[] Render(HeroLook look, int dir, int frame)
 		{
 			var full = LpcComposer.Frame(look, "walk", Directions[(dir % 4 + 4) % 4], 1 + (frame % Frames + Frames) % Frames);
-			var small = LpcComposer.Shrink(full, CropX, CropY, CropW, CropH, Width, Rows * 2);
+			var small = LpcComposer.ShrinkCrisp(full, CropX, CropY, CropW, CropH, Width, Rows * 2);
 			return PixelIcon.Render(small, Width, Rows * 2);
+		}
+
+		/// <summary>Columns a sprite `rows` tall takes (the crop keeps its shape).</summary>
+		public static int WidthFor(int rows) => (int)Math.Round(rows * 2.0 * CropW / CropH);
+
+		/// <summary>
+		/// Any look standing still, `rows` terminal rows tall, facing `dir` (0 up = seen from behind, 2 down = facing
+		/// you). Used by fights, where the hero has their back to you and the foe faces you.
+		/// </summary>
+		public static string[] RenderSized(HeroLook look, int dir, int rows)
+		{
+			var full = LpcComposer.Frame(look, "walk", Directions[(dir % 4 + 4) % 4], 0);
+			int w = WidthFor(rows);
+			return PixelIcon.Render(LpcComposer.ShrinkCrisp(full, CropX, CropY, CropW, CropH, w, rows * 2), w, rows * 2);
+		}
+
+		/// <summary>
+		/// The raw pixels (0xRRGGBBAA) of a look facing `dir`, `rows` terminal rows tall, for scenes that lay the
+		/// hero over a painted backdrop. Frame 0 stands still, 1-8 walk. `w` is the width in pixels.
+		/// </summary>
+		public static uint[] Pixels(HeroLook look, int dir, int frame, int rows, out int w)
+		{
+			var full = LpcComposer.Frame(look, "walk", Directions[(dir % 4 + 4) % 4], Math.Clamp(frame, 0, Frames));
+			w = WidthFor(rows);
+			return LpcComposer.ShrinkCrisp(full, CropX, CropY, CropW, CropH, w, rows * 2);
 		}
 
 		/// <summary>Writes the sprite with its top-left corner at (x, y).</summary>

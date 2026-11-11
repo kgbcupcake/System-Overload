@@ -78,8 +78,8 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 
 					case ConsoleKey.Enter:
 						GameState.CurrentPlayer = preview;
-						Transitions.LoadSaveProgress();
-						Transitions.ShowSaveLoadedIcon(preview.PlayerName, preview.Health, (int)preview.GetTotalMaxHealth(), preview.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
+						SaveLoadProgress.Play();
+						SaveLoadedScreen.Show(preview.PlayerName, preview.Health, (int)preview.GetTotalMaxHealth(), preview.Coins, GameState.IsDevMode, GameState.DevIteration, GameState.BuildVersion);
 						Thread.Sleep(800);
 						VillageSquare.MainTownSquare();
 						return true;

@@ -1,0 +1,12 @@
+[
+  { "Id": "wanderer", "Name": "Wanderer", "Color": "#C8A97E", "StoryKey": "background.wanderer",
+    "Attribute": "Fortitude", "Points": 1, "Gold": 20, "Items": ["Traveler's Hood"] },
+  { "Id": "villager", "Name": "Villager", "Color": "#A8C66C", "StoryKey": "background.villager",
+    "Attribute": "Vitality", "Points": 1, "Gold": 40, "Items": ["Healing Potion"] },
+  { "Id": "apprentice", "Name": "Apprentice", "Color": "#8FA8FF", "StoryKey": "background.apprentice",
+    "Attribute": "Wisdom", "Points": 1, "Gold": 10, "Items": ["Swiftness Draught"] },
+  { "Id": "soldier", "Name": "Soldier", "Color": "#D9654B", "StoryKey": "background.soldier",
+    "Attribute": "Strength", "Points": 1, "Gold": 0, "Items": ["Iron Cap"] },
+  { "Id": "outcast", "Name": "Outcast", "Color": "#9A8FA8", "StoryKey": "background.outcast",
+    "Attribute": "Vitality", "Points": 1, "Gold": 0, "Items": ["Ironskin Tonic", "Healing Potion"] }
+]

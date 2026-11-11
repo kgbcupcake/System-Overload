@@ -17,5 +17,11 @@ namespace Maries_DataModels
 
 		/// <summary>Part type -> material -> ramp, for colours of one part only (shirt, pants, shoes cloth).</summary>
 		public Dictionary<string, Dictionary<string, string>> PartColours { get; set; } = new();
+
+		/// <summary>
+		/// Wardrobe slot (outfit, cape, boots, gloves, belt) -> the Raven clothing piece worn there
+		/// (an id from GameData/Templates/wardrobe/wardrobe.json). Its LPC layer and colour are in Parts/PartColours.
+		/// </summary>
+		public Dictionary<string, string> Wardrobe { get; set; } = new();
 	}
 }

@@ -12,7 +12,7 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 {
 	public static class CombatEncounter
 	{
-		private static void DrawTitleBar()
+		internal static void DrawTitleBar()
 		{
 			HudChrome.TitleBar(GameState.CurrentPlayer != null, GameState.CurrentPlayer?.PlayerName ?? "", GameState.CurrentPlayer?.Health ?? 0, (int)(GameState.CurrentPlayer?.GetTotalMaxHealth() ?? 0), GameState.CurrentPlayer?.Coins ?? 0, GameState.IsDevMode);
 		}
@@ -29,158 +29,121 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 		public static bool Start(Combatant player, Combatant enemy, PlayerData.loadPlayer? owner = null)
 		{
 			int selectedIndex = 0;
-			string[] menuOptions = { "ATTACK", "INVENTORY", "SPECIAL", "RETREAT" };
+			string[] menuOptions = { "ATTACK", "BAG", "SPECIAL", "RUN" };
+			var scene = new BattleScene(player, enemy);
+			int Hit() => HitChance(player, enemy);
 
 			if (enemy.IsBoss)
-				ShowBossIntro(player, enemy);
+				BossIntro.Show(enemy, Story.Line("combat.boss_banner"), enemy.Boss!.OnEncounter);
+			scene.Say(Hit(), enemy.IsBoss
+				? $"{enemy.Name.Pastel(enemy.Boss!.HexColor)} bars the way!"
+				: $"A wild {enemy.Name.Pastel("#FF4500")} appears!");
 
 			while (player.Health > 0 && enemy.Health > 0)
 			{
-				bool turnActionTaken = false;
+				int choice = scene.Command(Hit(), menuOptions, ref selectedIndex);
+				bool turnTaken = false;
 
-				// INNER LOOP: Handles the arrow key movement and menu drawing
-				while (!turnActionTaken)
+				if (choice == 0) // ATTACK
 				{
-					// 1. Draw the Header and Health Bars (This makes HP updates live)
-					RefreshCombatUI(player, enemy);
-
-					// 2. Draw the Command Menu Box (always right under the 9-row combat header)
-					Console.SetCursorPosition(0, MenuTop);
-					Console.WriteLine("\n  ┌── INPUT COMMAND ────────────────────┐".Pastel("#FFD700"));
-					MouseInput.ClearZones();
-					for (int i = 0; i < menuOptions.Length; i++)
+					PlayerAttack(scene, player, enemy);
+					turnTaken = true;
+				}
+				else if (choice == 1) // BAG
+				{
+					var usableItems = player.Inventory
+						.Where(i => i.Type.Equals("Consumable", StringComparison.OrdinalIgnoreCase) && i.Amount > 0)
+						.ToList();
+					if (usableItems.Count == 0)
+						scene.Say(Hit(), "You have nothing to use.");
+					else
+						turnTaken = CombatBag.Use(scene, player, enemy, usableItems);
+				}
+				else if (choice == 2) // SPECIAL
+				{
+					scene.Say(Hit(), "Special abilities are currently locked!");
+				}
+				else if (choice == 3) // RUN
+				{
+					if (enemy.IsBoss)
 					{
-						MouseInput.AddZone(MenuTop + 2 + i, 2, 39, i);
-						if (i == selectedIndex)
-						{
-							// Selection styling
-							string selection = $">> {menuOptions[i]} <<";
-							Console.WriteLine($"  │  {selection.PadRight(34).Pastel("#000000").PastelBg("#FFD700")} │");
-						}
-						else
-						{
-							// Unselected styling
-							Console.WriteLine($"  │     {menuOptions[i].PadRight(31).Pastel("#888888")} │");
-						}
+						scene.Say(Hit(), Story.Pick("combat.no_retreat", ("enemy", enemy.Name)).Pastel("#FF0000"));
+						continue;
 					}
-					Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#FFD700"));
-
-					// 3. Handle Input
-					var key = MouseInput.ReadMenuKey(ref selectedIndex, menuOptions.Length);
-
-					if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
-					{
-						selectedIndex = MenuNavigator.HandleVerticalNav(key, selectedIndex, menuOptions.Length);
-					}
-					else if (key == ConsoleKey.Enter)
-					{
-						if (selectedIndex == 0) // ATTACK
-						{
-							PlayerAttack(player, enemy);
-							turnActionTaken = true;
-						}
-						else if (selectedIndex == 1) // INVENTORY
-						{
-							var usableItems = player.Inventory
-								.Where(i => i.Type.Equals("Consumable", StringComparison.OrdinalIgnoreCase) && i.Amount > 0)
-								.ToList();
-
-							if (usableItems.Count == 0)
-							{
-								Console.WriteLine("\n  [!] You have nothing to use.");
-								MouseInput.WaitForAnyInput();
-							}
-							else
-							{
-								UseItemInCombat(player, enemy, usableItems, ref turnActionTaken);
-							}
-						}
-						else if (selectedIndex == 2) // SPECIAL
-						{
-							Console.WriteLine("\n  Special abilities are currently locked!");
-							MouseInput.WaitForAnyInput();
-						}
-						else if (selectedIndex == 3) // RETREAT
-						{
-							if (enemy.IsBoss)
-							{
-								Console.WriteLine("\n  " + Story.Pick("combat.no_retreat", ("enemy", enemy.Name)).Pastel("#FF0000"));
-								MouseInput.WaitForAnyInput();
-								continue;
-							}
-
-							Console.Clear();
-							DrawTitleBar();
-							Console.WriteLine("\n  " + Story.Pick("combat.fled", ("enemy", enemy.Name)));
-							MouseInput.WaitForAnyInput();
-							if (owner != null)
-								owner.Health = player.Health;
-							return false;
-						}
-					}
+					scene.Say(Hit(), Story.Pick("combat.fled", ("enemy", enemy.Name)));
+					if (owner != null)
+						owner.Health = player.Health;
+					return false;
 				}
 
 				// The enemy answers every action that used up the player's turn.
-				if (enemy.Health > 0 && player.Health > 0)
-					EnemyTurn(player, enemy);
+				if (turnTaken && enemy.Health > 0 && player.Health > 0)
+					EnemyTurn(scene, player, enemy);
 			}
 
-			EndCombat(player, enemy, owner);
+			CombatOutcome.Show(player, enemy, owner);
 			return player.Health > 0;
 		}
 
 		// ---------------------------------------------------------------- turns
 
-		private static void PlayerAttack(Combatant player, Combatant enemy)
+		private static void PlayerAttack(BattleScene scene, Combatant player, Combatant enemy)
 		{
 			var result = Roll(player, enemy);
-			if (result.Hit)
-				enemy.Health = Math.Max(0, enemy.Health - result.Damage);
-
-			RefreshCombatUI(player, enemy);
+			int hit = HitChance(player, enemy);
 			if (!result.Hit)
-				Console.WriteLine($"\n  > Your attack misses {enemy.Name}.".Pastel("#888888"));
-			else if (result.Critical)
-				Console.WriteLine($"\n  > CRITICAL! You {player.AttackVerb} {result.Damage} damage to {enemy.Name}!".Pastel("#FFD700"));
-			else
-				Console.WriteLine($"\n  > You {player.AttackVerb} {result.Damage} damage to {enemy.Name}.");
+			{
+				scene.Say(hit, $"Your attack misses {enemy.Name}.".Pastel("#888888"));
+				return;
+			}
 
+			enemy.Health = Math.Max(0, enemy.Health - result.Damage);
+			scene.Draw(hit);
+			scene.Flash(foe: true, result.Critical);
+
+			var lines = new List<string>
+			{
+				result.Critical
+					? $"CRITICAL! You {player.AttackVerb} {result.Damage} damage to {enemy.Name}!".Pastel("#FFD700")
+					: $"You {player.AttackVerb} {result.Damage} damage to {enemy.Name}."
+			};
 			if (enemy.Health <= 0)
-				Console.WriteLine(("\n  > " + Story.Pick("combat.enemy_falls", ("enemy", enemy.Name))).Pastel("#00FF00"));
-			else
-				CheckEnrage(enemy);
-
-			Console.WriteLine("\n  Press any key...");
-			MouseInput.WaitForAnyInput();
+			{
+				scene.Say(hit, lines.ToArray());
+				scene.Faint();
+				scene.Say(hit, Story.Pick("combat.enemy_falls", ("enemy", enemy.Name)).Pastel("#00FF00"));
+				return;
+			}
+			lines.AddRange(CheckEnrage(enemy));
+			scene.Say(hit, lines.ToArray());
 		}
 
-		/// <summary>A boss below half health enrages once: it speaks and hits harder.</summary>
-		private static void CheckEnrage(Combatant enemy)
+		/// <summary>A boss below half health enrages once: it speaks and hits harder. Returns what to show.</summary>
+		private static IEnumerable<string> CheckEnrage(Combatant enemy)
 		{
 			var boss = enemy.Boss;
 			if (boss == null || boss.Enraged || enemy.Health > enemy.MaxHealth / 2)
-				return;
+				yield break;
 
 			boss.Enraged = true;
 			if (!string.IsNullOrWhiteSpace(boss.OnDamage))
-				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnDamage}\"".Pastel(boss.HexColor));
+				yield return $"{enemy.Name}: \"{boss.OnDamage}\"".Pastel(boss.HexColor);
 			if (boss.EnrageMultiplier > 1.0)
-				Console.WriteLine($"  [!] {enemy.Name.ToUpper()} IS ENRAGED. Damage x{boss.EnrageMultiplier:0.##}".Pastel("#FF0000"));
+				yield return $"[!] {enemy.Name.ToUpper()} IS ENRAGED. Damage x{boss.EnrageMultiplier:0.##}".Pastel("#FF0000");
 		}
 
-		private static void EnemyTurn(Combatant player, Combatant enemy)
+		private static void EnemyTurn(BattleScene scene, Combatant player, Combatant enemy)
 		{
+			int hit = HitChance(player, enemy);
 			if (enemy.SkipTurns > 0)
 			{
 				enemy.SkipTurns--;
-				RefreshCombatUI(player, enemy);
-				Console.WriteLine($"\n  > {enemy.Name} is too slow and loses its turn.".Pastel("#00FFFF"));
-				Console.WriteLine("\n  Press any key for the next turn...");
-				MouseInput.WaitForAnyInput();
+				scene.Say(hit, $"{enemy.Name} is too slow and loses its turn.".Pastel("#00FFFF"));
 				return;
 			}
 
 			string message;
+			bool landed, critical = false;
 			var boss = enemy.Boss;
 			if (boss != null)
 			{
@@ -193,250 +156,42 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 				{
 					var result = Roll(enemy, player, multiplier * 1.5, alwaysHit: true);
 					player.Health = Math.Max(0, player.Health - result.Damage);
-					message = $"\n  >> {enemy.Name} unleashes {boss.SpecialAbility.ToUpper()} for {result.Damage} damage!".Pastel("#FF0000");
+					landed = critical = true;
+					message = $"{enemy.Name} unleashes {boss.SpecialAbility.ToUpper()} for {result.Damage} damage!".Pastel("#FF0000");
 				}
 				else
 				{
 					string attack = boss.AttackNames.Count > 0 ? boss.AttackNames[_rng.Next(boss.AttackNames.Count)] : "an attack";
 					var result = Roll(enemy, player, multiplier);
+					landed = result.Hit;
+					critical = result.Critical;
 					if (result.Hit)
 						player.Health = Math.Max(0, player.Health - result.Damage);
 					message = !result.Hit
-						? $"\n  > {enemy.Name} uses {attack}... and misses."
-						: $"\n  > {enemy.Name} uses {attack} for {result.Damage} damage{(result.Critical ? " (CRITICAL)" : "")}!".Pastel(boss.HexColor);
+						? $"{enemy.Name} uses {attack}... and misses."
+						: $"{enemy.Name} uses {attack} for {result.Damage} damage{(result.Critical ? " (CRITICAL)" : "")}!".Pastel(boss.HexColor);
 				}
 			}
 			else
 			{
 				var result = Roll(enemy, player);
+				landed = result.Hit;
+				critical = result.Critical;
 				if (result.Hit)
 					player.Health = Math.Max(0, player.Health - result.Damage);
 				message = !result.Hit
-					? $"\n  > {enemy.Name} {enemy.AttackVerb} and misses."
+					? $"{enemy.Name} {enemy.AttackVerb} and misses."
 					: result.Critical
-						? $"\n  > CRITICAL! {enemy.Name} {enemy.AttackVerb} for {result.Damage} damage!".Pastel("#FF4500")
-						: $"\n  > {enemy.Name} {enemy.AttackVerb} for {result.Damage} damage!";
+						? $"CRITICAL! {enemy.Name} {enemy.AttackVerb} for {result.Damage} damage!".Pastel("#FF4500")
+						: $"{enemy.Name} {enemy.AttackVerb} for {result.Damage} damage!";
 			}
 
-			RefreshCombatUI(player, enemy);
-			Console.WriteLine(message);
-			Console.WriteLine("\n  Press any key for the next turn...");
-			MouseInput.WaitForAnyInput();
-		}
-
-		// ---------------------------------------------------------------- screens
-
-		private static void ShowBossIntro(Combatant player, Combatant enemy)
-		{
-			var boss = enemy.Boss!;
-			Console.Clear();
-			DrawTitleBar();
-			Console.WriteLine();
-			Console.WriteLine("  ╔══════════════════════════════════════════════╗".Pastel(boss.HexColor));
-			Console.WriteLine($"  ║  {Story.Line("combat.boss_banner").PadRight(44)}║".Pastel(boss.HexColor));
-			Console.WriteLine("  ╚══════════════════════════════════════════════╝".Pastel(boss.HexColor));
-			Console.WriteLine($"\n  {enemy.Name.ToUpper()}  //  LVL {enemy.Level}  //  HP {enemy.MaxHealth}".Pastel(boss.HexColor));
-			if (!string.IsNullOrWhiteSpace(boss.OnEncounter))
-				Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnEncounter}\"");
-			Console.WriteLine("\n  Press any key to engage...");
-			MouseInput.WaitForAnyInput();
-		}
-
-		// Combined UI Refresh to prevent "flicker" or "lag"
-		/// <summary>
-		/// RefreshCombatUI always prints 9 rows (title bar + enemy + hero), so menus start here.
-		/// Rows are fixed instead of read from Console.CursorTop, which asks the terminal and can
-		/// swallow a mouse click's codes.
-		/// </summary>
-		private const int MenuTop = 9;
-
-		private static void RefreshCombatUI(Combatant player, Combatant enemy)
-		{
-			Console.Clear();
-			DrawTitleBar();
-
-			// 1. ENEMY SECTION
-			string enemyColor = enemy.Boss?.HexColor ?? "#FF4500";
-			string tag = enemy.IsBoss ? (enemy.Boss!.Enraged ? "DUNGEON LORD // ENRAGED" : "DUNGEON LORD") : "FOE";
-			Console.WriteLine($"\n  [ {tag}: {enemy.Name.ToUpper().Pastel(enemyColor)} ]  LVL {enemy.Level}");
-			DrawHealthBar(enemy.Health, enemy.MaxHealth, true);
-			Console.WriteLine(new string('·', 50).Pastel("#333333"));
-
-			// 2. PLAYER SECTION
-			Console.WriteLine($"\n  [ HERO: {player.Name.ToUpper().Pastel("#FFD700")} ]  LVL {player.Level}");
-			DrawHealthBar(player.Health, player.MaxHealth, false);
-			string defense = player.BonusDefense > 0 ? $"{player.Defense}+{player.BonusDefense}" : $"{player.Defense}";
-			Console.WriteLine($"  DMG {player.MinDamage}-{player.MaxDamage}  DEF {defense}  CRIT {player.CritChance}%  HIT {HitChance(player, enemy)}%".Pastel("#888888"));
-			Console.WriteLine(new string('═', 50).Pastel("#333333"));
-		}
-
-		private static void DrawHealthBar(int current, int max, bool isEnemy)
-		{
-			int barWidth = 30;
-			float percentage = max > 0 ? (float)current / max : 0;
-			int filledSegments = Math.Clamp((int)(percentage * barWidth), 0, barWidth);
-
-			// Dynamic Color Logic: Green > Yellow > Red
-			string color = "#00FF00"; // Default Green
-			if (percentage < 0.25f) color = "#FF0000";      // Red
-			else if (percentage < 0.60f) color = "#FFFF00"; // Yellow
-
-			string bar = new string('█', filledSegments).Pastel(color);
-			string empty = new string('░', barWidth - filledSegments).Pastel("#222222");
-
-			Console.WriteLine($"  {bar}{empty} {current}/{max} HP");
-		}
-
-		private static void EndCombat(Combatant player, Combatant enemy, PlayerData.loadPlayer? owner)
-		{
-			Console.Clear();
-			DrawTitleBar();
-
-			if (player.Health <= 0)
+			if (landed)
 			{
-				Console.WriteLine("\n  " + "--- DEFEAT ---".Pastel("#FF0000"));
-				Console.WriteLine("  " + Story.Pick("combat.defeat", ("enemy", enemy.Name)));
+				scene.Draw(hit);
+				scene.Flash(foe: false, critical);
 			}
-			else
-			{
-				Console.WriteLine("\n  " + "--- VICTORY ---".Pastel("#00FF00"));
-				if (enemy.Boss is { } boss && !string.IsNullOrWhiteSpace(boss.OnDeath))
-					Console.WriteLine($"\n  {enemy.Name}: \"{boss.OnDeath}\"".Pastel(boss.HexColor));
-				Console.WriteLine("\n  " + Story.Pick("combat.victory", ("enemy", enemy.Name)));
-
-				if (owner != null)
-				{
-					GrantRewards(owner, enemy);
-					QuestSystem.Notify(owner, "defeat_enemy", enemy.Name);
-				}
-			}
-
-			if (owner != null)
-				owner.Health = player.Health;
-
-			// Sync to JSON immediately upon combat end
-			SaveGame.Save();
-
-			Console.WriteLine("\n  Press any key to continue...");
-			MouseInput.WaitForAnyInput();
-		}
-
-		private static void GrantRewards(PlayerData.loadPlayer owner, Combatant enemy)
-		{
-			int levelBefore = owner.Level;
-			if (enemy.XpReward > 0)
-				owner.AddXP(enemy.XpReward);
-			if (enemy.CoinReward > 0)
-				owner.AddGold(enemy.CoinReward);
-
-			Console.WriteLine($"  Gold: +{enemy.CoinReward}   XP: +{enemy.XpReward}".Pastel("#FFD700"));
-			if (owner.Level > levelBefore)
-				Console.WriteLine(("  >> " + Story.Line("combat.level_up", ("level", owner.Level))).Pastel("#00FF00"));
-
-			foreach (var (itemName, chance) in enemy.Drops)
-			{
-				if (_rng.NextDouble() >= chance)
-					continue;
-
-				var item = ItemRegistry.CreateCopy(itemName);
-				if (item == null)
-				{
-					Console.WriteLine($"  [?] Unknown drop: '{itemName}' isn't in the item data.".Pastel("#555555"));
-					continue;
-				}
-
-				AddToInventory(owner, item);
-				Console.WriteLine($"  [+] Looted: {item.Name} [{item.Rarity}]".Pastel("#00FFFF"));
-			}
-		}
-
-		private static void AddToInventory(PlayerData.loadPlayer owner, ItemData item) =>
-			PlayerInventory.Give(owner, item);
-
-		// ---------------------------------------------------------------- items
-
-		private static void UseItemInCombat(Combatant player, Combatant enemy, List<ItemData> items, ref bool turnActionTaken)
-		{
-			int itemIndex = 0;
-			bool choosing = true;
-
-			while (choosing)
-			{
-				RefreshCombatUI(player, enemy);
-				Console.SetCursorPosition(0, MenuTop);
-				Console.WriteLine("\n  ┌── SELECT CONSUMABLE ────────────────┐".Pastel("#00FFFF"));
-
-				MouseInput.ClearZones();
-				for (int i = 0; i < items.Count; i++)
-				{
-					MouseInput.AddZone(MenuTop + 2 + i, 2, 60, i);
-					string line = $"{items[i].Name} x{items[i].Amount} - {DescribeEffect(items[i])}";
-					if (i == itemIndex)
-						Console.WriteLine($"  │ > {line}".Pastel("#000000").PastelBg("#00FFFF"));
-					else
-						Console.WriteLine($"  │   {line}");
-				}
-				Console.WriteLine("  └─────────────────────────────────────┘".Pastel("#00FFFF"));
-				int hintRow = MenuTop + 2 + items.Count + 1; // after the items and the box's bottom line
-				MouseInput.AddKeyZone(hintRow, 2, 12, ConsoleKey.Escape);
-				MouseInput.AddKeyZone(hintRow, 17, 11, ConsoleKey.Enter);
-				Console.WriteLine("  [ESC] Cancel | [ENTER] Use");
-
-				var key = MouseInput.ReadMenuKey(ref itemIndex, items.Count);
-				if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow) itemIndex = MenuNavigator.HandleVerticalNav(key, itemIndex, items.Count);
-				else if (key == ConsoleKey.Escape) choosing = false;
-				else if (key == ConsoleKey.Enter)
-				{
-					var selectedItem = items[itemIndex];
-					string feedback = ApplyItem(player, enemy, selectedItem);
-
-					// Consume one from the stack and remove it when empty.
-					selectedItem.Amount--;
-					if (selectedItem.Amount <= 0)
-						player.Inventory.Remove(selectedItem);
-
-					RefreshCombatUI(player, enemy);
-					Console.WriteLine(feedback);
-					Console.WriteLine("\n  Press any key...");
-					MouseInput.WaitForAnyInput();
-
-					choosing = false;
-					turnActionTaken = true;
-				}
-			}
-		}
-
-		private static string DescribeEffect(ItemData item) => item.Effect switch
-		{
-			EffectType.Restorative => $"restore {item.Value} HP",
-			EffectType.Defense => "+5 DEF this fight",
-			EffectType.Speed => "enemy loses its next turn",
-			_ => "no combat effect",
-		};
-
-		/// <summary>Applies a consumable and returns the log line to show.</summary>
-		private static string ApplyItem(Combatant player, Combatant enemy, ItemData item)
-		{
-			switch (item.Effect)
-			{
-				case EffectType.Restorative:
-				{
-					int actualHeal = Math.Min(player.MaxHealth - player.Health, item.Value);
-					player.Health += actualHeal;
-					string line = $"\n  > You use the {item.Name} and recover {actualHeal} HP.".Pastel("#00FF00");
-					if (actualHeal < item.Value)
-						line += $"\n  > {item.Value - actualHeal} HP of healing wasted (you were nearly full).".Pastel("#555555");
-					return line;
-				}
-				case EffectType.Defense:
-					player.BonusDefense += 5;
-					return $"\n  > {item.Name} applied: +5 DEF until the fight ends.".Pastel("#00FFFF");
-				case EffectType.Speed:
-					enemy.SkipTurns++;
-					return $"\n  > {item.Name} quickens you: {enemy.Name} loses its next turn.".Pastel("#00FFFF");
-				default:
-					return $"\n  > {item.Name} does nothing in combat.".Pastel("#555555");
-			}
+			scene.Say(hit, message);
 		}
 	}
 }

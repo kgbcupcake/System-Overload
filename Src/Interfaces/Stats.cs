@@ -1,5 +1,6 @@
 using DungeonAdventures.Src.GameData.Components;
 using DungeonAdventures.Src.Lpc;
+using DungeonAdventures.Src.GameEngine.Systems;
 using Maries_Ui;
 using Pastel;
 using Maries_DataModels;
@@ -113,7 +114,8 @@ namespace DungeonAdventures.Src.GameEngine.Interfaces
 				: "               [ PRESS ANY KEY TO RETURN ]               ");
 
 			// 5. Draw Header
-			string header = $"HERO: {p.PlayerName.ToUpper()} ({p.PlayerClass})";
+			string origin = StoryTokens.Origin(p);
+			string header = $"HERO: {p.PlayerName.ToUpper()} ({(origin.Length > 0 ? origin + " " : "")}{p.PlayerClass})";
 			int headerPadding = header.Length / 2;
 			SetCursorPosition(Math.Max(0, center - headerPadding), 1);
 			WriteLine(header.Pastel(hColor));

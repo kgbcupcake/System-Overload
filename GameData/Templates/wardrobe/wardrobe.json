@@ -1,0 +1,3541 @@
+{
+ "_help": "Made by Src/Dev/make-wardrobe.py. Raven clothing icons (assets/icons/clothing/<icon>) paired with the LPC item each body type wears and its colour ({material: ramp}).",
+ "pieces": [
+  {
+   "id": "outfit_000",
+   "name": "Walnut Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile000.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "walnut"
+   }
+  },
+  {
+   "id": "outfit_001",
+   "name": "Walnut Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile001.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "walnut"
+   }
+  },
+  {
+   "id": "outfit_002",
+   "name": "Sky Long Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile002.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_003",
+   "name": "Red Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile003.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "red"
+   }
+  },
+  {
+   "id": "outfit_004",
+   "name": "Grey Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile004.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "outfit_005",
+   "name": "White Pinafore",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile005.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_006",
+   "name": "Grey Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile006.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "outfit_007",
+   "name": "White Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile007.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_008",
+   "name": "White Gown",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile008.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_009",
+   "name": "Grey Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile009.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "outfit_010",
+   "name": "Lavender Kimono",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile010.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_011",
+   "name": "Slate Tabard",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile011.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_012",
+   "name": "Slate Mage Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile012.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_013",
+   "name": "Tan Vest",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile013.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_014",
+   "name": "Orange Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile014.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "orange"
+   }
+  },
+  {
+   "id": "outfit_015",
+   "name": "Sky Blouse",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile015.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_016",
+   "name": "Blue Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile016.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_017",
+   "name": "Blue Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile017.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_018",
+   "name": "Sky Long Coat II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile018.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_019",
+   "name": "Blue Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile019.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_020",
+   "name": "Blue Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile020.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_021",
+   "name": "Sky Pinafore",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile021.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_022",
+   "name": "Blue Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile022.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_023",
+   "name": "Sky Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile023.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_024",
+   "name": "Sky Gown",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile024.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_025",
+   "name": "Blue Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile025.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_026",
+   "name": "Blue Kimono",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile026.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_027",
+   "name": "Blue Tabard",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile027.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_028",
+   "name": "Sky Mage Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile028.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_029",
+   "name": "Sky Vest",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile029.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_030",
+   "name": "Blue Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile030.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_031",
+   "name": "Sky Blouse II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile031.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_032",
+   "name": "Pink Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile032.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_033",
+   "name": "Maroon Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile033.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "outfit_034",
+   "name": "Pink Long Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile034.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_035",
+   "name": "Brown Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile035.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "brown"
+   }
+  },
+  {
+   "id": "outfit_036",
+   "name": "Maroon Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile036.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "outfit_037",
+   "name": "Pink Pinafore",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile037.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_038",
+   "name": "Maroon Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile038.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "outfit_039",
+   "name": "Pink Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile039.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_040",
+   "name": "White Gown II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile040.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_041",
+   "name": "Pink Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile041.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_042",
+   "name": "Pink Kimono",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile042.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_043",
+   "name": "Pink Tabard",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile043.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_044",
+   "name": "Pink Mage Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile044.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_045",
+   "name": "Pink Vest",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile045.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_046",
+   "name": "Pink Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile046.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "outfit_047",
+   "name": "White Blouse",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile047.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_048",
+   "name": "Green Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile048.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "outfit_049",
+   "name": "Green Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile049.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "outfit_050",
+   "name": "Slate Long Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile050.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_051",
+   "name": "White Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile051.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_052",
+   "name": "Green Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile052.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "outfit_053",
+   "name": "Slate Pinafore",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile053.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_054",
+   "name": "Green Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile054.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "outfit_055",
+   "name": "Slate Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile055.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_056",
+   "name": "Slate Gown",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile056.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_057",
+   "name": "Slate Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile057.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_058",
+   "name": "Slate Kimono",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile058.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_059",
+   "name": "Slate Tabard II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile059.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_060",
+   "name": "Slate Mage Robe II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile060.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_061",
+   "name": "Slate Vest",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile061.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "outfit_062",
+   "name": "Green Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile062.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "outfit_063",
+   "name": "White Blouse II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile063.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_064",
+   "name": "Tan Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile064.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_065",
+   "name": "Tan Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile065.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_066",
+   "name": "Tan Long Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile066.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_067",
+   "name": "White Robe II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile067.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_068",
+   "name": "Tan Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile068.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_069",
+   "name": "Tan Pinafore",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile069.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_070",
+   "name": "Tan Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile070.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_071",
+   "name": "White Coat II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile071.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_072",
+   "name": "White Gown III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile072.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_073",
+   "name": "Tan Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile073.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_074",
+   "name": "Tan Kimono",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile074.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_075",
+   "name": "Tan Tabard",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile075.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_076",
+   "name": "Tan Mage Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile076.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_077",
+   "name": "Tan Vest II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile077.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_078",
+   "name": "Tan Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile078.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "outfit_079",
+   "name": "White Blouse III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile079.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "outfit_080",
+   "name": "Lavender Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile080.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_081",
+   "name": "Lavender Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile081.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_082",
+   "name": "Lavender Long Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile082.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_083",
+   "name": "Blue Robe II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile083.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_084",
+   "name": "Lavender Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile084.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_085",
+   "name": "Lavender Pinafore",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile085.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_086",
+   "name": "Lavender Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile086.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_087",
+   "name": "Lavender Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile087.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_088",
+   "name": "Lavender Gown",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile088.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_089",
+   "name": "Lavender Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile089.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_090",
+   "name": "Lavender Kimono II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile090.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_091",
+   "name": "Lavender Tabard",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile091.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_092",
+   "name": "Lavender Mage Robe",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile092.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_093",
+   "name": "Lavender Vest",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile093.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_094",
+   "name": "Lavender Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile094.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_095",
+   "name": "Lavender Blouse",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile095.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_096",
+   "name": "Sky Shirt",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile096.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_097",
+   "name": "Sky Frock",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile097.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_098",
+   "name": "Sky Long Coat III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile098.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_099",
+   "name": "Blue Robe III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile099.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_100",
+   "name": "Sky Tunic",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile100.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_101",
+   "name": "Sky Pinafore II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile101.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_102",
+   "name": "Sky Jacket",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile102.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_103",
+   "name": "Sky Coat II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile103.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_104",
+   "name": "Sky Gown II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile104.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_105",
+   "name": "Sky Harness",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile105.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_106",
+   "name": "Sky Kimono",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile106.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_107",
+   "name": "Sky Tabard",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile107.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_108",
+   "name": "Sky Mage Robe II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile108.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_109",
+   "name": "Sky Vest II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile109.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_110",
+   "name": "Sky Sash Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile110.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_111",
+   "name": "Sky Blouse III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile111.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_112",
+   "name": "Lavender Shirt II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile112.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_buttoned",
+    "male": "torso_clothes_longsleeve2_buttoned"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_113",
+   "name": "Lavender Frock II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile113.png",
+   "lpc": {
+    "female": "dress_sash",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_114",
+   "name": "Lavender Long Coat II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile114.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_cardigan",
+    "male": "torso_clothes_longsleeve2_cardigan"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_115",
+   "name": "Blue Robe IV",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile115.png",
+   "lpc": {
+    "female": "torso_clothes_robe",
+    "male": "torso_clothes_longsleeve2"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_116",
+   "name": "Lavender Tunic II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile116.png",
+   "lpc": {
+    "female": "torso_clothes_tunic",
+    "male": "torso_clothes_tshirt_buttoned"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_117",
+   "name": "Sky Pinafore III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile117.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_scoop",
+    "male": "torso_clothes_longsleeve2_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_118",
+   "name": "Lavender Jacket II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile118.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_polo",
+    "male": "torso_clothes_longsleeve2_polo"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_119",
+   "name": "Grey Coat",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile119.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve2_vneck",
+    "male": "torso_clothes_longsleeve2_vneck"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "outfit_120",
+   "name": "Grey Gown",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile120.png",
+   "lpc": {
+    "female": "dress_slit",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "outfit_121",
+   "name": "Blue Harness II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile121.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_cardigan",
+    "male": "torso_clothes_shortsleeve_cardigan"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "outfit_122",
+   "name": "Sky Kimono II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile122.png",
+   "lpc": {
+    "female": "dress_kimono",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_123",
+   "name": "Lavender Tabard II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile123.png",
+   "lpc": {
+    "female": "torso_clothes_shortsleeve_polo",
+    "male": "torso_clothes_shortsleeve_polo"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "outfit_124",
+   "name": "Sky Mage Robe III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile124.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve_scoop",
+    "male": "torso_clothes_longsleeve_scoop"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_125",
+   "name": "Sky Vest III",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile125.png",
+   "lpc": {
+    "female": "torso_clothes_sleeveless2_vneck",
+    "male": "torso_clothes_sleeveless2_vneck"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_126",
+   "name": "Sky Sash Coat II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile126.png",
+   "lpc": {
+    "female": "torso_clothes_longsleeve",
+    "male": "torso_clothes_longsleeve"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "outfit_127",
+   "name": "Lavender Blouse II",
+   "slot": "outfit",
+   "icon": "clothes_32x32/tile127.png",
+   "lpc": {
+    "female": "torso_clothes_blouse_longsleeve",
+    "male": "torso_clothes_tshirt_vneck"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "cape_208",
+   "name": "Walnut Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile208.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "walnut"
+   }
+  },
+  {
+   "id": "cape_209",
+   "name": "Pink Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile209.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "cape_210",
+   "name": "Pink Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile210.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "cape_211",
+   "name": "Leather Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile211.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "leather"
+   }
+  },
+  {
+   "id": "cape_212",
+   "name": "Brown Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile212.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "brown"
+   }
+  },
+  {
+   "id": "cape_213",
+   "name": "Tan Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile213.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "cape_214",
+   "name": "Blue-grey Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile214.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "cape_215",
+   "name": "Green Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile215.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "cape_216",
+   "name": "Slate Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile216.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "cape_217",
+   "name": "Teal Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile217.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "teal"
+   }
+  },
+  {
+   "id": "cape_218",
+   "name": "Blue-grey Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile218.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "cape_219",
+   "name": "Slate Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile219.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "cape_220",
+   "name": "Pink Cloak III",
+   "slot": "cape",
+   "icon": "capes_32x32/tile220.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "cape_221",
+   "name": "Purple Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile221.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "purple"
+   }
+  },
+  {
+   "id": "cape_222",
+   "name": "Slate Cloak III",
+   "slot": "cape",
+   "icon": "capes_32x32/tile222.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "cape_223",
+   "name": "Black Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile223.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "black"
+   }
+  },
+  {
+   "id": "cape_224",
+   "name": "Tan Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile224.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "cape_225",
+   "name": "Tan Cloak III",
+   "slot": "cape",
+   "icon": "capes_32x32/tile225.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "cape_226",
+   "name": "Tan Cloak IV",
+   "slot": "cape",
+   "icon": "capes_32x32/tile226.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "cape_227",
+   "name": "Blue Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile227.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "cape_228",
+   "name": "Lavender Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile228.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "cape_229",
+   "name": "Lavender Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile229.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "cape_230",
+   "name": "Maroon Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile230.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "cape_231",
+   "name": "Maroon Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile231.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "cape_232",
+   "name": "Slate Cloak IV",
+   "slot": "cape",
+   "icon": "capes_32x32/tile232.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "cape_233",
+   "name": "Purple Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile233.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "purple"
+   }
+  },
+  {
+   "id": "cape_234",
+   "name": "Lavender Cloak III",
+   "slot": "cape",
+   "icon": "capes_32x32/tile234.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "cape_235",
+   "name": "Slate Cloak V",
+   "slot": "cape",
+   "icon": "capes_32x32/tile235.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "cape_236",
+   "name": "Maroon Cloak III",
+   "slot": "cape",
+   "icon": "capes_32x32/tile236.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "cape_237",
+   "name": "Purple Cloak III",
+   "slot": "cape",
+   "icon": "capes_32x32/tile237.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "purple"
+   }
+  },
+  {
+   "id": "cape_238",
+   "name": "White Cloak",
+   "slot": "cape",
+   "icon": "capes_32x32/tile238.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "white"
+   }
+  },
+  {
+   "id": "cape_239",
+   "name": "Teal Cloak II",
+   "slot": "cape",
+   "icon": "capes_32x32/tile239.png",
+   "lpc": {
+    "female": "cape_solid",
+    "male": "cape_solid"
+   },
+   "colours": {
+    "cloth": "teal"
+   }
+  },
+  {
+   "id": "boots_240",
+   "name": "Brown Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile240.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "brown"
+   }
+  },
+  {
+   "id": "boots_241",
+   "name": "Brown Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile241.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "brown"
+   }
+  },
+  {
+   "id": "boots_242",
+   "name": "Slate Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile242.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "boots_243",
+   "name": "Silver Sabatons",
+   "slot": "boots",
+   "icon": "boots_32x32/tile243.png",
+   "lpc": {
+    "female": "feet_armour",
+    "male": "feet_armour"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "boots_244",
+   "name": "Green Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile244.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "boots_245",
+   "name": "Grey Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile245.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_246",
+   "name": "Grey Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile246.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_247",
+   "name": "Pink Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile247.png",
+   "lpc": {
+    "female": "feet_boots_basic",
+    "male": "feet_boots_basic"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "boots_248",
+   "name": "Pink Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile248.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "boots_249",
+   "name": "Slate Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile249.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "boots_250",
+   "name": "Slate Sabatons",
+   "slot": "boots",
+   "icon": "boots_32x32/tile250.png",
+   "lpc": {
+    "female": "feet_armour",
+    "male": "feet_armour"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "boots_251",
+   "name": "Walnut Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile251.png",
+   "lpc": {
+    "female": "feet_boots_basic",
+    "male": "feet_boots_basic"
+   },
+   "colours": {
+    "cloth": "walnut"
+   }
+  },
+  {
+   "id": "boots_252",
+   "name": "Sky Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile252.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "boots_253",
+   "name": "Grey Boots III",
+   "slot": "boots",
+   "icon": "boots_32x32/tile253.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_254",
+   "name": "Grey Boots IV",
+   "slot": "boots",
+   "icon": "boots_32x32/tile254.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_255",
+   "name": "Grey Boots V",
+   "slot": "boots",
+   "icon": "boots_32x32/tile255.png",
+   "lpc": {
+    "female": "feet_boots_basic",
+    "male": "feet_boots_basic"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_256",
+   "name": "Blue Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile256.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "boots_257",
+   "name": "Blue Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile257.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "blue"
+   }
+  },
+  {
+   "id": "boots_258",
+   "name": "Slate Boots III",
+   "slot": "boots",
+   "icon": "boots_32x32/tile258.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "boots_259",
+   "name": "White Sabatons",
+   "slot": "boots",
+   "icon": "boots_32x32/tile259.png",
+   "lpc": {
+    "female": "feet_armour",
+    "male": "feet_armour"
+   },
+   "colours": {
+    "metal": "white"
+   }
+  },
+  {
+   "id": "boots_260",
+   "name": "Pink Boots III",
+   "slot": "boots",
+   "icon": "boots_32x32/tile260.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "boots_261",
+   "name": "Green Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile261.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "boots_262",
+   "name": "Grey Boots VI",
+   "slot": "boots",
+   "icon": "boots_32x32/tile262.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_263",
+   "name": "Teal Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile263.png",
+   "lpc": {
+    "female": "feet_boots_basic",
+    "male": "feet_boots_basic"
+   },
+   "colours": {
+    "cloth": "teal"
+   }
+  },
+  {
+   "id": "boots_264",
+   "name": "Slate Boots IV",
+   "slot": "boots",
+   "icon": "boots_32x32/tile264.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "boots_265",
+   "name": "Grey Boots VII",
+   "slot": "boots",
+   "icon": "boots_32x32/tile265.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "gray"
+   }
+  },
+  {
+   "id": "boots_266",
+   "name": "Pink Boots IV",
+   "slot": "boots",
+   "icon": "boots_32x32/tile266.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "boots_267",
+   "name": "Purple Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile267.png",
+   "lpc": {
+    "female": "feet_boots_basic",
+    "male": "feet_boots_basic"
+   },
+   "colours": {
+    "cloth": "purple"
+   }
+  },
+  {
+   "id": "boots_268",
+   "name": "Tan Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile268.png",
+   "lpc": {
+    "female": "feet_boots_revised",
+    "male": "feet_boots_revised"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "boots_269",
+   "name": "Charcoal Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile269.png",
+   "lpc": {
+    "female": "feet_boots_fold",
+    "male": "feet_boots_fold"
+   },
+   "colours": {
+    "cloth": "charcoal"
+   }
+  },
+  {
+   "id": "boots_270",
+   "name": "Blue-grey Boots",
+   "slot": "boots",
+   "icon": "boots_32x32/tile270.png",
+   "lpc": {
+    "female": "feet_boots_rim",
+    "male": "feet_boots_rim"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "boots_271",
+   "name": "Blue-grey Boots II",
+   "slot": "boots",
+   "icon": "boots_32x32/tile271.png",
+   "lpc": {
+    "female": "feet_boots_basic",
+    "male": "feet_boots_basic"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "gloves_272",
+   "name": "Brown Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile272.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "brown"
+   }
+  },
+  {
+   "id": "gloves_273",
+   "name": "Silver Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile273.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "gloves_274",
+   "name": "Silver Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile274.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "gloves_275",
+   "name": "Silver Gloves III",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile275.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "gloves_276",
+   "name": "Silver Gloves IV",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile276.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "gloves_277",
+   "name": "Brass Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile277.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "brass"
+   }
+  },
+  {
+   "id": "gloves_278",
+   "name": "Pink Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile278.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "pink"
+   }
+  },
+  {
+   "id": "gloves_279",
+   "name": "Slate Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile279.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_280",
+   "name": "Slate Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile280.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_281",
+   "name": "Slate Gloves III",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile281.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_282",
+   "name": "Slate Gloves IV",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile282.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_283",
+   "name": "Pink Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile283.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "pink"
+   }
+  },
+  {
+   "id": "gloves_284",
+   "name": "Purple Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile284.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "purple"
+   }
+  },
+  {
+   "id": "gloves_285",
+   "name": "Slate Gloves V",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile285.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_286",
+   "name": "Slate Gloves VI",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile286.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_287",
+   "name": "Slate Gloves VII",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile287.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_288",
+   "name": "Lavender Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile288.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "lavender"
+   }
+  },
+  {
+   "id": "gloves_289",
+   "name": "Slate Gloves VIII",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile289.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_290",
+   "name": "Slate Gloves IX",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile290.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_291",
+   "name": "Slate Gloves X",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile291.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_292",
+   "name": "White Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile292.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "white"
+   }
+  },
+  {
+   "id": "gloves_293",
+   "name": "Lavender Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile293.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "lavender"
+   }
+  },
+  {
+   "id": "gloves_294",
+   "name": "Teal Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile294.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "teal"
+   }
+  },
+  {
+   "id": "gloves_295",
+   "name": "Slate Gloves XI",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile295.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_296",
+   "name": "Slate Gloves XII",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile296.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_297",
+   "name": "White Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile297.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "white"
+   }
+  },
+  {
+   "id": "gloves_298",
+   "name": "White Gloves III",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile298.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "white"
+   }
+  },
+  {
+   "id": "gloves_299",
+   "name": "Blue Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile299.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "blue"
+   }
+  },
+  {
+   "id": "gloves_300",
+   "name": "Brass Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile300.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "brass"
+   }
+  },
+  {
+   "id": "gloves_301",
+   "name": "Slate Gloves XIII",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile301.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_302",
+   "name": "Sky Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile302.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "sky"
+   }
+  },
+  {
+   "id": "gloves_303",
+   "name": "Sky Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile303.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "sky"
+   }
+  },
+  {
+   "id": "gloves_304",
+   "name": "Green Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile304.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "green"
+   }
+  },
+  {
+   "id": "gloves_305",
+   "name": "Blue-grey Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile305.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "bluegray"
+   }
+  },
+  {
+   "id": "gloves_306",
+   "name": "Grey Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile306.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "gray"
+   }
+  },
+  {
+   "id": "gloves_307",
+   "name": "Grey Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile307.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "gray"
+   }
+  },
+  {
+   "id": "gloves_308",
+   "name": "Steel Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile308.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "steel"
+   }
+  },
+  {
+   "id": "gloves_309",
+   "name": "Silver Gloves V",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile309.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "gloves_310",
+   "name": "Forest Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile310.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "forest"
+   }
+  },
+  {
+   "id": "gloves_311",
+   "name": "Blue-grey Gloves II",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile311.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "bluegray"
+   }
+  },
+  {
+   "id": "gloves_312",
+   "name": "Grey Gloves III",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile312.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "gray"
+   }
+  },
+  {
+   "id": "gloves_313",
+   "name": "Sky Gloves III",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile313.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "sky"
+   }
+  },
+  {
+   "id": "gloves_314",
+   "name": "Sky Gloves IV",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile314.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "sky"
+   }
+  },
+  {
+   "id": "gloves_315",
+   "name": "Silver Gloves VI",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile315.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "silver"
+   }
+  },
+  {
+   "id": "gloves_316",
+   "name": "Red Gloves",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile316.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "red"
+   }
+  },
+  {
+   "id": "gloves_317",
+   "name": "Slate Gloves XIV",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile317.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_318",
+   "name": "Slate Gloves XV",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile318.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "gloves_319",
+   "name": "Slate Gloves XVI",
+   "slot": "gloves",
+   "icon": "gloves_32x32/tile319.png",
+   "lpc": {
+    "female": "arms_gloves",
+    "male": "arms_gloves"
+   },
+   "colours": {
+    "metal": "slate"
+   }
+  },
+  {
+   "id": "belt_416",
+   "name": "Brown Belt",
+   "slot": "belt",
+   "icon": "belts_32x32/tile416.png",
+   "lpc": {
+    "female": "belt_leather",
+    "male": "belt_leather"
+   },
+   "colours": {
+    "cloth": "brown"
+   }
+  },
+  {
+   "id": "belt_417",
+   "name": "Slate Belt",
+   "slot": "belt",
+   "icon": "belts_32x32/tile417.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_418",
+   "name": "Yellow Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile418.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "yellow"
+   }
+  },
+  {
+   "id": "belt_419",
+   "name": "Maroon Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile419.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "maroon"
+   }
+  },
+  {
+   "id": "belt_420",
+   "name": "Slate Belt II",
+   "slot": "belt",
+   "icon": "belts_32x32/tile420.png",
+   "lpc": {
+    "female": "belt_leather",
+    "male": "belt_leather"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_421",
+   "name": "Pink Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile421.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "belt_422",
+   "name": "Pink Sash II",
+   "slot": "belt",
+   "icon": "belts_32x32/tile422.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "belt_423",
+   "name": "Slate Belt III",
+   "slot": "belt",
+   "icon": "belts_32x32/tile423.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_424",
+   "name": "Pink Sash III",
+   "slot": "belt",
+   "icon": "belts_32x32/tile424.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "pink"
+   }
+  },
+  {
+   "id": "belt_425",
+   "name": "Purple Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile425.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "purple"
+   }
+  },
+  {
+   "id": "belt_426",
+   "name": "Slate Belt IV",
+   "slot": "belt",
+   "icon": "belts_32x32/tile426.png",
+   "lpc": {
+    "female": "belt_leather",
+    "male": "belt_leather"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_427",
+   "name": "Lavender Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile427.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "belt_428",
+   "name": "Lavender Sash II",
+   "slot": "belt",
+   "icon": "belts_32x32/tile428.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "belt_429",
+   "name": "Slate Belt V",
+   "slot": "belt",
+   "icon": "belts_32x32/tile429.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_430",
+   "name": "Lavender Sash III",
+   "slot": "belt",
+   "icon": "belts_32x32/tile430.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "lavender"
+   }
+  },
+  {
+   "id": "belt_431",
+   "name": "Teal Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile431.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "teal"
+   }
+  },
+  {
+   "id": "belt_432",
+   "name": "Sky Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile432.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "belt_433",
+   "name": "Slate Belt VI",
+   "slot": "belt",
+   "icon": "belts_32x32/tile433.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_434",
+   "name": "Sky Sash II",
+   "slot": "belt",
+   "icon": "belts_32x32/tile434.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "belt_435",
+   "name": "Tan Belt",
+   "slot": "belt",
+   "icon": "belts_32x32/tile435.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "belt_436",
+   "name": "Sky Sash III",
+   "slot": "belt",
+   "icon": "belts_32x32/tile436.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "sky"
+   }
+  },
+  {
+   "id": "belt_437",
+   "name": "Tan Belt II",
+   "slot": "belt",
+   "icon": "belts_32x32/tile437.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "belt_438",
+   "name": "Tan Belt III",
+   "slot": "belt",
+   "icon": "belts_32x32/tile438.png",
+   "lpc": {
+    "female": "belt_leather",
+    "male": "belt_leather"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "belt_439",
+   "name": "Tan Belt IV",
+   "slot": "belt",
+   "icon": "belts_32x32/tile439.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "belt_440",
+   "name": "Tan Belt V",
+   "slot": "belt",
+   "icon": "belts_32x32/tile440.png",
+   "lpc": {
+    "female": "belt_leather",
+    "male": "belt_leather"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  },
+  {
+   "id": "belt_441",
+   "name": "Green Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile441.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "green"
+   }
+  },
+  {
+   "id": "belt_442",
+   "name": "Slate Belt VII",
+   "slot": "belt",
+   "icon": "belts_32x32/tile442.png",
+   "lpc": {
+    "female": "belt_leather",
+    "male": "belt_leather"
+   },
+   "colours": {
+    "cloth": "slate"
+   }
+  },
+  {
+   "id": "belt_443",
+   "name": "Blue-grey Sash",
+   "slot": "belt",
+   "icon": "belts_32x32/tile443.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "belt_444",
+   "name": "Blue-grey Sash II",
+   "slot": "belt",
+   "icon": "belts_32x32/tile444.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "belt_445",
+   "name": "Blue-grey Sash III",
+   "slot": "belt",
+   "icon": "belts_32x32/tile445.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "belt_446",
+   "name": "Blue-grey Sash IV",
+   "slot": "belt",
+   "icon": "belts_32x32/tile446.png",
+   "lpc": {
+    "female": "belt_sash_narrow",
+    "male": "belt_sash_narrow"
+   },
+   "colours": {
+    "cloth": "bluegray"
+   }
+  },
+  {
+   "id": "belt_447",
+   "name": "Tan Belt VI",
+   "slot": "belt",
+   "icon": "belts_32x32/tile447.png",
+   "lpc": {
+    "female": "belt_double",
+    "male": "belt_double"
+   },
+   "colours": {
+    "cloth": "tan"
+   }
+  }
+ ]
+}

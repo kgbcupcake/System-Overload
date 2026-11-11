@@ -40,6 +40,9 @@ namespace DungeonAdventures.Src.GameEngine.Combat
 		public int BonusDefense { get; set; }
 		public int SkipTurns { get; set; }
 
+		/// <summary>What it looks like on the fight screen (LPC parts), or null to fight without a sprite.</summary>
+		public HeroLook? Look { get; set; }
+
 		// --- Boss behaviour (only set for bosses) ---
 		public BossProfile? Boss { get; set; }
 		public bool IsBoss => Boss != null;

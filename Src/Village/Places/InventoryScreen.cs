@@ -7,6 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using static System.Console;
 using static DungeonAdventures.Src.Village.Places.ItemPanels;
+using static DungeonAdventures.Src.Village.Places.PanelText;
+using static DungeonAdventures.Src.Village.Places.ItemInfo;
+using static DungeonAdventures.Src.Village.Places.ItemDetails;
+using static DungeonAdventures.Src.Village.Places.PanelMenu;
 
 namespace DungeonAdventures.Src.Village.Places
 {
@@ -62,7 +66,7 @@ namespace DungeonAdventures.Src.Village.Places
 							selected = Math.Min(Math.Max(0, entries.Count - 1), selected + 1);
 							break;
 						case MouseAction.LeftClick:
-							string? command = HitTest(m.X, m.Y);
+							string? command = PanelHotspots.At(m.X, m.Y);
 							if (command is null) break;
 							if (command.StartsWith("tab:"))
 							{
@@ -162,7 +166,7 @@ namespace DungeonAdventures.Src.Village.Places
 		private static void Draw(PlayerData.loadPlayer player, List<Entry> entries, int tab, int selected, int scroll, string message)
 		{
 			var equipped = player.GetEquippedWeapon();
-			ClearHotspots();
+			PanelHotspots.Clear();
 
 			DrawHeader("INVENTORY", "#8B0000", player);
 			DrawTabs(Tabs.Select(t => t.ToString()).ToList(), tab);

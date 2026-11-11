@@ -4,7 +4,12 @@ using Maries_Loaders;
 using Maries_Ui;
 using Pastel;
 using static System.Console;
+using DungeonAdventures.Src.Village.Places;
 using static DungeonAdventures.Src.Village.Places.ItemPanels;
+using static DungeonAdventures.Src.Village.Places.PanelText;
+using static DungeonAdventures.Src.Village.Places.ItemInfo;
+using static DungeonAdventures.Src.Village.Places.ItemDetails;
+using static DungeonAdventures.Src.Village.Places.PanelMenu;
 
 namespace DungeonAdventures.Src.Game.Interfaces
 {
@@ -63,7 +68,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 				{
 					if (m.Action == MouseAction.WheelUp) key = ConsoleKey.UpArrow;
 					else if (m.Action == MouseAction.WheelDown) key = ConsoleKey.DownArrow;
-					else if (m.Action == MouseAction.LeftClick) command = HitTest(m.X, m.Y);
+					else if (m.Action == MouseAction.LeftClick) command = PanelHotspots.At(m.X, m.Y);
 				}
 
 				if (command != null)
@@ -115,7 +120,7 @@ namespace DungeonAdventures.Src.Game.Interfaces
 
 		private static void Draw(PlayerData.loadPlayer player, int selected, int left, string message)
 		{
-			ClearHotspots();
+			PanelHotspots.Clear();
 			DrawHeader("TRAIN YOUR HERO", HeaderColor, player);
 			string cls = $" {player.PlayerClass.ToUpper()} ";
 			WriteAt(ScreenWidth - 1 - cls.Length, 0, cls.Pastel("#000000").PastelBg(Amber));
@@ -140,10 +145,10 @@ namespace DungeonAdventures.Src.Game.Interfaces
 				string value = $"{v,2}".Pastel(v > 0 ? a.Color : Muted);
 				lines.Add((sel ? name.Pastel("#000000").PastelBg(Gold) : name.Pastel(Text)) + minus + " " + bar + " " + value + " " + plus);
 
-				AddHotspot(Row(lines.Count - 1), textX, MinusCol, $"row:{i}");
-				AddHotspot(Row(lines.Count - 1), textX + MinusCol, 3, $"minus:{i}");
-				AddHotspot(Row(lines.Count - 1), textX + BarCol, BarWidth + 3, $"row:{i}");
-				AddHotspot(Row(lines.Count - 1), textX + PlusCol, 3, $"plus:{i}");
+				PanelHotspots.Add(Row(lines.Count - 1), textX, MinusCol, $"row:{i}");
+				PanelHotspots.Add(Row(lines.Count - 1), textX + MinusCol, 3, $"minus:{i}");
+				PanelHotspots.Add(Row(lines.Count - 1), textX + BarCol, BarWidth + 3, $"row:{i}");
+				PanelHotspots.Add(Row(lines.Count - 1), textX + PlusCol, 3, $"plus:{i}");
 			}
 
 			while (lines.Count < PointsRow) lines.Add("");
@@ -156,8 +161,8 @@ namespace DungeonAdventures.Src.Game.Interfaces
 			string done = left == 0 ? " DONE ".Pastel("#000000").PastelBg(Gold) : " DONE ".Pastel("#666666").PastelBg("#2A2A2A");
 			string reset = " RESET ".Pastel(Text).PastelBg("#3A2A1A");
 			lines.Add(done + "   " + reset);
-			AddHotspot(Row(lines.Count - 1), textX, 6, "done");
-			AddHotspot(Row(lines.Count - 1), textX + 9, 7, "reset");
+			PanelHotspots.Add(Row(lines.Count - 1), textX, 6, "done");
+			PanelHotspots.Add(Row(lines.Count - 1), textX + 9, 7, "reset");
 			if (left > 0)
 				lines.Add($"Spend {left} more to finish.".Pastel(Muted));
 

@@ -332,6 +332,7 @@ UnitTest1.cs
 # The game runs without them; see assets/icons/README.md
 # ------------------------------------------------------------
 assets/icons/*.png
+assets/icons/clothing/
 
 # Universal LPC character generator (clone or symlink, ~500 MB; CC-BY-SA / GPL / OGA-BY art)
 # See assets/LPC.md

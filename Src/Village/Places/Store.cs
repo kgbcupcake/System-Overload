@@ -7,6 +7,10 @@ using Maries_DataModels;
 using static Maries_DataModels.PlayerData;
 using static System.Console;
 using static DungeonAdventures.Src.Village.Places.ItemPanels;
+using static DungeonAdventures.Src.Village.Places.PanelText;
+using static DungeonAdventures.Src.Village.Places.ItemInfo;
+using static DungeonAdventures.Src.Village.Places.ItemDetails;
+using static DungeonAdventures.Src.Village.Places.PanelMenu;
 
 namespace DungeonAdventures.Src.Village.Places
 {
@@ -73,7 +77,7 @@ namespace DungeonAdventures.Src.Village.Places
 					$"   {"Dark Pacts".Pastel(Dim)} {p.DifficultyRating.ToString().Pastel(PactColor)}" +
 					$"   {"Pack".Pastel(Dim)} {p.Inventory.Count}/{p.InventorySize}";
 
-				ItemPanels.Choice choice;
+				PanelMenu.Choice choice;
 				if (tab == 0)
 				{
 					var potion = ItemRegistry.GetItem("Healing Potion");

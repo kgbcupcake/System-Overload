@@ -55,6 +55,9 @@ namespace DungeonAdventures.Src.Lpc
 		public bool Fits(LpcItem? other) => RequiredTags.All(tag => other != null && other.Tags.Contains(tag));
 
 		public bool HasArtFor(string bodyType) => Layers.Count > 0 && Layers[0].Paths.ContainsKey(bodyType);
+
+		/// <summary>The ramp its art is painted in when that isn't the material's usual base (a wolf head in fur_brown).</summary>
+		public string RecolorBase { get; init; } = "";
 	}
 
 	/// <summary>The generator's sheet_definitions/*.json, read once into items by id and by type.</summary>
@@ -104,8 +107,15 @@ namespace DungeonAdventures.Src.Lpc
 			if (layers.Count == 0) return null;
 
 			var recolors = new List<string>();
+			string recolorBase = "";
 			if (root.TryGetProperty("recolors", out var rec) && rec.ValueKind == JsonValueKind.Object)
 			{
+				// "ulpc.fur_brown" -> "fur_brown"; other palette sets (lpcr.*) aren't loaded, so they keep the usual base.
+				if (rec.TryGetProperty("base", out var b) && b.ValueKind == JsonValueKind.String)
+				{
+					string painted = b.GetString()!;
+					recolorBase = painted.StartsWith("ulpc.") ? painted[5..] : painted.Contains('.') ? "" : painted;
+				}
 				if (rec.TryGetProperty("material", out var m)) recolors.Add(m.GetString()!);
 				else
 					foreach (var slot in rec.EnumerateObject())
@@ -128,7 +138,7 @@ namespace DungeonAdventures.Src.Lpc
 				}
 
 			return new LpcItem(id, name, type.GetString()!, layers, recolors, Strings(root, "variants"), Strings(root, "tags"),
-				anims, Strings(root, "required_tags"), replace);
+				anims, Strings(root, "required_tags"), replace) { RecolorBase = recolorBase };
 		}
 
 		private static List<string> Strings(JsonElement root, string key)
@@ -194,22 +204,33 @@ namespace DungeonAdventures.Src.Lpc
 
 		public static List<string> Names(string material) => NameLists.TryGetValue(material, out var n) ? n : new List<string>();
 		public static string Base(string material) => Bases.TryGetValue(material, out var b) ? b : "";
-		public static bool Has(string material, string ramp) => Ramps.TryGetValue(material, out var r) && r.ContainsKey(ramp);
+		public static bool Has(string material, string ramp) => Own(material, ramp) || CrossCloth(material, ramp);
+
+		private static bool Own(string material, string ramp) => Ramps.TryGetValue(material, out var r) && r.ContainsKey(ramp);
+
+		/// <summary>Metal pieces (gloves, sabatons) can also be dyed in a cloth ramp, as the generator allows.</summary>
+		private static bool CrossCloth(string material, string ramp) => material == "metal" && Own("cloth", ramp);
 
 		/// <summary>The middle shade of a ramp, as "#rrggbb", for a swatch.</summary>
 		public static string Swatch(string material, string ramp) =>
 			Ramps.TryGetValue(material, out var r) && r.TryGetValue(ramp, out var c) && c.Count > 0 ? c[c.Count / 2] : "#808080";
 
-		/// <summary>Base colour (0xRRGGBB) -> ramp colour for a material; empty when the ramp is the base.</summary>
-		public static Dictionary<uint, uint> Map(string material, string ramp)
+		/// <summary>
+		/// Base colour (0xRRGGBB) -> ramp colour for a material; empty when the ramp is the base. `from` is the ramp
+		/// the art is painted in when it isn't the material's base (see <see cref="LpcItem.RecolorBase"/>).
+		/// </summary>
+		public static Dictionary<uint, uint> Map(string material, string ramp, string from = "")
 		{
-			string key = material + ":" + ramp;
+			string paintedIn = from != "" && Ramps.TryGetValue(material, out var own) && own.ContainsKey(from) ? from : Base(material);
+			string key = material + ":" + paintedIn + ">" + ramp;
 			if (Maps.TryGetValue(key, out var map)) return map;
 			map = new Dictionary<uint, uint>();
-			if (Ramps.TryGetValue(material, out var ramps) && ramps.TryGetValue(Base(material), out var from)
-				&& ramps.TryGetValue(ramp, out var to) && ramp != Base(material))
-				for (int i = 0; i < from.Count && i < to.Count; i++)
-					map[Pack(from[i])] = Pack(to[i]);
+			List<string>? to = null;
+			if (Ramps.TryGetValue(material, out var ramps) && !ramps.TryGetValue(ramp, out to) && CrossCloth(material, ramp))
+				to = Ramps["cloth"][ramp];
+			if (ramps != null && ramps.TryGetValue(paintedIn, out var baseRamp) && to != null && ramp != paintedIn)
+				for (int i = 0; i < baseRamp.Count && i < to.Count; i++)
+					map[Pack(baseRamp[i])] = Pack(to[i]);
 			Maps[key] = map;
 			return map;
 		}

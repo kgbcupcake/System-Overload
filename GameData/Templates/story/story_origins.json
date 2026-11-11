@@ -1,0 +1,16 @@
+[
+  { "Key": "creation.race_prompt", "Lines": ["Who are your people, {name}?"] },
+  { "Key": "creation.race_must_pick", "Lines": ["Everyone is born to someone. Pick a people to go on."] },
+  { "Key": "creation.background_prompt", "Lines": ["What life did you lead before all this?"] },
+
+  { "Key": "race.human", "Lines": ["The most numerous folk of the valleys. Humans build, farm and trade, and fill Ashford's lanes. Short-lived, stubborn, and hard to discourage."] },
+  { "Key": "race.elf", "Lines": ["Long-lived and quiet, the elves remember things the villages have forgotten. A few still live among men, drawn by friendship or old debts."] },
+  { "Key": "race.orc", "Lines": ["Broad, green-skinned and slow to trust. Orcs came down from the northern highlands generations ago, and Ashford has learned to be glad of them."] },
+  { "Key": "race.goblin", "Lines": ["Small, sharp-eared and sharper-eyed. Goblins notice what others walk past, and they're usually the first to hear a rumour."] },
+
+  { "Key": "background.wanderer", "Lines": ["You've walked more roads than most people in Ashford have heard of. You know how to read a trail and how to keep going when your feet say stop."] },
+  { "Key": "background.villager", "Lines": ["You grew up with the planting and the harvest. You know the fields, the woods behind them, and every face at the well."] },
+  { "Key": "background.apprentice", "Lines": ["You spent years copying old books for a scholar who never explained why. Some of what you read is starting to make sense."] },
+  { "Key": "background.soldier", "Lines": ["You held a spear in someone else's war. You came home with a steady hand and a habit of watching the treeline."] },
+  { "Key": "background.outcast", "Lines": ["For a long time nobody wanted you around, so you learned to need nobody. Then someone did want you around."] }
+]

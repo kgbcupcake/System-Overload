@@ -40,6 +40,51 @@ namespace Maries_Ui
 		public static string Slug(string name) =>
 			Regex.Replace(name.ToLowerInvariant().Replace("'", ""), "[^a-z0-9]+", "_").Trim('_');
 
+		/// <summary>
+		/// Like <see cref="Load"/>, but a bigger image (the Raven 32x32 clothing icons) is shrunk by a whole factor
+		/// to fit <see cref="MaxSize"/>: each block of pixels becomes its most common opaque colour, so the art
+		/// keeps its hard pixel edges.
+		/// </summary>
+		public static string[]? LoadFit(string path)
+		{
+			if (!Enabled) return null;
+			string key = "fit:" + path;
+			if (_cache.TryGetValue(key, out var cached)) return cached;
+
+			string[]? rows = null;
+			try
+			{
+				if (Png.Load(path) is { } img)
+				{
+					int f = Math.Max(1, (Math.Max(img.Width, img.Height) + MaxSize - 1) / MaxSize);
+					int w = img.Width / f, h = img.Height / f;
+					var px = new uint[w * h];
+					for (int y = 0; y < h; y++)
+					for (int x = 0; x < w; x++)
+					{
+						var counts = new Dictionary<uint, int>();
+						int clear = 0;
+						for (int dy = 0; dy < f; dy++)
+						for (int dx = 0; dx < f; dx++)
+						{
+							uint p = img[x * f + dx, y * f + dy];
+							if ((p & 0xFF) < AlphaCutoff) clear++;
+							else counts[p] = counts.GetValueOrDefault(p) + 1;
+						}
+						px[y * w + x] = counts.Count == 0 || clear > f * f / 2 ? 0 : counts.MaxBy(c => c.Value).Key;
+					}
+					rows = Render(px, w, h);
+				}
+			}
+			catch (Exception)
+			{
+				rows = null;
+			}
+
+			_cache[key] = rows;
+			return rows;
+		}
+
 		public static string[]? Load(string path)
 		{
 			if (_cache.TryGetValue(path, out var cached)) return cached;

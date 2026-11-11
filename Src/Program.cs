@@ -34,6 +34,7 @@ FloorLoader.LoadAll();
 Story.LoadAll();
 QuestLoader.LoadAll();
 PeopleAndPlacesLoader.LoadAll();
+OriginLoader.LoadAll();
 
 // Story lines can use {hero}, {loved} and friends anywhere without each caller passing them.
 Story.GlobalTokens = StoryTokens.ForCurrentHero;
@@ -70,7 +71,7 @@ if (firstInput.Key?.Key == ConsoleKey.S)
 else
 {
     // User pressed another key or just wanted to proceed with loading
-    Transitions.StartGameLoading();
+    GameStartLoading.Play();
 }
 
 // 5. Launch Game
